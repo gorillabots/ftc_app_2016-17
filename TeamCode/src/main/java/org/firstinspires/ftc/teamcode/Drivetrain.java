@@ -13,9 +13,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-@Autonomous(name = "Concept: Compass Calibration", group = "Concept")
 
-//Test
+/**
+ * Related Links
+ *		http://www.simbotics.org/resources/mobility/omnidirectional-drive
+ *		http://www.vexforum.com/index.php/12370-holonomic-drives-2-0-a-video-tutorial-by-cody/0
+ */
+@Autonomous(name = "Concept: Compass Calibration", group = "Concept")
 public class Drivetrain {
 
     LinearOpMode linearOpMode;
