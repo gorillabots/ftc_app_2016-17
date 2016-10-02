@@ -20,10 +20,10 @@ public class Drivetrain {
 
     LinearOpMode linearOpMode;
 
-    DcMotor frontRight = null;
-    DcMotor backRight = null;
-    DcMotor frontLeft = null;
-    DcMotor backLeft = null;
+    DcMotor frontRight;
+    DcMotor backRight;
+    DcMotor frontLeft;
+    DcMotor backLeft;
 
 
     public Drivetrain(LinearOpMode linearOpMode) {
@@ -58,6 +58,40 @@ public class Drivetrain {
 
     private void twoStickLoop()
     {
+
+
+        float stickX = (int) linearOpMode.gamepad1.left_stick_x; // Stick position (Absolute heading)
+        float stickY = (int) linearOpMode.gamepad1.left_stick_y; // Each is in range -100 to 100
+
+
+
+
+        float stickRotation = (int) linearOpMode.gamepad1.right_stick_x; // Stick position (Absolute heading)
+
+
+
+
+        if(){
+
+            backLeft.setPower();
+            frontLeft.setPower();
+            frontRight.setPower();
+            backRight.setPower();
+
+        }
+
+        else{
+
+        }
+
+
+
+
+
+
+
+
+
 
     }
 }
