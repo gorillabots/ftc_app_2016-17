@@ -22,10 +22,16 @@ public class ButtonPresserClass extends OpMode implements ButtonPresserInterface
     public void Get_Right_Color(){
 
     }
+    public boolean Light_Sensor(){
+        return true;
+    }
+
+    @Override
     public void init(){
 
     }
+    @Override
     public void loop(){
-        
+
     }
 }

@@ -7,5 +7,7 @@ public interface ButtonPresserInterface {
     boolean Is_Left_Side_Teamcolor();
     boolean Is_Right_Side_Teamcolor();
     void Get_Left_Color();
+    
     void Get_Right_Color();
+    boolean Light_Sensor();
 }
