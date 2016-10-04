@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.CompassSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -22,7 +22,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 @Autonomous(name = "Concept: Compass Calibration", group = "Concept")
 public class Drivetrain {
 
-    LinearOpMode linearOpMode;
+    OpMode opMode;
 
     DcMotor frontRight;
     DcMotor backRight;
@@ -30,47 +30,50 @@ public class Drivetrain {
     DcMotor backLeft;
 
 
-    public Drivetrain(LinearOpMode linearOpMode) {
-        this.linearOpMode = linearOpMode;
-
-
-    }
-
-    public void runOpMode() throws InterruptedException {
-
-
-        oneStickLoop();
-
-    }
-
-    private void oneStickLoop()
+    public Drivetrain(OpMode opMode)
     {
-        float stickX = (int) linearOpMode.gamepad1.left_stick_y; // Stick position (Absolute heading)
-        float stickY = (int) linearOpMode.gamepad1.left_stick_y; // Each is in range -100 to 100
+        this.opMode = opMode;
 
-        int facingDeg = 45; //Robot's rotation (possibly multiply by -1)
+        frontRight = opMode.hardwareMap.dcMotor.get("frontRight");
+        backRight = opMode.hardwareMap.dcMotor.get("backRight");
+        frontLeft = opMode.hardwareMap.dcMotor.get("frontLeft");
+        backLeft = opMode.hardwareMap.dcMotor.get("backLeft");
+    }
+
+    public void oneStickLoop()
+    {
+        float stickX = (int) opMode.gamepad1.left_stick_y; // Stick position (Absolute heading)
+        float stickY = (int) opMode.gamepad1.left_stick_y; // Each is in range -100 to 100
+
+        int facingDeg = 45; //Robot's rotation (possibly multiply by -1 to invert)
         double facingRad = Math.toRadians(facingDeg); // Convert to radians
 
         double cs = Math.cos(facingRad);
         double sn = Math.sin(facingRad);
 
-        double headX = stickX * cs - stickY * sn; //Rotated vertor (Relative heading)
+        double headX = stickX * cs - stickY * sn; //Rotated vector (Relative heading)
         double headY = stickX * sn + stickY * cs; //Each is in range -100 * root 2 to 100 * root 2
 
-        //Send signals to motors.
+        headX /= Math.sqrt(2); //In range -100 to 100
+        headY /= Math.sqrt(2);
+
+        backLeft.setPower(headX);
+        frontRight.setPower(headX);
+        backRight.setPower(headY);
+        frontLeft.setPower(headY);
     }
 
-    private void twoStickLoop()
+    /*private void twoStickLoop()
     {
 
 
-        float stickX = (int) linearOpMode.gamepad1.left_stick_x; // Stick position (Absolute heading)
-        float stickY = (int) linearOpMode.gamepad1.left_stick_y; // Each is in range -100 to 100
+        float stickX = (int) opMode.gamepad1.left_stick_x; // Stick position (Absolute heading)
+        float stickY = (int) opMode.gamepad1.left_stick_y; // Each is in range -100 to 100
 
 
 
 
-        float stickRotation = (int) linearOpMode.gamepad1.right_stick_x; // Stick position (Absolute heading)
+        float stickRotation = (int) opMode.gamepad1.right_stick_x; // Stick position (Absolute heading)
 
 
 
@@ -97,5 +100,5 @@ public class Drivetrain {
 
 
 
-    }
+    }*/
 }
