@@ -57,9 +57,13 @@ public class Drivetrain {
         headX /= Math.sqrt(2); //In range -100 to 100
         headY /= Math.sqrt(2);
 
-        backLeft.setPower(headX);
+        opMode.telemetry.addData("headX", headX);
+        opMode.telemetry.addData("headY", headY);
+
+
+        backLeft.setPower(-headX);
         frontRight.setPower(headX);
-        backRight.setPower(headY);
+        backRight.setPower(-headY);
         frontLeft.setPower(headY);
     }
 
