@@ -40,9 +40,20 @@ public class Drivetrain {
         backLeft = opMode.hardwareMap.dcMotor.get("backLeft");
     }
 
+    public void motorTestLoop()
+    {
+        float stickX = opMode.gamepad1.left_stick_x;
+        float stickY = opMode.gamepad1.left_stick_y;
+
+        frontRight.setPower(stickX);
+        backLeft.setPower(-stickX);
+        frontLeft.setPower(stickY);
+        frontRight.setPower(-stickY);
+    }
+
     public void oneStickLoop()
     {
-        float stickX = (int) opMode.gamepad1.left_stick_y; // Stick position (Absolute heading)
+        float stickX = (int) opMode.gamepad1.left_stick_x; // Stick position (Absolute heading)
         float stickY = (int) opMode.gamepad1.left_stick_y; // Each is in range -100 to 100
 
         int facingDeg = 45; //Robot's rotation (possibly multiply by -1 to invert)
@@ -57,8 +68,11 @@ public class Drivetrain {
         headX /= Math.sqrt(2); //In range -100 to 100
         headY /= Math.sqrt(2);
 
-        backLeft.setPower(headX);
-        frontRight.setPower(headX);
+        opMode.telemetry.addData("headX", headX);
+        opMode.telemetry.addData("headY", headY);
+
+        backLeft.setPower(-headX);
+        frontRight.setPower(-headX);
         backRight.setPower(headY);
         frontLeft.setPower(headY);
     }
