@@ -1,20 +1,26 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 /**
  * Created by mikko on 9/30/16.
  */
 
-public class TestOpMode extends LinearOpMode
+@TeleOp(name = "OmniwheelOp", group = "Concept")
+public class TestOpMode extends OpMode
 {
-    public void runOpMode()
+    Drivetrain drivetrain;
+
+    public void init()
     {
-        _init();
+        drivetrain = new Drivetrain(this);
     }
 
-    public void _init()
+    public void loop()
     {
-        Drivetrain drivetrain = new Drivetrain(this);
+        drivetrain.oneStickLoop();
     }
 }

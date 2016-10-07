@@ -1,3 +1,5 @@
+package org.firstinspires.ftc.teamcode;
+
 /**
  * Created by emper on 9/30/2016.
  */
@@ -7,5 +9,7 @@ public interface ButtonPresserInterface {
     boolean Is_Left_Side_Teamcolor();
     boolean Is_Right_Side_Teamcolor();
     void Get_Left_Color();
+
     void Get_Right_Color();
+    boolean Light_Sensor();
 }
