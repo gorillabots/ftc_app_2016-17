@@ -54,10 +54,31 @@ public class Drivetrain {
         double headY = stickX * sn + stickY * cs; //Each is in range -100 * root 2 to 100 * root 2
 
         //Send signals to motors.
+
     }
 
     private void twoStickLoop()
     {
+
+        float stickX = (int) linearOpMode.gamepad1.left_stick_x;
+        float stickY = (int) linearOpMode.gamepad1.left_stick_y;
+
+
+
+
+        float stickRotation = (int) linearOpMode.gamepad1.right_stick_x;
+
+
+        if(true){
+            frontRight.setPower(0.);
+            backRight.setPower(0.);
+            frontLeft.setPower(0.);
+            backLeft.setPower(0.);
+        }
+
+        else{
+
+    }
 
     }
 }
