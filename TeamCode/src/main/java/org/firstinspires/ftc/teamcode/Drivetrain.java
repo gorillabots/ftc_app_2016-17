@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorManager;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -38,12 +42,16 @@ public class Drivetrain {
         backRight = opMode.hardwareMap.dcMotor.get("backRight");
         frontLeft = opMode.hardwareMap.dcMotor.get("frontLeft");
         backLeft = opMode.hardwareMap.dcMotor.get("backLeft");
+
+        //opMode.hardwareMap.compassSensor.
     }
 
-    public void oneStickLoop()
+    public void oneStickLoop(int rotOffset)
     {
         float stickX = opMode.gamepad1.left_stick_x; // Stick position (Absolute heading)
         float stickY = opMode.gamepad1.left_stick_y; // Each is in range -1 to 1
+
+        float stickRot = opMode.gamepad1.right_stick_x; //Used to rotate the robot;
 
         int facingDeg = 45; //Robot's rotation (possibly multiply by -1 to invert)
         double facingRad = Math.toRadians(facingDeg); // Convert to radians
@@ -58,13 +66,12 @@ public class Drivetrain {
         headY /= Math.sqrt(2);
 
         opMode.telemetry.addData("absHead", "(" + stickX + ", " + stickY + ")");
-
         opMode.telemetry.addData("relHead", "(" + headX + ", " + headY + ")");
 
-        backLeft.setPower(headX);
-        frontRight.setPower(-headX);
-        backRight.setPower(-headY);
-        frontLeft.setPower(headY);
+        backLeft.setPower(headX + stickRot);
+        frontRight.setPower(-headX + stickRot);
+        backRight.setPower(-headY + stickRot);
+        frontLeft.setPower(headY + stickRot);
     }
 
     /*private void twoStickLoop()
