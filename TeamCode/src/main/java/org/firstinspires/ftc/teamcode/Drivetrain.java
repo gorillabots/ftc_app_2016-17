@@ -40,21 +40,10 @@ public class Drivetrain {
         backLeft = opMode.hardwareMap.dcMotor.get("backLeft");
     }
 
-    public void motorTestLoop()
-    {
-        float stickX = opMode.gamepad1.left_stick_x;
-        float stickY = opMode.gamepad1.left_stick_y;
-
-        frontRight.setPower(stickX);
-        backLeft.setPower(-stickX);
-        frontLeft.setPower(stickY);
-        frontRight.setPower(-stickY);
-    }
-
     public void oneStickLoop()
     {
-        float stickX = (int) opMode.gamepad1.left_stick_x; // Stick position (Absolute heading)
-        float stickY = (int) opMode.gamepad1.left_stick_y; // Each is in range -100 to 100
+        float stickX = opMode.gamepad1.left_stick_x; // Stick position (Absolute heading)
+        float stickY = opMode.gamepad1.left_stick_y; // Each is in range -1 to 1
 
         int facingDeg = 45; //Robot's rotation (possibly multiply by -1 to invert)
         double facingRad = Math.toRadians(facingDeg); // Convert to radians
@@ -63,17 +52,18 @@ public class Drivetrain {
         double sn = Math.sin(facingRad);
 
         double headX = stickX * cs - stickY * sn; //Rotated vector (Relative heading)
-        double headY = stickX * sn + stickY * cs; //Each is in range -100 * root 2 to 100 * root 2
+        double headY = stickX * sn + stickY * cs; //Each is in range -1 * root 2 to root 2
 
-        headX /= Math.sqrt(2); //In range -100 to 100
+        headX /= Math.sqrt(2); //In range -1 to 1
         headY /= Math.sqrt(2);
 
-        opMode.telemetry.addData("headX", headX);
-        opMode.telemetry.addData("headY", headY);
+        opMode.telemetry.addData("absHead", "(" + stickX + ", " + stickY + ")");
 
-        backLeft.setPower(-headX);
+        opMode.telemetry.addData("relHead", "(" + headX + ", " + headY + ")");
+
+        backLeft.setPower(headX);
         frontRight.setPower(-headX);
-        backRight.setPower(headY);
+        backRight.setPower(-headY);
         frontLeft.setPower(headY);
     }
 
