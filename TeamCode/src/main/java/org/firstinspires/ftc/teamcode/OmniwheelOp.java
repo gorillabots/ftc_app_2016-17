@@ -20,7 +20,7 @@ public class OmniwheelOp extends OpMode implements SensorEventListener
 {
     Drivetrain drivetrain;
 
-    int rotation;
+    int rotation = 0;
 
     public void init()
     {
