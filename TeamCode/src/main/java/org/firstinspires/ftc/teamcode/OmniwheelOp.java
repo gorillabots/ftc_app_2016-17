@@ -1,11 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
-
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -21,7 +15,6 @@ public class OmniwheelOp extends OpMode
 
     ModernRoboticsI2cGyro gyro;
 
-    int rotDefault;
     int rotation = 0;
 
     public void init()
@@ -45,7 +38,7 @@ public class OmniwheelOp extends OpMode
             e.printStackTrace();
         }
 
-        rotDefault = gyro.getHeading();
+        gyro.resetZAxisIntegrator();
 
     }
 
@@ -56,14 +49,7 @@ public class OmniwheelOp extends OpMode
 
         float stickRot = gamepad1.right_stick_x; //Used to rotate the robot;
 
-        rotation = rotDefault - gyro.getHeading();
-
-        if(rotation < 0)
-        {
-            rotation += 360;
-        }
-
-        rotation %= 360;
+        rotation = gyro.getHeading();
 
         drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation);
     }

@@ -1,13 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 /**
  * Created by Owner on 9/27/2016.
  */
-import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 
 /**
@@ -17,7 +17,6 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  */
 public class Drivetrain
 {
-
     HardwareMap hardwareMap;
     Telemetry telemetry;
 
@@ -36,8 +35,6 @@ public class Drivetrain
         backRight = hardwareMap.dcMotor.get("backRight");
         frontLeft = hardwareMap.dcMotor.get("frontLeft");
         backLeft = hardwareMap.dcMotor.get("backLeft");
-
-        //opMode.hardwareMap.compassSensor.
     }
 
     /**
