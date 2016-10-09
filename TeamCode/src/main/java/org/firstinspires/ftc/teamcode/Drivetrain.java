@@ -1,16 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorManager;
-
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.CompassSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 /**
  * Created by Owner on 9/27/2016.
  */
@@ -23,10 +15,11 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  *		http://www.simbotics.org/resources/mobility/omnidirectional-drive
  *		http://www.vexforum.com/index.php/12370-holonomic-drives-2-0-a-video-tutorial-by-cody/0
  */
-@Autonomous(name = "Concept: Compass Calibration", group = "Concept")
-public class Drivetrain {
+public class Drivetrain
+{
 
-    OpMode opMode;
+    HardwareMap hardwareMap;
+    Telemetry telemetry;
 
     DcMotor frontRight;
     DcMotor backRight;
@@ -34,26 +27,29 @@ public class Drivetrain {
     DcMotor backLeft;
 
 
-    public Drivetrain(OpMode opMode)
+    public Drivetrain(HardwareMap hardwareMap, Telemetry telemetry)
     {
-        this.opMode = opMode;
+        this.hardwareMap = hardwareMap;
+        this.telemetry = telemetry;
 
-        frontRight = opMode.hardwareMap.dcMotor.get("frontRight");
-        backRight = opMode.hardwareMap.dcMotor.get("backRight");
-        frontLeft = opMode.hardwareMap.dcMotor.get("frontLeft");
-        backLeft = opMode.hardwareMap.dcMotor.get("backLeft");
+        frontRight = hardwareMap.dcMotor.get("frontRight");
+        backRight = hardwareMap.dcMotor.get("backRight");
+        frontLeft = hardwareMap.dcMotor.get("frontLeft");
+        backLeft = hardwareMap.dcMotor.get("backLeft");
 
         //opMode.hardwareMap.compassSensor.
     }
 
-    public void oneStickLoop(int rotOffset)
+    /**
+     *
+      * @param stickX direction to move relative to the field (X)
+     * @param stickY direction to move relative to the field (Y)
+     * @param stickRot how much to turn the robot
+     * @param heading how much to robot has rotated from initial value
+     */
+    public void oneStickLoop(float stickX, float stickY, float stickRot, int heading)
     {
-        float stickX = opMode.gamepad1.left_stick_x; // Stick position (Absolute heading)
-        float stickY = opMode.gamepad1.left_stick_y; // Each is in range -1 to 1
-
-        float stickRot = opMode.gamepad1.right_stick_x; //Used to rotate the robot;
-
-        int facingDeg = 45; //Robot's rotation (possibly multiply by -1 to invert)
+        int facingDeg = 45 + heading; //Robot's rotation (possibly multiply by -1 to invert)
         double facingRad = Math.toRadians(facingDeg); // Convert to radians
 
         double cs = Math.cos(facingRad);
@@ -65,8 +61,8 @@ public class Drivetrain {
         headX /= Math.sqrt(2); //In range -1 to 1
         headY /= Math.sqrt(2);
 
-        opMode.telemetry.addData("absHead", "(" + stickX + ", " + stickY + ")");
-        opMode.telemetry.addData("relHead", "(" + headX + ", " + headY + ")");
+        telemetry.addData("absHead", "(" + stickX + ", " + stickY + ")");
+        telemetry.addData("relHead", "(" + headX + ", " + headY + ")");
 
         backLeft.setPower(headX + stickRot);
         frontRight.setPower(-headX + stickRot);
