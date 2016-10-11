@@ -47,7 +47,7 @@ public class OmniwheelOp extends OpMode
         float stickX = gamepad1.left_stick_x; // Stick position (Absolute heading)
         float stickY = gamepad1.left_stick_y; // Each is in range -1 to 1
 
-        float stickRot = gamepad1.right_stick_x; //Used to rotate the robot;
+        float stickRot = gamepad1.right_stick_x / 2f; //Used to rotate the robot;
 
         rotation = gyro.getHeading();
 

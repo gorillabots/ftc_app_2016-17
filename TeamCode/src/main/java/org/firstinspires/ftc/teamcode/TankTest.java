@@ -38,19 +38,19 @@ public class TankTest extends OpMode
         double cs = Math.cos(facingRad);
         double sn = Math.sin(facingRad);
 
-        double headX = stickX * cs - stickY * sn; //Rotated vector (Relative heading)
+            double headX = stickX * cs - stickY * sn; //Rotated vector (Relative heading)
         double headY = stickX * sn + stickY * cs; //Each is in range -1 * root 2 to root 2
 
         headX /= Math.sqrt(2); //In range -1 to 1
         headY /= Math.sqrt(2);
 
-        if(gamepad1.right_stick_y >= .20 || gamepad1.right_stick_x >= .20 || gamepad1.right_stick_x <= -.20 || gamepad1.right_stick_y <= -.20){
+       // if(gamepad1.right_stick_y >= .20 || gamepad1.right_stick_x >= .20 || gamepad1.right_stick_x <= -.20 || gamepad1.right_stick_y <= -.20){
 
 
-            frontLeft.setPower(headX);
-            frontRight.setPower(-headX);
-            backLeft.setPower(headY);
-            backRight.setPower(-headY);
+            frontLeft.setPower(headX*100);
+            frontRight.setPower(-headX*100);
+            backLeft.setPower(headY*100);
+            backRight.setPower(-headY*100);
 
 
 
@@ -87,10 +87,10 @@ public class TankTest extends OpMode
 
 */
 
-        }
-        else{
+        //}
+        //else{
 
-
+/*
             if(gamepad1.right_stick_x >.30){
                 frontLeft.setPower(100);
                 frontRight.setPower(100);
@@ -103,10 +103,10 @@ public class TankTest extends OpMode
                 backLeft.setPower(-100);
                 backRight.setPower(-100);
             }
-
+*/
         }
 
 
 
     }
-}
+

@@ -46,7 +46,7 @@ public class Drivetrain
      */
     public void oneStickLoop(float stickX, float stickY, float stickRot, int heading)
     {
-        int facingDeg = 45 + heading; //Robot's rotation (possibly multiply by -1 to invert)
+        int facingDeg = 45 - heading; //Robot's rotation (possibly multiply by -1 to invert)
         double facingRad = Math.toRadians(facingDeg); // Convert to radians
 
         double cs = Math.cos(facingRad);
