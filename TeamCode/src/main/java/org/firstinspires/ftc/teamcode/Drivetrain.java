@@ -46,7 +46,7 @@ public class Drivetrain
      */
     public void oneStickLoop(float stickX, float stickY, float stickRot, int heading)
     {
-        int facingDeg = 45 - heading; //Robot's rotation (possibly multiply by -1 to invert)
+        int facingDeg = -45 - heading; //Robot's rotation (possibly multiply by -1 to invert)
         double facingRad = Math.toRadians(facingDeg); // Convert to radians
 
         double cs = Math.cos(facingRad);
@@ -59,12 +59,32 @@ public class Drivetrain
         headY /= Math.sqrt(2);
 
         telemetry.addData("absHead", "(" + stickX + ", " + stickY + ")");
+        telemetry.addData("head", heading);
         telemetry.addData("relHead", "(" + headX + ", " + headY + ")");
 
-        backLeft.setPower(headX + stickRot);
-        frontRight.setPower(-headX + stickRot);
-        backRight.setPower(-headY + stickRot);
-        frontLeft.setPower(headY + stickRot);
+        double backLeftPower = limitToOne(headX - stickRot);
+        double frontRightPower = limitToOne(-headX - stickRot);
+        double backRightPower = limitToOne(-headY - stickRot);
+        double frontLeftPower = limitToOne(headY - stickRot);
+
+        backLeft.setPower(backLeftPower);
+        frontRight.setPower(frontRightPower);
+        backRight.setPower(backRightPower);
+        frontLeft.setPower(frontLeftPower);
+    }
+
+    double limitToOne(double in)
+    {
+        if(in < -1)
+        {
+            return -1;
+        }
+        if(in > 1)
+        {
+            return 1;
+        }
+
+        return in;
     }
 
     /*private void twoStickLoop()
