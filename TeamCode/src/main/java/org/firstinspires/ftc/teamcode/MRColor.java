@@ -25,7 +25,7 @@ public class MRColor extends OpMode {
 
     @Override
     public void init() {
-        Floorcolor = hardwareMap.colorSensor.get("Color_sensor");
+
         Floorcolor.getI2cAddress().toString();
         telemetry.addData("I2c", Floorcolor.getI2cAddress());
         Floorcolor = hardwareMap.colorSensor.get("Floorcolor_sensor");
