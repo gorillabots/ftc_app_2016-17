@@ -4,8 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
+
 
 /**
  * Created by emper on 11/1/2015.
@@ -26,12 +25,14 @@ public class MRColor extends OpMode {
 
     @Override
     public void init() {
-        Floorcolor = hardwareMap.colorSensor.get("Color_sensor");
+
         Floorcolor.getI2cAddress().toString();
         telemetry.addData("I2c", Floorcolor.getI2cAddress());
-        Floorcolor.enableLed(true);
         Floorcolor = hardwareMap.colorSensor.get("Floorcolor_sensor");
-        Floorcolor.enableLed(true);
+        boolean bLedOn = true;
+        Floorcolor.enableLed(bLedOn);
+
+
     }
 
     /**
@@ -66,32 +67,45 @@ public class MRColor extends OpMode {
      *
      * @return String
      */
-    public String getBeaconcolor(ColorSensor color) {
-        String currentcolor = "none";
+    //public String getBeaconcolor(ColorSensor color) {
+        //String currentcolor = "none";
 
-        telemetry.addData("beconcolor-red", color.red());
-        telemetry.addData("beconcolor-blue", color.blue());
-        telemetry.addData("beconcolor-green", color.green());
-        if (color.red() > color.blue() && color.red() > color.green() && color.green() == color.blue()) {
-            currentcolor = "red";
-        }
-        telemetry.addData("beaconcolor-red", color.red());
-        telemetry.addData("beconcolor-blue", color.blue());
-        telemetry.addData("beconcolor-green", color.green());
-        if (color.red() < color.blue() && color.green() < color.blue() && color.blue() > 1) {
-            currentcolor = "blue";
-        }
+        //telemetry.addData("beconcolor-red", color.red());
+        //telemetry.addData("beconcolor-blue", color.blue());
+        //telemetry.addData("beconcolor-green", color.green());
+        //if (color.red() > color.blue() && color.red() > color.green() && color.green() == color.blue()) {
+            //currentcolor = "red";
+        //}
+        //telemetry.addData("beaconcolor-red", color.red());
+        //telemetry.addData("beconcolor-blue", color.blue());
+        //telemetry.addData("beconcolor-green", color.green());
+        //if (color.red() < color.blue() && color.green() < color.blue() && color.blue() > 1) {
+            //currentcolor = "blue";
+        //}
 
-        return currentcolor;
-    }
-
+        //return currentcolor;
+    //}
+boolean bPrevState = false;
+    boolean bLedOn = true;
     @Override
     public void loop() {
         telemetry.addData("floorcolor-red", Floorcolor.red());
         telemetry.addData("floorcolor-blue", Floorcolor.blue());
         telemetry.addData("floorcolor-green", Floorcolor.green());
-        //whatColorIsFloor = getFloorcolor();
-        //telemetry.addData("Floor_color", whatColorIsFloor);
+        whatColorIsFloor = getFloorcolor();
+        telemetry.addData("Floor_color", whatColorIsFloor);
         telemetry.update();
+        boolean X = gamepad1.x;
+
+        // check for button-press state transitions.
+        if ((X == true) && (X != bPrevState))  {
+
+            // button is transitioning to a pressed state. Toggle the LED.
+            bLedOn = !bLedOn;
+            Floorcolor.enableLed(bLedOn);
+            }
+
+        // update previous state variable.
+        bPrevState = X;
     }
 }
