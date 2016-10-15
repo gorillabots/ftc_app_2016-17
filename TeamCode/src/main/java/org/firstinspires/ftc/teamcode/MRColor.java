@@ -67,24 +67,24 @@ public class MRColor extends OpMode {
      *
      * @return String
      */
-    public String getBeaconcolor(ColorSensor color) {
-        String currentcolor = "none";
+    //public String getBeaconcolor(ColorSensor color) {
+        //String currentcolor = "none";
 
-        telemetry.addData("beconcolor-red", color.red());
-        telemetry.addData("beconcolor-blue", color.blue());
-        telemetry.addData("beconcolor-green", color.green());
-        if (color.red() > color.blue() && color.red() > color.green() && color.green() == color.blue()) {
-            currentcolor = "red";
-        }
-        telemetry.addData("beaconcolor-red", color.red());
-        telemetry.addData("beconcolor-blue", color.blue());
-        telemetry.addData("beconcolor-green", color.green());
-        if (color.red() < color.blue() && color.green() < color.blue() && color.blue() > 1) {
-            currentcolor = "blue";
-        }
+        //telemetry.addData("beconcolor-red", color.red());
+        //telemetry.addData("beconcolor-blue", color.blue());
+        //telemetry.addData("beconcolor-green", color.green());
+        //if (color.red() > color.blue() && color.red() > color.green() && color.green() == color.blue()) {
+            //currentcolor = "red";
+        //}
+        //telemetry.addData("beaconcolor-red", color.red());
+        //telemetry.addData("beconcolor-blue", color.blue());
+        //telemetry.addData("beconcolor-green", color.green());
+        //if (color.red() < color.blue() && color.green() < color.blue() && color.blue() > 1) {
+            //currentcolor = "blue";
+        //}
 
-        return currentcolor;
-    }
+        //return currentcolor;
+    //}
 boolean bPrevState = false;
     boolean bLedOn = true;
     @Override
@@ -92,8 +92,8 @@ boolean bPrevState = false;
         telemetry.addData("floorcolor-red", Floorcolor.red());
         telemetry.addData("floorcolor-blue", Floorcolor.blue());
         telemetry.addData("floorcolor-green", Floorcolor.green());
-        //whatColorIsFloor = getFloorcolor();
-        //telemetry.addData("Floor_color", whatColorIsFloor);
+        whatColorIsFloor = getFloorcolor();
+        telemetry.addData("Floor_color", whatColorIsFloor);
         telemetry.update();
         boolean X = gamepad1.x;
 
