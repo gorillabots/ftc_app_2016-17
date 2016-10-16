@@ -5,4 +5,12 @@ package org.firstinspires.ftc.teamcode;
  */
 
 public interface BallControlInterface {
+
+    void toogleCollect();
+    void fireBall();
+    void loadBall();
+    boolean getBall();
+    int getBallCount();
+    boolean checkAim();
+    boolean aim();
 }
