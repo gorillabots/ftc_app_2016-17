@@ -13,4 +13,5 @@ public interface BallControlInterface {
     int getBallCount();
     boolean checkAim();
     boolean aim();
+
 }

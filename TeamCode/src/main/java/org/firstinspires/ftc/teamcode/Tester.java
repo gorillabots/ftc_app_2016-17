@@ -13,18 +13,57 @@ public class Tester extends OpMode
 {
 
     DcMotor motor1;
-    DcMotor motor2;
+    Drivetrain drivetrain;
+
+    ModernRoboticsI2cGyro gyro;
+
+    int rotation = 0;
 
     public void init(){
 
         motor1 = hardwareMap.dcMotor.get("motor1");
-        motor2 = hardwareMap.dcMotor.get("motor2");
+        drivetrain = new Drivetrain(hardwareMap, telemetry);
+
+        gyro = (ModernRoboticsI2cGyro)hardwareMap.gyroSensor.get("gyro");
+
+        gyro.calibrate();
+        try
+        {
+            // make sure the gyro is calibrated.
+            while (gyro.isCalibrating())
+            {
+                Thread.sleep(50);
+            }
+        }
+        catch(InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+
+        gyro.resetZAxisIntegrator();
 
     }
     public void loop(){
 
-        motor1.setPower(gamepad1.left_stick_x);
-        motor2.setPower(gamepad1.right_stick_x);
+       if(gamepad1.left_bumper == true){
+           motor1.setPower(100);
+       }
 
+        else if(gamepad1.right_bumper == true){
+           motor1.setPower(-100);
+       }
+        else{
+
+            motor1.setPower(0);
+
+        }
+        float stickX = gamepad1.left_stick_x; // Stick position (Absolute heading)
+        float stickY = gamepad1.left_stick_y; // Each is in range -1 to 1
+
+        float stickRot = gamepad1.right_stick_x / 2f; //Used to rotate the robot;
+
+        rotation = gyro.getHeading();
+
+        drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation);
     }
 }
