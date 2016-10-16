@@ -16,7 +16,7 @@ public class AutonomousDriveTrain
     }
 
     DcMotor frontRight, backRight, frontLeft, backLeft;
-    Action currentAction = Action.idle;-=
+    Action currentAction = Action.idle;
     int target;
 
     public AutonomousDriveTrain(HardwareMap hardwareMap)
