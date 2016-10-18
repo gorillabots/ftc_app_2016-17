@@ -46,11 +46,11 @@ public class Tester extends OpMode
     public void loop(){
 
        if(gamepad1.left_bumper == true){
-           motor1.setPower(100);
+           motor1.setPower(25);
        }
 
         else if(gamepad1.right_bumper == true){
-           motor1.setPower(-100);
+           motor1.setPower(-25);
        }
         else{
 
