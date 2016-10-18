@@ -17,21 +17,22 @@ public class ColorS extends LinearOpMode{
     static final int LED_CHANNEL = 5;
 
         public void runOpMode() {
-        float hsvValues[] = {0F,0F,0F};
+
+            float hsvValues[] = {0F,0F,0F};
+            final float values[] = hsvValues;
             boolean bCurrState = false;
             boolean bPrevState = false;
             boolean bLedOn = true;
-        
+
             // turn the LED on in the beginning, just so user will know that the sensor is active.
         cdim.setDigitalChannelState(LED_CHANNEL, bLedOn);
 
-        final float values[] = hsvValues;
+
         if ((bCurrState == true) && (bCurrState != bPrevState))  {
             // button is transitioning to a pressed state. Toggle the LED.
             //bLedOn = !bLedOn;
             //cdim.setDigitalChannelState(LED_CHANNEL, bLedOn);
         }
-
 
         bPrevState = bCurrState;
 
