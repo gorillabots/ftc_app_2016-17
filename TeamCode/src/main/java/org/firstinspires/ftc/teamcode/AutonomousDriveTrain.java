@@ -15,6 +15,7 @@ public class AutonomousDriveTrain
     final double wheelDiameter = 4 * metersInInch; //4 inch wheel diameter, to meters
     final double pi = 3.14159265; //3589793238462643383279502884197169399375105820974944592307816406;
     final double wheelCircumference = wheelDiameter * pi;
+    final int incrementsPerRotation = 1440;
 
     Telemetry telemetry;
 
@@ -40,14 +41,14 @@ public class AutonomousDriveTrain
 
     public void forwardsMeters(int meters)
     {
-        forwards(meters * wheelCircumference);
+        forwards(meters / wheelCircumference * incrementsPerRotation);
     }
 
     public void forwards(double degrees)
     {
         if(currentAction == Action.idle)
         {
-            target = degrees;
+            target = getPosX() + degrees;
 
             currentAction = Action.positiveX;
 
@@ -56,16 +57,27 @@ public class AutonomousDriveTrain
         }
     }
 
+    double getPosX()
+    {
+        return (backLeft.getCurrentPosition() - frontRight.getCurrentPosition()) / 2;
+    }
+
     public void loop()
     {
         telemetry.addData("Forwards?", currentAction == Action.positiveX);
 
+        telemetry.addData("Target", target);
+
+        telemetry.addData("PosX", getPosX());
+
         if(currentAction == Action.positiveX)
         {
-            if(Math.abs(backLeft.getCurrentPosition() - frontRight.getCurrentPosition()) / 2 >= target)
+            if((backLeft.getCurrentPosition() - frontRight.getCurrentPosition()) / 2 >= target)
             {
                 backLeft.setPower(0);
                 frontRight.setPower(0);
+
+                currentAction = Action.idle;
             }
         }
     }

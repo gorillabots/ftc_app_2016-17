@@ -24,7 +24,7 @@ public class EncoderTestOp extends OpMode
 
         if(gamepad1.dpad_up)
         {
-            driveTrain.forwards(720);
+            driveTrain.forwardsMeters(1);
         }
 
         driveTrain.loop();
