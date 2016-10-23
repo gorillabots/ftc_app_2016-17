@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 /**
  * Created by emper on 11/1/2015.
  */
+
 @Autonomous(name = "Sensor: MRColor", group = "Sensor")
 public class MRColor extends OpMode {
     ColorSensor color;
