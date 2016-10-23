@@ -84,6 +84,7 @@ class TankDrivetrain implements DrivetrainInterface {
         return false;
     }
 
+
     @Override
     public boolean isBeaconDetected() {
         return false;

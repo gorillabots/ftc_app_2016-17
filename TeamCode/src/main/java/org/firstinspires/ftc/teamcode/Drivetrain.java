@@ -30,7 +30,6 @@ public class Drivetrain
     {
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
-
         frontRight = hardwareMap.dcMotor.get("frontRight");
         backRight = hardwareMap.dcMotor.get("backRight");
         frontLeft = hardwareMap.dcMotor.get("frontLeft");
