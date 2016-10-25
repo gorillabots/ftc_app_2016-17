@@ -15,14 +15,16 @@ public class EncoderTestOp extends OpMode
 
     public void init()
     {
-        driveTrain = new AutonomousDriveTrain(hardwareMap);
+        driveTrain = new AutonomousDriveTrain(hardwareMap, telemetry);
     }
 
     public void loop()
     {
+        telemetry.addData("Button Pressed?", gamepad1.dpad_up);
+
         if(gamepad1.dpad_up)
         {
-            driveTrain.forwards(720);
+            driveTrain.forwards(5240);
         }
 
         driveTrain.loop();
