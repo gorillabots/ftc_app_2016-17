@@ -15,7 +15,7 @@ public class EncoderTestOp extends OpMode
 
     public void init()
     {
-        driveTrain = new AutonomousDriveTrain(hardwareMap, telemetry);
+        //driveTrain = new AutonomousDriveTrain(hardwareMap, telemetry);
     }
 
     public void loop()
