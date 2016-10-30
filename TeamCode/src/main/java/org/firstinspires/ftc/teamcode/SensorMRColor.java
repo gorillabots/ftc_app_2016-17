@@ -61,18 +61,39 @@ public class SensorMRColor extends LinearOpMode {
 
         waitForStart();
         while (opModeIsActive()) {
+
             Color.RGBToHSV(colorSensor.red() * 8, colorSensor.green() * 8, colorSensor.blue() * 8, hsvValues);
+
+            String currentcolor = "none";
+
+            if (hsvValues[0] < 15)    {
+                currentcolor = "red";
+            }
+            if (hsvValues[0] > 220){
+                currentcolor = "blue";
+            }
+            if (hsvValues[0] > 250){
+                currentcolor = "non";
+            }
+            if (hsvValues[0] < 1){
+                currentcolor = "non";
+            }
 
             // send the info back to driver station using telemetry function.
             telemetry.addData("Running Time", opmodeRunTime.seconds());
             telemetry.addData("Clear", colorSensor.alpha());
-            telemetry.addData("Red  ", colorSensor.red());
+            telemetry.addData("Red", colorSensor.red());
             telemetry.addData("Green", colorSensor.green());
             telemetry.addData("Blue ", colorSensor.blue());
             telemetry.addData("Hue", hsvValues[0]);
             telemetry.addData("Saturation", hsvValues[1]);
             telemetry.addData("value", hsvValues[2]);
+            telemetry.addData("current color", currentcolor);
             telemetry.update();
+
+
+
         }
     }
+
 }
