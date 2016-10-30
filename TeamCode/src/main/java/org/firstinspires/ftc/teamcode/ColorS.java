@@ -1,49 +1,51 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
+import com.qualcomm.robotcore.hardware.DigitalChannelController;
 
 /**
  * Created by Owner on 10/7/2016.
  */
-@Autonomous(name = "Sensor: sensorRGB", group = "Sensor")
-public class ColorS extends LinearOpMode{
+
+@TeleOp(name = "Sensor: sensorRGB", group = "Sensor")
+public class ColorS extends OpMode {
 
     ColorSensor sensorRGB;
-    DeviceInterfaceModule cdim;
     static final int LED_CHANNEL = 5;
+    int count;
+    public void init() {
 
-        public void runOpMode() {
 
-            float hsvValues[] = {0F,0F,0F};
+        count = 0;
+        // turn the LED on in the beginning, just so user will know that the sensor is active.
+        sensorRGB = hardwareMap.colorSensor.get("sensorRGB");
+    }
+        public void loop(){
+            float hsvValues[] = {0F, 0F, 0F};
             final float values[] = hsvValues;
             boolean bCurrState = false;
             boolean bPrevState = false;
             boolean bLedOn = true;
 
-            // turn the LED on in the beginning, just so user will know that the sensor is active.
-        cdim.setDigitalChannelState(LED_CHANNEL, bLedOn);
+                //bPrevState = bCurrState;
+                telemetry.addData("LED", bLedOn ? "On" : "Off");
+                telemetry.addData("Clear", sensorRGB.alpha());
+                telemetry.addData("Red  ", sensorRGB.red());
+                telemetry.addData("Green", sensorRGB.green());
+                telemetry.addData("Blue ", sensorRGB.blue());
+                telemetry.addData("Hue", hsvValues[0]);
+                telemetry.addData("count is ",count);
 
 
-        if ((bCurrState == true) && (bCurrState != bPrevState))  {
-            // button is transitioning to a pressed state. Toggle the LED.
-            //bLedOn = !bLedOn;
-            //cdim.setDigitalChannelState(LED_CHANNEL, bLedOn);
+                //count++;
+
+
+                telemetry.update();
+            }
         }
 
-        bPrevState = bCurrState;
-
-        sensorRGB = hardwareMap.colorSensor.get("color");
-
-        telemetry.addData("LED", bLedOn ? "On" : "Off");
-        telemetry.addData("Clear", sensorRGB.alpha());
-        telemetry.addData("Red  ", sensorRGB.red());
-        telemetry.addData("Green", sensorRGB.green());
-        telemetry.addData("Blue ", sensorRGB.blue());
-        telemetry.addData("Hue", hsvValues[0]);
-        telemetry.update();
-    }
-}
