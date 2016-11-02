@@ -53,6 +53,8 @@ public class AutonomousDriveTrain extends LinearOpMode
         //forwardsMeters(2);
         //backwardsMeters(1);
 
+        counterclockwise(90);
+        sleep(1000);
         clockwise(90);
     }
 
@@ -110,18 +112,52 @@ public class AutonomousDriveTrain extends LinearOpMode
     {
         gyro.resetZAxisIntegrator();
 
-        frontRight.setPower(1);
-        backRight.setPower(1);
-        frontLeft.setPower(1);
-        backLeft.setPower(1);
+        frontRight.setPower(-1);
+        backRight.setPower(-1);
+        frontLeft.setPower(-1);
+        backLeft.setPower(-1);
 
-        while(gyro.getHeading() < degrees && opModeIsActive())
+        int heading = gyro.getHeading();
+
+        while(heading < degrees && opModeIsActive())
         {
             telemetry.addData("Action", "Clockwise");
             telemetry.addData("Currently", gyro.getHeading());
             telemetry.addData("Target", degrees);
             telemetry.update();
+
             sleep(5);
+
+            heading = gyro.getHeading();
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
+
+    public void counterclockwise(double degrees)
+    {
+        gyro.resetZAxisIntegrator();
+
+        frontRight.setPower(1);
+        backRight.setPower(1);
+        frontLeft.setPower(1);
+        backLeft.setPower(1);
+
+        int heading = gyro.getHeading();
+
+        while((heading == 0 || heading > (360 - degrees)) && opModeIsActive())
+        {
+            telemetry.addData("Action", "Clockwise");
+            telemetry.addData("Currently", gyro.getHeading());
+            telemetry.addData("Target", degrees);
+            telemetry.update();
+
+            sleep(5);
+
+            heading = gyro.getHeading();
         }
 
         frontRight.setPower(0);
