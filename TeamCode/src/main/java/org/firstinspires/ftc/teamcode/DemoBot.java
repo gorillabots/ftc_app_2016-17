@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 /**
  * Created by Jarred on 10/30/2016.
  */
-
+@TeleOp(name = "Demo", group = "final")
 public class DemoBot extends OpMode {
 
 
