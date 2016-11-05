@@ -49,6 +49,11 @@ public class OmniwheelOp extends OpMode
 
         float stickRot = gamepad1.right_stick_x / 2f; //Used to rotate the robot;
 
+        if(gamepad1.a)
+        {
+            gyro.resetZAxisIntegrator();
+        }
+
         rotation = gyro.getHeading();
 
         drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation);
