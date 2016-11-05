@@ -53,9 +53,13 @@ public class AutonomousDriveTrain extends LinearOpMode
         //forwardsMeters(2);
         //backwardsMeters(1);
 
-        counterclockwise(90);
-        sleep(1000);
+        //counterclockwise(90);
+        //sleep(1000);
         clockwise(90);
+        sleep(500);
+        telemetry.addData("after stop", gyro.getHeading());
+        telemetry.update();
+        sleep(30000);
     }
 
     public void forwardsMeters(int meters)
@@ -112,39 +116,49 @@ public class AutonomousDriveTrain extends LinearOpMode
     {
         gyro.resetZAxisIntegrator();
 
-        frontRight.setPower(-1);
-        backRight.setPower(-1);
-        frontLeft.setPower(-1);
-        backLeft.setPower(-1);
+        frontRight.setPower(-.5);
+        backRight.setPower(-.5);
+        frontLeft.setPower(-.5);
+        backLeft.setPower(-.5);
 
         int heading = gyro.getHeading();
 
         while(heading < degrees && opModeIsActive())
         {
             telemetry.addData("Action", "Clockwise");
-            telemetry.addData("Currently", gyro.getHeading());
+            telemetry.addData("Currently", heading);
             telemetry.addData("Target", degrees);
             telemetry.update();
 
+            if(heading + 20 > degrees)
+            {
+                frontRight.setPower(-.1);
+                backRight.setPower(-.1);
+                frontLeft.setPower(-.1);
+                backLeft.setPower(-.1);
+            }
+
             sleep(5);
+
 
             heading = gyro.getHeading();
         }
-
+        telemetry.addData("Before stop command", heading);
         frontRight.setPower(0);
         backRight.setPower(0);
         frontLeft.setPower(0);
         backLeft.setPower(0);
+        telemetry.addData("after stop command", gyro.getHeading());
     }
 
     public void counterclockwise(double degrees)
     {
         gyro.resetZAxisIntegrator();
 
-        frontRight.setPower(1);
-        backRight.setPower(1);
-        frontLeft.setPower(1);
-        backLeft.setPower(1);
+        frontRight.setPower(.5);
+        backRight.setPower(.5);
+        frontLeft.setPower(.5);
+        backLeft.setPower(.5);
 
         int heading = gyro.getHeading();
 
