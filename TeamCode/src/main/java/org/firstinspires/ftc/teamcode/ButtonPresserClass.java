@@ -58,11 +58,11 @@ public class ButtonPresserClass extends LinearOpMode implements ButtonPresserInt
         waitForStart();
         while(opModeIsActive()){
             button_presser_1.setDirection(Servo.Direction.FORWARD);
-            double position = 0.0;
-            for(int i = 0; i < 10; i++){
+            double position = 0.1;
+            for(int i = 2; i < 10; i++){
                 button_presser_1.setPosition(position);
                 position = position + 0.1;
-                Thread.sleep(10000);
+                Thread.sleep(5000);
             }
 
       /*  telemetry.addData("is pressed", position1);
