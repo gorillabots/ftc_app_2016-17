@@ -28,20 +28,16 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
-
 package org.firstinspires.ftc.teamcode;
-
 import android.app.Activity;
 import android.graphics.Color;
 import android.view.View;
-
 import com.qualcomm.ftcrobotcontroller.R;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
 
 @TeleOp(name = "Sensor: MR Color", group = "Sensor")
 
@@ -78,7 +74,6 @@ public class SensorMRColor extends LinearOpMode {
             if (hsvValues[0] < 1){
                 currentcolor = "non";
             }
-
             // send the info back to driver station using telemetry function.
             telemetry.addData("Running Time", opmodeRunTime.seconds());
             telemetry.addData("Clear", colorSensor.alpha());
@@ -90,10 +85,6 @@ public class SensorMRColor extends LinearOpMode {
             telemetry.addData("value", hsvValues[2]);
             telemetry.addData("current color", currentcolor);
             telemetry.update();
-
-
-
         }
     }
-
 }

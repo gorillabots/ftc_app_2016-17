@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 /**
  * Created by Jarred on 10/30/2016.
  */
-
+@TeleOp(name = "Demo", group = "final")
 public class DemoBot extends OpMode {
 
 
@@ -45,7 +45,6 @@ public class DemoBot extends OpMode {
                 clawState = 1;
                 timer.reset();
         }
-
     }
     public void init()
     {
@@ -86,23 +85,34 @@ public class DemoBot extends OpMode {
 
         float stickRot = gamepad1.right_stick_x / 2f; //Used to rotate the robot;
 
+        if(gamepad1.a)
+        {
+            gyro.resetZAxisIntegrator();
+        }
+
         rotation = gyro.getHeading();
 
         drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation);
 
         if(gamepad1.left_bumper == true){
-            rotateArm.setPower(50);
+            rotateArm.setPower(1);
         }
-        else if(gamepad1.right_trigger > .5){
-            rotateArm.setPower(-50);
+        else if(gamepad1.left_trigger > .5){
+            rotateArm.setPower(-1);
         }
         else{
             rotateArm.setPower(0);
         }
 
 
-        if(gamepad1.right_bumper == true && timer.seconds() > .5){
-            toggleClaw();
+        if(gamepad1.right_bumper == true){
+            claw.setPosition(1.0);
+
+        }
+
+        else if(gamepad1.right_trigger > .5){
+            claw.setPosition(.2);
+
         }
 
 
