@@ -57,5 +57,6 @@ public class OmniwheelOp extends OpMode
 
         drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation);
         String beaconColor = ColorHelper.getBeaconColor(colorSensor);
+        String floorColor = ColorHelper.getFloorColor(colorSensor);
     }
 }
