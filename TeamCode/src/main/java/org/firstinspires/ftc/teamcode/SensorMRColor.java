@@ -44,10 +44,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class SensorMRColor extends LinearOpMode {
 
     ColorSensor colorSensor;    // Hardware Device Object
+    float hsvValues[] = {0F,0F,0F};
 
     @Override
     public void runOpMode() {
-        float hsvValues[] = {0F,0F,0F};
+
 
         // values is a reference to the hsvValues array.
         final float values[] = hsvValues;
@@ -58,22 +59,9 @@ public class SensorMRColor extends LinearOpMode {
         waitForStart();
         while (opModeIsActive()) {
 
-            Color.RGBToHSV(colorSensor.red() * 8, colorSensor.green() * 8, colorSensor.blue() * 8, hsvValues);
 
-            String currentcolor = "none";
+            String currentcolor = getBeaconColor();
 
-            if (hsvValues[0] < 15)    {
-                currentcolor = "red";
-            }
-            if (hsvValues[0] > 220){
-                currentcolor = "blue";
-            }
-            if (hsvValues[0] > 250){
-                currentcolor = "non";
-            }
-            if (hsvValues[0] < 1){
-                currentcolor = "non";
-            }
             // send the info back to driver station using telemetry function.
             telemetry.addData("Running Time", opmodeRunTime.seconds());
             telemetry.addData("Clear", colorSensor.alpha());
@@ -86,5 +74,25 @@ public class SensorMRColor extends LinearOpMode {
             telemetry.addData("current color", currentcolor);
             telemetry.update();
         }
+    }
+
+    public String getBeaconColor() {
+        Color.RGBToHSV(colorSensor.red() * 8, colorSensor.green() * 8, colorSensor.blue() * 8, hsvValues);
+
+        String currentcolor = "none";
+
+        if (hsvValues[0] < 15)    {
+            currentcolor = "red";
+        }
+        if (hsvValues[0] > 220){
+            currentcolor = "blue";
+        }
+        if (hsvValues[0] > 250){
+            currentcolor = "non";
+        }
+        if (hsvValues[0] < 1){
+            currentcolor = "non";
+        }
+        return currentcolor;
     }
 }
