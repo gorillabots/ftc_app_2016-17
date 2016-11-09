@@ -37,6 +37,15 @@ public class SensorMRColorFloor extends LinearOpMode{
                     currentcolor = "white";
                 }
 
+                if (hsvValues[0] < 60) {
+                currentcolor = "none";
+                }
+
+                if (hsvValues[0] > 60) {
+                    currentcolor = "none";
+                }
+
+
                 // send the info back to driver station using telemetry function.
                 telemetry.addData("Running Time", opmodeRunTime.seconds());
                 telemetry.addData("Clear", colorSensor.alpha());
@@ -47,10 +56,12 @@ public class SensorMRColorFloor extends LinearOpMode{
                 telemetry.addData("Saturation", hsvValues[1]);
                 telemetry.addData("floor color",colorSensor);
                 telemetry.addData("value", hsvValues[2]);
+                telemetry.addData("curent color", currentcolor);
                 telemetry.update();
 
 
 
         }
 
-    }}
+    }
+}
