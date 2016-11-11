@@ -14,20 +14,20 @@ public class OmniwheelOp extends OpMode
 {
     Drivetrain drivetrain;
 
-    ModernRoboticsI2cGyro gyro;
+//    ModernRoboticsI2cGyro gyro;
     ColorSensor colorSensor;    // Hardware Device Object
     int rotation = 0;
 
     public void init()
     {
-        drivetrain = new Drivetrain(hardwareMap, telemetry);
-        gyro = (ModernRoboticsI2cGyro)hardwareMap.gyroSensor.get("gyro");
-        gyro.calibrate();
+        //drivetrain = new Drivetrain(hardwareMap, telemetry);
+  //      gyro = (ModernRoboticsI2cGyro)hardwareMap.gyroSensor.get("gyro");
+    //    gyro.calibrate();
         colorSensor = hardwareMap.colorSensor.get("BeaconSensor");
         try
         {
             // make sure the gyro is calibrated.
-            while (gyro.isCalibrating())
+      //      while (gyro.isCalibrating())
             {
                 Thread.sleep(50);
             }
@@ -37,7 +37,7 @@ public class OmniwheelOp extends OpMode
             e.printStackTrace();
         }
 
-        gyro.resetZAxisIntegrator();
+        //gyro.resetZAxisIntegrator();
 
     }
 
@@ -50,13 +50,15 @@ public class OmniwheelOp extends OpMode
 
         if(gamepad1.a)
         {
-            gyro.resetZAxisIntegrator();
+          //  gyro.resetZAxisIntegrator();
         }
 
-        rotation = gyro.getHeading();
+        //rotation = gyro.getHeading();
 
-        drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation);
+        //drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation);
         String beaconColor = ColorHelper.getBeaconColor(colorSensor);
         String floorColor = ColorHelper.getFloorColor(colorSensor);
+        telemetry.addData("Beacon color", beaconColor);
+        telemetry.addData("Floor color", floorColor);
     }
 }
