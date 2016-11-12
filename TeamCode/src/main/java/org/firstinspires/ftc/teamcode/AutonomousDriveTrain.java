@@ -1,10 +1,16 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.text.method.Touch;
+
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsDigitalTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
+import com.qualcomm.robotcore.hardware.DeviceManager;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -21,6 +27,8 @@ public class AutonomousDriveTrain extends LinearOpMode
 
     DcMotor frontRight, backRight, frontLeft, backLeft;
 
+    TouchSensor touch;
+
     public void runOpMode()
     {
         frontRight = hardwareMap.dcMotor.get("frontRight");
@@ -28,10 +36,22 @@ public class AutonomousDriveTrain extends LinearOpMode
         frontLeft = hardwareMap.dcMotor.get("frontLeft");
         backLeft = hardwareMap.dcMotor.get("backLeft");
 
+        touch = hardwareMap.touchSensor.get("wallTouch");
+
         waitForStart();
 
-        forwards(1.04);
-        left(1);
+        //forwards(1.04);
+
+        backRight(1.42);
+        right(0.5);
+        rightToTouch();
+        left(.08);
+
+        /*while(opModeIsActive())
+        {
+            telemetry.addData("Button", touch.isPressed());
+            telemetry.update();
+        }*/
     }
 
     public void forwards(double meters)
@@ -99,6 +119,27 @@ public class AutonomousDriveTrain extends LinearOpMode
             telemetry.addData("Action", "Right");
             telemetry.addData("Currently", getPosRL());
             telemetry.addData("Target", target);
+            telemetry.update();
+            sleep(5);
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
+
+    public void rightToTouch()
+    {
+        frontRight.setPower(-.2);
+        backRight.setPower(.2);
+        frontLeft.setPower(-.2);
+        backLeft.setPower(.2);
+
+
+        while(!touch.isPressed() && opModeIsActive())
+        {
+            telemetry.addData("Action", "Right to Touch");
             telemetry.update();
             sleep(5);
         }
