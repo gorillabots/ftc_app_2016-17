@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import android.graphics.Color;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.I2cAddr;
 
 /**
  * Created by Chris on 11/8/2016.
@@ -11,8 +12,12 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 public class ColorHelper {
     static float hsvValues[] = {0F, 0F, 0F};
 
+    static float hsvValuesFloor[] = {0F, 0F, 0F};
+
+
     public static String getBeaconColor(ColorSensor colorSensor) {
         Color.RGBToHSV(colorSensor.red() * 8, colorSensor.green() * 8, colorSensor.blue() * 8, hsvValues);
+
 
         String currentcolor = "none";
 
@@ -33,19 +38,20 @@ public class ColorHelper {
 
 
     public static String getFloorColor(ColorSensor colorSensor) {
-        Color.RGBToHSV(colorSensor.red() * 8, colorSensor.green() * 8, colorSensor.blue() * 8, hsvValues);
+        Color.RGBToHSV(colorSensor.red() * 8, colorSensor.green() * 8, colorSensor.blue() * 8, hsvValuesFloor);
+
 
         String currentcolor = "none";
 
-        if (hsvValues[0] == 60 && hsvValues[1] == 1) {
+        if (hsvValuesFloor[0] == 60 && hsvValuesFloor[1] == 1) {
             currentcolor = "white";
         }
 
-        if (hsvValues[0] < 60) {
+        if (hsvValuesFloor[0] < 60) {
             currentcolor = "none";
         }
 
-        if (hsvValues[0] > 60) {
+        if (hsvValuesFloor[0] > 60) {
             currentcolor = "none";
         }
 

@@ -17,6 +17,7 @@ public class SensorMRColorFloor extends LinearOpMode{
     ColorSensor colorSensor;    // Hardware Device Object
     float hsvValues[] = {0F,0F,0F};
 
+
     @Override
         public void runOpMode() {
 
@@ -49,7 +50,7 @@ public class SensorMRColorFloor extends LinearOpMode{
     }
             public String getFloorColor(){
         Color.RGBToHSV(colorSensor.red() * 8, colorSensor.green() * 8, colorSensor.blue() * 8, hsvValues);
-
+        colorSensor.setI2cAddress(I2cAddr.create8bit(58));
         String currentcolor = "none";
 
         if (hsvValues[0] == 60 && hsvValues[1] == 1) {

@@ -4,6 +4,7 @@ import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.I2cAddr;
 
 /**
  * Created by mikko on 9/30/16.
@@ -15,7 +16,8 @@ public class OmniwheelOp extends OpMode
     Drivetrain drivetrain;
 
 //    ModernRoboticsI2cGyro gyro;
-    ColorSensor colorSensor;    // Hardware Device Object
+    ColorSensor colorSensor;
+    ColorSensor colorSensorF;    // Hardware Device Object
     int rotation = 0;
 
     public void init()
@@ -24,6 +26,8 @@ public class OmniwheelOp extends OpMode
   //      gyro = (ModernRoboticsI2cGyro)hardwareMap.gyroSensor.get("gyro");
     //    gyro.calibrate();
         colorSensor = hardwareMap.colorSensor.get("BeaconSensor");
+        colorSensorF = hardwareMap.colorSensor.get("FloorSensor");
+        colorSensorF.setI2cAddress(I2cAddr.create8bit(58));
         try
         {
             // make sure the gyro is calibrated.
@@ -57,7 +61,7 @@ public class OmniwheelOp extends OpMode
 
         //drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation);
         String beaconColor = ColorHelper.getBeaconColor(colorSensor);
-        String floorColor = ColorHelper.getFloorColor(colorSensor);
+        String floorColor = ColorHelper.getFloorColor(colorSensorF);
         telemetry.addData("Beacon color", beaconColor);
         telemetry.addData("Floor color", floorColor);
     }
