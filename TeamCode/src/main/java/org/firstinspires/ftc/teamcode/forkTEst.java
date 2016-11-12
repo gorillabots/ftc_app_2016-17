@@ -16,21 +16,25 @@ public class forkTEst extends OpMode {
 
     DcMotor motor;
 
-
+int encode;
 
         public void init()
         {
 
         motor = hardwareMap.dcMotor.get("motor");
             motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
+        int encode = 0;
         }
 
         public void loop()
-        {
+    {
+        encode = (motor.getCurrentPosition());
+        telemetry.update();
+            telemetry.addData("rotations ", encode);
             //change the checksum ASAP
-            if(gamepad1.left_stick_y >.5){
+            if(gamepad1.left_stick_y >.5 ){
                 motor.setPower(5);
+
             }
             else if(gamepad1.left_stick_y < -.5){
                 motor.setPower(-5);
