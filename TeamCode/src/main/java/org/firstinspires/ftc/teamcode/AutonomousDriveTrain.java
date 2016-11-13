@@ -6,6 +6,7 @@ import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsDigitalTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
 import com.qualcomm.robotcore.hardware.DeviceManager;
@@ -28,7 +29,9 @@ public class AutonomousDriveTrain
 
     DcMotor frontRight, backRight, frontLeft, backLeft;
 
-    TouchSensor touch;
+    TouchSensor wallTouch;
+
+    ColorSensor floorColor;
 
     public void init(LinearOpMode opMode)
     {
@@ -39,7 +42,8 @@ public class AutonomousDriveTrain
         frontLeft = opMode.hardwareMap.dcMotor.get("frontLeft");
         backLeft = opMode.hardwareMap.dcMotor.get("backLeft");
 
-        touch = opMode.hardwareMap.touchSensor.get("wallTouch");
+        wallTouch = opMode.hardwareMap.touchSensor.get("wallTouch");
+        floorColor = opMode.hardwareMap.colorSensor.get("floorColor");
     }
 
     public void forwards(double meters)
@@ -67,7 +71,7 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
-    public void backwards(double meters)
+    public void back(double meters)
     {
         double target = getPosFB() - meters * straightIncrements;
 
@@ -82,6 +86,29 @@ public class AutonomousDriveTrain
             opMode.telemetry.addData("Action", "Backwards");
             opMode.telemetry.addData("Currently", getPosFB());
             opMode.telemetry.addData("Target", target);
+            opMode.telemetry.update();
+            opMode.sleep(5);
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
+
+    public void backToColor(double meters)
+    {
+        double target = getPosFB() - meters * straightIncrements;
+
+        frontRight.setPower(-1);
+        backRight.setPower(-1);
+        frontLeft.setPower(1);
+        backLeft.setPower(1);
+
+
+        while(ColorHelper.getFloorColor(floorColor) != "white" && opMode.opModeIsActive())
+        {
+            opMode.telemetry.addData("Action", "Back to Color");
             opMode.telemetry.update();
             opMode.sleep(5);
         }
@@ -125,7 +152,7 @@ public class AutonomousDriveTrain
         backLeft.setPower(.2);
 
 
-        while(!touch.isPressed() && opMode.opModeIsActive())
+        while(!wallTouch.isPressed() && opMode.opModeIsActive())
         {
             opMode.telemetry.addData("Action", "Right to Touch");
             opMode.telemetry.update();
