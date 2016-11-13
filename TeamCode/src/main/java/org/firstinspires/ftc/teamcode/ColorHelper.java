@@ -19,19 +19,16 @@ public class ColorHelper {
         Color.RGBToHSV(colorSensor.red() * 8, colorSensor.green() * 8, colorSensor.blue() * 8, hsvValues);
 
 
-        String currentcolor = "none";
+        String currentcolor = "blank";
 
-        if (hsvValues[0] < 15) {
+        if (hsvValues[0] > 330  && hsvValues[1] > 0.5 || hsvValues[0] < 10 && hsvValues[1] > 0.5) {
             currentcolor = "red";
         }
-        if (hsvValues[0] > 220) {
+        else if (hsvValues[0] > 230 && hsvValues[0] < 250 && hsvValues[1] > 0.5){
             currentcolor = "blue";
         }
-        if (hsvValues[0] > 250) {
-            currentcolor = "non";
-        }
-        if (hsvValues[0] < 1) {
-            currentcolor = "non";
+        else if (hsvValues[1] < 0.6){
+            currentcolor = "blank";
         }
         return currentcolor;
     }
@@ -41,18 +38,18 @@ public class ColorHelper {
         Color.RGBToHSV(colorSensor.red() * 8, colorSensor.green() * 8, colorSensor.blue() * 8, hsvValuesFloor);
 
 
-        String currentcolor = "none";
+        String currentcolor = "not white";
 
         if (hsvValuesFloor[0] == 60 && hsvValuesFloor[1] == 1) {
             currentcolor = "white";
         }
 
         if (hsvValuesFloor[0] < 60) {
-            currentcolor = "none";
+            currentcolor = "not white";
         }
 
         if (hsvValuesFloor[0] > 60) {
-            currentcolor = "none";
+            currentcolor = "not white";
         }
 
         return currentcolor;
