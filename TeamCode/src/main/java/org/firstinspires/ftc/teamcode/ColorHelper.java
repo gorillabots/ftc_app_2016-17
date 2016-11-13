@@ -44,11 +44,11 @@ public class ColorHelper {
             currentcolor = "white";
         }
 
-        if (hsvValuesFloor[0] < 60) {
+        else if (hsvValuesFloor[0] < 60) {
             currentcolor = "not white";
         }
 
-        if (hsvValuesFloor[0] > 60) {
+        else if (hsvValuesFloor[0] > 60) {
             currentcolor = "not white";
         }
 
