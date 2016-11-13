@@ -44,13 +44,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class SensorMRColor extends LinearOpMode {
 
     ColorSensor colorSensor;    // Hardware Device Object
+    float hsvValues[] = {0F,0F,0F};
 
     @Override
     public void runOpMode() {
-        float hsvValues[] = {0F,0F,0F};
+
 
         // values is a reference to the hsvValues array.
-        final float values[] = hsvValues;
+
 
         ElapsedTime opmodeRunTime = new ElapsedTime();
         colorSensor = hardwareMap.colorSensor.get("BeaconSensor");
@@ -58,22 +59,9 @@ public class SensorMRColor extends LinearOpMode {
         waitForStart();
         while (opModeIsActive()) {
 
-            Color.RGBToHSV(colorSensor.red() * 8, colorSensor.green() * 8, colorSensor.blue() * 8, hsvValues);
 
-            String currentcolor = "none";
+            String currentcolor = getBeaconColor();
 
-            if (hsvValues[0] < 15)    {
-                currentcolor = "red";
-            }
-            if (hsvValues[0] > 220){
-                currentcolor = "blue";
-            }
-            if (hsvValues[0] > 250){
-                currentcolor = "non";
-            }
-            if (hsvValues[0] < 1){
-                currentcolor = "non";
-            }
             // send the info back to driver station using telemetry function.
             telemetry.addData("Running Time", opmodeRunTime.seconds());
             telemetry.addData("Clear", colorSensor.alpha());
@@ -86,5 +74,23 @@ public class SensorMRColor extends LinearOpMode {
             telemetry.addData("current color", currentcolor);
             telemetry.update();
         }
+    }
+
+    public String getBeaconColor() {
+        Color.RGBToHSV(colorSensor.red() * 8, colorSensor.green() * 8, colorSensor.blue() * 8, hsvValues);
+
+        String currentcolor = "blank";
+
+        if (hsvValues[0] > 330  && hsvValues[1] > 0.5 || hsvValues[0] < 10 && hsvValues[1] > 0.5) {
+            currentcolor = "red";
+        }
+        else if (hsvValues[0] > 230 && hsvValues[0] < 250 && hsvValues[1] > 0.5){
+            currentcolor = "blue";
+        }
+        else if (hsvValues[1] < 0.6){
+            currentcolor = "blank";
+        }
+
+        return currentcolor;
     }
 }

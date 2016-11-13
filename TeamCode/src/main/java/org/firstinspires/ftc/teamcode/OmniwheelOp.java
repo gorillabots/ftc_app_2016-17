@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.I2cAddr;
 
 /**
  * Created by mikko on 9/30/16.
@@ -13,22 +15,23 @@ public class OmniwheelOp extends OpMode
 {
     Drivetrain drivetrain;
 
-    ModernRoboticsI2cGyro gyro;
-
+//    ModernRoboticsI2cGyro gyro;
+    ColorSensor colorSensor;
+    ColorSensor colorSensorF;    // Hardware Device Object
     int rotation = 0;
 
     public void init()
     {
-        drivetrain = new Drivetrain(hardwareMap, telemetry);
-
-        gyro = (ModernRoboticsI2cGyro)hardwareMap.gyroSensor.get("gyro");
-
-        gyro.calibrate();
-
+        //drivetrain = new Drivetrain(hardwareMap, telemetry);
+  //      gyro = (ModernRoboticsI2cGyro)hardwareMap.gyroSensor.get("gyro");
+    //    gyro.calibrate();
+        colorSensor = hardwareMap.colorSensor.get("BeaconSensor");
+        colorSensorF = hardwareMap.colorSensor.get("FloorSensor");
+        colorSensorF.setI2cAddress(I2cAddr.create8bit(58));
         try
         {
             // make sure the gyro is calibrated.
-            while (gyro.isCalibrating())
+      //      while (gyro.isCalibrating())
             {
                 Thread.sleep(50);
             }
@@ -38,7 +41,7 @@ public class OmniwheelOp extends OpMode
             e.printStackTrace();
         }
 
-        gyro.resetZAxisIntegrator();
+        //gyro.resetZAxisIntegrator();
 
     }
 
@@ -51,11 +54,15 @@ public class OmniwheelOp extends OpMode
 
         if(gamepad1.a)
         {
-            gyro.resetZAxisIntegrator();
+          //  gyro.resetZAxisIntegrator();
         }
 
-        rotation = gyro.getHeading();
+        //rotation = gyro.getHeading();
 
-        drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation);
+        //drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation);
+        String beaconColor = ColorHelper.getBeaconColor(colorSensor);
+        String floorColor = ColorHelper.getFloorColor(colorSensorF);
+        telemetry.addData("Beacon color", beaconColor);
+        telemetry.addData("Floor color", floorColor);
     }
 }
