@@ -18,63 +18,74 @@ import static java.lang.Thread.sleep;
  * Created by emper on 9/30/2016.
  */
 @TeleOp(name = "ButtonPresserZ", group = "Concept")
-public class ButtonPresserClass extends LinearOpMode implements ButtonPresserInterface {
+public class ButtonPresserClass implements ButtonPresserInterface {
     Servo button_presser_1;
     Servo button_presser_2;
-    //ColorSensor color;
-    //TouchSensor touch;
     HardwareMap hardware;
-    //Telemetry telemetry;
-    public double position1 = 0.0;
+    ColorSensor colorSensor;
     public void Press_Button(Servo servo, double position){
-
+        servo.setDirection(Servo.Direction.FORWARD);
+        servo.setPosition(position);
     }
-    public void Was_Button_Pressed(){
-
-    }
-    public boolean Is_Left_Side_Teamcolor(){
-        return true;
-    }
-    public boolean Is_Right_Side_Teamcolor(){
-        return true;
-    }
-    public void Get_Left_Color(){
-
-    }
-    public void Get_Right_Color(){
-
-    }
-    public boolean Light_Sensor(){
-        return true;
+    @Override
+    public boolean atBeacon() {
+        if(ColorHelper.getFloorColor(colorSensor) == "white"){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     @Override
-    public void runOpMode() throws InterruptedException {
-        button_presser_1 = hardwareMap.servo.get("actuator1");
-        button_presser_2 = hardwareMap.servo.get("actuator2");
+    public String getBeaconColor() {
+        return ColorHelper.getBeaconColor(colorSensor);
+    }
 
-        //color = hardwareMap.colorSensor.get("color");
-//        touch = hardwareMap.touchSensor.get("touch");
-        waitForStart();
-        while(opModeIsActive()){
-            button_presser_1.setDirection(Servo.Direction.FORWARD);
-            double position = 0.1;
-            for(int i = 2; i < 10; i++){
-                button_presser_1.setPosition(position);
-                position = position + 0.1;
-                Thread.sleep(5000);
-            }
+    @Override
+    public String isTeamColor(String team) {
+        //only use "red" and "blue"
+        return team;
+    }
 
-      /*  telemetry.addData("is pressed", position1);
-        if(button_presser_1.getDirection() != null){
-            telemetry.addData("direction is", button_presser_1.getDirection().toString());
+    @Override
+    public void Respond_If_In_Red_Alliance() throws InterruptedException{
+        if(getBeaconColor() == isTeamColor("red")){
+            Press_Button(button_presser_1, 0.75);
+            Thread.sleep(2500);
+            Press_Button(button_presser_1, 0.15);
+            Thread.sleep(2500);
+        }
+        else if(getBeaconColor() == "blue"){
+            Press_Button(button_presser_2, 0.75);
+            Thread.sleep(2500);
+            Press_Button(button_presser_2, 0.15);
+            Thread.sleep(2500);
         }
         else{
-            telemetry.addData("direction is", "this is null");
-        }
-        telemetry.update();
-*/
 
         }
     }
-}
+
+    @Override
+    public void Respond_If_In_Blue_Alliance() throws InterruptedException{
+        if(getBeaconColor() == isTeamColor("blue")){
+            Press_Button(button_presser_1, 0.75);
+            Thread.sleep(2500);
+            Press_Button(button_presser_1, 0.15);
+            Thread.sleep(2500);
+        }
+        else if(getBeaconColor() == "red"){
+            Press_Button(button_presser_2, 0.75);
+            Thread.sleep(2500);
+            Press_Button(button_presser_2, 0.15);
+            Thread.sleep(2500);
+        }
+        else{
+
+        }
+    }
+
+
+    }
+
