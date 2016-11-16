@@ -1,10 +1,17 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.text.method.Touch;
+
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsDigitalTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
+import com.qualcomm.robotcore.hardware.DeviceManager;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -13,176 +20,278 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  */
 
 @Autonomous(name="Autonomous Drive Train", group="concept")
-public class AutonomousDriveTrain extends LinearOpMode
+public class AutonomousDriveTrain
 {
+    LinearOpMode opMode;
 
-    final int incrementsPerMeter = 5240;
+    final int diagonalIncrements = 5240;
+    final int straightIncrements = 3890;
 
     DcMotor frontRight, backRight, frontLeft, backLeft;
 
-    ModernRoboticsI2cGyro gyro;
+    TouchSensor wallTouch;
 
-    public void runOpMode()
+    ColorSensor floorColor;
+
+    public void init(LinearOpMode opMode)
     {
-        frontRight = hardwareMap.dcMotor.get("frontRight");
-        backRight = hardwareMap.dcMotor.get("backRight");
-        frontLeft = hardwareMap.dcMotor.get("frontLeft");
-        backLeft = hardwareMap.dcMotor.get("backLeft");
+        this.opMode = opMode;
 
-        gyro = (ModernRoboticsI2cGyro)hardwareMap.gyroSensor.get("gyro");
+        frontRight = opMode.hardwareMap.dcMotor.get("frontRight");
+        backRight = opMode.hardwareMap.dcMotor.get("backRight");
+        frontLeft = opMode.hardwareMap.dcMotor.get("frontLeft");
+        backLeft = opMode.hardwareMap.dcMotor.get("backLeft");
 
-        gyro.calibrate();
-
-        try
-        {
-            // make sure the gyro is calibrated.
-            while (gyro.isCalibrating())
-            {
-                Thread.sleep(50);
-            }
-        }
-        catch(InterruptedException e)
-        {
-            e.printStackTrace();
-        }
-
-        gyro.resetZAxisIntegrator();
-
-        waitForStart();
-
-        //forwardsMeters(2);
-        //backwardsMeters(1);
-
-        //counterclockwise(90);
-        //sleep(1000);
-        clockwise(90);
-        sleep(500);
-        telemetry.addData("after stop", gyro.getHeading());
-        telemetry.update();
-        sleep(30000);
+        wallTouch = opMode.hardwareMap.touchSensor.get("wallTouch");
+        floorColor = opMode.hardwareMap.colorSensor.get("floorColor");
     }
 
-    public void forwardsMeters(int meters)
+    public void forwards(double meters)
     {
-        forwards(meters * incrementsPerMeter);
+        double target = getPosFB() + meters * straightIncrements;
+
+        frontRight.setPower(1);
+        backRight.setPower(1);
+        frontLeft.setPower(-1);
+        backLeft.setPower(-1);
+
+
+        while(getPosFB() < target && opMode.opModeIsActive())
+        {
+            opMode.telemetry.addData("Action", "Forwards");
+            opMode.telemetry.addData("Currently", getPosFB());
+            opMode.telemetry.addData("Target", target);
+            opMode.telemetry.update();
+            opMode.sleep(5);
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
     }
 
-    public void forwards(double degrees)
+    public void back(double meters)
     {
-        double target = getPosX() + degrees;
+        double target = getPosFB() - meters * straightIncrements;
+
+        frontRight.setPower(-1);
+        backRight.setPower(-1);
+        frontLeft.setPower(1);
+        backLeft.setPower(1);
+
+
+        while(getPosFB() > target && opMode.opModeIsActive())
+        {
+            opMode.telemetry.addData("Action", "Backwards");
+            opMode.telemetry.addData("Currently", getPosFB());
+            opMode.telemetry.addData("Target", target);
+            opMode.telemetry.update();
+            opMode.sleep(5);
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
+
+    public void backToColor(double meters)
+    {
+        double target = getPosFB() - meters * straightIncrements;
+
+        frontRight.setPower(-1);
+        backRight.setPower(-1);
+        frontLeft.setPower(1);
+        backLeft.setPower(1);
+
+
+        while(ColorHelper.getFloorColor(floorColor) != "white" && opMode.opModeIsActive())
+        {
+            opMode.telemetry.addData("Action", "Back to Color");
+            opMode.telemetry.update();
+            opMode.sleep(5);
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
+
+    public void right(double meters)
+    {
+        double target = getPosRL() + meters * straightIncrements;
+
+        frontRight.setPower(-1);
+        backRight.setPower(1);
+        frontLeft.setPower(-1);
+        backLeft.setPower(1);
+
+
+        while(getPosRL() < target && opMode.opModeIsActive())
+        {
+            opMode.telemetry.addData("Action", "Right");
+            opMode.telemetry.addData("Currently", getPosRL());
+            opMode.telemetry.addData("Target", target);
+            opMode.telemetry.update();
+            opMode.sleep(5);
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
+
+    public void rightToTouch()
+    {
+        frontRight.setPower(-.2);
+        backRight.setPower(.2);
+        frontLeft.setPower(-.2);
+        backLeft.setPower(.2);
+
+
+        while(!wallTouch.isPressed() && opMode.opModeIsActive())
+        {
+            opMode.telemetry.addData("Action", "Right to Touch");
+            opMode.telemetry.update();
+            opMode.sleep(5);
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
+
+    public void left(double meters)
+    {
+        double target = getPosRL() - meters * straightIncrements;
+
+        frontRight.setPower(1);
+        backRight.setPower(-1);
+        frontLeft.setPower(1);
+        backLeft.setPower(-1);
+
+
+        while(getPosRL() > target && opMode.opModeIsActive())
+        {
+            opMode.telemetry.addData("Action", "Left");
+            opMode.telemetry.addData("Currently", getPosRL());
+            opMode.telemetry.addData("Target", target);
+            opMode.telemetry.update();
+            opMode.sleep(5);
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
+
+    public void frontRight(double meters)
+    {
+        double target = getPosBLFR() + meters * diagonalIncrements;
+
+        backRight.setPower(1);
+        frontLeft.setPower(-1);
+
+        while(getPosBLFR() < target && opMode.opModeIsActive())
+        {
+            opMode.telemetry.addData("Action", "FrontRight");
+            opMode.telemetry.addData("Currently", getPosBLFR());
+            opMode.telemetry.addData("Target", target);
+            opMode.telemetry.update();
+            opMode.sleep(5);
+        }
+
+        backLeft.setPower(0);
+        frontRight.setPower(0);
+    }
+
+    public void backRight(double meters)
+    {
+        double target = getPosBRFL() + meters * diagonalIncrements;
 
         backLeft.setPower(1);
         frontRight.setPower(-1);
 
-        while(getPosX() < target && opModeIsActive())
+        while(getPosBRFL() < target && opMode.opModeIsActive())
         {
-            telemetry.addData("Action", "Forwards");
-            telemetry.addData("Currently", getPosX());
-            telemetry.addData("Target", target);
-            telemetry.update();
-            sleep(5);
+            opMode.telemetry.addData("Action", "BackRight");
+            opMode.telemetry.addData("Currently", getPosBRFL());
+            opMode.telemetry.addData("Target", target);
+            opMode.telemetry.update();
+            opMode.sleep(5);
         }
 
         backLeft.setPower(0);
         frontRight.setPower(0);
     }
 
-    public void backwardsMeters(int meters)
+    public void frontLeft(double meters)
     {
-        backwards(meters * incrementsPerMeter);
-    }
-
-    public void backwards(double degrees)
-    {
-        double target = getPosX() - degrees;
+        double target = getPosBRFL() - meters * diagonalIncrements;
 
         backLeft.setPower(-1);
         frontRight.setPower(1);
 
-        while(getPosX() > target && opModeIsActive())
+        while(getPosBRFL() > target && opMode.opModeIsActive())
         {
-            telemetry.addData("Action", "Backwards");
-            telemetry.addData("Currently", getPosX());
-            telemetry.addData("Target", target);
-            telemetry.update();
-            sleep(5);
+            opMode.telemetry.addData("Action", "FrontLeft");
+            opMode.telemetry.addData("Currently", getPosBRFL());
+            opMode.telemetry.addData("Target", target);
+            opMode.telemetry.update();
+            opMode.sleep(5);
         }
 
         backLeft.setPower(0);
         frontRight.setPower(0);
     }
 
-    public void clockwise(double degrees)
+    public void backLeft(double meters)
     {
-        gyro.resetZAxisIntegrator();
+        double target = getPosBLFR() - meters * diagonalIncrements;
 
-        frontRight.setPower(-.5);
-        backRight.setPower(-.5);
-        frontLeft.setPower(-.5);
-        backLeft.setPower(-.5);
+        backRight.setPower(-1);
+        frontLeft.setPower(1);
 
-        int heading = gyro.getHeading();
-
-        while(heading < degrees && opModeIsActive())
+        while(getPosBLFR() > target && opMode.opModeIsActive())
         {
-            telemetry.addData("Action", "Clockwise");
-            telemetry.addData("Currently", heading);
-            telemetry.addData("Target", degrees);
-            telemetry.update();
-
-            if(heading + 20 > degrees)
-            {
-                frontRight.setPower(-.1);
-                backRight.setPower(-.1);
-                frontLeft.setPower(-.1);
-                backLeft.setPower(-.1);
-            }
-
-            sleep(5);
-
-
-            heading = gyro.getHeading();
+            opMode.telemetry.addData("Action", "BackLeft");
+            opMode.telemetry.addData("Currently", getPosBLFR());
+            opMode.telemetry.addData("Target", target);
+            opMode.telemetry.update();
+            opMode.sleep(5);
         }
-        telemetry.addData("Before stop command", heading);
-        frontRight.setPower(0);
-        backRight.setPower(0);
-        frontLeft.setPower(0);
+
         backLeft.setPower(0);
-        telemetry.addData("after stop command", gyro.getHeading());
+        frontRight.setPower(0);
     }
 
-    public void counterclockwise(double degrees)
+    double getPosFB()
     {
-        gyro.resetZAxisIntegrator();
-
-        frontRight.setPower(.5);
-        backRight.setPower(.5);
-        frontLeft.setPower(.5);
-        backLeft.setPower(.5);
-
-        int heading = gyro.getHeading();
-
-        while((heading == 0 || heading > (360 - degrees)) && opModeIsActive())
-        {
-            telemetry.addData("Action", "Clockwise");
-            telemetry.addData("Currently", gyro.getHeading());
-            telemetry.addData("Target", degrees);
-            telemetry.update();
-
-            sleep(5);
-
-            heading = gyro.getHeading();
-        }
-
-        frontRight.setPower(0);
-        backRight.setPower(0);
-        frontLeft.setPower(0);
-        backLeft.setPower(0);
+        double sum = frontRight.getCurrentPosition() - frontLeft.getCurrentPosition() +
+                backRight.getCurrentPosition() - backLeft.getCurrentPosition();
+        return sum / 4;
     }
 
-    double getPosX()
+    double getPosRL()
+    {
+        double sum = -frontRight.getCurrentPosition() - frontLeft.getCurrentPosition() +
+                backRight.getCurrentPosition() + backLeft.getCurrentPosition();
+        return sum / 4;
+    }
+
+    double getPosBRFL()
     {
         return (backLeft.getCurrentPosition() - frontRight.getCurrentPosition()) / 2;
+    }
+
+    double getPosBLFR()
+    {
+        return (backRight.getCurrentPosition() - frontLeft.getCurrentPosition()) / 2;
     }
 
     double getRotation()
