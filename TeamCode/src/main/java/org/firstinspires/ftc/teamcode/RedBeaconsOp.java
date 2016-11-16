@@ -21,6 +21,8 @@ public class RedBeaconsOp extends LinearOpMode
 
         driveTrain.backRight(1.42);
         driveTrain.rightToTouch();
-        driveTrain.left(.08);
+        driveTrain.left(.1);
+        sleep(100);
+        driveTrain.backToLine();
     }
 }

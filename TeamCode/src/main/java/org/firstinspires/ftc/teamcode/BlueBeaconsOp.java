@@ -33,7 +33,9 @@ public class BlueBeaconsOp extends LinearOpMode
         //driveTrain.rightToTouch();
         //driveTrain.left(.08);
 
-        while(opModeIsActive())
+        driveTrain.backToLine();
+
+        /*while(opModeIsActive())
         {
             telemetry.addData("color_r",floorColor.red());
             telemetry.addData("color_g",floorColor.green());
@@ -43,6 +45,6 @@ public class BlueBeaconsOp extends LinearOpMode
             telemetry.addData("Floor color", color);
             telemetry.update();
             sleep(5);
-        }
+        }*/
     }
 }

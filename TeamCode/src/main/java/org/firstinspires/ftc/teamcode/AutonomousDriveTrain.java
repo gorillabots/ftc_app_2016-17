@@ -96,19 +96,18 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
-    public void backToColor(double meters)
+    public void backToLine()
     {
-        double target = getPosFB() - meters * straightIncrements;
+        frontRight.setPower(-.1);
+        backRight.setPower(-.1);
+        frontLeft.setPower(.1);
+        backLeft.setPower(.1);
 
-        frontRight.setPower(-1);
-        backRight.setPower(-1);
-        frontLeft.setPower(1);
-        backLeft.setPower(1);
-
-
-        while(ColorHelper.getFloorColor(floorColor) != "white" && opMode.opModeIsActive())
+        while(floorColor.alpha() != 1 && opMode.opModeIsActive())
         {
+
             opMode.telemetry.addData("Action", "Back to Color");
+            opMode.telemetry.addData("Alpha", floorColor.alpha());
             opMode.telemetry.update();
             opMode.sleep(5);
         }
