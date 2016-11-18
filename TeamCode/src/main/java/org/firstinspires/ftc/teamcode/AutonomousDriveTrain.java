@@ -1,10 +1,17 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.text.method.Touch;
+
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsDigitalTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
+import com.qualcomm.robotcore.hardware.DeviceManager;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -13,25 +20,30 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  */
 
 @Autonomous(name="Autonomous Drive Train", group="concept")
-public class AutonomousDriveTrain extends LinearOpMode
+public class AutonomousDriveTrain
 {
+    LinearOpMode opMode;
 
     final int diagonalIncrements = 5240;
     final int straightIncrements = 3890;
 
     DcMotor frontRight, backRight, frontLeft, backLeft;
 
-    public void runOpMode()
+    TouchSensor wallTouch;
+
+    ColorSensor floorColor;
+
+    public void init(LinearOpMode opMode)
     {
-        frontRight = hardwareMap.dcMotor.get("frontRight");
-        backRight = hardwareMap.dcMotor.get("backRight");
-        frontLeft = hardwareMap.dcMotor.get("frontLeft");
-        backLeft = hardwareMap.dcMotor.get("backLeft");
+        this.opMode = opMode;
 
-        waitForStart();
+        frontRight = opMode.hardwareMap.dcMotor.get("frontRight");
+        backRight = opMode.hardwareMap.dcMotor.get("backRight");
+        frontLeft = opMode.hardwareMap.dcMotor.get("frontLeft");
+        backLeft = opMode.hardwareMap.dcMotor.get("backLeft");
 
-        forwards(1.04);
-        left(1);
+        wallTouch = opMode.hardwareMap.touchSensor.get("wallTouch");
+        floorColor = opMode.hardwareMap.colorSensor.get("floorColor");
     }
 
     public void forwards(double meters)
@@ -44,13 +56,13 @@ public class AutonomousDriveTrain extends LinearOpMode
         backLeft.setPower(-1);
 
 
-        while(getPosFB() < target && opModeIsActive())
+        while(getPosFB() < target && opMode.opModeIsActive())
         {
-            telemetry.addData("Action", "Forwards");
-            telemetry.addData("Currently", getPosFB());
-            telemetry.addData("Target", target);
-            telemetry.update();
-            sleep(5);
+            opMode.telemetry.addData("Action", "Forwards");
+            opMode.telemetry.addData("Currently", getPosFB());
+            opMode.telemetry.addData("Target", target);
+            opMode.telemetry.update();
+            opMode.sleep(5);
         }
 
         frontRight.setPower(0);
@@ -59,7 +71,7 @@ public class AutonomousDriveTrain extends LinearOpMode
         backLeft.setPower(0);
     }
 
-    public void backwards(double meters)
+    public void back(double meters)
     {
         double target = getPosFB() - meters * straightIncrements;
 
@@ -69,13 +81,35 @@ public class AutonomousDriveTrain extends LinearOpMode
         backLeft.setPower(1);
 
 
-        while(getPosFB() > target && opModeIsActive())
+        while(getPosFB() > target && opMode.opModeIsActive())
         {
-            telemetry.addData("Action", "Backwards");
-            telemetry.addData("Currently", getPosFB());
-            telemetry.addData("Target", target);
-            telemetry.update();
-            sleep(5);
+            opMode.telemetry.addData("Action", "Backwards");
+            opMode.telemetry.addData("Currently", getPosFB());
+            opMode.telemetry.addData("Target", target);
+            opMode.telemetry.update();
+            opMode.sleep(5);
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
+
+    public void backToLine()
+    {
+        frontRight.setPower(-.1);
+        backRight.setPower(-.1);
+        frontLeft.setPower(.1);
+        backLeft.setPower(.1);
+
+        while(floorColor.alpha() != 1 && opMode.opModeIsActive())
+        {
+
+            opMode.telemetry.addData("Action", "Back to Color");
+            opMode.telemetry.addData("Alpha", floorColor.alpha());
+            opMode.telemetry.update();
+            opMode.sleep(5);
         }
 
         frontRight.setPower(0);
@@ -94,13 +128,34 @@ public class AutonomousDriveTrain extends LinearOpMode
         backLeft.setPower(1);
 
 
-        while(getPosRL() < target && opModeIsActive())
+        while(getPosRL() < target && opMode.opModeIsActive())
         {
-            telemetry.addData("Action", "Right");
-            telemetry.addData("Currently", getPosRL());
-            telemetry.addData("Target", target);
-            telemetry.update();
-            sleep(5);
+            opMode.telemetry.addData("Action", "Right");
+            opMode.telemetry.addData("Currently", getPosRL());
+            opMode.telemetry.addData("Target", target);
+            opMode.telemetry.update();
+            opMode.sleep(5);
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
+
+    public void rightToTouch()
+    {
+        frontRight.setPower(-.2);
+        backRight.setPower(.2);
+        frontLeft.setPower(-.2);
+        backLeft.setPower(.2);
+
+
+        while(!wallTouch.isPressed() && opMode.opModeIsActive())
+        {
+            opMode.telemetry.addData("Action", "Right to Touch");
+            opMode.telemetry.update();
+            opMode.sleep(5);
         }
 
         frontRight.setPower(0);
@@ -119,13 +174,13 @@ public class AutonomousDriveTrain extends LinearOpMode
         backLeft.setPower(-1);
 
 
-        while(getPosRL() > target && opModeIsActive())
+        while(getPosRL() > target && opMode.opModeIsActive())
         {
-            telemetry.addData("Action", "Left");
-            telemetry.addData("Currently", getPosRL());
-            telemetry.addData("Target", target);
-            telemetry.update();
-            sleep(5);
+            opMode.telemetry.addData("Action", "Left");
+            opMode.telemetry.addData("Currently", getPosRL());
+            opMode.telemetry.addData("Target", target);
+            opMode.telemetry.update();
+            opMode.sleep(5);
         }
 
         frontRight.setPower(0);
@@ -134,20 +189,40 @@ public class AutonomousDriveTrain extends LinearOpMode
         backLeft.setPower(0);
     }
 
-    public void backRight(double meters)
+    public void frontRight(double meters)
     {
         double target = getPosBLFR() + meters * diagonalIncrements;
+
+        backRight.setPower(1);
+        frontLeft.setPower(-1);
+
+        while(getPosBLFR() < target && opMode.opModeIsActive())
+        {
+            opMode.telemetry.addData("Action", "FrontRight");
+            opMode.telemetry.addData("Currently", getPosBLFR());
+            opMode.telemetry.addData("Target", target);
+            opMode.telemetry.update();
+            opMode.sleep(5);
+        }
+
+        backLeft.setPower(0);
+        frontRight.setPower(0);
+    }
+
+    public void backRight(double meters)
+    {
+        double target = getPosBRFL() + meters * diagonalIncrements;
 
         backLeft.setPower(1);
         frontRight.setPower(-1);
 
-        while(getPosBLFR() < target && opModeIsActive())
+        while(getPosBRFL() < target && opMode.opModeIsActive())
         {
-            telemetry.addData("Action", "BackRight");
-            telemetry.addData("Currently", getPosBLFR());
-            telemetry.addData("Target", target);
-            telemetry.update();
-            sleep(5);
+            opMode.telemetry.addData("Action", "BackRight");
+            opMode.telemetry.addData("Currently", getPosBRFL());
+            opMode.telemetry.addData("Target", target);
+            opMode.telemetry.update();
+            opMode.sleep(5);
         }
 
         backLeft.setPower(0);
@@ -156,27 +231,42 @@ public class AutonomousDriveTrain extends LinearOpMode
 
     public void frontLeft(double meters)
     {
-        double target = getPosBLFR() - meters * diagonalIncrements;
+        double target = getPosBRFL() - meters * diagonalIncrements;
 
         backLeft.setPower(-1);
         frontRight.setPower(1);
 
-        while(getPosBLFR() > target && opModeIsActive())
+        while(getPosBRFL() > target && opMode.opModeIsActive())
         {
-            telemetry.addData("Action", "FrontLeft");
-            telemetry.addData("Currently", getPosBLFR());
-            telemetry.addData("Target", target);
-            telemetry.update();
-            sleep(5);
+            opMode.telemetry.addData("Action", "FrontLeft");
+            opMode.telemetry.addData("Currently", getPosBRFL());
+            opMode.telemetry.addData("Target", target);
+            opMode.telemetry.update();
+            opMode.sleep(5);
         }
 
         backLeft.setPower(0);
         frontRight.setPower(0);
     }
 
-    double getPosBLFR()
+    public void backLeft(double meters)
     {
-        return (backLeft.getCurrentPosition() - frontRight.getCurrentPosition()) / 2;
+        double target = getPosBLFR() - meters * diagonalIncrements;
+
+        backRight.setPower(-1);
+        frontLeft.setPower(1);
+
+        while(getPosBLFR() > target && opMode.opModeIsActive())
+        {
+            opMode.telemetry.addData("Action", "BackLeft");
+            opMode.telemetry.addData("Currently", getPosBLFR());
+            opMode.telemetry.addData("Target", target);
+            opMode.telemetry.update();
+            opMode.sleep(5);
+        }
+
+        backLeft.setPower(0);
+        frontRight.setPower(0);
     }
 
     double getPosFB()
@@ -191,6 +281,16 @@ public class AutonomousDriveTrain extends LinearOpMode
         double sum = -frontRight.getCurrentPosition() - frontLeft.getCurrentPosition() +
                 backRight.getCurrentPosition() + backLeft.getCurrentPosition();
         return sum / 4;
+    }
+
+    double getPosBRFL()
+    {
+        return (backLeft.getCurrentPosition() - frontRight.getCurrentPosition()) / 2;
+    }
+
+    double getPosBLFR()
+    {
+        return (backRight.getCurrentPosition() - frontLeft.getCurrentPosition()) / 2;
     }
 
     double getRotation()

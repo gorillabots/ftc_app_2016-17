@@ -8,11 +8,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public interface ButtonPresserInterface {
     void Press_Button(Servo servo, double position);
-    void Was_Button_Pressed();
-    boolean Is_Left_Side_Teamcolor();
-    boolean Is_Right_Side_Teamcolor();
-    void Get_Left_Color();
-
-    void Get_Right_Color();
-    boolean Light_Sensor();
+    boolean atBeacon();
+    String getBeaconColor();
+    String isTeamColor(String team);
+    void Respond_If_In_Red_Alliance() throws InterruptedException;
+    void Respond_If_In_Blue_Alliance() throws InterruptedException;
 }

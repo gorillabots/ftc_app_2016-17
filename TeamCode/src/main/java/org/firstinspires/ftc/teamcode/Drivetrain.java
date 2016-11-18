@@ -45,14 +45,14 @@ public class Drivetrain
      */
     public void oneStickLoop(float stickX, float stickY, float stickRot, int heading)
     {
-        int facingDeg = -45 - heading; //Robot's rotation (possibly multiply by -1 to invert)
+        int facingDeg = -45 - heading; //Robot's rotation
         double facingRad = Math.toRadians(facingDeg); // Convert to radians
 
         double cs = Math.cos(facingRad);
         double sn = Math.sin(facingRad);
 
         double headX = stickX * cs - stickY * sn; //Rotated vector (Relative heading)
-        double headY = stickX * sn + stickY * cs; //Each is in range -1 * root 2 to root 2
+        double headY = stickX * sn + stickY * cs; //Each is in range -root 2 to root 2
 
         headX /= Math.sqrt(2); //In range -1 to 1
         headY /= Math.sqrt(2);
