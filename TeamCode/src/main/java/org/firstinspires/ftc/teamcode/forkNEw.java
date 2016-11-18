@@ -11,8 +11,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name = "forkTest", group = "Concept")
-public class forkTEst extends OpMode {
+@TeleOp(name = "forkTest2", group = "Concept")
+public class forkNEw extends OpMode {
 
     DcMotor motor;
 
@@ -23,7 +23,7 @@ public class forkTEst extends OpMode {
 
         motor = hardwareMap.dcMotor.get("motor");
         motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
+        
     }
 
     public void loop()
@@ -31,13 +31,12 @@ public class forkTEst extends OpMode {
         //-12278
         telemetry.update();
         telemetry.addData("rotations ", motor.getCurrentPosition());
-        telemetry.addData("direction is", motor.getPower());
         //change the checksum ASAP
-        if(gamepad1.left_stick_y >.5   ){
+        if(gamepad1.left_stick_y >.5  && motor.getCurrentPosition() < 2400 ){
             motor.setPower(.75);
 
         }
-        else if(gamepad1.left_stick_y < -.5 ){
+        else if(gamepad1.left_stick_y < -.5 && motor.getCurrentPosition() >0){
             motor.setPower(-.75);
         }
         else{
