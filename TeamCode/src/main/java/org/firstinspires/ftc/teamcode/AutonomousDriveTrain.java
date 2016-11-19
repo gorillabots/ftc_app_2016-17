@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.graphics.Color;
 import android.text.method.Touch;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
@@ -31,8 +32,6 @@ public class AutonomousDriveTrain
 
     TouchSensor wallTouch;
 
-    ColorSensor floorColor;
-
     public void init(LinearOpMode opMode)
     {
         this.opMode = opMode;
@@ -43,7 +42,6 @@ public class AutonomousDriveTrain
         backLeft = opMode.hardwareMap.dcMotor.get("backLeft");
 
         wallTouch = opMode.hardwareMap.touchSensor.get("wallTouch");
-        floorColor = opMode.hardwareMap.colorSensor.get("floorColor");
     }
 
     public void forwards(double meters)
@@ -96,18 +94,18 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
-    public void backToLine()
+    public void backToLine(ColorSensor floorColor)
     {
         frontRight.setPower(-.1);
         backRight.setPower(-.1);
         frontLeft.setPower(.1);
         backLeft.setPower(.1);
 
-        while(floorColor.alpha() != 1 && opMode.opModeIsActive())
+        while(!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive())
         {
 
             opMode.telemetry.addData("Action", "Back to Color");
-            opMode.telemetry.addData("Alpha", floorColor.alpha());
+            opMode.telemetry.addData("Value", ColorHelper.getFloorValue());
             opMode.telemetry.update();
             opMode.sleep(5);
         }
