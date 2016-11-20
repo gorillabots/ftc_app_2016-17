@@ -95,10 +95,10 @@ public class DemoBot extends OpMode {
         drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation);
 
         if(gamepad1.left_bumper == true){
-            rotateArm.setPower(.1);
+            rotateArm.setPower(.2);
         }
         else if(gamepad1.left_trigger > .5){
-            rotateArm.setPower(-.1);
+            rotateArm.setPower(-.2);
         }
         else{
             rotateArm.setPower(0);

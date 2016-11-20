@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -10,34 +11,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class BallControl {
 
 
-    DcMotor fly;
+    DcMotor flyOne;
+    DcMotor flyTwo;
     DcMotor collector;
-
-    ElapsedTime flywheelPulse;
-
-
-    int collectorIn;
-
-    public void toggleCollect(int state){
-
-
-        if(state == 1){
-            collector.setPower(collectorIn);
-        }
-        else if(state == 2){
-            collector.setPower(collectorIn*-1);
-
-        }
-        else if(state == 3){
-            collector.setPower(0);
-        }
-    }
-
-    public void fireBall(){
+    CRServo elevator;
 
 
 
-    }
+
 
 
 
