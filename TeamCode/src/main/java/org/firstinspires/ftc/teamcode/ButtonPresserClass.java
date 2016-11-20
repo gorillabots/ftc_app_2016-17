@@ -28,8 +28,8 @@ public class ButtonPresserClass implements ButtonPresserInterface {
         servo.setPosition(position);
     }
     @Override
-    public boolean atBeacon() {
-        if(ColorHelper.getFloorColor(colorSensor) == "white"){
+    public boolean atBeacon(ColorSensor color) {
+        if(ColorHelper.getFloorColor(color) == "white"){
             return true;
         }
         else{
@@ -38,8 +38,8 @@ public class ButtonPresserClass implements ButtonPresserInterface {
     }
 
     @Override
-    public String getBeaconColor() {
-        return ColorHelper.getBeaconColor(colorSensor);
+    public String getBeaconColor(ColorSensor color) {
+        return ColorHelper.getBeaconColor(color);
     }
 
     @Override
@@ -49,14 +49,14 @@ public class ButtonPresserClass implements ButtonPresserInterface {
     }
 
     @Override
-    public void Respond_If_In_Red_Alliance() throws InterruptedException{
-        if(getBeaconColor() == isTeamColor("red")){
+    public void Respond_If_In_Red_Alliance(ColorSensor color) throws InterruptedException{
+        if(getBeaconColor(color) == isTeamColor("red")){
             Press_Button(button_presser_1, 0.75);
             Thread.sleep(2500);
             Press_Button(button_presser_1, 0.15);
             Thread.sleep(2500);
         }
-        else if(getBeaconColor() == "blue"){
+        else if(getBeaconColor(color) == "blue"){
             Press_Button(button_presser_2, 0.75);
             Thread.sleep(2500);
             Press_Button(button_presser_2, 0.15);
@@ -68,14 +68,14 @@ public class ButtonPresserClass implements ButtonPresserInterface {
     }
 
     @Override
-    public void Respond_If_In_Blue_Alliance() throws InterruptedException{
-        if(getBeaconColor() == isTeamColor("blue")){
+    public void Respond_If_In_Blue_Alliance(ColorSensor color) throws InterruptedException{
+        if(getBeaconColor(color) == isTeamColor("blue")){
             Press_Button(button_presser_1, 0.75);
             Thread.sleep(2500);
             Press_Button(button_presser_1, 0.15);
             Thread.sleep(2500);
         }
-        else if(getBeaconColor() == "red"){
+        else if(getBeaconColor(color) == "red"){
             Press_Button(button_presser_2, 0.75);
             Thread.sleep(2500);
             Press_Button(button_presser_2, 0.15);

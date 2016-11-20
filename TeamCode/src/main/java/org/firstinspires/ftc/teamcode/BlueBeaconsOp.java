@@ -14,13 +14,15 @@ public class BlueBeaconsOp extends LinearOpMode
 {
     AutonomousDriveTrain driveTrain;
     ColorSensor floorColor;
-
-    public void runOpMode()
+    ColorSensor beaconColor;
+    ButtonPresserClass beacon;
+    public void runOpMode() throws InterruptedException
     {
         driveTrain = new AutonomousDriveTrain();
         driveTrain.init(this);
 
         floorColor = hardwareMap.colorSensor.get("floorColor");
+        beaconColor = hardwareMap.colorSensor.get("beaconColor");
         floorColor.setI2cAddress(I2cAddr.create8bit(58));
 
         floorColor.enableLed(false);
@@ -36,7 +38,7 @@ public class BlueBeaconsOp extends LinearOpMode
         driveTrain.backToLine(floorColor);
 
         floorColor.enableLed(false);
-
+        beacon.Respond_If_In_Blue_Alliance(beaconColor);
         /*while(opModeIsActive())
         {
             ColorHelper.printColorRGB(telemetry, floorColor);
