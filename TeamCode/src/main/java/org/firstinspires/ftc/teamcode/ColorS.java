@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.graphics.Color;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -20,19 +22,21 @@ public class ColorS extends OpMode {
     int count;
     public void init() {
 
-
         count = 0;
+
         // turn the LED on in the beginning, just so user will know that the sensor is active.
         sensorRGB = hardwareMap.colorSensor.get("sensorRGB");
     }
         public void loop(){
             float hsvValues[] = {0F, 0F, 0F};
+
             final float values[] = hsvValues;
             boolean bCurrState = false;
             boolean bPrevState = false;
             boolean bLedOn = true;
+            Color.RGBToHSV((sensorRGB.red() * 255) / 800, (sensorRGB.green() * 255) / 800, (sensorRGB.blue() * 255) / 800, hsvValues);
 
-                //bPrevState = bCurrState;
+            //bPrevState = bCurrState;
                 telemetry.addData("LED", bLedOn ? "On" : "Off");
                 telemetry.addData("Clear", sensorRGB.alpha());
                 telemetry.addData("Red  ", sensorRGB.red());
@@ -40,10 +44,6 @@ public class ColorS extends OpMode {
                 telemetry.addData("Blue ", sensorRGB.blue());
                 telemetry.addData("Hue", hsvValues[0]);
                 telemetry.addData("count is ",count);
-
-
-                //count++;
-
 
                 telemetry.update();
             }
