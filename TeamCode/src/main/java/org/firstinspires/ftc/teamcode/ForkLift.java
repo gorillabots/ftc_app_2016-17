@@ -25,31 +25,29 @@ public class ForkLift {
         lift.setTargetPosition(0);
     }
 
-    public void manipulateLift(double liftUp, double liftDown){
+    public void manipulateLift(double control){
 
-        if(lift.getCurrentPosition() < -12278 && liftUp > .1){
-            lift.setPower(liftDown);
+        if(lift.getCurrentPosition() < -12278 ){
+
+            lift.setPower((Math.abs(control))*-1);
+
         }
         else if(lift.getCurrentPosition() >= 0){
-            lift.setPower(liftUp);
+            lift.setPower(Math.abs(control));
         }
-        else{
-            if(liftUp > liftDown){
-                lift.setPower(liftUp);
-            }
-            else if(liftUp < liftDown){
-                lift.setPower(liftDown);
+        else if(getReleaseState()){
+            lift.setPower(control);
             }
         }
 
 
-    }
+
 
 
     public void releaseFork(){
 
         if (getReleaseState() == true){
-
+            release.setPosition(1);
         }
         else{
             release.setPosition(0);
