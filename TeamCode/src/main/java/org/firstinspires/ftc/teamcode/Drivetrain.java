@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -41,6 +42,7 @@ public class Drivetrain
         backLeft = hardwareMap.dcMotor.get("backLeft");
         floorColor= hardwareMap.colorSensor.get("floorColor");
         wallTouch = hardwareMap.touchSensor.get("wallTouch");
+        floorColor.setI2cAddress(I2cAddr.create8bit(58));
     }
 
     /**
@@ -98,15 +100,32 @@ public class Drivetrain
 
     public void backToLine(int direction)
     {
-        if(direction == 1) {
+        if( direction ==1 ) {
             frontRight.setPower(-.1);
             backRight.setPower(-.1);
             frontLeft.setPower(.1);
             backLeft.setPower(.1);
 
-            while (floorColor.alpha() != 1) {
+            while (!ColorHelper.isFloorWhite(floorColor)) {
+                telemetry.update();
+            }
 
+            frontRight.setPower(0);
+            backRight.setPower(0);
+            frontLeft.setPower(0);
+            backLeft.setPower(0);
 
+        }
+        if (direction == -1){
+
+            frontRight.setPower(.1);
+            backRight.setPower(.1);
+            frontLeft.setPower(-.1);
+            backLeft.setPower(-.1);
+
+            while(!ColorHelper.isFloorWhite(floorColor) )
+            {
+                telemetry.update();
             }
 
             frontRight.setPower(0);
@@ -114,26 +133,5 @@ public class Drivetrain
             frontLeft.setPower(0);
             backLeft.setPower(0);
         }
-        if(direction == -1){
-            frontRight.setPower(.1);
-            backRight.setPower(.1);
-            frontLeft.setPower(-.1);
-            backLeft.setPower(-.1);
-
-            while (floorColor.alpha() != 1) {
-
-
-            }
-
-            frontRight.setPower(0);
-            backRight.setPower(0);
-            frontLeft.setPower(0);
-            backLeft.setPower(0);
-
-
-
-    }
-
-
     }
 }
