@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 /**
@@ -8,9 +9,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public interface ButtonPresserInterface {
     void Press_Button(Servo servo, double position);
-    boolean atBeacon();
-    String getBeaconColor();
+    boolean atBeacon(ColorSensor color);
+    String getBeaconColor(ColorSensor color);
     String isTeamColor(String team);
-    void Respond_If_In_Red_Alliance() throws InterruptedException;
-    void Respond_If_In_Blue_Alliance() throws InterruptedException;
+    void Respond_If_In_Red_Alliance(ColorSensor color) throws InterruptedException;
+    void Respond_If_In_Blue_Alliance(ColorSensor color) throws InterruptedException;
 }
