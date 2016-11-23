@@ -8,11 +8,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 /**
  * Created by Jarred on 10/18/2016.
  */
-
+@TeleOp(name = "CompTele", group = "final")
 public class CompTele extends OpMode {
     Drivetrain drivetrain;
 
-
+    ButtonPresserClass buttonPresser;
 
     LargeBallLifter yogaLift;
 
@@ -29,6 +29,7 @@ public class CompTele extends OpMode {
     public void init()
     {
         drivetrain = new Drivetrain(hardwareMap, telemetry);
+        buttonPresser = new ButtonPresserClass();
 
         gyro = (ModernRoboticsI2cGyro)hardwareMap.gyroSensor.get("gyro");
 
@@ -58,12 +59,14 @@ public class CompTele extends OpMode {
         float stickRot = gamepad1.right_stick_x / 2f; //Used to rotate the robot;
         rotation = gyro.getHeading();
         drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation);
+        if(gamepad1.b == true){
+            drivetrain.backToLine(1);
+        }
+        else if(gamepad1.x == true){
+            drivetrain.backToLine(-1);
+        }
 
 
-
-
-
-        yogaLift.openLift();
 
 
 

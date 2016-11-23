@@ -51,16 +51,16 @@ public class ButtonPresserClass implements ButtonPresserInterface {
     @Override
     public void Respond_If_In_Red_Alliance() throws InterruptedException{
         if(getBeaconColor() == isTeamColor("red")){
-            Press_Button(button_presser_1, 0.75);
-            Thread.sleep(2500);
+            Press_Button(button_presser_1, 0.6);
+            Thread.sleep(2000);
             Press_Button(button_presser_1, 0.15);
-            Thread.sleep(2500);
+            Thread.sleep(2000);
         }
         else if(getBeaconColor() == "blue"){
-            Press_Button(button_presser_2, 0.75);
-            Thread.sleep(2500);
+            Press_Button(button_presser_2, 0.6);
+            Thread.sleep(2000);
             Press_Button(button_presser_2, 0.15);
-            Thread.sleep(2500);
+            Thread.sleep(2000);
         }
         else{
 
@@ -70,21 +70,22 @@ public class ButtonPresserClass implements ButtonPresserInterface {
     @Override
     public void Respond_If_In_Blue_Alliance() throws InterruptedException{
         if(getBeaconColor() == isTeamColor("blue")){
-            Press_Button(button_presser_1, 0.75);
-            Thread.sleep(2500);
+            Press_Button(button_presser_1, 0.6);
+            Thread.sleep(2000);
             Press_Button(button_presser_1, 0.15);
-            Thread.sleep(2500);
+            Thread.sleep(2000);
         }
         else if(getBeaconColor() == "red"){
-            Press_Button(button_presser_2, 0.75);
-            Thread.sleep(2500);
+            Press_Button(button_presser_2, 0.6);
+            Thread.sleep(2000);
             Press_Button(button_presser_2, 0.15);
-            Thread.sleep(2500);
+            Thread.sleep(2000);
         }
         else{
 
         }
     }
+
 
 
     }

@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -24,16 +26,21 @@ public class Drivetrain
     DcMotor backRight;
     DcMotor frontLeft;
     DcMotor backLeft;
+    TouchSensor wallTouch;
 
+    ColorSensor floorColor;
 
     public Drivetrain(HardwareMap hardwareMap, Telemetry telemetry)
     {
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
+
         frontRight = hardwareMap.dcMotor.get("frontRight");
         backRight = hardwareMap.dcMotor.get("backRight");
         frontLeft = hardwareMap.dcMotor.get("frontLeft");
         backLeft = hardwareMap.dcMotor.get("backLeft");
+        floorColor= hardwareMap.colorSensor.get("floorColor");
+        wallTouch = hardwareMap.touchSensor.get("wallTouch");
     }
 
     /**
@@ -85,43 +92,48 @@ public class Drivetrain
 
         return in;
     }
- /*private void twoStickLoop()
 
+
+
+
+    public void backToLine(int direction)
     {
+        if(direction == 1) {
+            frontRight.setPower(-.1);
+            backRight.setPower(-.1);
+            frontLeft.setPower(.1);
+            backLeft.setPower(.1);
+
+            while (floorColor.alpha() != 1) {
 
 
-        float stickX = (int) opMode.gamepad1.left_stick_x; // Stick position (Absolute heading)
-        float stickY = (int) opMode.gamepad1.left_stick_y; // Each is in range -100 to 100
+            }
 
-
-
-
-        float stickRotation = (int) opMode.gamepad1.right_stick_x; // Stick position (Absolute heading)
-
-
-
-
-        if(){
-
-            backLeft.setPower();
-            frontLeft.setPower();
-            frontRight.setPower();
-            backRight.setPower();
-
+            frontRight.setPower(0);
+            backRight.setPower(0);
+            frontLeft.setPower(0);
+            backLeft.setPower(0);
         }
+        if(direction == -1){
+            frontRight.setPower(.1);
+            backRight.setPower(.1);
+            frontLeft.setPower(-.1);
+            backLeft.setPower(-.1);
 
-        else{
-
-        }
-
-
-
-
-
+            while (floorColor.alpha() != 1) {
 
 
+            }
+
+            frontRight.setPower(0);
+            backRight.setPower(0);
+            frontLeft.setPower(0);
+            backLeft.setPower(0);
 
 
 
-    }*/
+    }
+
+
+    }
 }
