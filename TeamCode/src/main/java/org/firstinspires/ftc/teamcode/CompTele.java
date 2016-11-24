@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.I2cAddr;
+import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * Created by Jarred on 10/18/2016.
@@ -27,12 +28,14 @@ public class CompTele extends OpMode {
 
 
 
+
     public void init()
     {
         drivetrain = new Drivetrain(hardwareMap, telemetry);
         buttonPresser = new ButtonPresserClass();
         drivetrain.floorColor.enableLed(true);
         gyro = (ModernRoboticsI2cGyro)hardwareMap.gyroSensor.get("gyro");
+
 
         gyro.calibrate();
 
@@ -60,12 +63,22 @@ public class CompTele extends OpMode {
         float stickRot = gamepad1.right_stick_x / 2f; //Used to rotate the robot;
         rotation = gyro.getHeading();
         drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation);
+
         if(gamepad1.b == true){
-            drivetrain.backToLine(1);
+            drivetrain.backToLine(1,gamepad1.start);
         }
         else if(gamepad1.x == true){
-            drivetrain.backToLine(-1);
+            drivetrain.backToLine(-1,gamepad1.start);
         }
+
+        if(gamepad1.a == true){
+            drivetrain.resetGyro();
+
+        }
+
+        buttonPresser.extend_One(gamepad2.left_trigger);
+        buttonPresser.extend_Two(gamepad2.right_trigger);
+
 
 
 

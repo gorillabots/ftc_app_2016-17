@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -28,6 +29,7 @@ public class Drivetrain
     DcMotor frontLeft;
     DcMotor backLeft;
     TouchSensor wallTouch;
+    ModernRoboticsI2cGyro gyro;
 
     ColorSensor floorColor;
 
@@ -43,6 +45,7 @@ public class Drivetrain
         floorColor= hardwareMap.colorSensor.get("floorColor");
         wallTouch = hardwareMap.touchSensor.get("wallTouch");
         floorColor.setI2cAddress(I2cAddr.create8bit(58));
+        gyro = (ModernRoboticsI2cGyro)hardwareMap.gyroSensor.get("gyro");
     }
 
     /**
@@ -98,7 +101,7 @@ public class Drivetrain
 
 
 
-    public void backToLine(int direction)
+    public void backToLine(int direction, boolean stop)
     {
         if( direction ==1 ) {
             frontRight.setPower(-.1);
@@ -108,6 +111,9 @@ public class Drivetrain
 
             while (!ColorHelper.isFloorWhite(floorColor)) {
                 telemetry.update();
+                if(stop == true){
+                    break;
+                }
             }
 
             frontRight.setPower(0);
@@ -126,6 +132,9 @@ public class Drivetrain
             while(!ColorHelper.isFloorWhite(floorColor) )
             {
                 telemetry.update();
+                if(stop == true){
+                    break;
+                }
             }
 
             frontRight.setPower(0);
@@ -133,5 +142,8 @@ public class Drivetrain
             frontLeft.setPower(0);
             backLeft.setPower(0);
         }
+    }
+    public void resetGyro(){
+        gyro.resetZAxisIntegrator();
     }
 }
