@@ -16,7 +16,9 @@ public class BallControl {
     DcMotor collector;
     CRServo elevator;
 
+public BallControl (){
 
+    }
 
 
 
