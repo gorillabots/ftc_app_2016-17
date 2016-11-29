@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 /**
  * Created by Jarred on 10/18/2016.
@@ -16,12 +17,14 @@ public class CompTele extends OpMode {
 
     ButtonPresserClass buttonPresser;
 
-    LargeBallLifter yogaLift;
+    ForkLift forkLift;
+    DcMotor vac;
 
-    BallControlInterface ballControl;
+    BallControl ballControl;
 
 
     ModernRoboticsI2cGyro gyro;
+
 
     int rotation = 0;
 
@@ -33,9 +36,12 @@ public class CompTele extends OpMode {
     {
         drivetrain = new Drivetrain(hardwareMap, telemetry);
         buttonPresser = new ButtonPresserClass();
-        drivetrain.floorColor.enableLed(true);
-        gyro = (ModernRoboticsI2cGyro)hardwareMap.gyroSensor.get("gyro");
+        forkLift = new ForkLift(hardwareMap, telemetry);
+        ballControl = new BallControl(hardwareMap, telemetry );
 
+
+       // drivetrain.floorColor.enableLed(true);
+        gyro = (ModernRoboticsI2cGyro)hardwareMap.gyroSensor.get("gyro");
 
         gyro.calibrate();
 
@@ -63,21 +69,22 @@ public class CompTele extends OpMode {
         float stickRot = gamepad1.right_stick_x / 2f; //Used to rotate the robot;
         rotation = gyro.getHeading();
         drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation);
+        drivetrain.resetGyro(gamepad1.start);
 
-        if(gamepad1.b == true){
-            drivetrain.backToLine(1,gamepad1.start);
-        }
-        else if(gamepad1.x == true){
-            drivetrain.backToLine(-1,gamepad1.start);
-        }
+        forkLift.manipulateLift(gamepad2.left_stick_y);
 
-        if(gamepad1.a == true){
-            drivetrain.resetGyro();
+        ballControl.runCollector(gamepad2.right_bumper, gamepad2.right_trigger);
+        ballControl.runElevator(gamepad2.left_bumper, gamepad2.left_trigger);
+        ballControl.runFlywheel(gamepad2.a);
 
-        }
+        //autopilot
+        buttonPresser.extend_One(gamepad1.left_trigger);
+        buttonPresser.extend_Two(gamepad1.right_trigger);
 
-        buttonPresser.extend_One(gamepad2.left_trigger);
-        buttonPresser.extend_Two(gamepad2.right_trigger);
+
+
+
+
 
 
 

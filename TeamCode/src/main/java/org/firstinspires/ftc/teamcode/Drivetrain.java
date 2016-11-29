@@ -19,6 +19,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  *		http://www.simbotics.org/resources/mobility/omnidirectional-drive
  *		http://www.vexforum.com/index.php/12370-holonomic-drives-2-0-a-video-tutorial-by-cody/0
  */
+
 public class Drivetrain
 {
     HardwareMap hardwareMap;
@@ -28,10 +29,10 @@ public class Drivetrain
     DcMotor backRight;
     DcMotor frontLeft;
     DcMotor backLeft;
-    TouchSensor wallTouch;
+   // TouchSensor wallTouch;
     ModernRoboticsI2cGyro gyro;
 
-    ColorSensor floorColor;
+    //ColorSensor floorColor;
 
     public Drivetrain(HardwareMap hardwareMap, Telemetry telemetry)
     {
@@ -42,9 +43,9 @@ public class Drivetrain
         backRight = hardwareMap.dcMotor.get("backRight");
         frontLeft = hardwareMap.dcMotor.get("frontLeft");
         backLeft = hardwareMap.dcMotor.get("backLeft");
-        floorColor= hardwareMap.colorSensor.get("floorColor");
-        wallTouch = hardwareMap.touchSensor.get("wallTouch");
-        floorColor.setI2cAddress(I2cAddr.create8bit(58));
+        //floorColor= hardwareMap.colorSensor.get("floorColor");
+        //wallTouch = hardwareMap.touchSensor.get("wallTouch");
+        //floorColor.setI2cAddress(I2cAddr.create8bit(58));
         gyro = (ModernRoboticsI2cGyro)hardwareMap.gyroSensor.get("gyro");
     }
 
@@ -100,17 +101,24 @@ public class Drivetrain
 
 
 
-
+/*
     public void backToLine(int direction, boolean stop)
     {
+        boolean desired =  ColorHelper.isFloorWhite(floorColor);
+        floorColor.enableLed(true);
         if( direction ==1 ) {
             frontRight.setPower(-.1);
             backRight.setPower(-.1);
             frontLeft.setPower(.1);
             backLeft.setPower(.1);
 
-            while (!ColorHelper.isFloorWhite(floorColor)) {
+            while (!desired) {
                 telemetry.update();
+                frontRight.setPower(-.1);
+                backRight.setPower(-.1);
+                frontLeft.setPower(.1);
+                backLeft.setPower(.1);
+                desired =  ColorHelper.isFloorWhite(floorColor);
                 if(stop == true){
                     break;
                 }
@@ -129,9 +137,15 @@ public class Drivetrain
             frontLeft.setPower(-.1);
             backLeft.setPower(-.1);
 
-            while(!ColorHelper.isFloorWhite(floorColor) )
+            while(!desired)
             {
                 telemetry.update();
+                frontRight.setPower(.1);
+                backRight.setPower(.1);
+                frontLeft.setPower(-.1);
+                backLeft.setPower(-.1);
+                desired =  ColorHelper.isFloorWhite(floorColor);
+                ColorHelper.getFloorColor(floorColor);
                 if(stop == true){
                     break;
                 }
@@ -143,7 +157,11 @@ public class Drivetrain
             backLeft.setPower(0);
         }
     }
-    public void resetGyro(){
-        gyro.resetZAxisIntegrator();
-    }
+    */
+    public void resetGyro(boolean action){
+
+        if(action == true) {
+            gyro.resetZAxisIntegrator();
+        }
+        }
 }
