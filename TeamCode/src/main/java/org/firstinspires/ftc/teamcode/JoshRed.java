@@ -29,9 +29,9 @@ public class JoshRed extends LinearOpMode
         floorColor.setI2cAddress(I2cAddr.create8bit(58));
         beaconColor.enableLed(false);
         floorColor.enableLed(false);
-
-        waitForStart();
         beacon.Start(button_presser_1, button_presser_2);
+        waitForStart();
+
         floorColor.enableLed(true);
 
         driveTrain.backRight(WALL_TO_WALL_IN_AUTONOMOUS);
