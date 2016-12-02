@@ -1,20 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.graphics.Color;
-import android.text.method.Touch;
-
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsDigitalTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
-import com.qualcomm.robotcore.hardware.DeviceManager;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
-
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 /**
  * Created by mikko on 10/14/16.
@@ -24,9 +14,6 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class AutonomousDriveTrain
 {
     LinearOpMode opMode;
-
-    final int diagonalIncrements = 5240;
-    final int straightIncrements = 3890;
 
     DcMotor frontRight, backRight, frontLeft, backLeft;
 
@@ -46,7 +33,7 @@ public class AutonomousDriveTrain
 
     public void forwards(double meters)
     {
-        double target = getPosFB() + meters * straightIncrements;
+        double target = getPosFB() + meters * Constants.TESTBED_STRAIGHT_INCREMENTS;
 
         frontRight.setPower(1);
         backRight.setPower(1);
@@ -71,7 +58,7 @@ public class AutonomousDriveTrain
 
     public void back(double meters)
     {
-        double target = getPosFB() - meters * straightIncrements;
+        double target = getPosFB() - meters * Constants.TESTBED_STRAIGHT_INCREMENTS;
 
         frontRight.setPower(-1);
         backRight.setPower(-1);
@@ -118,7 +105,7 @@ public class AutonomousDriveTrain
 
     public void right(double meters)
     {
-        double target = getPosRL() + meters * straightIncrements;
+        double target = getPosRL() + meters * Constants.TESTBED_STRAIGHT_INCREMENTS;
 
         frontRight.setPower(-1);
         backRight.setPower(1);
@@ -164,7 +151,7 @@ public class AutonomousDriveTrain
 
     public void left(double meters)
     {
-        double target = getPosRL() - meters * straightIncrements;
+        double target = getPosRL() - meters * Constants.TESTBED_STRAIGHT_INCREMENTS;
 
         frontRight.setPower(1);
         backRight.setPower(-1);
@@ -189,7 +176,7 @@ public class AutonomousDriveTrain
 
     public void frontRight(double meters)
     {
-        double target = getPosBLFR() + meters * diagonalIncrements;
+        double target = getPosBLFR() + meters * Constants.TESTBED_DIAGONAL_INCREMENTS;
 
         backRight.setPower(1);
         frontLeft.setPower(-1);
@@ -209,7 +196,7 @@ public class AutonomousDriveTrain
 
     public void backRight(double meters)
     {
-        double target = getPosBRFL() + meters * diagonalIncrements;
+        double target = getPosBRFL() + meters * Constants.TESTBED_DIAGONAL_INCREMENTS;
 
         backLeft.setPower(1);
         frontRight.setPower(-1);
@@ -229,7 +216,7 @@ public class AutonomousDriveTrain
 
     public void frontLeft(double meters)
     {
-        double target = getPosBRFL() - meters * diagonalIncrements;
+        double target = getPosBRFL() - meters * Constants.TESTBED_DIAGONAL_INCREMENTS;
 
         backLeft.setPower(-1);
         frontRight.setPower(1);
@@ -249,7 +236,7 @@ public class AutonomousDriveTrain
 
     public void backLeft(double meters)
     {
-        double target = getPosBLFR() - meters * diagonalIncrements;
+        double target = getPosBLFR() - meters * Constants.TESTBED_DIAGONAL_INCREMENTS;
 
         backRight.setPower(-1);
         frontLeft.setPower(1);

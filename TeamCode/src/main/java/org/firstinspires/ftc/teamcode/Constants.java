@@ -13,4 +13,7 @@ public class Constants {
     public final static double BETWEEN_WHITE_LINES = 0.9;
     public final static double GO_BACK_AFTER_PRESSING_FIRST = 0.02;
     public final static long ACTUATOR_RESET_TIME = 5000;
+
+    public final static int TESTBED_DIAGONAL_INCREMENTS = 5240;
+    public final static int TESTBED_STRAIGHT_INCREMENTS = 3890;
 }
