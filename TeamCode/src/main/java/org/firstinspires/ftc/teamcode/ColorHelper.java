@@ -42,17 +42,14 @@ public class ColorHelper {
 
         String currentcolor = "not white";
 
-        if (hsvValuesFloor[0] == 60 && hsvValuesFloor[1] == 1) {
+        if (hsvValuesFloor[1] < .3 && hsvValuesFloor[2] > .8) {
             currentcolor = "white";
         }
 
-        else if (hsvValuesFloor[0] < 60) {
+        else {
             currentcolor = "not white";
         }
 
-        else if (hsvValuesFloor[0] > 60) {
-            currentcolor = "not white";
-        }
 
         return currentcolor;
 
