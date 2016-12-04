@@ -14,6 +14,15 @@ public class Constants {
     public final static double GO_BACK_AFTER_PRESSING_FIRST = 0.02;
     public final static long ACTUATOR_RESET_TIME = 5000;
 
-    public final static int TESTBED_DIAGONAL_INCREMENTS = 5240;
-    public final static int TESTBED_STRAIGHT_INCREMENTS = 3890;
+    private final static int TESTBED_DIAGONAL_INCREMENTS = 5240;
+    private final static int TESTBED_STRAIGHT_INCREMENTS = 3890;
+
+    private final static int COMP_DIAGONAL_INCREMENTS = 5240;
+    private final static int COMP_STRAIGHT_INCREMENTS = 3890;
+
+    public final static int DIAGONAL_INCREMENTS = TESTBED_DIAGONAL_INCREMENTS;
+    public final static int STRAIGHT_INCREMENTS = TESTBED_STRAIGHT_INCREMENTS;
+
+    public final static double MAX_SPEED = 1;
+    public final static double SLOW_SPEED = .1;
 }

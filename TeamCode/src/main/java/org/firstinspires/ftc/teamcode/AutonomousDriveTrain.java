@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -19,6 +20,8 @@ public class AutonomousDriveTrain
 
     TouchSensor wallTouch;
 
+    ModernRoboticsI2cGyro gyro;
+
     public void init(LinearOpMode opMode)
     {
         this.opMode = opMode;
@@ -29,16 +32,36 @@ public class AutonomousDriveTrain
         backLeft = opMode.hardwareMap.dcMotor.get("backLeft");
 
         wallTouch = opMode.hardwareMap.touchSensor.get("wallTouch");
+        gyro = (ModernRoboticsI2cGyro) opMode.hardwareMap.gyroSensor.get("gyro");
+
+        gyro.calibrate();
+
+        try
+        {
+            // make sure the gyro is calibrated.
+            while (gyro.isCalibrating())
+            {
+                Thread.sleep(50);
+            }
+        }
+        catch(InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+
+        gyro.resetZAxisIntegrator();
+
+
     }
 
     public void forwards(double meters)
     {
-        double target = getPosFB() + meters * Constants.TESTBED_STRAIGHT_INCREMENTS;
+        double target = getPosFB() + meters * Constants.STRAIGHT_INCREMENTS;
 
-        frontRight.setPower(1);
-        backRight.setPower(1);
-        frontLeft.setPower(-1);
-        backLeft.setPower(-1);
+        frontRight.setPower(Constants.MAX_SPEED);
+        backRight.setPower(Constants.MAX_SPEED);
+        frontLeft.setPower(-Constants.MAX_SPEED);
+        backLeft.setPower(-Constants.MAX_SPEED);
 
 
         while(getPosFB() < target && opMode.opModeIsActive())
@@ -58,12 +81,12 @@ public class AutonomousDriveTrain
 
     public void back(double meters)
     {
-        double target = getPosFB() - meters * Constants.TESTBED_STRAIGHT_INCREMENTS;
+        double target = getPosFB() - meters * Constants.STRAIGHT_INCREMENTS;
 
-        frontRight.setPower(-1);
-        backRight.setPower(-1);
-        frontLeft.setPower(1);
-        backLeft.setPower(1);
+        frontRight.setPower(-Constants.MAX_SPEED);
+        backRight.setPower(-Constants.MAX_SPEED);
+        frontLeft.setPower(Constants.MAX_SPEED);
+        backLeft.setPower(Constants.MAX_SPEED);
 
 
         while(getPosFB() > target && opMode.opModeIsActive())
@@ -83,10 +106,10 @@ public class AutonomousDriveTrain
 
     public void backToLine(ColorSensor floorColor)
     {
-        frontRight.setPower(-.1);
-        backRight.setPower(-.1);
-        frontLeft.setPower(.1);
-        backLeft.setPower(.1);
+        frontRight.setPower(-Constants.SLOW_SPEED);
+        backRight.setPower(-Constants.SLOW_SPEED);
+        frontLeft.setPower(Constants.SLOW_SPEED);
+        backLeft.setPower(Constants.SLOW_SPEED);
 
         while(!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive())
         {
@@ -105,12 +128,12 @@ public class AutonomousDriveTrain
 
     public void right(double meters)
     {
-        double target = getPosRL() + meters * Constants.TESTBED_STRAIGHT_INCREMENTS;
+        double target = getPosRL() + meters * Constants.STRAIGHT_INCREMENTS;
 
-        frontRight.setPower(-1);
-        backRight.setPower(1);
-        frontLeft.setPower(-1);
-        backLeft.setPower(1);
+        frontRight.setPower(-Constants.MAX_SPEED);
+        backRight.setPower(Constants.MAX_SPEED);
+        frontLeft.setPower(-Constants.MAX_SPEED);
+        backLeft.setPower(Constants.MAX_SPEED);
 
 
         while(getPosRL() < target && opMode.opModeIsActive())
@@ -151,12 +174,12 @@ public class AutonomousDriveTrain
 
     public void left(double meters)
     {
-        double target = getPosRL() - meters * Constants.TESTBED_STRAIGHT_INCREMENTS;
+        double target = getPosRL() - meters * Constants.STRAIGHT_INCREMENTS;
 
-        frontRight.setPower(1);
-        backRight.setPower(-1);
-        frontLeft.setPower(1);
-        backLeft.setPower(-1);
+        frontRight.setPower(Constants.MAX_SPEED);
+        backRight.setPower(-Constants.MAX_SPEED);
+        frontLeft.setPower(Constants.MAX_SPEED);
+        backLeft.setPower(-Constants.MAX_SPEED);
 
 
         while(getPosRL() > target && opMode.opModeIsActive())
@@ -176,10 +199,10 @@ public class AutonomousDriveTrain
 
     public void frontRight(double meters)
     {
-        double target = getPosBLFR() + meters * Constants.TESTBED_DIAGONAL_INCREMENTS;
+        double target = getPosBLFR() + meters * Constants.DIAGONAL_INCREMENTS;
 
-        backRight.setPower(1);
-        frontLeft.setPower(-1);
+        backRight.setPower(Constants.MAX_SPEED);
+        frontLeft.setPower(-Constants.MAX_SPEED);
 
         while(getPosBLFR() < target && opMode.opModeIsActive())
         {
@@ -196,10 +219,10 @@ public class AutonomousDriveTrain
 
     public void backRight(double meters)
     {
-        double target = getPosBRFL() + meters * Constants.TESTBED_DIAGONAL_INCREMENTS;
+        double target = getPosBRFL() + meters * Constants.DIAGONAL_INCREMENTS;
 
-        backLeft.setPower(1);
-        frontRight.setPower(-1);
+        backLeft.setPower(Constants.MAX_SPEED);
+        frontRight.setPower(-Constants.MAX_SPEED);
 
         while(getPosBRFL() < target && opMode.opModeIsActive())
         {
@@ -216,10 +239,10 @@ public class AutonomousDriveTrain
 
     public void frontLeft(double meters)
     {
-        double target = getPosBRFL() - meters * Constants.TESTBED_DIAGONAL_INCREMENTS;
+        double target = getPosBRFL() - meters * Constants.DIAGONAL_INCREMENTS;
 
-        backLeft.setPower(-1);
-        frontRight.setPower(1);
+        backLeft.setPower(-Constants.MAX_SPEED);
+        frontRight.setPower(Constants.MAX_SPEED);
 
         while(getPosBRFL() > target && opMode.opModeIsActive())
         {
@@ -236,10 +259,10 @@ public class AutonomousDriveTrain
 
     public void backLeft(double meters)
     {
-        double target = getPosBLFR() - meters * Constants.TESTBED_DIAGONAL_INCREMENTS;
+        double target = getPosBLFR() - meters * Constants.DIAGONAL_INCREMENTS;
 
-        backRight.setPower(-1);
-        frontLeft.setPower(1);
+        backRight.setPower(-Constants.MAX_SPEED);
+        frontLeft.setPower(Constants.MAX_SPEED);
 
         while(getPosBLFR() > target && opMode.opModeIsActive())
         {
@@ -252,6 +275,62 @@ public class AutonomousDriveTrain
 
         backLeft.setPower(0);
         frontRight.setPower(0);
+    }
+
+    void turnToGyro()
+    {
+        while(true)
+        {
+            int head = gyro.getHeading();
+
+            if(head >= 350 || head <= 9)
+            {
+                frontRight.setPower(0);
+                backRight.setPower(0);
+                frontLeft.setPower(0);
+                backLeft.setPower(0);
+
+                break;
+            }
+
+            if(head >= 2 && head <= 179)
+            {
+                frontRight.setPower(Constants.SLOW_SPEED);
+                backRight.setPower(Constants.SLOW_SPEED);
+                frontLeft.setPower(Constants.SLOW_SPEED);
+                backLeft.setPower(Constants.SLOW_SPEED);
+            }
+            else if(head >= 180 && head <= 358)
+            {
+                frontRight.setPower(-Constants.SLOW_SPEED);
+                backRight.setPower(-Constants.SLOW_SPEED);
+                frontLeft.setPower(-Constants.SLOW_SPEED);
+                backLeft.setPower(-Constants.SLOW_SPEED);
+            }
+            else
+            {
+                opMode.telemetry.addData("Status", "Everything broke :(");
+            }
+
+            opMode.sleep(50);
+        }
+
+
+    }
+
+    void turn(int millis)
+    {
+        frontRight.setPower(.2);
+        backRight.setPower(.2);
+        frontLeft.setPower(.2);
+        backLeft.setPower(.2);
+
+        opMode.sleep(millis);
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
     }
 
     double getPosFB()
