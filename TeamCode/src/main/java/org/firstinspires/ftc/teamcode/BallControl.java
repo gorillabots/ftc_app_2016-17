@@ -37,8 +37,8 @@ public class BallControl {
     public void runFlywheel(boolean on){
 
         if(on == true){
-            flyOne.setPower(1);
-            flyTwo.setPower(-1);
+            flyOne.setPower(-1);
+            flyTwo.setPower(1);
         }
 
         else{
@@ -48,13 +48,13 @@ public class BallControl {
 
     }
 
-    public void runCollector(boolean on, double switcher){
+    public void runCollector(boolean on, boolean switcher){
 
-        if(on == true && switcher >= .5){
-            vac.setPower(-1);
-        }
-        else if(on== true && switcher <= .5 ){
+        if(on == true && switcher == false){
             vac.setPower(1);
+        }
+        else if(on== false && switcher ==true){
+            vac.setPower(-1);
         }
         else{
             vac.setPower(0);
@@ -62,11 +62,11 @@ public class BallControl {
 
     }
 
-    public void runElevator(boolean on, double switcher){
-        if(on == true && switcher >= .5){
+    public void runElevator(boolean on, boolean switcher){
+        if(on == true && switcher== false){
             elevator.setPower(-1);
         }
-        else if(on == true && switcher<=.5 ){
+        else if(on == false && switcher==true ){
             elevator.setPower(1);
         }
         else{

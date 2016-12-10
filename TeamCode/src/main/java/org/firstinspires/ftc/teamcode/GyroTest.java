@@ -84,7 +84,7 @@ public class GyroTest extends OpMode implements SensorEventListener {
 
         rotation = gyro.getHeading();
 
-        drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation);
+        drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation,gamepad1.back);
 
         if (mGravity != null && mGeomagnetic != null) {
             telemetry.addData("azimuth", Math.round(Math.toDegrees(azimuth)));

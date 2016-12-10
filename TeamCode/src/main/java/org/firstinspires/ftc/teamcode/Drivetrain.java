@@ -56,8 +56,16 @@ public class Drivetrain
      * @param stickRot how much to turn the robot
      * @param heading how much to robot has rotated from initial value
      */
-    public void oneStickLoop(float stickX, float stickY, float stickRot, int heading)
+    public void oneStickLoop(float stickX, float stickY, float stickRot, int heading, boolean dummy)
     {
+        double holder = 1;
+        if(dummy == true && holder == 1){
+            holder =.5;
+        }
+        else if(dummy == true && holder == .5) {
+            holder = 1;
+        }
+
         int facingDeg = -45 - heading; //Robot's rotation
         double facingRad = Math.toRadians(facingDeg); // Convert to radians
 
@@ -79,10 +87,10 @@ public class Drivetrain
         double backRightPower = limitToOne(headY + stickRot);
         double frontLeftPower = limitToOne(-headY + stickRot);
 
-        backLeft.setPower(backLeftPower);
-        frontRight.setPower(frontRightPower);
-        backRight.setPower(backRightPower);
-        frontLeft.setPower(frontLeftPower);
+        backLeft.setPower((backLeftPower)*holder);
+        frontRight.setPower((frontRightPower)*holder);
+        backRight.setPower((backRightPower)*holder);
+        frontLeft.setPower((frontLeftPower)*holder);
     }
 
     double limitToOne(double in)
@@ -158,10 +166,13 @@ public class Drivetrain
         }
     }
     */
+
     public void resetGyro(boolean action){
 
         if(action == true) {
             gyro.resetZAxisIntegrator();
         }
         }
+
 }
+

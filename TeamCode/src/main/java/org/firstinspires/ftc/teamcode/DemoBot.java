@@ -92,7 +92,7 @@ public class DemoBot extends OpMode {
 
         rotation = gyro.getHeading();
 
-        drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation);
+        drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation,gamepad1.back);
 
         if(gamepad1.left_bumper == true){
             rotateArm.setPower(.2);

@@ -53,8 +53,8 @@ public class forkNEw extends OpMode {
         limit = hardwareMap.touchSensor.get("limit");
         butt1 = hardwareMap.servo.get("butt1");
         butt2 = hardwareMap.servo.get("butt2");
-        butt1.setPosition(0);
-        butt2.setPosition(0);
+        butt1.setPosition(30);
+        butt2.setPosition(30);
 
 
         gyro.resetZAxisIntegrator();
@@ -91,7 +91,7 @@ public class forkNEw extends OpMode {
 
        int rotation = gyro.getHeading();
 
-        drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation);
+        drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation,gamepad1.back);
 
 
         if(gamepad2.right_bumper == true) {
@@ -142,18 +142,9 @@ public class forkNEw extends OpMode {
 
 
 
-        if(gamepad1.dpad_left == true){
-            butt1.setPosition(1);
-        }
-        else{
-            butt1.setPosition(0);
-        }
-        if(gamepad1.dpad_right == true){
-            butt2.setPosition(1);
-        }
-        else{
-            butt1.setPosition(0);
-        }
+        butt1.setPosition(.18+(gamepad1.left_trigger)*.5);
+        butt2.setPosition(.18+(gamepad1.right_trigger)*.5);
+
 
 
 
