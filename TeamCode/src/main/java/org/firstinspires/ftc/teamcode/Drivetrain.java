@@ -74,10 +74,10 @@ public class Drivetrain
         telemetry.addData("head", heading);
         telemetry.addData("relHead", "(" + headX + ", " + headY + ")");
 
-        double backLeftPower = limitToOne(headX - stickRot);
-        double frontRightPower = limitToOne(-headX - stickRot);
-        double backRightPower = limitToOne(-headY - stickRot);
-        double frontLeftPower = limitToOne(headY - stickRot);
+        double backLeftPower = limitToOne(-headX + stickRot);
+        double frontRightPower = limitToOne(headX + stickRot);
+        double backRightPower = limitToOne(headY + stickRot);
+        double frontLeftPower = limitToOne(-headY + stickRot);
 
         backLeft.setPower(backLeftPower);
         frontRight.setPower(frontRightPower);
