@@ -5,13 +5,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
-
-/**
- * Created by root on 11/13/16.
- */
+import static org.firstinspires.ftc.teamcode.Constants.*;
 //Josh was here
-@Autonomous(name="BlueBeacons", group="concept")
-public class BlueBeaconsOp extends LinearOpMode
+
+@Autonomous(name="JoshRed", group="concept")
+public class JoshRed extends LinearOpMode
 {
     AutonomousDriveTrain driveTrain;
     ColorSensor floorColor;
@@ -29,27 +27,29 @@ public class BlueBeaconsOp extends LinearOpMode
         floorColor = hardwareMap.colorSensor.get("floorColor");
         beaconColor = hardwareMap.colorSensor.get("beaconColor");
         floorColor.setI2cAddress(I2cAddr.create8bit(58));
-
+        beaconColor.enableLed(false);
         floorColor.enableLed(false);
-
+        beacon.Start(button_presser_1, button_presser_2);
         waitForStart();
 
         floorColor.enableLed(true);
 
-        driveTrain.frontRight(1.42);
+        driveTrain.backRight(WALL_TO_WALL_IN_AUTONOMOUS);
+        //
         driveTrain.rightToTouch();
-        driveTrain.left(.08);
-
+        driveTrain.left(GO_BACKWARD_AFTER_TOUCH_WALL);
+        sleep(100);
         driveTrain.backToLine(floorColor);
 
         floorColor.enableLed(false);
-        beacon.Respond_If_In_Blue_Alliance(beaconColor, button_presser_1, button_presser_2);
-        /*while(opModeIsActive())
-        {
-            ColorHelper.printColorRGB(telemetry, floorColor);
-            ColorHelper.printColorHSV(telemetry, floorColor);
-            telemetry.update();
-            sleep(5);
-        }*/
+        beacon.Respond_If_In_Red_Alliance(beaconColor, button_presser_1, button_presser_2);
+        driveTrain.back(BETWEEN_WHITE_LINES);
+        driveTrain.rightToTouch();
+        driveTrain.left(GO_BACKWARD_AFTER_TOUCH_WALL);
+        sleep(100);
+        floorColor.enableLed(true);
+        driveTrain.backToLine(floorColor);
+        floorColor.enableLed(false);
+        beacon.Respond_If_In_Red_Alliance(beaconColor, button_presser_1, button_presser_2);
     }
 }
