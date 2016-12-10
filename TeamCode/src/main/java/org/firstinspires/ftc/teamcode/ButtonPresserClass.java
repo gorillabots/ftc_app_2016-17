@@ -91,17 +91,7 @@ public class ButtonPresserClass implements ButtonPresserInterface {
         }
     }
 
-    public void extend_One( double position){
 
-        Press_Button(button_presser_1, position);
-
-    }
-
-    public void extend_Two( double position){
-
-        Press_Button(button_presser_2, position);
-
-    }
 
     }
 

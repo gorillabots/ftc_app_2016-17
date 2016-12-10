@@ -78,8 +78,7 @@ public class CompTele extends OpMode {
         ballControl.runFlywheel(gamepad2.a);
 
         //autopilot
-        buttonPresser.extend_One(gamepad1.left_trigger);
-        buttonPresser.extend_Two(gamepad1.right_trigger);
+
 
 
 

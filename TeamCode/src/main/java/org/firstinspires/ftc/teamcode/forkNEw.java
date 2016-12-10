@@ -154,7 +154,7 @@ public class forkNEw extends OpMode {
         else{
             butt1.setPosition(0);
         }
-        Te
+
 
 
 
