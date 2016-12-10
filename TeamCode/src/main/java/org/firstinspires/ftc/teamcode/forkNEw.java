@@ -62,9 +62,9 @@ public class forkNEw extends OpMode {
     }
     public void loop(){
 
-        float stickX = (gamepad1.left_stick_x)*-1; // Stick position (Absolute heading)
-        float stickY = (gamepad1.left_stick_y)*-1; // Each is in range -1 to 1
-        float stickRot = (gamepad1.right_stick_x / 2f)*-1; //Used to rotate the robot;
+        float stickX = (gamepad1.left_stick_x); // Stick position (Absolute heading)
+        float stickY = (gamepad1.left_stick_y); // Each is in range -1 to 1
+        float stickRot = (gamepad1.right_stick_x / 2f); //Used to rotate the robot;
 
 
         if(gamepad1.x){
@@ -154,6 +154,7 @@ public class forkNEw extends OpMode {
         else{
             butt1.setPosition(0);
         }
+        Te
 
 
 
