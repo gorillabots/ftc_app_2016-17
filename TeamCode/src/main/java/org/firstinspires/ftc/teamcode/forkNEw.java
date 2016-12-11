@@ -66,7 +66,7 @@ public class forkNEw extends OpMode {
         float stickY = (gamepad1.left_stick_y); // Each is in range -1 to 1
         float stickRot = (gamepad1.right_stick_x / 2f); //Used to rotate the robot;
 
-
+/*
         if(gamepad1.x){
             try
             {
@@ -83,7 +83,7 @@ public class forkNEw extends OpMode {
 
             gyro.resetZAxisIntegrator();
         }
-
+*/
         if(gamepad1.b == true)
         {
             gyro.resetZAxisIntegrator();
@@ -118,9 +118,7 @@ public class forkNEw extends OpMode {
         if(gamepad2.left_bumper == true) {
             elevator.setPower(1);
         }
-        else if(gamepad2.left_trigger >.1){
-            elevator.setPower(-1);
-        }
+
         else{
             elevator.setPower(0);
         }

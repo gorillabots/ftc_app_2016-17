@@ -46,7 +46,7 @@ public class CenterGoalAuto extends LinearOpMode {
 
         waitForStart();
 
-        driveTrain.forwards(.95);
+        driveTrain.forwards(.61);
         timer1.startTime();
         while(timer1.milliseconds() < 15000) {
             shooter.runFlywheel(true);
@@ -55,7 +55,7 @@ public class CenterGoalAuto extends LinearOpMode {
         shooter.runFlywheel(false);
         shooter.runElevator(false, false);
 
-        driveTrain.forwards(.25);
+        driveTrain.forwards(1.0);
 
     }
 

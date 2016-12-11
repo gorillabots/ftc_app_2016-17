@@ -72,12 +72,12 @@ public class CompTele extends OpMode {
         float stickRot = gamepad1.right_stick_x / 2f; //Used to rotate the robot;
         rotation = gyro.getHeading();
         drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation,gamepad1.back);
-        drivetrain.resetGyro(gamepad1.start);
+        drivetrain.resetGyro(gamepad1.a);
 
         forkLift.manipulateLift(gamepad2.left_stick_y);
 
         ballControl.runCollector(gamepad1.right_bumper, gamepad1.left_bumper);
-        //ballControl.runElevator(gamepad2.left_bumper, gamepad2.left_trigger);
+        ballControl.runElevator(gamepad2.left_bumper, gamepad2.left_trigger);
         ballControl.runFlywheel(gamepad2.a);
 
         buttonPresser.Press_Button(butt1, (.18 +(gamepad1.left_trigger)*5));

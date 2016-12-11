@@ -81,4 +81,7 @@ public class Autonomous_DriveTrain implements Autonomous_Drive_Train_Interface{
         R.setPower(-all_sides);
         L.setPower(-all_sides);
     }
+    public void encodeBackRight(){
+
+    }
 }
