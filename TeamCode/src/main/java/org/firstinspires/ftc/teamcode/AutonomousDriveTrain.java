@@ -219,7 +219,7 @@ public class AutonomousDriveTrain
 
     public void rightGyroToTouch()
     {
-        gyro.resetZAxisIntegrator();
+        //gyro.resetZAxisIntegrator();
 
 
         while(!wallTouch.isPressed() && opMode.opModeIsActive())
