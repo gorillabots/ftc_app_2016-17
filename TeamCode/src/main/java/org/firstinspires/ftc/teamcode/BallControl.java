@@ -62,11 +62,11 @@ public class BallControl {
 
     }
 
-    public void runElevator(boolean on, boolean switcher){
-        if(on == true && switcher== false){
+    public void runElevator(boolean on, float switcher){
+        if(on == true && switcher<.6){
             elevator.setPower(-1);
         }
-        else if(on == false && switcher==true ){
+        else if(on == false && switcher>.6){
             elevator.setPower(1);
         }
         else{
