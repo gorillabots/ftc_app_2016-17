@@ -22,8 +22,8 @@ public class JoshRed extends LinearOpMode
         driveTrain = new AutonomousDriveTrain();
         beacon = new ButtonPresserClass();
         driveTrain.init(this);
-        button_presser_1 = hardwareMap.servo.get("actuator1");
-        button_presser_2 = hardwareMap.servo.get("actuator2");
+        button_presser_1 = hardwareMap.servo.get("butt1");
+        button_presser_2 = hardwareMap.servo.get("butt2");
         floorColor = hardwareMap.colorSensor.get("floorColor");
         beaconColor = hardwareMap.colorSensor.get("beaconColor");
         floorColor.setI2cAddress(I2cAddr.create8bit(58));
@@ -36,7 +36,7 @@ public class JoshRed extends LinearOpMode
 
         driveTrain.backRight(WALL_TO_WALL_IN_AUTONOMOUS);
         //
-        driveTrain.rightToTouch();
+        driveTrain.rightGyroToTouch();
         driveTrain.left(GO_BACKWARD_AFTER_TOUCH_WALL);
         sleep(100);
         driveTrain.backToLine(floorColor);

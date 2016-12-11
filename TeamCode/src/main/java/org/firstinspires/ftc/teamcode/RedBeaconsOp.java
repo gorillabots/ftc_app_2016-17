@@ -18,24 +18,24 @@ public class RedBeaconsOp extends LinearOpMode
 
     public void runOpMode()
     {
-        driveTrain = new AutonomousDriveTrain();
+        driveTrain = new AutonomousDriveTrain(); //Intialize drive train
         driveTrain.init(this);
 
-        floorColor = hardwareMap.colorSensor.get("floorColor");
+        floorColor = hardwareMap.colorSensor.get("floorColor"); //Initialize color sensor
         floorColor.setI2cAddress(I2cAddr.create8bit(58));
 
-        floorColor.enableLed(false);
+        floorColor.enableLed(false); //Disable color sensor LED
 
         waitForStart();
 
-        floorColor.enableLed(true);
+        floorColor.enableLed(true); //Enable color sensor LED
 
-        driveTrain.backRight(1.42);
+        driveTrain.backRight(1.42); //Run autonomous itself
         driveTrain.rightToTouch();
         driveTrain.left(.1);
         sleep(100);
         driveTrain.backToLine(floorColor);
 
-        floorColor.enableLed(false);
+        floorColor.enableLed(false); //Disable color sensor LED
     }
 }

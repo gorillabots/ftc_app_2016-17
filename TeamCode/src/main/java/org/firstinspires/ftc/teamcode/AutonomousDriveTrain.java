@@ -26,10 +26,10 @@ public class AutonomousDriveTrain
     {
         this.opMode = opMode;
 
-        frontRight = opMode.hardwareMap.dcMotor.get("frontRight");
-        backRight = opMode.hardwareMap.dcMotor.get("backRight");
-        frontLeft = opMode.hardwareMap.dcMotor.get("frontLeft");
-        backLeft = opMode.hardwareMap.dcMotor.get("backLeft");
+        frontRight = opMode.hardwareMap.dcMotor.get("frontLeft"); //frontRight
+        backRight = opMode.hardwareMap.dcMotor.get("frontRight"); //backRight
+        frontLeft = opMode.hardwareMap.dcMotor.get("backLeft"); //frontLeft
+        backLeft = opMode.hardwareMap.dcMotor.get("backRight"); //backLeft
 
         wallTouch = opMode.hardwareMap.touchSensor.get("wallTouch");
         gyro = (ModernRoboticsI2cGyro) opMode.hardwareMap.gyroSensor.get("gyro");
@@ -69,6 +69,49 @@ public class AutonomousDriveTrain
             opMode.telemetry.addData("Action", "Forwards");
             opMode.telemetry.addData("Currently", getPosFB());
             opMode.telemetry.addData("Target", target);
+            opMode.telemetry.update();
+            opMode.sleep(5);
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
+
+    public void forwardsGyro(double meters)
+    {
+        gyro.resetZAxisIntegrator();
+
+        double target = getPosFB() + meters * Constants.STRAIGHT_INCREMENTS;
+
+        while(getPosFB() < target && opMode.opModeIsActive())
+        {
+            int heading = gyro.getHeading();
+            double turnpow;
+
+            if(heading <= 1 || heading >= 359)
+            {
+                turnpow = 0;
+            }
+            else if(heading >= 2 && heading <= 180)
+            {
+                turnpow = -.3;
+            }
+            else
+            {
+                turnpow = .3;
+            }
+
+            frontRight.setPower(.7 + turnpow);
+            backRight.setPower(.7 + turnpow);
+            frontLeft.setPower(-.7 + turnpow);
+            backLeft.setPower(-.7 + turnpow);
+
+            opMode.telemetry.addData("Action", "Forwards Gyro");
+            opMode.telemetry.addData("Currently", getPosFB());
+            opMode.telemetry.addData("Target", target);
+            opMode.telemetry.addData("Heading", heading);
             opMode.telemetry.update();
             opMode.sleep(5);
         }
@@ -161,6 +204,45 @@ public class AutonomousDriveTrain
 
         while(!wallTouch.isPressed() && opMode.opModeIsActive())
         {
+            opMode.telemetry.addData("Action", "Right to Touch");
+            opMode.telemetry.update();
+            opMode.sleep(5);
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
+
+    public void rightGyroToTouch()
+    {
+        gyro.resetZAxisIntegrator();
+
+
+        while(!wallTouch.isPressed() && opMode.opModeIsActive())
+        {
+            int heading = gyro.getHeading();
+            double turnpow;
+
+            if(heading <= 1 || heading >= 359)
+            {
+                turnpow = 0;
+            }
+            else if(heading >= 2 && heading <= 180)
+            {
+                turnpow = -.05;
+            }
+            else
+            {
+                turnpow = .05;
+            }
+
+            frontRight.setPower(-.2 + turnpow);
+            backRight.setPower(.2 + turnpow);
+            frontLeft.setPower(-.2 + turnpow);
+            backLeft.setPower(.2 + turnpow);
+
             opMode.telemetry.addData("Action", "Right to Touch");
             opMode.telemetry.update();
             opMode.sleep(5);
