@@ -27,8 +27,8 @@ public class JoshRed extends LinearOpMode
         floorColor = hardwareMap.colorSensor.get("floorColor");
         beaconColor = hardwareMap.colorSensor.get("beaconColor");
         floorColor.setI2cAddress(I2cAddr.create8bit(58));
-        beaconColor.enableLed(false);
-        floorColor.enableLed(false);
+        beaconColor.enableLed(true);
+        floorColor.enableLed(true);
         beacon.Start(button_presser_1, button_presser_2);
         waitForStart();
 
