@@ -66,9 +66,6 @@ public class ButtonPresserClass implements ButtonPresserInterface {
             Thread.sleep(ACTUATOR_TIME_OF_EXTENDING);
         }
         else{
-                while(true){
-
-                }
         }
     }
 

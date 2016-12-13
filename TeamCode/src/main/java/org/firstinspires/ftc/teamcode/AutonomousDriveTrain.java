@@ -93,27 +93,49 @@ public class AutonomousDriveTrain
         frontLeft.setPower(0);
         backLeft.setPower(0);
     }
+    enum teamcolor{
+        BLUE,
+        RED
+    }
+    public void backToLine(ColorSensor floorColor, teamcolor team)
+    {   switch (team) {
+        case RED:
+            frontRight.setPower(-.1);
+            backRight.setPower(-.1);
+            frontLeft.setPower(.1);
+            backLeft.setPower(.1);
 
-    public void backToLine(ColorSensor floorColor)
-    {
-        frontRight.setPower(-.1);
-        backRight.setPower(-.1);
-        frontLeft.setPower(.1);
-        backLeft.setPower(.1);
+            while (!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive()) {
 
-        while(!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive())
-        {
+                opMode.telemetry.addData("Action", "Back to Color");
+                opMode.telemetry.addData("Value", ColorHelper.getFloorValue());
+                opMode.telemetry.update();
+                opMode.sleep(5);
+            }
 
-            opMode.telemetry.addData("Action", "Back to Color");
-            opMode.telemetry.addData("Value", ColorHelper.getFloorValue());
-            opMode.telemetry.update();
-            opMode.sleep(5);
-        }
+            frontRight.setPower(0);
+            backRight.setPower(0);
+            frontLeft.setPower(0);
+            backLeft.setPower(0);
+        case BLUE:
+            frontRight.setPower(.1);
+            backRight.setPower(.1);
+            frontLeft.setPower(-.1);
+            backLeft.setPower(-.1);
 
-        frontRight.setPower(0);
-        backRight.setPower(0);
-        frontLeft.setPower(0);
-        backLeft.setPower(0);
+            while (!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive()) {
+
+                opMode.telemetry.addData("Action", "Back to Color");
+                opMode.telemetry.addData("Value", ColorHelper.getFloorValue());
+                opMode.telemetry.update();
+                opMode.sleep(5);
+            }
+
+            frontRight.setPower(0);
+            backRight.setPower(0);
+            frontLeft.setPower(0);
+            backLeft.setPower(0);
+    }
     }
 
     public void right(double meters)
