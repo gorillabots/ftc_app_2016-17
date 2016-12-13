@@ -5,51 +5,61 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
-import static org.firstinspires.ftc.teamcode.Constants.*;
-//Josh was here
 
-@Autonomous(name="JoshRed", group="concept")
-public class JoshRed extends LinearOpMode
+/**
+ * Created by Mikko on 12/11/16.
+ */
+
+@Autonomous(name="RedBeaconsTest", group="concept")
+public class RedBeaconsTest extends LinearOpMode
 {
     AutonomousDriveTrain driveTrain;
     ColorSensor floorColor;
     ColorSensor beaconColor;
+
     ButtonPresserClass beacon;
     Servo button_presser_1;
     Servo button_presser_2;
-    public void runOpMode() throws InterruptedException
+
+    public void runOpMode()
     {
         driveTrain = new AutonomousDriveTrain();
-        beacon = new ButtonPresserClass();
         driveTrain.init(this);
+
+        beacon = new ButtonPresserClass();
         button_presser_1 = hardwareMap.servo.get("butt1");
         button_presser_2 = hardwareMap.servo.get("butt2");
+
         floorColor = hardwareMap.colorSensor.get("floorColor");
         beaconColor = hardwareMap.colorSensor.get("beaconColor");
         beaconColor.setI2cAddress(I2cAddr.create8bit(58));
         beaconColor.enableLed(false);
         floorColor.enableLed(false);
-        beacon.Start(button_presser_1, button_presser_2);
+
         waitForStart();
 
         floorColor.enableLed(true);
 
-        driveTrain.backRight(WALL_TO_WALL_IN_AUTONOMOUS);
-        //
+        driveTrain.backRight(2.5);
         driveTrain.rightGyroToTouch();
-        driveTrain.left(GO_BACKWARD_AFTER_TOUCH_WALL);
-        sleep(100);
-        driveTrain.backToLine(floorColor);
+        driveTrain.left(.05);
+        driveTrain.forwardsGyroToLine(floorColor);
 
+        beaconColor.enableLed(true);
+
+        try
+        {
+            beacon.Respond_If_In_Red_Alliance(beaconColor, button_presser_1, button_presser_2);
+        }
+        catch(InterruptedException e)
+        {
+            e.printStackTrace();
+
+            beaconColor.enableLed(false);
+            floorColor.enableLed(false);
+        }
+
+        beaconColor.enableLed(false);
         floorColor.enableLed(false);
-        beacon.Respond_If_In_Red_Alliance(beaconColor, button_presser_1, button_presser_2);
-        driveTrain.back(BETWEEN_WHITE_LINES);
-        driveTrain.rightToTouch();
-        driveTrain.left(GO_BACKWARD_AFTER_TOUCH_WALL);
-        sleep(100);
-        floorColor.enableLed(true);
-        driveTrain.backToLine(floorColor);
-        floorColor.enableLed(false);
-        beacon.Respond_If_In_Red_Alliance(beaconColor, button_presser_1, button_presser_2);
     }
 }

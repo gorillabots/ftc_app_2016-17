@@ -53,23 +53,22 @@ public class ButtonPresserClass implements ButtonPresserInterface {
 
     @Override
     public void Respond_If_In_Red_Alliance(ColorSensor color, Servo servo1, Servo servo2) throws InterruptedException{
-        if(getBeaconColor(color) == isTeamColor("red")){
+        if(getBeaconColor(color).equals("red")){
             Press_Button(servo1, ACTUATOR_DISTANCE_TO_HIT_BEACON);
             Thread.sleep(ACTUATOR_TIME_OF_EXTENDING);
             Press_Button(servo1, ACTUATOR_RESET_VALUE);
             Thread.sleep(ACTUATOR_TIME_OF_EXTENDING);
         }
-        else if(getBeaconColor(color) == "blue"){
+        else// if(getBeaconColor(color).equals("blue"))
+        {
             Press_Button(servo2, ACTUATOR_DISTANCE_TO_HIT_BEACON);
             Thread.sleep(ACTUATOR_TIME_OF_EXTENDING);
             Press_Button(servo2, ACTUATOR_RESET_VALUE);
             Thread.sleep(ACTUATOR_TIME_OF_EXTENDING);
         }
-        else{
-                while(true){
+        /*else{
 
-                }
-        }
+        }*/
     }
 
     @Override
