@@ -146,7 +146,7 @@ public class AutonomousDriveTrain
             frontLeft.setPower(-.2 + turnpow);
             backLeft.setPower(-.2 + turnpow);
 
-            opMode.telemetry.addData("Action", "Back Gyro To Line");
+            opMode.telemetry.addData("Action", "Forwards Gyro To Line");
             opMode.telemetry.addData("Heading", heading);
             opMode.telemetry.update();
             opMode.sleep(5);
@@ -195,6 +195,45 @@ public class AutonomousDriveTrain
 
             opMode.telemetry.addData("Action", "Back to Color");
             opMode.telemetry.addData("Value", ColorHelper.getFloorValue());
+            opMode.telemetry.update();
+            opMode.sleep(5);
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
+
+    public void backwardsGyroToLine(ColorSensor floorColor) //Move back to line using gyro
+    {
+        gyro.resetZAxisIntegrator();
+
+        while(!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive())
+        {
+            int heading = gyro.getHeading();
+            double turnpow;
+
+            if(heading <= 1 || heading >= 359)
+            {
+                turnpow = 0;
+            }
+            else if(heading >= 2 && heading <= 180)
+            {
+                turnpow = -.05;
+            }
+            else
+            {
+                turnpow = .05;
+            }
+
+            frontRight.setPower(-.2 + turnpow);
+            backRight.setPower(-.2 + turnpow);
+            frontLeft.setPower(.2 + turnpow);
+            backLeft.setPower(.2 + turnpow);
+
+            opMode.telemetry.addData("Action", "Back Gyro To Line");
+            opMode.telemetry.addData("Heading", heading);
             opMode.telemetry.update();
             opMode.sleep(5);
         }
