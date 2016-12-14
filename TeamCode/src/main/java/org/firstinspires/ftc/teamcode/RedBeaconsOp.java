@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.I2cAddr;
  * Created by root on 11/13/16.
  */
 
-@Autonomous(name="RedBeacons", group="concept")
+@Autonomous(name="RedBeaconsbad", group="concept")
 public class RedBeaconsOp extends LinearOpMode
 {
     AutonomousDriveTrain driveTrain;

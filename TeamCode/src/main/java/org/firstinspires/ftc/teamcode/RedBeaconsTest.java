@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Created by Mikko on 12/11/16.
  */
 
-@Autonomous(name="RedBeaconsTest", group="concept")
+@Autonomous(name="RedBeacons", group="final")
 public class RedBeaconsTest extends LinearOpMode
 {
     AutonomousDriveTrain driveTrain;
@@ -69,7 +69,7 @@ public class RedBeaconsTest extends LinearOpMode
         //START NEW SEGMENT
         driveTrain.left(.1);
         driveTrain.back(.4);
-        //driveTrain.backwardsGyroToLine(floorColor);
+        driveTrain.backwardsGyroToLine(floorColor);
         driveTrain.right(.03);
         beaconColor.enableLed(true);
 
