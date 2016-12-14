@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import android.graphics.Color;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -11,6 +12,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 /**
  * Created by Owner on 11/4/2016. (0x3a)
  */
+@Disabled
 @TeleOp(name = "Sensor: MR FloorColor", group = "Sensor")
 public class SensorMRColorFloor extends LinearOpMode{
 

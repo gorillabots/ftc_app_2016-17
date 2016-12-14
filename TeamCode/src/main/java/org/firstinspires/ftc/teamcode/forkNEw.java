@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name = "forkTest2", group = "Concept")
+@TeleOp(name = "Comp Tele", group = "Concept")
 public class forkNEw extends OpMode {
 
     Drivetrain drivetrain;
