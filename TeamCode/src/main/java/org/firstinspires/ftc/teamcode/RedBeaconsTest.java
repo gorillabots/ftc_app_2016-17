@@ -69,7 +69,7 @@ public class RedBeaconsTest extends LinearOpMode
         //START NEW SEGMENT
         driveTrain.left(.1);
         driveTrain.back(.4);
-        driveTrain.backwardsGyroToLine(floorColor);
+        //driveTrain.backwardsGyroToLine(floorColor);
         driveTrain.right(.03);
         beaconColor.enableLed(true);
 
