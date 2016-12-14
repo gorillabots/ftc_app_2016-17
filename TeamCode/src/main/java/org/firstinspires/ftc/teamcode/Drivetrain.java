@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -18,6 +19,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  *		http://www.simbotics.org/resources/mobility/omnidirectional-drive
  *		http://www.vexforum.com/index.php/12370-holonomic-drives-2-0-a-video-tutorial-by-cody/0
  */
+
 public class Drivetrain
 {
     HardwareMap hardwareMap;
@@ -27,9 +29,10 @@ public class Drivetrain
     DcMotor backRight;
     DcMotor frontLeft;
     DcMotor backLeft;
-    TouchSensor wallTouch;
+   // TouchSensor wallTouch;
+    ModernRoboticsI2cGyro gyro;
 
-    ColorSensor floorColor;
+    //ColorSensor floorColor;
 
     public Drivetrain(HardwareMap hardwareMap, Telemetry telemetry)
     {
@@ -40,9 +43,10 @@ public class Drivetrain
         backRight = hardwareMap.dcMotor.get("backRight");
         frontLeft = hardwareMap.dcMotor.get("frontLeft");
         backLeft = hardwareMap.dcMotor.get("backLeft");
-        floorColor= hardwareMap.colorSensor.get("floorColor");
-        wallTouch = hardwareMap.touchSensor.get("wallTouch");
-        floorColor.setI2cAddress(I2cAddr.create8bit(58));
+        //floorColor= hardwareMap.colorSensor.get("floorColor");
+        //wallTouch = hardwareMap.touchSensor.get("wallTouch");
+        //floorColor.setI2cAddress(I2cAddr.create8bit(58));
+        gyro = (ModernRoboticsI2cGyro)hardwareMap.gyroSensor.get("gyro");
     }
 
     /**
@@ -52,8 +56,16 @@ public class Drivetrain
      * @param stickRot how much to turn the robot
      * @param heading how much to robot has rotated from initial value
      */
-    public void oneStickLoop(float stickX, float stickY, float stickRot, int heading)
+    public void oneStickLoop(float stickX, float stickY, float stickRot, int heading, boolean dummy)
     {
+        double holder = 1;
+        if(dummy == true && holder == 1){
+            holder =.5;
+        }
+        else if(dummy == true && holder == .5) {
+            holder = 1;
+        }
+
         int facingDeg = -45 - heading; //Robot's rotation
         double facingRad = Math.toRadians(facingDeg); // Convert to radians
 
@@ -70,15 +82,15 @@ public class Drivetrain
         telemetry.addData("head", heading);
         telemetry.addData("relHead", "(" + headX + ", " + headY + ")");
 
-        double backLeftPower = limitToOne(headX - stickRot);
-        double frontRightPower = limitToOne(-headX - stickRot);
-        double backRightPower = limitToOne(-headY - stickRot);
-        double frontLeftPower = limitToOne(headY - stickRot);
+        double backLeftPower = limitToOne(-headX + stickRot);
+        double frontRightPower = limitToOne(headX + stickRot);
+        double backRightPower = limitToOne(headY + stickRot);
+        double frontLeftPower = limitToOne(-headY + stickRot);
 
-        backLeft.setPower(backLeftPower);
-        frontRight.setPower(frontRightPower);
-        backRight.setPower(backRightPower);
-        frontLeft.setPower(frontLeftPower);
+        backLeft.setPower((backLeftPower)*holder);
+        frontRight.setPower((frontRightPower)*holder);
+        backRight.setPower((backRightPower)*holder);
+        frontLeft.setPower((frontLeftPower)*holder);
     }
 
     double limitToOne(double in)
@@ -97,17 +109,27 @@ public class Drivetrain
 
 
 
-
-    public void backToLine(int direction)
+/*
+    public void backToLine(int direction, boolean stop)
     {
+        boolean desired =  ColorHelper.isFloorWhite(floorColor);
+        floorColor.enableLed(true);
         if( direction ==1 ) {
             frontRight.setPower(-.1);
             backRight.setPower(-.1);
             frontLeft.setPower(.1);
             backLeft.setPower(.1);
 
-            while (!ColorHelper.isFloorWhite(floorColor)) {
+            while (!desired) {
                 telemetry.update();
+                frontRight.setPower(-.1);
+                backRight.setPower(-.1);
+                frontLeft.setPower(.1);
+                backLeft.setPower(.1);
+                desired =  ColorHelper.isFloorWhite(floorColor);
+                if(stop == true){
+                    break;
+                }
             }
 
             frontRight.setPower(0);
@@ -123,9 +145,18 @@ public class Drivetrain
             frontLeft.setPower(-.1);
             backLeft.setPower(-.1);
 
-            while(!ColorHelper.isFloorWhite(floorColor) )
+            while(!desired)
             {
                 telemetry.update();
+                frontRight.setPower(.1);
+                backRight.setPower(.1);
+                frontLeft.setPower(-.1);
+                backLeft.setPower(-.1);
+                desired =  ColorHelper.isFloorWhite(floorColor);
+                ColorHelper.getFloorColor(floorColor);
+                if(stop == true){
+                    break;
+                }
             }
 
             frontRight.setPower(0);
@@ -134,4 +165,14 @@ public class Drivetrain
             backLeft.setPower(0);
         }
     }
+    */
+
+    public void resetGyro(boolean action){
+
+        if(action == true) {
+            gyro.resetZAxisIntegrator();
+        }
+        }
+
 }
+

@@ -5,37 +5,42 @@ package org.firstinspires.ftc.teamcode;
  */
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 public class ForkLift {
 
     HardwareMap lifthardwareMap;
     DcMotor lift;
     Servo release;
-    public ForkLift() {
+    TouchSensor limit;
+
+    HardwareMap hardwareMap;
+    Telemetry telemetry;
 
 
+    public ForkLift(HardwareMap hardwareMap, Telemetry telemetry) {
+        this.hardwareMap = hardwareMap;
+        this.telemetry = telemetry;
         lift= lifthardwareMap.dcMotor.get("lift");
-        release = lifthardwareMap.servo.get("release");
+
+        limit = lifthardwareMap.touchSensor.get("limit");
 
     }
 
-    public void liftInit(){
-        lift.setTargetPosition(0);
-    }
+
 
     public void manipulateLift(double control){
 
-        if(lift.getCurrentPosition() < -12278 ){
+        if(limit.isPressed() && control > .1  ){
 
-            lift.setPower((Math.abs(control))*-1);
+            lift.setPower((Math.abs(control)));
 
         }
-        else if(lift.getCurrentPosition() >= 0){
-            lift.setPower(Math.abs(control));
-        }
-        else if(getReleaseState()){
+
+        else {
             lift.setPower(control);
             }
         }
