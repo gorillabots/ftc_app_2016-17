@@ -44,7 +44,33 @@ public class RedBeaconsTest extends LinearOpMode
         driveTrain.rightGyroToTouch();
         driveTrain.left(.05);
         driveTrain.forwardsGyroToLine(floorColor);
+        driveTrain.right(.03);
 
+        beaconColor.enableLed(false);
+
+
+        try
+        {
+            telemetry.addData("color",ColorHelper.getBeaconColor(beaconColor));
+            telemetry.update();
+
+            beacon.Respond_If_In_Red_Alliance(beaconColor, button_presser_1, button_presser_2);
+        }
+        catch(InterruptedException e)
+        {
+            e.printStackTrace();
+
+            beaconColor.enableLed(false);
+            floorColor.enableLed(false);
+        }
+
+        beaconColor.enableLed(false);
+        floorColor.enableLed(true);
+        //START NEW SEGMENT
+        driveTrain.left(.1);
+        driveTrain.back(.4);
+        driveTrain.backwardsGyroToLine(floorColor);
+        driveTrain.right(.03);
         beaconColor.enableLed(true);
 
         try
@@ -62,4 +88,6 @@ public class RedBeaconsTest extends LinearOpMode
         beaconColor.enableLed(false);
         floorColor.enableLed(false);
     }
-}
+    }
+
+

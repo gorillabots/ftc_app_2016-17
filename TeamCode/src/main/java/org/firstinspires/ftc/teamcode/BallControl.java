@@ -34,6 +34,8 @@ public class BallControl {
     }
 
 
+
+
     public void runFlywheel(boolean on){
 
         if(on == true){
@@ -48,6 +50,10 @@ public class BallControl {
 
     }
 
+    /*
+    if the flywheels receive an on signal, run the flywheels in a manner that ejects the balls
+    when they pass through the lower portion of the flywheel
+    */
     public void runCollector(boolean on, boolean switcher){
 
         if(on == true && switcher == false){
@@ -59,7 +65,12 @@ public class BallControl {
         else{
             vac.setPower(0);
         }
+    /*
+    if a button is pressed run the collector in a manner that balls are sucked in
+    if another button is pressed and the other is not
 
+
+    */
     }
 
     public void runElevator(boolean on, float switcher){

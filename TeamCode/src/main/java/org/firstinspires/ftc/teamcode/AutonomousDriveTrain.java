@@ -83,7 +83,7 @@ public class AutonomousDriveTrain
 
     public void forwardsGyro(double meters)
     {
-        gyro.resetZAxisIntegrator();
+        //gyro.resetZAxisIntegrator();
 
         double target = getPosFB() + meters * Constants.STRAIGHT_INCREMENTS;
 
@@ -124,9 +124,49 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
+    public void backwardsGyroToLine(ColorSensor floorColor)
+    {
+        //gyro.resetZAxisIntegrator();
+
+        while(!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive())
+        {
+            int heading = gyro.getHeading();
+            double turnpow;
+
+            if(heading <= 1 || heading >= 359)
+            {
+                turnpow = 0;
+            }
+            else if(heading >= 2 && heading <= 180)
+            {
+                turnpow = -.05;
+            }
+            else
+            {
+                turnpow = .05;
+            }
+
+            frontRight.setPower(-.2 + turnpow);
+            backRight.setPower(-.2 + turnpow);
+            frontLeft.setPower(.2 + turnpow);
+            backLeft.setPower(.2 + turnpow);
+
+            opMode.telemetry.addData("Action", "Back Gyro To Line");
+            opMode.telemetry.addData("Heading", heading);
+            opMode.telemetry.update();
+            opMode.sleep(5);
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
+
+
     public void forwardsGyroToLine(ColorSensor floorColor)
     {
-        gyro.resetZAxisIntegrator();
+        //gyro.resetZAxisIntegrator();
 
         while(!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive())
         {
@@ -162,7 +202,6 @@ public class AutonomousDriveTrain
         frontLeft.setPower(0);
         backLeft.setPower(0);
     }
-
     public void back(double meters)
     {
         double target = getPosFB() - meters * Constants.STRAIGHT_INCREMENTS;
