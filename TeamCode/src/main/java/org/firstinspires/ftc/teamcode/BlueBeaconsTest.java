@@ -40,11 +40,11 @@ public class BlueBeaconsTest extends LinearOpMode
 
         floorColor.enableLed(true);
 
-        driveTrain.frontRight(2.5);
-        driveTrain.rightGyroToTouch();
+        driveTrain.frontRightGyro(2.5);
+        driveTrain.rightWobbleToTouch();
         driveTrain.left(.05);
         driveTrain.backwardsGyroToLine(floorColor);
-        driveTrain.right(.03);
+        driveTrain.right(.005);
 
         floorColor.enableLed(false);
 
@@ -63,20 +63,18 @@ public class BlueBeaconsTest extends LinearOpMode
             floorColor.enableLed(false);
         }
 
-        /*
-
         floorColor.enableLed(true);
         //START NEW SEGMENT
         driveTrain.left(.1);
-        driveTrain.back(.4);
-        driveTrain.backwardsGyroToLine(floorColor);
-        driveTrain.right(.03);
+        driveTrain.forwards(.4);
+        driveTrain.forwardsGyroToLine(floorColor);
+        driveTrain.right(.13);
 
         floorColor.enableLed(false);
 
         try
         {
-            beacon.Respond_If_In_Red_Alliance(beaconColor, button_presser_1, button_presser_2);
+            beacon.Respond_If_In_Blue_Alliance(beaconColor, button_presser_1, button_presser_2);
         }
         catch(InterruptedException e)
         {
@@ -84,7 +82,7 @@ public class BlueBeaconsTest extends LinearOpMode
 
             beaconColor.enableLed(false);
             floorColor.enableLed(false);
-        }*/
+        }
 
         beaconColor.enableLed(false);
         floorColor.enableLed(false);
