@@ -8,6 +8,7 @@ import android.hardware.SensorManager;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 /**
@@ -20,6 +21,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
  *
  * @see "https://github.com/acharraggi/my_ftc_app/blob/master/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/OrientOp.java"
  */
+@Disabled
 @Autonomous(name = "GyroTest", group = "Concept")
 public class GyroTest extends OpMode implements SensorEventListener {
     private SensorManager mSensorManager;

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -12,7 +13,8 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 /**
  * Created by Jarred on 10/18/2016.
  */
-@TeleOp(name = "CompTele", group = "final")
+@Disabled
+@TeleOp(name = "CompTele", group = "beta")
 public class CompTele extends OpMode {
     Drivetrain drivetrain;
 

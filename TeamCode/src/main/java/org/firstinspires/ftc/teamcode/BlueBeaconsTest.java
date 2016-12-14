@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Created by Mikko on 12/13/16.
  */
 
-@Autonomous(name="BlueBeaconsTest", group="concept")
+@Autonomous(name="Blue Beacons", group="final")
 public class BlueBeaconsTest extends LinearOpMode
 {
     AutonomousDriveTrain driveTrain;
