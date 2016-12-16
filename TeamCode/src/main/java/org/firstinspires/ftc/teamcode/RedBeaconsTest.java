@@ -23,7 +23,7 @@ public class RedBeaconsTest extends LinearOpMode
 
     public void runOpMode()
     {
-        driveTrain = new AutonomousDriveTrain();
+        driveTrain = new AutonomousDriveTrain(); //Initialize hardware
         driveTrain.init(this);
 
         beacon = new ButtonPresserClass();
@@ -38,7 +38,7 @@ public class RedBeaconsTest extends LinearOpMode
 
         waitForStart();
 
-        floorColor.enableLed(true);
+        floorColor.enableLed(true); //Go to first beacon
 
         driveTrain.backRight(2.5);
         driveTrain.rightGyroToTouch();
@@ -48,8 +48,7 @@ public class RedBeaconsTest extends LinearOpMode
 
         beaconColor.enableLed(false);
 
-
-        try
+        try //Press first beacon
         {
             telemetry.addData("color",ColorHelper.getBeaconColor(beaconColor));
             telemetry.update();
@@ -64,16 +63,15 @@ public class RedBeaconsTest extends LinearOpMode
             floorColor.enableLed(false);
         }
 
-        beaconColor.enableLed(false);
+        beaconColor.enableLed(false); //Go to second beacon
         floorColor.enableLed(true);
-        //START NEW SEGMENT
         driveTrain.left(.1);
         driveTrain.back(.4);
         driveTrain.backwardsGyroToLine(floorColor);
         driveTrain.right(.03);
         beaconColor.enableLed(true);
 
-        try
+        try //Press second beacon
         {
             beacon.Respond_If_In_Red_Alliance(beaconColor, button_presser_1, button_presser_2);
         }
@@ -85,9 +83,8 @@ public class RedBeaconsTest extends LinearOpMode
             floorColor.enableLed(false);
         }
 
-        beaconColor.enableLed(false);
+        beaconColor.enableLed(false); //Disable LEDs
         floorColor.enableLed(false);
     }
-    }
-
+}
 
