@@ -53,8 +53,8 @@ public class forkNEw extends OpMode {
         limit = hardwareMap.touchSensor.get("limit");
         butt1 = hardwareMap.servo.get("butt1");
         butt2 = hardwareMap.servo.get("butt2");
-        butt1.setPosition(30);
-        butt2.setPosition(30);
+        butt1.setPosition(Constants.ACTUATOR_RESET_VALUE); //Was 30
+        butt2.setPosition(Constants.ACTUATOR_RESET_VALUE); //Was 30
 
 
         gyro.resetZAxisIntegrator();
