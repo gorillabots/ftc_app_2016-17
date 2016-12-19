@@ -104,6 +104,13 @@ public class forkNEw extends OpMode {
             flyTwo.setPower(0);
         }
 
+        if(gamepad2.y){
+         
+            elevator.setPower(-1);
+                vac.setPower(1);
+            
+        }
+        else{
         if(gamepad1.right_bumper == true) {
             vac.setPower(1);
         }
@@ -114,7 +121,7 @@ public class forkNEw extends OpMode {
             vac.setPower(0);
         }
 
-
+        }
         if(gamepad2.left_bumper == true) {
             elevator.setPower(1);
         }
@@ -141,6 +148,7 @@ public class forkNEw extends OpMode {
         }
 
 
+        
 
         butt1.setPosition(.18+(gamepad1.left_trigger)*.5);
         butt2.setPosition(.18+(gamepad1.right_trigger)*.5);
