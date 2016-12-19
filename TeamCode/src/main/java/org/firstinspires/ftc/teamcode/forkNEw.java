@@ -118,7 +118,9 @@ public class forkNEw extends OpMode {
         if(gamepad2.left_bumper == true) {
             elevator.setPower(1);
         }
-
+       else if(gamepad2.left_trigger >.5) {
+            elevator.setPower(-1);
+        }
         else{
             elevator.setPower(0);
         }
