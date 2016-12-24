@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
  * Created by emper on 10/18/2016.
  */
-
+@Disabled
 public class AutoOp extends OpMode {
     Autonomous_DriveTrain auto;
     @Override

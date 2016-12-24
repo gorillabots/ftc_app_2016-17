@@ -4,6 +4,7 @@ import android.graphics.Color;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -14,7 +15,7 @@ import com.qualcomm.robotcore.hardware.I2cAddr;
 /**
  * Created by Owner on 10/7/2016.
  */
-
+@Disabled
 @TeleOp(name = "Sensor: sensorRGB", group = "Sensor")
 public class ColorS extends OpMode {
     ColorSensor sensorRGB;

@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Created by Mikko on 12/13/16.
  */
 
-@Autonomous(name="BlueBeaconsTest", group="concept")
+@Autonomous(name="Blue Beacons", group="final")
 public class BlueBeaconsTest extends LinearOpMode
 {
     AutonomousDriveTrain driveTrain;
@@ -23,7 +23,7 @@ public class BlueBeaconsTest extends LinearOpMode
 
     public void runOpMode()
     {
-        driveTrain = new AutonomousDriveTrain();
+        driveTrain = new AutonomousDriveTrain(); //Initialize hardware
         driveTrain.init(this);
 
         beacon = new ButtonPresserClass();
@@ -38,17 +38,17 @@ public class BlueBeaconsTest extends LinearOpMode
 
         waitForStart();
 
-        floorColor.enableLed(true);
+        floorColor.enableLed(true); //Go to first beacon
 
-        driveTrain.frontRight(2.5);
-        driveTrain.rightGyroToTouch();
+        driveTrain.frontRightGyro(2.5);
+        driveTrain.rightWobbleToTouch();
         driveTrain.left(.05);
         driveTrain.backwardsGyroToLine(floorColor);
-        driveTrain.right(.03);
+        driveTrain.right(.005);
 
         floorColor.enableLed(false);
 
-        try
+        try //Press first beacon
         {
             telemetry.addData("color",ColorHelper.getBeaconColor(beaconColor));
             telemetry.update();
@@ -63,20 +63,18 @@ public class BlueBeaconsTest extends LinearOpMode
             floorColor.enableLed(false);
         }
 
-        /*
+        floorColor.enableLed(true); //Go to second beacon
 
-        floorColor.enableLed(true);
-        //START NEW SEGMENT
         driveTrain.left(.1);
-        driveTrain.back(.4);
-        driveTrain.backwardsGyroToLine(floorColor);
-        driveTrain.right(.03);
+        driveTrain.forwards(.4);
+        driveTrain.forwardsGyroToLine(floorColor);
+        driveTrain.right(.13);
 
         floorColor.enableLed(false);
 
-        try
+        try //Press second beacon
         {
-            beacon.Respond_If_In_Red_Alliance(beaconColor, button_presser_1, button_presser_2);
+            beacon.Respond_If_In_Blue_Alliance(beaconColor, button_presser_1, button_presser_2);
         }
         catch(InterruptedException e)
         {
@@ -84,9 +82,10 @@ public class BlueBeaconsTest extends LinearOpMode
 
             beaconColor.enableLed(false);
             floorColor.enableLed(false);
-        }*/
+        }
 
-        beaconColor.enableLed(false);
+        beaconColor.enableLed(false); //Disable LEDs
         floorColor.enableLed(false);
     }
 }
+

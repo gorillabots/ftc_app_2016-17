@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode;
  * Created by Jarred on 10/30/2016.
  */
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
@@ -12,7 +13,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
+@Disabled
 @TeleOp(name = "forkTest", group = "Concept")
 public class forkTEst extends OpMode {
 

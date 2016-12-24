@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name = "forkTest2", group = "Concept")
+@TeleOp(name = "Comp Tele", group = "Concept")
 public class forkNEw extends OpMode {
 
     Drivetrain drivetrain;
@@ -53,8 +53,8 @@ public class forkNEw extends OpMode {
         limit = hardwareMap.touchSensor.get("limit");
         butt1 = hardwareMap.servo.get("butt1");
         butt2 = hardwareMap.servo.get("butt2");
-        butt1.setPosition(30);
-        butt2.setPosition(30);
+        butt1.setPosition(Constants.ACTUATOR_RESET_VALUE); //Was 30
+        butt2.setPosition(Constants.ACTUATOR_RESET_VALUE); //Was 30
 
 
         gyro.resetZAxisIntegrator();
@@ -104,6 +104,13 @@ public class forkNEw extends OpMode {
             flyTwo.setPower(0);
         }
 
+        if(gamepad2.y){
+         
+            elevator.setPower(-1);
+                vac.setPower(1);
+            
+        }
+        else{
         if(gamepad1.right_bumper == true) {
             vac.setPower(1);
         }
@@ -114,11 +121,13 @@ public class forkNEw extends OpMode {
             vac.setPower(0);
         }
 
-
+        }
         if(gamepad2.left_bumper == true) {
             elevator.setPower(1);
         }
-
+       else if(gamepad2.left_trigger >.5) {
+            elevator.setPower(-1);
+        }
         else{
             elevator.setPower(0);
         }
@@ -139,6 +148,7 @@ public class forkNEw extends OpMode {
         }
 
 
+        
 
         butt1.setPosition(.18+(gamepad1.left_trigger)*.5);
         butt2.setPosition(.18+(gamepad1.right_trigger)*.5);
