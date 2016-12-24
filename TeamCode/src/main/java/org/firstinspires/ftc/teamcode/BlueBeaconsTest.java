@@ -7,11 +7,11 @@ import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
 
 /**
- * Created by Mikko on 12/11/16.
+ * Created by Mikko on 12/13/16.
  */
 
-@Autonomous(name="RedBeacons", group="final")
-public class RedBeaconsTest extends LinearOpMode
+@Autonomous(name="Blue Beacons", group="final")
+public class BlueBeaconsTest extends LinearOpMode
 {
     AutonomousDriveTrain driveTrain;
     ColorSensor floorColor;
@@ -40,20 +40,20 @@ public class RedBeaconsTest extends LinearOpMode
 
         floorColor.enableLed(true); //Go to first beacon
 
-        driveTrain.backRight(2.5);
-        driveTrain.rightGyroToTouch();
+        driveTrain.frontRightGyro(2.5);
+        driveTrain.rightWobbleToTouch();
         driveTrain.left(.05);
-        driveTrain.forwardsGyroToLine(floorColor);
-        driveTrain.right(.03);
+        driveTrain.backwardsGyroToLine(floorColor);
+        driveTrain.right(.005);
 
-        beaconColor.enableLed(false);
+        floorColor.enableLed(false);
 
         try //Press first beacon
         {
             telemetry.addData("color",ColorHelper.getBeaconColor(beaconColor));
             telemetry.update();
 
-            beacon.Respond_If_In_Red_Alliance(beaconColor, button_presser_1, button_presser_2);
+            beacon.Respond_If_In_Blue_Alliance(beaconColor, button_presser_1, button_presser_2);
         }
         catch(InterruptedException e)
         {
@@ -63,17 +63,18 @@ public class RedBeaconsTest extends LinearOpMode
             floorColor.enableLed(false);
         }
 
-        beaconColor.enableLed(false); //Go to second beacon
-        floorColor.enableLed(true);
+        floorColor.enableLed(true); //Go to second beacon
+
         driveTrain.left(.1);
-        driveTrain.back(.4);
-        driveTrain.backwardsGyroToLine(floorColor);
-        driveTrain.right(.03);
-        beaconColor.enableLed(true);
+        driveTrain.forwards(.4);
+        driveTrain.forwardsGyroToLine(floorColor);
+        driveTrain.right(.13);
+
+        floorColor.enableLed(false);
 
         try //Press second beacon
         {
-            beacon.Respond_If_In_Red_Alliance(beaconColor, button_presser_1, button_presser_2);
+            beacon.Respond_If_In_Blue_Alliance(beaconColor, button_presser_1, button_presser_2);
         }
         catch(InterruptedException e)
         {

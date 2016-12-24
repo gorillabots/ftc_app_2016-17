@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.I2cAddr;
@@ -8,7 +9,7 @@ import com.qualcomm.robotcore.hardware.I2cAddr;
 /**
  * Created by root on 12/11/16.
  */
-
+@Disabled
 @Autonomous(name="ColorTestOp", group="concept")
 public class ColorSensorTest extends LinearOpMode
 {
