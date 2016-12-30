@@ -47,17 +47,23 @@ public class CenterGoalAuto extends LinearOpMode {
         waitForStart();
         float mark = (float) .3;
         float mark2 = (float) .9;
+
+        //initialize the robot
         driveTrain.right(.61);
+
         timer1.startTime();
         while(timer1.milliseconds() < 15000) {
             shooter.runFlywheel(true);
             shooter.runElevator(false, mark2 );
         }
+        /*
+        start the launch sequence and run it for 15 seconds
+         */
         shooter.runFlywheel(false);
         shooter.runElevator(true, mark2);
-
+        //stop the launch sequence
         driveTrain.right(1.0);
-
+        //move towards yoga ball
     }
 
 }
