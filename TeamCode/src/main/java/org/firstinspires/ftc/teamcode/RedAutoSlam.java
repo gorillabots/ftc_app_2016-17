@@ -40,45 +40,45 @@ public class RedAutoSlam extends LinearOpMode
 
         floorColor.enableLed(true); //Go to first beacon
 
-        driveTrain.backRight(2.5);
+        driveTrain.backRight(1.76);
         driveTrain.rightGyroToTouch();
-        driveTrain.left(.05);
+        driveTrain.left(.0352);
         driveTrain.forwardsGyroToLine(floorColor);
-        driveTrain.right(.03);
+        driveTrain.right(.02112);
 
         beaconColor.enableLed(false);
 
 
 
-        driveTrain.back(.6);
-        driveTrain.forwards(.5);
+        driveTrain.back(.4224);
+        driveTrain.forwards(.352);
 
         if(ColorHelper.getBeaconColor(beaconColor) == "blue"){
-            driveTrain.back(.6);
-            driveTrain.forwards(.5);
+            driveTrain.back(.4224);
+            driveTrain.forwards(.352);
         }
 
         if(ColorHelper.getBeaconColor(beaconColor) == "blue"){
-            driveTrain.back(.6);
-            driveTrain.forwards(.5);
+            driveTrain.back(.4224);
+            driveTrain.forwards(.352);
         }
         beaconColor.enableLed(false); //Go to second beacon
         floorColor.enableLed(true);
-        driveTrain.left(.1);
-        driveTrain.back(.4);
+        driveTrain.left(.0704);
+        driveTrain.back(.2816);
         driveTrain.backwardsGyroToLine(floorColor);
-        driveTrain.right(.03);
+        driveTrain.right(.02112);
         beaconColor.enableLed(true);
-        driveTrain.back(.6);
-        driveTrain.forwards(.5);
+        driveTrain.back(.4224);
+        driveTrain.forwards(.352);
         if(ColorHelper.getBeaconColor(beaconColor) == "blue"){
-            driveTrain.back(.6);
-            driveTrain.forwards(.5);
+            driveTrain.back(.4224);
+            driveTrain.forwards(.352);
         }
 
         if(ColorHelper.getBeaconColor(beaconColor) == "blue"){
-            driveTrain.back(.6);
-            driveTrain.forwards(.5);
+            driveTrain.back(.4224);
+            driveTrain.forwards(.352);
         }
 
         beaconColor.enableLed(false); //Disable LEDs

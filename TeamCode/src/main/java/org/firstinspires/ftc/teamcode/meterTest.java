@@ -38,7 +38,7 @@ public class meterTest extends LinearOpMode
 
         waitForStart();
 
-       driveTrain.forwards(1);
+       driveTrain.forwardsGyro(1);
     }
 }
 

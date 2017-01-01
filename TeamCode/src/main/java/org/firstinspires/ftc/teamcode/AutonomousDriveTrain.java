@@ -120,10 +120,10 @@ public class AutonomousDriveTrain
                 turnpow = .1;
             }
 
-            frontRight.setPower(.2 + turnpow);
-            backRight.setPower(.2 + turnpow);
-            frontLeft.setPower(-.2 + turnpow);
-            backLeft.setPower(-.2 + turnpow);
+            frontRight.setPower(.5 + turnpow);
+            backRight.setPower(.5 + turnpow);
+            frontLeft.setPower(-.5 + turnpow);
+            backLeft.setPower(-.5 + turnpow);
 
             opMode.telemetry.addData("Action", "Forwards Gyro");
             opMode.telemetry.addData("Currently", getPosFB());
