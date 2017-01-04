@@ -159,10 +159,10 @@ public class AutonomousDriveTrain
                 turnpow = .05;
             }
 
-            frontRight.setPower(.2 + turnpow);
-            backRight.setPower(.2 + turnpow);
-            frontLeft.setPower(-.2 + turnpow);
-            backLeft.setPower(-.2 + turnpow);
+            frontRight.setPower(.5 + turnpow);
+            backRight.setPower(.5 + turnpow);
+            frontLeft.setPower(-.5 + turnpow);
+            backLeft.setPower(-.5 + turnpow);
 
             opMode.telemetry.addData("Action", "Forwards Gyro To Line");
             opMode.telemetry.addData("Heading", heading);
@@ -329,10 +329,10 @@ public class AutonomousDriveTrain
                 turnpow = .05;
             }
 
-            frontRight.setPower(-.2 + turnpow);
-            backRight.setPower(.2 + turnpow);
-            frontLeft.setPower(-.2 + turnpow);
-            backLeft.setPower(.2 + turnpow);
+            frontRight.setPower(-.15 + turnpow);
+            backRight.setPower(.15 + turnpow);
+            frontLeft.setPower(-.15 + turnpow);
+            backLeft.setPower(.15 + turnpow);
 
             opMode.telemetry.addData("Action", "Right to Touch");
             opMode.telemetry.update();
