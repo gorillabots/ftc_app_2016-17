@@ -13,7 +13,7 @@ public interface ButtonPresserInterface {
     void Press_Button(Servo servo, double position);
     boolean atBeacon(ColorSensor color);
     String getBeaconColor(ColorSensor color);
-    String isTeamColor(String team);
+    //String isTeamColor(String team);
     void Respond_If_In_Red_Alliance(ColorSensor color, Servo servo1, Servo servo2) throws InterruptedException;
     void Respond_If_In_Blue_Alliance(ColorSensor color, Servo servo1, Servo servo2) throws InterruptedException;
 }

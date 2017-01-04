@@ -18,8 +18,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 /**
  * Created by Jarred on 12/10/2016.
  */
-@Autonomous(name="center goal Auto", group="final")
-public class CenterGoalAuto extends LinearOpMode {
+@Autonomous(name="center goal Auto w/ delay", group="final")
+public class CenterGoalDelay extends LinearOpMode {
 
     BallControl shooter;
     ElapsedTime timer1 = new ElapsedTime();
@@ -45,9 +45,10 @@ public class CenterGoalAuto extends LinearOpMode {
         floorColor.enableLed(false);
         //float mark =C1.1;
         waitForStart();
+
         float mark = (float) .3;
         float mark2 = (float) .9;
-
+        sleep(10000);
         driveTrain.right(.61);
         timer1.reset();
         timer1.startTime();

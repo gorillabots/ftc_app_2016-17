@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 /**
- * Created by Owner on 9/27/2016.
+ * Created by Mikko on 9/27/2016.
  */
 
 

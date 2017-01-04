@@ -51,6 +51,28 @@ public class AutonomousDriveTrain
         gyro.resetZAxisIntegrator(); //Reset heading
     }
 
+
+    void forwardEncodeHelp(double meters) {
+        double target = getPosFB() + meters * Constants.STRAIGHT_INCREMENTS;
+        while(getPosFB() < target && opMode.opModeIsActive()) {
+            if (backLeft.getCurrentPosition() > backRight.getCurrentPosition()) {
+                frontRight.setPower((Constants.MAX_SPEED) - .1);
+                backRight.setPower(Constants.MAX_SPEED);
+                frontLeft.setPower(-Constants.MAX_SPEED);
+                backLeft.setPower((-Constants.MAX_SPEED) + .1);
+            } else if (backLeft.getCurrentPosition() < backRight.getCurrentPosition()) {
+                frontRight.setPower(Constants.MAX_SPEED);
+                backRight.setPower((Constants.MAX_SPEED) - .1);
+                frontLeft.setPower((-Constants.MAX_SPEED) + .1);
+                backLeft.setPower(-Constants.MAX_SPEED);
+            } else {
+                frontRight.setPower(Constants.MAX_SPEED);
+                backRight.setPower(Constants.MAX_SPEED);
+                frontLeft.setPower(-Constants.MAX_SPEED);
+                backLeft.setPower(-Constants.MAX_SPEED);
+            }
+        }
+    }
     public void forwards(double meters) //Move forward specified distance
     {
         double target = getPosFB() + meters * Constants.STRAIGHT_INCREMENTS;
@@ -91,17 +113,17 @@ public class AutonomousDriveTrain
             }
             else if(heading >= 2 && heading <= 180)
             {
-                turnpow = -.3;
+                turnpow = -.1;
             }
             else
             {
-                turnpow = .3;
+                turnpow = .1;
             }
 
-            frontRight.setPower(.7 + turnpow);
-            backRight.setPower(.7 + turnpow);
-            frontLeft.setPower(-.7 + turnpow);
-            backLeft.setPower(-.7 + turnpow);
+            frontRight.setPower(.5 + turnpow);
+            backRight.setPower(.5 + turnpow);
+            frontLeft.setPower(-.5 + turnpow);
+            backLeft.setPower(-.5 + turnpow);
 
             opMode.telemetry.addData("Action", "Forwards Gyro");
             opMode.telemetry.addData("Currently", getPosFB());

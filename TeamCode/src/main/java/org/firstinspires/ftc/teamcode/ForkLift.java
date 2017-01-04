@@ -24,53 +24,56 @@ public class ForkLift {
     public ForkLift(HardwareMap hardwareMap, Telemetry telemetry) {
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
-        lift= lifthardwareMap.dcMotor.get("lift");
+        lift = lifthardwareMap.dcMotor.get("lift");
 
         limit = lifthardwareMap.touchSensor.get("limit");
 
     }
 
 
+    public void manipulateLift(double control) {
 
-    public void manipulateLift(double control){
-
-        if(limit.isPressed() && control > .1  ){
+        if (limit.isPressed() && control > .1) {
 
             lift.setPower((Math.abs(control)));
 
-        }
-
-        else {
+        } else {
             lift.setPower(control);
-            }
         }
-
-
-
-
-
-    public void releaseFork(){
-
-        if (getReleaseState() == true){
-            release.setPosition(1);
-        }
-        else{
-            release.setPosition(0);
-        }
-
-    }
-
-    public boolean getReleaseState(){
-
-        if(release.getPosition() == 0){
-            return true;
-        }
-        else {
-            return false;
-        }
-
     }
 
 
 
-}
+        /*
+        if the safety is activated for the cap ball lifter, force all values to be
+        positive. If the safety is not pressed, allow the lift to be controlled with
+        the left joystick's Y values on the second controller.
+         */
+
+
+    //public void releaseFork(){
+
+      //  if (getReleaseState() == true){
+          //  release.setPosition(1);
+        //}
+        //else{
+          //  release.setPosition(0);
+        //}
+
+    //}
+
+    //public boolean getReleaseState(){
+
+      //  if(release.getPosition() == 0){
+        //    return true;
+        }
+        //else {
+         //   return false;
+       // }
+
+    //}
+
+
+
+
+
