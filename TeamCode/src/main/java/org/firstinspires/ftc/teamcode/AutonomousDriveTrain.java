@@ -160,10 +160,10 @@ public class AutonomousDriveTrain
                 turnpow = .05;
             }
 
-            frontRight.setPower(.5 + turnpow);
-            backRight.setPower(.5 + turnpow);
-            frontLeft.setPower(-.5 + turnpow);
-            backLeft.setPower(-.5 + turnpow);
+            frontRight.setPower(.25 + turnpow);
+            backRight.setPower(.25 + turnpow);
+            frontLeft.setPower(-.25 + turnpow);
+            backLeft.setPower(-.25+ turnpow);
 
             opMode.telemetry.addData("Action", "Forwards Gyro To Line");
             opMode.telemetry.addData("Heading", heading);
@@ -288,10 +288,10 @@ public class AutonomousDriveTrain
 
     public void rightToTouch() //Move right until touch sensor is pressed
     {
-        frontRight.setPower(-.2);
-        backRight.setPower(.2);
-        frontLeft.setPower(-.2);
-        backLeft.setPower(.2);
+        frontRight.setPower(-.3);
+        backRight.setPower(.3);
+        frontLeft.setPower(-.3);
+        backLeft.setPower(.3);
 
 
         while(!wallTouch.isPressed() && opMode.opModeIsActive())

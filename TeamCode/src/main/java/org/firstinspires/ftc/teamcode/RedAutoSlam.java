@@ -47,33 +47,36 @@ public class RedAutoSlam extends LinearOpMode
         sensorSwing.setPosition(.0);
         driveTrain.backRightGyro(1.76); //Go out
         driveTrain.rightGyroToTouch(); //Go to wall slowly
+        sensorSwing.setPosition(52
+        );
         driveTrain.left(.0352); //Go out
         driveTrain.turnToGyro();
         //driveTrain.GyroRotation(0, .2);
         driveTrain.forwardsGyroToLine(floorColor);
+        driveTrain.turnToGyro();
         driveTrain.right(.02112);
 
         beaconColor.enableLed(false);
 
 
-        driveTrain.rightToTouch();
+        driveTrain.right(.49); //Changed
 
 
         if(ColorHelper.getBeaconColor(beaconColor) == "blue"){
             driveTrain.left(.25);
-            driveTrain.rightGyroToTouch();
+            driveTrain.right(.40); //Changed
         }
 
         driveTrain.left(.25);
-        driveTrain.forwardsGyroToLine(floorColor);
+        driveTrain.backwardsGyroToLine(floorColor);
 
 
-        driveTrain.rightToTouch();
+        driveTrain.right(.1); //Changed
 
 
         if(ColorHelper.getBeaconColor(beaconColor) == "blue"){
             driveTrain.left(.25);
-            driveTrain.rightGyroToTouch();
+            driveTrain.right(.1); //Changed
         }
 
     /*
