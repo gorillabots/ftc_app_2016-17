@@ -35,7 +35,7 @@ public class RedBeaconsOp extends LinearOpMode
         driveTrain.rightToTouch();
         driveTrain.left(.1);
         sleep(100);
-        driveTrain.backToLine(floorColor);
+
 
         floorColor.enableLed(false); //Disable color sensor LED
     }

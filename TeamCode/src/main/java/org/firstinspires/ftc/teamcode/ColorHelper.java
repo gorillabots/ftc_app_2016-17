@@ -43,6 +43,31 @@ public class ColorHelper {
         return currentcolor;
     }
 
+    public static String getRightBeaconColor(ColorSensor colorSensor) {
+
+        // convert RGB to HSV values
+        Color.RGBToHSV(colorSensor.red() * 8, colorSensor.green() * 8, colorSensor.blue() * 8, hsvValues);
+
+        // setting the current color to Blank
+        String currentcolor = "blank";
+
+        // Red if hue is > than 330 or hue < 10 with a saturation > 0.5
+        if (hsvValues[0] > 330  && hsvValues[1] > 0.5 || hsvValues[0] < 10 && hsvValues[1] > 0.5) {
+            currentcolor = "red";
+        }
+
+        //Blue if 230 < hue < 250 with saturation > 0.5
+        else if (hsvValues[0] > 230 && hsvValues[0] < 250 && hsvValues[1] > 0.5){
+            currentcolor = "blue";
+        }
+
+        //No color if saturation < 0.5
+        else if (hsvValues[1] < 0.6){
+            currentcolor = "blank";
+        }
+
+        return currentcolor;
+    }
 
     public static String getFloorColor(ColorSensor colorSensor) {
 
