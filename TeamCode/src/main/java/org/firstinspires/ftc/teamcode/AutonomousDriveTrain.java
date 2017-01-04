@@ -329,10 +329,10 @@ public class AutonomousDriveTrain
                 turnpow = .05;
             }
 
-            frontRight.setPower(-.15 + turnpow);
-            backRight.setPower(.15 + turnpow);
-            frontLeft.setPower(-.15 + turnpow);
-            backLeft.setPower(.15 + turnpow);
+            frontRight.setPower(-.2 + turnpow);
+            backRight.setPower(.2 + turnpow);
+            frontLeft.setPower(-.2 + turnpow);
+            backLeft.setPower(.2 + turnpow);
 
             opMode.telemetry.addData("Action", "Right to Touch");
             opMode.telemetry.update();
@@ -368,10 +368,10 @@ public class AutonomousDriveTrain
                 turnpow = .1;
             }
 
-            frontRight.setPower(-.15 + turnpow);
-            backRight.setPower(.15 + turnpow);
-            frontLeft.setPower(-.15 + turnpow);
-            backLeft.setPower(.15 + turnpow);
+            frontRight.setPower(-.1 + turnpow);
+            backRight.setPower(.1 + turnpow);
+            frontLeft.setPower(-.1 + turnpow);
+            backLeft.setPower(.1 + turnpow);
 
             opMode.telemetry.addData("Action", "Right to Touch");
             opMode.telemetry.update();
@@ -476,6 +476,36 @@ public class AutonomousDriveTrain
         while(getPosBRFL() < target && opMode.opModeIsActive())
         {
             opMode.telemetry.addData("Action", "BackRight");
+            opMode.telemetry.addData("Currently", getPosBRFL());
+            opMode.telemetry.addData("Target", target);
+            opMode.telemetry.update();
+            opMode.sleep(5);
+        }
+
+        backLeft.setPower(0);
+        frontRight.setPower(0);
+    }
+
+    public void backRightGyro(double meters) //Move back and right a specified distance
+    {
+        double target = getPosBRFL() + meters * Constants.DIAGONAL_INCREMENTS;
+
+        while (getPosBRFL() < target && opMode.opModeIsActive()) {
+            int heading = gyro.getHeading();
+            double turnpow;
+
+            if (heading <= 1 || heading >= 359) {
+                turnpow = 0;
+            } else if (heading >= 2 && heading <= 180) {
+                turnpow = -.2;
+            } else {
+                turnpow = .2;
+            }
+
+            backLeft.setPower(.8 + turnpow);
+            frontRight.setPower(-.8 + turnpow);
+
+            opMode.telemetry.addData("Action", "Back Right Gyro");
             opMode.telemetry.addData("Currently", getPosBRFL());
             opMode.telemetry.addData("Target", target);
             opMode.telemetry.update();

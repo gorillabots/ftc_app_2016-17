@@ -45,7 +45,7 @@ public class RedAutoSlam extends LinearOpMode
 
         floorColor.enableLed(true); //Go to first beacon
         sensorSwing.setPosition(.0);
-        driveTrain.backRight(1.76);
+        driveTrain.backRightGyro(1.76);
         driveTrain.rightGyroToTouch();
         driveTrain.left(.0352);
 
