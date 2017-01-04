@@ -73,6 +73,7 @@ public class AutonomousDriveTrain
             }
         }
     }
+
     public void forwards(double meters) //Move forward specified distance
     {
         double target = getPosFB() + meters * Constants.STRAIGHT_INCREMENTS;
@@ -641,5 +642,43 @@ public class AutonomousDriveTrain
         double sum = frontRight.getCurrentPosition() + backRight.getCurrentPosition() +
                 frontLeft.getCurrentPosition() + backLeft.getCurrentPosition();
         return sum / 4;
+    }
+    public void GyroRotation(int target, double power){
+        if(target > 360 || target < 0 || power < 0 || power > 1){
+            throw new IllegalArgumentException();
+        }
+        while(true){
+            int initial_heading = gyro.getHeading();
+            int degree_rotation = target - initial_heading;
+            if(degree_rotation < 0){
+                degree_rotation = degree_rotation + 360;
+            }
+            if (degree_rotation < 180 && degree_rotation > 0) {
+                while (initial_heading < target) {
+                    turnright(power);
+                }
+            }
+            if(degree_rotation > 180 && degree_rotation < 360){
+                while(initial_heading > target){
+                    turnleft(power);
+                }
+            }
+            if(degree_rotation == 0 || degree_rotation == 360){
+                break;
+            }
+        }
+    }
+    void turnleft(double power) {
+        frontRight.setPower(power);
+        backRight.setPower(power);
+        frontLeft.setPower(power);
+        backLeft.setPower(power);
+    }
+
+    void turnright(double power) {
+        frontRight.setPower(-power);
+        backRight.setPower(-power);
+        frontLeft.setPower(-power);
+        backLeft.setPower(-power);
     }
 }
