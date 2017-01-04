@@ -21,8 +21,8 @@ public class Constants {
     private final static int COMP_DIAGONAL_INCREMENTS = 5240;
     private final static int COMP_STRAIGHT_INCREMENTS = 3890;
 
-    public final static int DIAGONAL_INCREMENTS = TESTBED_DIAGONAL_INCREMENTS;
-    public final static int STRAIGHT_INCREMENTS = TESTBED_STRAIGHT_INCREMENTS;
+    public final static int DIAGONAL_INCREMENTS = COMP_DIAGONAL_INCREMENTS;
+    public final static int STRAIGHT_INCREMENTS = COMP_STRAIGHT_INCREMENTS;
 
     public final static double MAX_SPEED = 1;
     public final static double SLOW_SPEED = .3;
