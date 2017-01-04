@@ -563,7 +563,7 @@ public class AutonomousDriveTrain
         {
             int head = gyro.getHeading();
 
-            if(head >= 350 || head <= 9)
+            if(head >= 357 || head <= 3)
             {
                 frontRight.setPower(0);
                 backRight.setPower(0);
