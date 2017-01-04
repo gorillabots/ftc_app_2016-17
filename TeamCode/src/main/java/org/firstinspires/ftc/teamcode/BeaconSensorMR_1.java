@@ -23,7 +23,7 @@ public class BeaconSensorMR_1 extends LinearOpMode {
 
         ElapsedTime opmodeRunTime = new ElapsedTime();
         colorSensor = hardwareMap.colorSensor.get("RightBS");
-        colorSensor.setI2cAddress(I2cAddr.create8bit(59));
+        colorSensor.setI2cAddress(I2cAddr.create8bit(62));
 
         waitForStart();
         while (opModeIsActive()) {
