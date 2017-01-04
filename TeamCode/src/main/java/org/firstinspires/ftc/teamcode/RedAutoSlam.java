@@ -48,7 +48,7 @@ public class RedAutoSlam extends LinearOpMode
         driveTrain.backRightGyro(1.76);
         driveTrain.rightGyroToTouch();
         driveTrain.left(.0352);
-        driveTrain.GyroRotation(0, 1);
+        driveTrain.GyroRotation(180, 1);
         driveTrain.forwardsGyroToLine(floorColor);
         driveTrain.right(.02112);
 

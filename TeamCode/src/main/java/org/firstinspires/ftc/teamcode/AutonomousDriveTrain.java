@@ -656,11 +656,13 @@ public class AutonomousDriveTrain
             if (degree_rotation < 180 && degree_rotation > 0) {
                 while (initial_heading < target) {
                     turnright(power);
+                    opMode.sleep(5);
                 }
             }
             if(degree_rotation > 180 && degree_rotation < 360){
                 while(initial_heading > target){
                     turnleft(power);
+                    opMode.sleep(5);
                 }
             }
             if(degree_rotation == 0 || degree_rotation == 360){
