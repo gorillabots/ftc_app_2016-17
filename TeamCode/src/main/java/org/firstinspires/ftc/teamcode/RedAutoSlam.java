@@ -45,19 +45,8 @@ public class RedAutoSlam extends LinearOpMode
 
         driveTrain.resetGyro();
 
-        floorColor.enableLed(true);
-
-        while(!driveTrain.wallTouch.isPressed())
-        {
-            telemetry.addData("Is white?", ColorHelper.isFloorWhite(floorColor));
-            telemetry.addData("R:", floorColor.red());
-            telemetry.addData("G:", floorColor.green());
-            telemetry.addData("B:", floorColor.blue());
-            telemetry.update();
-            sleep(5);
-        }
-
-        floorColor.enableLed(false);
+        //floorColor.enableLed(true);
+        //floorColor.enableLed(false);
 
          //Go to first beacon
         sensorSwing.setPosition(.0);

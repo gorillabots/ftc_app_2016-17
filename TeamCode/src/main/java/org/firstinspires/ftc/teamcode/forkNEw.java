@@ -10,6 +10,7 @@ import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -30,6 +31,10 @@ public class forkNEw extends OpMode {
     Servo butt2;
 
     ColorSensor floorColor;
+    ColorSensor beaconColor;
+
+    long startTime;
+    long time;
 
     public void init() {
 
@@ -64,8 +69,18 @@ public class forkNEw extends OpMode {
         gyro.resetZAxisIntegrator();
 
         floorColor = hardwareMap.colorSensor.get("floorColor");
+        floorColor.enableLed(false);
         floorColor.enableLed(true);
+
+        beaconColor = hardwareMap.colorSensor.get("beaconColor");
+        beaconColor.setI2cAddress(I2cAddr.create8bit(58));
+        beaconColor.enableLed(false);
+        beaconColor.enableLed(true);
+
+        startTime = System.currentTimeMillis();
     }
+
+
 
     public void loop() {
 
@@ -93,11 +108,11 @@ public class forkNEw extends OpMode {
 
 
 */
-        floorColor.enableLed(true);
         telemetry.addData("Is white?", ColorHelper.isFloorWhite(floorColor));
-        telemetry.addData("R:", floorColor.red());
-        telemetry.addData("G:", floorColor.green());
-        telemetry.addData("B:", floorColor.blue());
+        telemetry.addData("RGB:", floorColor.red()+" "+floorColor.green()+" "+floorColor.blue());
+        telemetry.addData("RGB:", beaconColor.red()+" "+beaconColor.green()+" "+beaconColor.blue());
+        time = System.currentTimeMillis() - startTime;
+        telemetry.addData("Time", time);
         telemetry.update();
 
         if (gamepad1.b == true) {
@@ -161,6 +176,14 @@ public class forkNEw extends OpMode {
 
 
     }
+
+    @Override
+    public void stop()
+    {
+        super.stop();
+        floorColor.enableLed(false);
+    }
+
 
 }
 
