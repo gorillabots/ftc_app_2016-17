@@ -25,5 +25,5 @@ public class Constants {
     public final static int STRAIGHT_INCREMENTS = COMP_STRAIGHT_INCREMENTS;
 
     public final static double MAX_SPEED = 1;
-    public final static double SLOW_SPEED = .3;
+    public final static double SLOW_SPEED = .2;
 }

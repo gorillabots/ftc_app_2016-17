@@ -605,7 +605,7 @@ public class AutonomousDriveTrain
 
     void turnToGyro() //Turn until we are aligned
     {
-        while(true)
+        while(opMode.opModeIsActive())
         {
             int head = gyro.getHeading();
 
