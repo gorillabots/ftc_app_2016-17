@@ -78,9 +78,9 @@ public class Drivetrain
         headX /= Math.sqrt(2); //In range -1 to 1
         headY /= Math.sqrt(2);
 
-        telemetry.addData("absHead", "(" + stickX + ", " + stickY + ")");
+        /*telemetry.addData("absHead", "(" + stickX + ", " + stickY + ")");
         telemetry.addData("head", heading);
-        telemetry.addData("relHead", "(" + headX + ", " + headY + ")");
+        telemetry.addData("relHead", "(" + headX + ", " + headY + ")");*/
 
         double backLeftPower = limitToOne(-headX + stickRot);
         double frontRightPower = limitToOne(headX + stickRot);

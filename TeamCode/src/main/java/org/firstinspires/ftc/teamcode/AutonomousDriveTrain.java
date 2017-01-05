@@ -51,6 +51,10 @@ public class AutonomousDriveTrain
         gyro.resetZAxisIntegrator(); //Reset heading
     }
 
+    public void resetGyro()
+    {
+        gyro.resetZAxisIntegrator();
+    }
 
     void forwardEncodeHelp(double meters) {
         double target = getPosFB() + meters * Constants.STRAIGHT_INCREMENTS;
@@ -147,7 +151,7 @@ public class AutonomousDriveTrain
             int heading = gyro.getHeading();
             double turnpow;
 
-            if(heading <= 1 || heading >= 359)
+            if(heading <= 1 || heading >= 359) //In range 1-359
             {
                 turnpow = 0;
             }
@@ -167,6 +171,10 @@ public class AutonomousDriveTrain
 
             opMode.telemetry.addData("Action", "Forwards Gyro To Line");
             opMode.telemetry.addData("Heading", heading);
+            opMode.telemetry.addData("Is white?", ColorHelper.isFloorWhite(floorColor));
+            opMode.telemetry.addData("R:", floorColor.red());
+            opMode.telemetry.addData("G:", floorColor.green());
+            opMode.telemetry.addData("B:", floorColor.blue());
             opMode.telemetry.update();
             opMode.sleep(5);
         }
@@ -336,6 +344,44 @@ public class AutonomousDriveTrain
             backLeft.setPower(.2 + turnpow);
 
             opMode.telemetry.addData("Action", "Right to Touch");
+            opMode.telemetry.update();
+            opMode.sleep(5);
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
+
+    public void rightWobble(double meters) //Move right until touch sensor is pressed using gyro
+    {
+        double target = getPosRL() + meters * Constants.STRAIGHT_INCREMENTS;
+
+        while(getPosRL() < target && opMode.opModeIsActive())
+        {
+            int heading = gyro.getHeading();
+            double turnpow;
+
+            if(heading == 0)
+            {
+                turnpow = 0;
+            }
+            else if(heading <= 180)
+            {
+                turnpow = -.2;
+            }
+            else
+            {
+                turnpow = .2;
+            }
+
+            frontRight.setPower(-.2 + turnpow);
+            backRight.setPower(.2 + turnpow);
+            frontLeft.setPower(-.2 + turnpow);
+            backLeft.setPower(.2 + turnpow);
+
+            opMode.telemetry.addData("Action", "Right Wobble");
             opMode.telemetry.update();
             opMode.sleep(5);
         }
@@ -562,6 +608,9 @@ public class AutonomousDriveTrain
         while(true)
         {
             int head = gyro.getHeading();
+
+            opMode.telemetry.addData("Action", "Turn to Gyro");
+            opMode.telemetry.addData("Heading", head);
 
             if(head >= 357 || head <= 3)
             {

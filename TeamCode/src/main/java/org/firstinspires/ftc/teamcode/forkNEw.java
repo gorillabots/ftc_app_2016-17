@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
@@ -27,17 +28,20 @@ public class forkNEw extends OpMode {
     TouchSensor limit;
     Servo butt1;
     Servo butt2;
-    public void init(){
+
+    ColorSensor floorColor;
+
+    public void init() {
 
         drivetrain = new Drivetrain(hardwareMap, telemetry);
-            gyro = (ModernRoboticsI2cGyro)hardwareMap.gyroSensor.get("gyro");
-            gyro.calibrate();
+        gyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get("gyro");
+        gyro.calibrate();
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        if(gyro.isCalibrating()){
+        if (gyro.isCalibrating()) {
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
@@ -48,7 +52,7 @@ public class forkNEw extends OpMode {
         vac = hardwareMap.dcMotor.get("vac");
         elevator = hardwareMap.crservo.get("elevator");
         flyOne = hardwareMap.dcMotor.get("flyOne");
-        flyTwo= hardwareMap.dcMotor.get("flyTwo");
+        flyTwo = hardwareMap.dcMotor.get("flyTwo");
         raise = hardwareMap.dcMotor.get("raise");
         limit = hardwareMap.touchSensor.get("limit");
         butt1 = hardwareMap.servo.get("butt1");
@@ -59,8 +63,11 @@ public class forkNEw extends OpMode {
 
         gyro.resetZAxisIntegrator();
 
+        floorColor = hardwareMap.colorSensor.get("floorColor");
+        floorColor.enableLed(true);
     }
-    public void loop(){
+
+    public void loop() {
 
         float stickX = (gamepad1.left_stick_x); // Stick position (Absolute heading)
         float stickY = (gamepad1.left_stick_y); // Each is in range -1 to 1
@@ -83,81 +90,74 @@ public class forkNEw extends OpMode {
 
             gyro.resetZAxisIntegrator();
         }
+
+
 */
-        if(gamepad1.b == true)
-        {
+        floorColor.enableLed(true);
+        telemetry.addData("Is white?", ColorHelper.isFloorWhite(floorColor));
+        telemetry.addData("R:", floorColor.red());
+        telemetry.addData("G:", floorColor.green());
+        telemetry.addData("B:", floorColor.blue());
+        telemetry.update();
+
+        if (gamepad1.b == true) {
             gyro.resetZAxisIntegrator();
         }
 
-       int rotation = gyro.getHeading();
+        int rotation = gyro.getHeading();
 
-        drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation,gamepad1.back);
+        drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation, gamepad1.back);
 
 
-        if(gamepad2.right_bumper == true) {
+        if (gamepad2.right_bumper == true) {
             flyOne.setPower(-1);
             flyTwo.setPower(1);
 
-        }
-        else{
+        } else {
             flyOne.setPower(0);
             flyTwo.setPower(0);
         }
 
-        if(gamepad2.y){
-         
+        if (gamepad2.y) {
+
             elevator.setPower(1);
-                vac.setPower(-1);
-            
-        }
-        else{
-        if(gamepad1.right_bumper == true) {
-            vac.setPower(1);
-        }
-        else if(gamepad1.a == true){
             vac.setPower(-1);
-        }
-        else{
-            vac.setPower(0);
-        }
+
+        } else {
+            if (gamepad1.right_bumper == true) {
+                vac.setPower(1);
+            } else if (gamepad1.a == true) {
+                vac.setPower(-1);
+            } else {
+                vac.setPower(0);
+            }
 
         }
 
 
-        if(gamepad2.left_bumper == true) {
+        if (gamepad2.left_bumper == true) {
             elevator.setPower(1);
-        }
-       else if(gamepad2.left_trigger >.5) {
+        } else if (gamepad2.left_trigger > .5) {
             elevator.setPower(-1);
-        }
-        else{
+        } else {
             elevator.setPower(0);
         }
 
-        if(gamepad2.left_stick_y > .1 && limit.isPressed()){
+        if (gamepad2.left_stick_y > .1 && limit.isPressed()) {
             raise.setPower(((Math.abs(gamepad2.left_stick_y))));
-        }
-        else{
+        } else {
 
-            if(gamepad2.left_stick_y<0){
-                raise.setPower(gamepad2.left_stick_y/2);
-            }
-
-            else{
-                raise.setPower(gamepad2.left_stick_y/2);
+            if (gamepad2.left_stick_y < 0) {
+                raise.setPower(gamepad2.left_stick_y / 2);
+            } else {
+                raise.setPower(gamepad2.left_stick_y / 2);
             }
 
         }
 
 
-        
-
-        butt1.setPosition(.18+(gamepad1.left_trigger)*.5);
-        butt2.setPosition(.18+(gamepad1.right_trigger)*.5);
-
-
-
-
+        butt1.setPosition(.18 + (gamepad1.left_trigger) * .5);
+        butt2.setPosition(.18 + (gamepad1.right_trigger) * .5);
 
 
     }
