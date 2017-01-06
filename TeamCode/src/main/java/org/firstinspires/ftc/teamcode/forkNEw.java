@@ -32,7 +32,7 @@ public class forkNEw extends OpMode {
 
     ColorSensor floorColor;
     ColorSensor beaconColor;
-
+    Servo servoSwing;
     long startTime;
     long time;
 
@@ -64,7 +64,7 @@ public class forkNEw extends OpMode {
         butt2 = hardwareMap.servo.get("butt2");
         butt1.setPosition(Constants.ACTUATOR_RESET_VALUE); //Was 30
         butt2.setPosition(Constants.ACTUATOR_RESET_VALUE); //Was 30
-
+        servoSwing = hardwareMap.servo.get("servoSwing");
 
         gyro.resetZAxisIntegrator();
 
@@ -78,12 +78,14 @@ public class forkNEw extends OpMode {
         beaconColor.enableLed(true);
 
         startTime = System.currentTimeMillis();
+
+        servoSwing.setPosition(.56);
     }
 
 
 
     public void loop() {
-
+        servoSwing.setPosition(.56);
         float stickX = (gamepad1.left_stick_x); // Stick position (Absolute heading)
         float stickY = (gamepad1.left_stick_y); // Each is in range -1 to 1
         float stickRot = (gamepad1.right_stick_x / 2f); //Used to rotate the robot;

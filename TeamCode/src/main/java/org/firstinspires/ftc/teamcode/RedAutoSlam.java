@@ -77,22 +77,24 @@ public class RedAutoSlam extends LinearOpMode
             driveTrain.right(.1);
             driveTrain.left(.02);
         }
+        driveTrain.forwards(.01);
+        if(ColorHelper.getBeaconColor(beaconColor).equals("blue"))
+        {
+            driveTrain.right(.1);
+            driveTrain.left(.02);
+        }
+        driveTrain.back(.02);
+        if(ColorHelper.getBeaconColor(beaconColor).equals("blue"))
+        {
+            driveTrain.right(.1);
+            driveTrain.left(.02);
+        }
+        if(ColorHelper.getBeaconColor(beaconColor).equals("blue"))
+        {
+            driveTrain.right(.1);
+            driveTrain.left(.02);
+        }
 
-        if(ColorHelper.getBeaconColor(beaconColor).equals("blue"))
-        {
-            driveTrain.right(.1);
-            driveTrain.left(.02);
-        }
-        if(ColorHelper.getBeaconColor(beaconColor).equals("blue"))
-        {
-            driveTrain.right(.1);
-            driveTrain.left(.02);
-        }
-        if(ColorHelper.getBeaconColor(beaconColor).equals("blue"))
-        {
-            driveTrain.right(.1);
-            driveTrain.left(.02);
-        }
         driveTrain.backwardsGyroToLine(floorColor);
 
         /*driveTrain.left(.25);
