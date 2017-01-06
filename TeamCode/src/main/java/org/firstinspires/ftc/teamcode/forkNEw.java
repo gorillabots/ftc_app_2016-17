@@ -110,12 +110,8 @@ public class forkNEw extends OpMode {
 
 
 */
-        telemetry.addData("Is white?", ColorHelper.isFloorWhite(floorColor));
-        telemetry.addData("RGB:", floorColor.red()+" "+floorColor.green()+" "+floorColor.blue());
-        telemetry.addData("RGB:", beaconColor.red()+" "+beaconColor.green()+" "+beaconColor.blue());
-        time = System.currentTimeMillis() - startTime;
-        telemetry.addData("Time", time);
-        telemetry.update();
+
+
 
         if (gamepad1.b == true) {
             gyro.resetZAxisIntegrator();
@@ -165,9 +161,9 @@ public class forkNEw extends OpMode {
         } else {
 
             if (gamepad2.left_stick_y < 0) {
-                raise.setPower(gamepad2.left_stick_y / 2);
+                raise.setPower(-1*(gamepad2.left_stick_y / 2));
             } else {
-                raise.setPower(gamepad2.left_stick_y / 2);
+                raise.setPower(-1*(gamepad2.left_stick_y / 2));
             }
 
         }

@@ -70,10 +70,11 @@ public class RedAutoSlam extends LinearOpMode
         driveTrain.right(.01);
        // driveTrain.turnToGyro();
 
-        sleep(500);
+
 
         if(ColorHelper.getBeaconColor(beaconColor).equals("blue"))
         {
+            sleep(5000);
             driveTrain.right(.1);
             driveTrain.left(.02);
         }
@@ -97,6 +98,43 @@ public class RedAutoSlam extends LinearOpMode
 
         driveTrain.backwardsGyroToLine(floorColor);
 
+        driveTrain.forwardsGyro(.02);
+        floorColor.enableLed(false);
+        sleep(200);
+        driveTrain.turnToGyro();
+        sleep(200);
+        driveTrain.right(.200);
+        sleep(200);
+        driveTrain.left(.02);
+        driveTrain.turnToGyro();
+        driveTrain.right(.01);
+        // driveTrain.turnToGyro();
+
+
+
+        if(ColorHelper.getBeaconColor(beaconColor).equals("blue"))
+        {
+            sleep(5000);
+            driveTrain.right(.1);
+            driveTrain.left(.02);
+        }
+        driveTrain.forwards(.01);
+        if(ColorHelper.getBeaconColor(beaconColor).equals("blue"))
+        {
+            driveTrain.right(.1);
+            driveTrain.left(.02);
+        }
+        driveTrain.back(.02);
+        if(ColorHelper.getBeaconColor(beaconColor).equals("blue"))
+        {
+            driveTrain.right(.1);
+            driveTrain.left(.02);
+        }
+        if(ColorHelper.getBeaconColor(beaconColor).equals("blue"))
+        {
+            driveTrain.right(.1);
+            driveTrain.left(.02);
+        }
         /*driveTrain.left(.25);
         driveTrain.backwardsGyroToLine(floorColor);
 

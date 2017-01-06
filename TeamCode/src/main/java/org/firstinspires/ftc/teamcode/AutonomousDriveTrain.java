@@ -252,10 +252,10 @@ public class AutonomousDriveTrain
                 turnpow = .05;
             }
 
-            frontRight.setPower(-.2 + turnpow);
-            backRight.setPower(-.2 + turnpow);
-            frontLeft.setPower(.2 + turnpow);
-            backLeft.setPower(.2 + turnpow);
+            frontRight.setPower(-.4 + turnpow);
+            backRight.setPower(-.4 + turnpow);
+            frontLeft.setPower(.4 + turnpow);
+            backLeft.setPower(.4 + turnpow);
 
             opMode.telemetry.addData("Action", "Back Gyro To Line");
             opMode.telemetry.addData("Heading", heading);
@@ -273,10 +273,10 @@ public class AutonomousDriveTrain
     {
         double target = getPosRL() + meters * Constants.STRAIGHT_INCREMENTS;
 
-        frontRight.setPower(-Constants.MAX_SPEED);
-        backRight.setPower(Constants.MAX_SPEED);
-        frontLeft.setPower(-Constants.MAX_SPEED);
-        backLeft.setPower(Constants.MAX_SPEED);
+        frontRight.setPower(-.5);
+        backRight.setPower(.5);
+        frontLeft.setPower(-.5);
+        backLeft.setPower(.5);
 
 
         while(getPosRL() < target && opMode.opModeIsActive())
@@ -435,10 +435,10 @@ public class AutonomousDriveTrain
     {
         double target = getPosRL() - meters * Constants.STRAIGHT_INCREMENTS;
 
-        frontRight.setPower(Constants.MAX_SPEED);
-        backRight.setPower(-Constants.MAX_SPEED);
-        frontLeft.setPower(Constants.MAX_SPEED);
-        backLeft.setPower(-Constants.MAX_SPEED);
+        frontRight.setPower(1);
+        backRight.setPower(-1);
+        frontLeft.setPower(1);
+        backLeft.setPower(-1);
 
 
         while(getPosRL() > target && opMode.opModeIsActive())
@@ -612,7 +612,7 @@ public class AutonomousDriveTrain
             opMode.telemetry.addData("Action", "Turn to Gyro");
             opMode.telemetry.addData("Heading", head);
 
-            if(head >= 357 || head <= 3)
+            if(head >= 355 || head <= 5)
             {
                 frontRight.setPower(0);
                 backRight.setPower(0);
