@@ -53,9 +53,11 @@ public class RedAutoSlam extends LinearOpMode
         );
         driveTrain.left(.0352); //Go out
         driveTrain.turnToGyro();
-        //driveTrain.GyroRotation(0, .2);
+        //driveTrain.GyroRotation(0e, .2);
         floorColor.enableLed(true);
         driveTrain.forwardsGyroToLine(floorColor);
+
+        //beacon code //////
         driveTrain.forwardsGyro(.02);
         floorColor.enableLed(false);
         sleep(200);
@@ -64,15 +66,34 @@ public class RedAutoSlam extends LinearOpMode
         driveTrain.right(.200);
         sleep(200);
         driveTrain.left(.02);
+        driveTrain.turnToGyro();
+        driveTrain.right(.01);
        // driveTrain.turnToGyro();
 
-        sleep(2000);
+        sleep(500);
 
         if(ColorHelper.getBeaconColor(beaconColor).equals("blue"))
         {
-            driveTrain.right(.03);
+            driveTrain.right(.1);
             driveTrain.left(.02);
         }
+
+        if(ColorHelper.getBeaconColor(beaconColor).equals("blue"))
+        {
+            driveTrain.right(.1);
+            driveTrain.left(.02);
+        }
+        if(ColorHelper.getBeaconColor(beaconColor).equals("blue"))
+        {
+            driveTrain.right(.1);
+            driveTrain.left(.02);
+        }
+        if(ColorHelper.getBeaconColor(beaconColor).equals("blue"))
+        {
+            driveTrain.right(.1);
+            driveTrain.left(.02);
+        }
+        driveTrain.backwardsGyroToLine(floorColor);
 
         /*driveTrain.left(.25);
         driveTrain.backwardsGyroToLine(floorColor);

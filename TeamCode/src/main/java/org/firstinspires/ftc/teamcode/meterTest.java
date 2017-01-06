@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.graphics.Color;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -20,7 +22,7 @@ public class meterTest extends LinearOpMode
     ButtonPresserClass beacon;
     Servo button_presser_1;
     Servo button_presser_2;
-
+    Servo  sensorSwing;
     public void runOpMode()
     {
         driveTrain = new AutonomousDriveTrain(); //Initialize hardware
@@ -36,9 +38,20 @@ public class meterTest extends LinearOpMode
         beaconColor.enableLed(false);
         floorColor.enableLed(false);
 
+        sensorSwing = hardwareMap.servo.get("servoSwing");
+        sensorSwing.setPosition(.56);
         waitForStart();
 
-       driveTrain.forwardsGyro(1);
+        driveTrain.resetGyro();
+
+        while(ColorHelper.getFloorColor(floorColor) == "white") {
+            ColorHelper.printColorHSV(telemetry, beaconColor);
+            telemetry.update();
+            if (ColorHelper.getBeaconColor(beaconColor).equals("blue")) {
+
+                driveTrain.left(.1);
+            }
+        }
     }
 }
 
