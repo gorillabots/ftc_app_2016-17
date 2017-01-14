@@ -44,7 +44,13 @@ public class meterTest extends LinearOpMode
 
         driveTrain.resetGyro();
 
-        driveTrain.forwards(1);
+
+            ColorHelper.printColorHSV(telemetry, beaconColor);
+            telemetry.update();
+            if (ColorHelper.getBeaconColor(beaconColor).equals("blue")) {
+
+                driveTrain.left(.1, .5);
+            }
 
     }
 }

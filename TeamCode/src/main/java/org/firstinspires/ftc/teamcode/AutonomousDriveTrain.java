@@ -563,7 +563,7 @@ public class AutonomousDriveTrain
         frontRight.setPower(0);
     }
 
-    public void frontLeft(double meters, double  power) //Move forward and left a specified distance
+    public void frontLeft(double meters, double power) //Move forward and left a specified distance
     {
         double target = getPosBRFL() - meters * Constants.DIAGONAL_INCREMENTS;
 
@@ -583,12 +583,12 @@ public class AutonomousDriveTrain
         frontRight.setPower(0);
     }
 
-    public void backLeft(double meters) //Move back and left specified distance
+    public void backLeft(double meters, double power) //Move back and left specified distance
     {
         double target = getPosBLFR() - meters * Constants.DIAGONAL_INCREMENTS;
 
-        backRight.setPower(-Constants.MAX_SPEED);
-        frontLeft.setPower(Constants.MAX_SPEED);
+        backRight.setPower(-power);
+        frontLeft.setPower(power);
 
         while(getPosBLFR() > target && opMode.opModeIsActive())
         {
@@ -603,7 +603,7 @@ public class AutonomousDriveTrain
         frontRight.setPower(0);
     }
 
-    void turnToGyro() //Turn until we are aligned
+    void turnToGyro(Double power) //Turn until we are aligned
     {
         while(opMode.opModeIsActive())
         {
@@ -624,17 +624,17 @@ public class AutonomousDriveTrain
 
             if(head >= 2 && head <= 179)
             {
-                frontRight.setPower(Constants.SLOW_SPEED);
-                backRight.setPower(Constants.SLOW_SPEED);
-                frontLeft.setPower(Constants.SLOW_SPEED);
-                backLeft.setPower(Constants.SLOW_SPEED);
+                frontRight.setPower(power);
+                backRight.setPower(power);
+                frontLeft.setPower(power);
+                backLeft.setPower(power);
             }
             else if(head >= 180 && head <= 358)
             {
-                frontRight.setPower(-Constants.SLOW_SPEED);
-                backRight.setPower(-Constants.SLOW_SPEED);
-                frontLeft.setPower(-Constants.SLOW_SPEED);
-                backLeft.setPower(-Constants.SLOW_SPEED);
+                frontRight.setPower(-power);
+                backRight.setPower(-power);
+                frontLeft.setPower(-power);
+                backLeft.setPower(-power);
             }
             else
             {
