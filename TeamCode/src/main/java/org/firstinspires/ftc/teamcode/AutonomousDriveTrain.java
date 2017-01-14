@@ -563,12 +563,12 @@ public class AutonomousDriveTrain
         frontRight.setPower(0);
     }
 
-    public void frontLeft(double meters) //Move forward and left a specified distance
+    public void frontLeft(double meters, double  power) //Move forward and left a specified distance
     {
         double target = getPosBRFL() - meters * Constants.DIAGONAL_INCREMENTS;
 
-        backLeft.setPower(-Constants.MAX_SPEED);
-        frontRight.setPower(Constants.MAX_SPEED);
+        backLeft.setPower(-power);
+        frontRight.setPower(power);
 
         while(getPosBRFL() > target && opMode.opModeIsActive())
         {
