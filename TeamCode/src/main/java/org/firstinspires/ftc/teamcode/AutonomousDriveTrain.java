@@ -541,7 +541,7 @@ public class AutonomousDriveTrain
             int heading = gyro.getHeading();
 
             opMode.telemetry.addData("Action", "Turn to Gyro");
-            opMode.telemetry.addData("Heading", head);
+            opMode.telemetry.addData("Heading", heading);
 
             double turnpow;
 
