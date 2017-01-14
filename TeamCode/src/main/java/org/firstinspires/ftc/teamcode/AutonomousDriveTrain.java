@@ -56,7 +56,7 @@ public class AutonomousDriveTrain
         gyro.resetZAxisIntegrator();
     }
 
-    void forwardEncodeHelp(double meters. double power) {
+    void forwardEncodeHelp(double meters, double power) {
         double target = getPosFB() + meters * Constants.STRAIGHT_INCREMENTS;
         while(getPosFB() < target && opMode.opModeIsActive()) {
             if (backLeft.getCurrentPosition() > backRight.getCurrentPosition()) {
@@ -315,7 +315,7 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
-    public void rightGyroToTouch() //Move right until touch sensor is pressed using gyro
+    public void rightGyroToTouch(double power) //Move right until touch sensor is pressed using gyro
     {
         //gyro.resetZAxisIntegrator();
 
