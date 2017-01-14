@@ -134,7 +134,12 @@ public class ZAutonomousDriveTrain {
         frontLeft.setPower(0);
         backLeft.setPower(0);
     }
-
+    public void right_continuous(double power) {
+        frontRight.setPower(-power);
+        backRight.setPower(power);
+        frontLeft.setPower(-power);
+        backLeft.setPower(power);
+    }
     public void rightToTouch(double power) {
         frontRight.setPower(-power);
         backRight.setPower(power);
