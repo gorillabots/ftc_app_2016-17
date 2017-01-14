@@ -133,7 +133,7 @@ public class forkNEw extends OpMode {
 
         if (gamepad2.y) {
 
-            elevator.setPower(1);
+            elevator.setPower(-5);
             vac.setPower(-1);
 
         } else {
