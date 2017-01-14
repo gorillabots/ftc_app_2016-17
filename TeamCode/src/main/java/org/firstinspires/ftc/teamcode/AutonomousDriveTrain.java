@@ -78,7 +78,7 @@ public class AutonomousDriveTrain
         }
     }
 
-    public void forwards(double meters, double power) //Move forward specified distance
+    public void forwards(double meters, double power) //Move forward specified distance with specified power
     {
         double target = getPosFB() + meters * Constants.STRAIGHT_INCREMENTS;
 
@@ -103,7 +103,7 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
-    public void forwardsGyro(double meters, double power) //Move forward specified distance using gyro
+    public void forwardsGyro(double meters, double power, int accuracy, double turnpower) //Move forward specified distance using gyro
     {
         double target = getPosFB() + meters * Constants.STRAIGHT_INCREMENTS;
 
@@ -112,23 +112,23 @@ public class AutonomousDriveTrain
             int heading = gyro.getHeading();
             double turnpow;
 
-            if(heading <= 1 || heading >= 359)
+            if(heading <= accuracy || heading >= 360 - accuracy)
             {
                 turnpow = 0;
             }
-            else if(heading >= 2 && heading <= 180)
+            else if(heading <= 180)
             {
-                turnpow = -.1;
+                turnpow = -turnpower;
             }
             else
             {
-                turnpow = .1;
+                turnpow = turnpower;
             }
 
-            frontRight.setPower(((power)/.9) + turnpow);
-            backRight.setPower(((power)/.9) + turnpow);
-            frontLeft.setPower(-((power)/.9) + turnpow);
-            backLeft.setPower(-((power)/.9) + turnpow);
+            frontRight.setPower(power + turnpow);
+            backRight.setPower(power + turnpow);
+            frontLeft.setPower(-power + turnpow);
+            backLeft.setPower(-power + turnpow);
 
             opMode.telemetry.addData("Action", "Forwards Gyro");
             opMode.telemetry.addData("Currently", getPosFB());
@@ -144,37 +144,33 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
-    public void forwardsGyroToLine(ColorSensor floorColor, double power) //Move forward to line using gyro
+    public void forwardsGyroToLine(ColorSensor floorColor, double power, int accuracy, double turnpower) //Move forward to line using gyro
     {
         while(!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive())
         {
             int heading = gyro.getHeading();
             double turnpow;
 
-            if(heading <= 1 || heading >= 359) //In range 1-359
+            if(heading <= accuracy || heading >= 360 - accuracy) //In range 1-359
             {
                 turnpow = 0;
             }
-            else if(heading >= 2 && heading <= 180)
+            else if(heading <= 180)
             {
-                turnpow = -.05;
+                turnpow = -turnpower;
             }
             else
             {
-                turnpow = .05;
+                turnpow = turnpower;
             }
 
-            frontRight.setPower((power/.95) + turnpow);
-            backRight.setPower((power/.95) + turnpow);
-            frontLeft.setPower(-(power/.95) + turnpow);
-            backLeft.setPower(-(power/.95)+ turnpow);
+            frontRight.setPower(power + turnpow);
+            backRight.setPower(power + turnpow);
+            frontLeft.setPower(-power + turnpow);
+            backLeft.setPower(-power + turnpow);
 
             opMode.telemetry.addData("Action", "Forwards Gyro To Line");
             opMode.telemetry.addData("Heading", heading);
-            opMode.telemetry.addData("Is white?", ColorHelper.isFloorWhite(floorColor));
-            opMode.telemetry.addData("R:", floorColor.red());
-            opMode.telemetry.addData("G:", floorColor.green());
-            opMode.telemetry.addData("B:", floorColor.blue());
             opMode.telemetry.update();
             opMode.sleep(5);
         }
@@ -220,8 +216,7 @@ public class AutonomousDriveTrain
         while(!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive())
         {
 
-            opMode.telemetry.addData("Action", "Back to Color");
-            opMode.telemetry.addData("Value", ColorHelper.getFloorValue());
+            opMode.telemetry.addData("Action", "Back to Line");
             opMode.telemetry.update();
             opMode.sleep(5);
         }
@@ -232,30 +227,30 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
-    public void backwardsGyroToLine(ColorSensor floorColor, double power) //Move back to line using gyro
+    public void backGyroToLine(ColorSensor floorColor, double power, int accuracy, double turnpower) //Move back to line using gyro
     {
         while(!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive())
         {
             int heading = gyro.getHeading();
             double turnpow;
 
-            if(heading <= 1 || heading >= 359)
+            if(heading <= accuracy || heading >= 360 - accuracy)
             {
                 turnpow = 0;
             }
-            else if(heading >= 2 && heading <= 180)
+            else if(heading <= 180)
             {
-                turnpow = -.05;
+                turnpow = -turnpower;
             }
             else
             {
-                turnpow = .05;
+                turnpow = turnpower;
             }
 
-            frontRight.setPower(-(power/.95) + turnpow);
-            backRight.setPower(-(power/.95) + turnpow);
-            frontLeft.setPower((power/.95) + turnpow);
-            backLeft.setPower((power/.95) + turnpow);
+            frontRight.setPower(-power + turnpow);
+            backRight.setPower(-power + turnpow);
+            frontLeft.setPower(power + turnpow);
+            backLeft.setPower(power + turnpow);
 
             opMode.telemetry.addData("Action", "Back Gyro To Line");
             opMode.telemetry.addData("Heading", heading);
@@ -269,7 +264,7 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
-    public void right(double meters,double power) //Move right specified distance
+    public void right(double meters, double power) //Move right specified distance
     {
         double target = getPosRL() + meters * Constants.STRAIGHT_INCREMENTS;
 
@@ -296,9 +291,9 @@ public class AutonomousDriveTrain
 
     public void rightToTouch(double power) //Move right until touch sensor is pressed
     {
-        frontRight.setPower(power);
+        frontRight.setPower(-power);
         backRight.setPower(power);
-        frontLeft.setPower(power);
+        frontLeft.setPower(-power);
         backLeft.setPower(power);
 
 
@@ -315,112 +310,33 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
-    public void rightGyroToTouch(double power) //Move right until touch sensor is pressed using gyro
+    public void rightGyroToTouch(double power, int accuracy, double turnpower) //Move right until touch sensor is pressed using gyro
     {
-        //gyro.resetZAxisIntegrator();
-
-
         while(!wallTouch.isPressed() && opMode.opModeIsActive())
         {
             int heading = gyro.getHeading();
             double turnpow;
 
-            if(heading <= 1 || heading >= 359)
-            {
-                turnpow = 0;
-            }
-            else if(heading >= 2 && heading <= 180)
-            {
-                turnpow = -.05;
-            }
-            else
-            {
-                turnpow = .05;
-            }
-
-            frontRight.setPower(-(power/.95) + turnpow);
-            backRight.setPower((power/.95) + turnpow);
-            frontLeft.setPower(-(power/.95) + turnpow);
-            backLeft.setPower((power/.95) + turnpow);
-
-            opMode.telemetry.addData("Action", "Right to Touch");
-            opMode.telemetry.update();
-            opMode.sleep(5);
-        }
-
-        frontRight.setPower(0);
-        backRight.setPower(0);
-        frontLeft.setPower(0);
-        backLeft.setPower(0);
-    }
-
-    public void rightWobble(double meters, double power) //Move right until touch sensor is pressed using gyro
-    {
-        double target = getPosRL() + meters * Constants.STRAIGHT_INCREMENTS;
-
-        while(getPosRL() < target && opMode.opModeIsActive())
-        {
-            int heading = gyro.getHeading();
-            double turnpow;
-
-            if(heading == 0)
+            if(heading <= accuracy || heading >= 360 - accuracy)
             {
                 turnpow = 0;
             }
             else if(heading <= 180)
             {
-                turnpow = -.2;
+                turnpow = -turnpower;
             }
             else
             {
-                turnpow = .2;
+                turnpow = turnpower;
             }
 
-            frontRight.setPower(-(power/.8) + turnpow);
-            backRight.setPower((power/.8) + turnpow);
-            frontLeft.setPower(-(power/.8) + turnpow);
-            backLeft.setPower((power/.8) + turnpow);
+            frontRight.setPower(-power + turnpow);
+            backRight.setPower(power + turnpow);
+            frontLeft.setPower(-power + turnpow);
+            backLeft.setPower(power + turnpow);
 
-            opMode.telemetry.addData("Action", "Right Wobble");
-            opMode.telemetry.update();
-            opMode.sleep(5);
-        }
-
-        frontRight.setPower(0);
-        backRight.setPower(0);
-        frontLeft.setPower(0);
-        backLeft.setPower(0);
-    }
-
-    public void rightWobbleToTouch(double power) //Move right until touch sensor is pressed using gyro
-    {
-        //gyro.resetZAxisIntegrator();
-
-
-        while(!wallTouch.isPressed() && opMode.opModeIsActive())
-        {
-            int heading = gyro.getHeading();
-            double turnpow;
-
-            if(heading == 0)
-            {
-                turnpow = 0;
-            }
-            else if(heading <= 180)
-            {
-                turnpow = -.1;
-            }
-            else
-            {
-                turnpow = .1;
-            }
-
-            frontRight.setPower(-(power/.9) + turnpow);
-            backRight.setPower((power/.9) + turnpow);
-            frontLeft.setPower(-(power/.9) + turnpow);
-            backLeft.setPower((power/.9) + turnpow);
-
-            opMode.telemetry.addData("Action", "Right to Touch");
+            opMode.telemetry.addData("Action", "Right Gryo to Touch");
+            opMode.telemetry.addData("Heading", heading);
             opMode.telemetry.update();
             opMode.sleep(5);
         }
@@ -476,7 +392,7 @@ public class AutonomousDriveTrain
         frontRight.setPower(0);
     }
 
-    public void frontRightGyro(double meters, double power) //Move front right a specified distance using gyro
+    public void frontRightGyro(double meters, double power, int accuracy, double turnpower) //Move front right a specified distance using gyro
     {
         double target = getPosBLFR() + meters * Constants.DIAGONAL_INCREMENTS;
 
@@ -485,23 +401,25 @@ public class AutonomousDriveTrain
             int heading = gyro.getHeading();
             double turnpow;
 
-            if(heading <= 1 || heading >= 359)
+            if(heading <= accuracy || heading >= 360 - accuracy)
             {
                 turnpow = 0;
             }
-            else if(heading >= 2 && heading <= 180)
+            else if(heading <= 180)
             {
-                turnpow = -.3;
+                turnpow = -turnpower;
             }
             else
             {
-                turnpow = .3;
+                turnpow = turnpower;
             }
 
-            backRight.setPower((power/.7) + turnpow);
-            frontLeft.setPower(-(power/.7) + turnpow);
+            frontRight.setPower(turnpow);
+            backRight.setPower(power + turnpow);
+            frontLeft.setPower(-power + turnpow);
+            backLeft.setPower(turnpow);
 
-            opMode.telemetry.addData("Action", "Front Right Gyro");
+            opMode.telemetry.addData("Action", "FrontRight Gyro");
             opMode.telemetry.addData("Currently", getPosFB());
             opMode.telemetry.addData("Target", target);
             opMode.telemetry.addData("Heading", heading);
@@ -509,8 +427,10 @@ public class AutonomousDriveTrain
             opMode.sleep(5);
         }
 
+        frontRight.setPower(0);
         backRight.setPower(0);
         frontLeft.setPower(0);
+        backLeft.setPower(0);
     }
 
     public void backRight(double meters, double power) //Move back and right a specified distance
@@ -533,34 +453,45 @@ public class AutonomousDriveTrain
         frontRight.setPower(0);
     }
 
-    public void backRightGyro(double meters, double power) //Move back and right a specified distance
+    public void backRightGyro(double meters, double power, int accuracy, double turnpower) //Move back and right a specified distance
     {
         double target = getPosBRFL() + meters * Constants.DIAGONAL_INCREMENTS;
 
-        while (getPosBRFL() < target && opMode.opModeIsActive()) {
+        while (getPosBRFL() < target && opMode.opModeIsActive())
+        {
             int heading = gyro.getHeading();
             double turnpow;
 
-            if (heading <= 1 || heading >= 359) {
+            if (heading <= accuracy || heading >= 360 - accuracy)
+            {
                 turnpow = 0;
-            } else if (heading >= 2 && heading <= 180) {
-                turnpow = -.2;
-            } else {
-                turnpow = .2;
+            }
+            else if (heading <= 180)
+            {
+                turnpow = -turnpower;
+            }
+            else
+            {
+                turnpow = turnpower;
             }
 
-            backLeft.setPower((power/.8) + turnpow);
-            frontRight.setPower(-(power/.8) + turnpow);
+            frontRight.setPower(turnpow);
+            backLeft.setPower(power + turnpow);
+            frontRight.setPower(-power + turnpow);
+            backLeft.setPower(turnpow);
 
             opMode.telemetry.addData("Action", "Back Right Gyro");
             opMode.telemetry.addData("Currently", getPosBRFL());
             opMode.telemetry.addData("Target", target);
+            opMode.telemetry.addData("Heading", heading);
             opMode.telemetry.update();
             opMode.sleep(5);
         }
 
-        backLeft.setPower(0);
         frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
     }
 
     public void frontLeft(double meters) //Move forward and left a specified distance
@@ -603,43 +534,31 @@ public class AutonomousDriveTrain
         frontRight.setPower(0);
     }
 
-    void turnToGyro() //Turn until we are aligned
+    void turnToGyro(int accuracy, double turnpower) //Turn until we are aligned
     {
         while(opMode.opModeIsActive())
         {
-            int head = gyro.getHeading();
+            int heading = gyro.getHeading();
 
             opMode.telemetry.addData("Action", "Turn to Gyro");
             opMode.telemetry.addData("Heading", head);
 
-            if(head >= 357 || head <= 3)
-            {
-                frontRight.setPower(0);
-                backRight.setPower(0);
-                frontLeft.setPower(0);
-                backLeft.setPower(0);
+            double turnpow;
 
-                break;
-            }
-
-            if(head >= 2 && head <= 179)
+            if(heading <= accuracy || heading >= 360 - accuracy)
             {
-                frontRight.setPower(Constants.SLOW_SPEED);
-                backRight.setPower(Constants.SLOW_SPEED);
-                frontLeft.setPower(Constants.SLOW_SPEED);
-                backLeft.setPower(Constants.SLOW_SPEED);
+                turnpow = 0;
             }
-            else if(head >= 180 && head <= 358)
+            else if(heading <= 180)
             {
-                frontRight.setPower(-Constants.SLOW_SPEED);
-                backRight.setPower(-Constants.SLOW_SPEED);
-                frontLeft.setPower(-Constants.SLOW_SPEED);
-                backLeft.setPower(-Constants.SLOW_SPEED);
+                turnpow = -turnpower;
             }
             else
             {
-                opMode.telemetry.addData("Status", "Everything broke :(");
+                turnpow = turnpower;
             }
+
+
 
             opMode.sleep(50);
         }
