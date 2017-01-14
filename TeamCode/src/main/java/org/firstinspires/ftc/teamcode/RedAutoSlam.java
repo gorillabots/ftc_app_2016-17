@@ -40,45 +40,45 @@ public class RedAutoSlam extends LinearOpMode
 
         floorColor.enableLed(true); //Go to first beacon
 
-        driveTrain.backRight(1.76);
+        driveTrain.backRight(2.4992);
         driveTrain.rightGyroToTouch();
-        driveTrain.left(.0352);
+        driveTrain.left(0.049984);
         driveTrain.forwardsGyroToLine(floorColor);
-        driveTrain.right(.02112);
+        driveTrain.right(.0299904);
 
         beaconColor.enableLed(false);
 
 
 
-        driveTrain.back(.4224);
-        driveTrain.forwards(.352);
+        driveTrain.back(0.599808);
+        driveTrain.forwards(0.49984);
 
         if(ColorHelper.getBeaconColor(beaconColor) == "blue"){
-            driveTrain.back(.4224);
-            driveTrain.forwards(.352);
+            driveTrain.back(0.599808);
+            driveTrain.forwards(0.49984);
         }
 
         if(ColorHelper.getBeaconColor(beaconColor) == "blue"){
-            driveTrain.back(.4224);
-            driveTrain.forwards(.352);
+            driveTrain.back(0.599808);
+            driveTrain.forwards(0.49984);
         }
         beaconColor.enableLed(false); //Go to second beacon
         floorColor.enableLed(true);
-        driveTrain.left(.0704);
-        driveTrain.back(.2816);
+        driveTrain.left(0.099968);
+        driveTrain.back(0.399872);
         driveTrain.backwardsGyroToLine(floorColor);
-        driveTrain.right(.02112);
+        driveTrain.right(0.0299904);
         beaconColor.enableLed(true);
-        driveTrain.back(.4224);
-        driveTrain.forwards(.352);
+        driveTrain.back(0.599808);
+        driveTrain.forwards(0.49984);
         if(ColorHelper.getBeaconColor(beaconColor) == "blue"){
-            driveTrain.back(.4224);
-            driveTrain.forwards(.352);
+            driveTrain.back(0.599808);
+            driveTrain.forwards(0.49984);
         }
 
         if(ColorHelper.getBeaconColor(beaconColor) == "blue"){
-            driveTrain.back(.4224);
-            driveTrain.forwards(.352);
+            driveTrain.back(0.599808);
+            driveTrain.forwards(0.49984);
         }
 
         beaconColor.enableLed(false); //Disable LEDs
