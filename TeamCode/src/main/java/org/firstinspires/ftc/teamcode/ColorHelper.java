@@ -31,7 +31,7 @@ public class ColorHelper {
         }
 
         //Blue if 230 < hue < 250 with saturation > 0.5
-        else if (hsvValues[0] > 230 && hsvValues[0] < 250 && hsvValues[1] > 0.5){
+        else if (hsvValues[0] > 205 && hsvValues[0] < 250 && hsvValues[1] > 0.5){
             currentcolor = "blue";
         }
 
