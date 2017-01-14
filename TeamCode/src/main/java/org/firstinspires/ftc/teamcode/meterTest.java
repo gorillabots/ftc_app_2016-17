@@ -49,7 +49,7 @@ public class meterTest extends LinearOpMode
             telemetry.update();
             if (ColorHelper.getBeaconColor(beaconColor).equals("blue")) {
 
-                driveTrain.left(.1);
+                driveTrain.left(.1, .5);
             }
 
     }
