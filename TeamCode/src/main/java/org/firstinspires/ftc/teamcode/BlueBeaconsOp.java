@@ -8,10 +8,9 @@ import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
 
 /**
- * Created by root on 11/13/16.
+ * Created by mikko on 11/13/16.
  */
-//Josh was here
-@Disabled
+
 @Autonomous(name="BlueBeacons", group="concept")
 public class BlueBeaconsOp extends LinearOpMode
 {
@@ -38,11 +37,15 @@ public class BlueBeaconsOp extends LinearOpMode
 
         floorColor.enableLed(true);
 
+        /*
+
         driveTrain.frontRight(1.42);
         driveTrain.rightToTouch();
         driveTrain.left(.08);
 
         driveTrain.backToLine(floorColor);
+
+        */
 
         floorColor.enableLed(false);
         beacon.Respond_If_In_Blue_Alliance(beaconColor, button_presser_1, button_presser_2);

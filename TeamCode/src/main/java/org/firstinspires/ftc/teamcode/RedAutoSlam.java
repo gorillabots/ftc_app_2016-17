@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Created by Mikko on 12/11/16.
  */
 
-@Autonomous(name="RedBeaconsSlam", group="beta")
+@Autonomous(name="RedBeaconsBroken", group="beta")
 public class RedAutoSlam extends LinearOpMode
 {
     AutonomousDriveTrain driveTrain;
@@ -44,6 +44,8 @@ public class RedAutoSlam extends LinearOpMode
         waitForStart();
 
         driveTrain.resetGyro();
+
+        /* START COMMENT
 
         //Go to first beacon
         sensorSwing.setPosition(.0);
@@ -107,9 +109,8 @@ public class RedAutoSlam extends LinearOpMode
         if(ColorHelper.getBeaconColor(beaconColor) == "blue"){
             driveTrain.left(.25);
             driveTrain.right(.1); //Changed
-        }*/
+        }
 
-    /*
         beaconColor.enableLed(false); //Go to second beacon
         floorColor.enableLed(true);
 
@@ -125,9 +126,10 @@ public class RedAutoSlam extends LinearOpMode
         }
         driveTrain.left(.15);
 
+        END COMMENT */
+
         beaconColor.enableLed(false); //Disable LEDs
         floorColor.enableLed(false);
-    */
     }
 }
 
