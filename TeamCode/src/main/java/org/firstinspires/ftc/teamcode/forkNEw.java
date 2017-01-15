@@ -26,8 +26,6 @@ public class forkNEw extends OpMode {
     DcMotor flyTwo;
     DcMotor raise;
     TouchSensor limit;
-    Servo butt1;
-    Servo butt2;
 
     ColorSensor floorColor;
     ColorSensor beaconColor;
@@ -155,16 +153,12 @@ public class forkNEw extends OpMode {
         } else {
 
             if (gamepad2.left_stick_y < 0) {
-                raise.setPower(-1*(gamepad2.left_stick_y / 2));
+                raise.setPower(-1 * (gamepad2.left_stick_y / 2));
             } else {
-                raise.setPower(-1*(gamepad2.left_stick_y / 2));
+                raise.setPower(-1 * (gamepad2.left_stick_y / 2));
             }
 
         }
-
-
-        butt1.setPosition(.18 + (gamepad1.left_trigger) * .5);
-        butt2.setPosition(.18 + (gamepad1.right_trigger) * .5);
 
 
     }
