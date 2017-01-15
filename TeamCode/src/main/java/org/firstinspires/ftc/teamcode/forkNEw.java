@@ -24,7 +24,6 @@ public class forkNEw extends OpMode {
     DcMotor vac;
     DcMotor flyOne;
     DcMotor flyTwo;
-    ButtonPresserClass buttonPress;
     DcMotor raise;
     TouchSensor limit;
     Servo butt1;
@@ -53,17 +52,12 @@ public class forkNEw extends OpMode {
                 e.printStackTrace();
             }
         }
-        buttonPress = new ButtonPresserClass();
         vac = hardwareMap.dcMotor.get("vac");
         elevator = hardwareMap.crservo.get("elevator");
         flyOne = hardwareMap.dcMotor.get("flyOne");
         flyTwo = hardwareMap.dcMotor.get("flyTwo");
         raise = hardwareMap.dcMotor.get("raise");
         limit = hardwareMap.touchSensor.get("limit");
-        butt1 = hardwareMap.servo.get("butt1");
-        butt2 = hardwareMap.servo.get("butt2");
-        butt1.setPosition(Constants.ACTUATOR_RESET_VALUE); //Was 30
-        butt2.setPosition(Constants.ACTUATOR_RESET_VALUE); //Was 30
         servoSwing = hardwareMap.servo.get("servoSwing");
 
         gyro.resetZAxisIntegrator();
