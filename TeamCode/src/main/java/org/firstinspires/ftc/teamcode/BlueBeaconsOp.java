@@ -30,7 +30,6 @@ public class BlueBeaconsOp extends LinearOpMode
         button_presser_2 = hardwareMap.servo.get("actuator2");
         floorColor = hardwareMap.colorSensor.get("floorColor");
         beaconColor = hardwareMap.colorSensor.get("beaconColor");
-
         floorColor.setI2cAddress(I2cAddr.create8bit(58));
 
         floorColor.enableLed(false);
