@@ -26,14 +26,12 @@ public class CenterGoalAuto extends LinearOpMode {
     AutonomousDriveTrain driveTrain;
     ColorSensor floorColor;
     ColorSensor beaconColor;
-    ButtonPresserClass beacon;
     Servo button_presser_1;
     Servo button_presser_2;
     public void runOpMode(){
         driveTrain = new AutonomousDriveTrain();
         shooter = new BallControl(hardwareMap, telemetry);
         driveTrain.init(this);driveTrain = new AutonomousDriveTrain();
-        beacon = new ButtonPresserClass();
         driveTrain.init(this);
 
         button_presser_1 = hardwareMap.servo.get("butt1");

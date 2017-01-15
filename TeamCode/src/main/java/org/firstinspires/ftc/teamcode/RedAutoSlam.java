@@ -19,7 +19,6 @@ public class RedAutoSlam extends LinearOpMode
     ColorSensor floorColor;
     ColorSensor beaconColor;
     ColorHelper colorHelp = new ColorHelper();
-    ButtonPresserClass beacon;
     Servo button_presser_1;
     Servo button_presser_2;
     Servo sensorSwing;
@@ -29,7 +28,6 @@ public class RedAutoSlam extends LinearOpMode
         driveTrain = new AutonomousDriveTrain(); //Initialize hardware
         driveTrain.init(this);
 
-        beacon = new ButtonPresserClass();
         button_presser_1 = hardwareMap.servo.get("butt1");
         button_presser_2 = hardwareMap.servo.get("butt2");
 
@@ -39,7 +37,7 @@ public class RedAutoSlam extends LinearOpMode
         beaconColor.enableLed(false);
         floorColor.enableLed(false);
 
-        sensorSwing = hardwareMap.servo.get("servoSwing");
+        sensorSwing = hardwareMap.servo.get("touchServo");
         sensorSwing.setPosition(.56);
         waitForStart();
 

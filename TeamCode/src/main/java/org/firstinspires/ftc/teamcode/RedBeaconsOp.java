@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.I2cAddr;
+import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * Created by mikko on 11/13/16.
@@ -17,6 +18,8 @@ public class RedBeaconsOp extends LinearOpMode
 
     ColorSensor floorColor;
 
+    Servo sensorSwing;
+
     public void runOpMode()
     {
         driveTrain = new AutonomousDriveTrain(); //Intialize drive train
@@ -24,6 +27,9 @@ public class RedBeaconsOp extends LinearOpMode
 
         floorColor = hardwareMap.colorSensor.get("floorColor"); //Initialize color sensor
         floorColor.setI2cAddress(I2cAddr.create8bit(58));
+
+        sensorSwing = hardwareMap.servo.get("touchServo");
+        sensorSwing.setPosition(.56);
 
         floorColor.enableLed(false); //Disable color sensor LED
 
