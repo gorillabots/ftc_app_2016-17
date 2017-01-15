@@ -19,7 +19,7 @@ public class meterTest extends LinearOpMode
     ColorSensor floorColor;
     ColorSensor beaconColor;
     ColorHelper colorHelp = new ColorHelper();
-    ButtonPresserClass beacon;
+
     Servo button_presser_1;
     Servo button_presser_2;
 
@@ -28,7 +28,7 @@ public class meterTest extends LinearOpMode
         driveTrain = new AutonomousDriveTrain(); //Initialize hardware
         driveTrain.init(this);
 
-        beacon = new ButtonPresserClass();
+
         button_presser_1 = hardwareMap.servo.get("butt1");
         button_presser_2 = hardwareMap.servo.get("butt2");
 

@@ -39,10 +39,14 @@ public class RedBeaconsOp extends LinearOpMode
 
         //Start actual autonomous
 
-        driveTrain.backRightGyro(1.42, .8, 1, .2);
-        driveTrain.rightGyroToTouch(.8, 1, .2);
+        sensorSwing.setPosition(.0);
+        driveTrain.backRightGyro(1.76, .8, 1, .2);
+        driveTrain.rightGyroToTouch(.3, 1, .2);
+        sensorSwing.setPosition(52);
         driveTrain.leftGyro(.1, .5, 1, .1);
+
         //sleep(100);
+
 
         floorColor.enableLed(false); //Disable color sensor LED
     }

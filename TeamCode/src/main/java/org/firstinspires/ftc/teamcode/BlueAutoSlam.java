@@ -11,7 +11,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 /**
  * Created by Owner on 1/15/2017.
  */
-
 @Autonomous (name="BlueBeaconSlam", group="beta")
 public class BlueAutoSlam extends LinearOpMode{
 
@@ -20,6 +19,7 @@ public class BlueAutoSlam extends LinearOpMode{
     ColorSensor beaconColor;
     ColorSensor RightBS;
     ColorHelper colorHelp = new ColorHelper();
+
     Servo button_presser_1;
     Servo button_presser_2;
     Servo sensorSwing;
@@ -27,6 +27,7 @@ public class BlueAutoSlam extends LinearOpMode{
     {
         driveTrain = new AutonomousDriveTrain(); //Initialize hardware
         driveTrain.init(this);
+
 
         button_presser_1 = hardwareMap.servo.get("butt1");
         button_presser_2 = hardwareMap.servo.get("butt2");
@@ -40,7 +41,7 @@ public class BlueAutoSlam extends LinearOpMode{
         floorColor.enableLed(false);
         RightBS.enableLed(false);
 
-        sensorSwing = hardwareMap.servo.get("touchServo");
+        sensorSwing = hardwareMap.servo.get("servoSwing");
         sensorSwing.setPosition(.56);
         waitForStart();
 
@@ -52,7 +53,8 @@ public class BlueAutoSlam extends LinearOpMode{
         sensorSwing.setPosition(.0);
         driveTrain.backRightGyro(1.76, .5); //Go out
         driveTrain.rightGyroToTouch(.3); //Go to wall slowly
-        sensorSwing.setPosition(52);
+        sensorSwing.setPosition(52
+        );
         driveTrain.right(.0352, .5); //Go out
         driveTrain.turnToGyro(.3);
         //driveTrain.GyroRotation(0e, .2);
@@ -132,4 +134,3 @@ public class BlueAutoSlam extends LinearOpMode{
         floorColor.enableLed(false);
     }
 }
-
