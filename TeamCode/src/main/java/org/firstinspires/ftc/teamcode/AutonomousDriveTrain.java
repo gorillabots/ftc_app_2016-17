@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 /**
@@ -21,7 +22,7 @@ public class AutonomousDriveTrain
     TouchSensor wallTouch;
 
     ModernRoboticsI2cGyro gyro;
-
+    Servo touch_servo;
     public void init(LinearOpMode opMode) //Get hardware from hardwareMap
     {
         this.opMode = opMode;
@@ -30,7 +31,7 @@ public class AutonomousDriveTrain
         backRight = opMode.hardwareMap.dcMotor.get("frontRight"); //backRight
         frontLeft = opMode.hardwareMap.dcMotor.get("backLeft"); //frontLeft
         backLeft = opMode.hardwareMap.dcMotor.get("backRight"); //backLeft
-
+        touch_servo = opMode.hardwareMap.servo.get("touchServo");
         wallTouch = opMode.hardwareMap.touchSensor.get("wallTouch");
         gyro = (ModernRoboticsI2cGyro) opMode.hardwareMap.gyroSensor.get("gyro");
 
@@ -54,28 +55,6 @@ public class AutonomousDriveTrain
     public void resetGyro()
     {
         gyro.resetZAxisIntegrator();
-    }
-
-    void forwardEncodeHelp(double meters, double power) {
-        double target = getPosFB() + meters * Constants.STRAIGHT_INCREMENTS;
-        while(getPosFB() < target && opMode.opModeIsActive()) {
-            if (backLeft.getCurrentPosition() > backRight.getCurrentPosition()) {
-                frontRight.setPower(power);
-                backRight.setPower(power);
-                frontLeft.setPower(-power);
-                backLeft.setPower(-power);
-            } else if (backLeft.getCurrentPosition() < backRight.getCurrentPosition()) {
-                frontRight.setPower(power);
-                backRight.setPower(power);
-                frontLeft.setPower(-power);
-                backLeft.setPower(-power);
-            } else {
-                frontRight.setPower(power);
-                backRight.setPower(power);
-                frontLeft.setPower(-power);
-                backLeft.setPower(-power);
-            }
-        }
     }
 
     public void forwards(double meters, double power) //Move forward specified distance with specified power
@@ -565,22 +544,12 @@ public class AutonomousDriveTrain
 
 
     }
-
-    void turn(int millis) //Turn for a specified amount of time (Unused)
-    {
-        frontRight.setPower(.2);
-        backRight.setPower(.2);
-        frontLeft.setPower(.2);
-        backLeft.setPower(.2);
-
-        opMode.sleep(millis);
-
-        frontRight.setPower(0);
-        backRight.setPower(0);
-        frontLeft.setPower(0);
-        backLeft.setPower(0);
+    public void right_continuous(double power) {
+        frontRight.setPower(-power);
+        backRight.setPower(power);
+        frontLeft.setPower(-power);
+        backLeft.setPower(power);
     }
-
     double getPosFB() //Get position for use in forwards and backwards movements
     {
         double sum = frontRight.getCurrentPosition() - frontLeft.getCurrentPosition() +
@@ -611,6 +580,19 @@ public class AutonomousDriveTrain
                 frontLeft.getCurrentPosition() + backLeft.getCurrentPosition();
         return sum / 4;
     }
+    void turnleft(double power) {
+        frontRight.setPower(power);
+        backRight.setPower(power);
+        frontLeft.setPower(power);
+        backLeft.setPower(power);
+    }
+
+    void turnright(double power) {
+        frontRight.setPower(-power);
+        backRight.setPower(-power);
+        frontLeft.setPower(-power);
+        backLeft.setPower(-power);
+    }
     public void GyroRotation(int target, double power){
         if(target > 360 || target < 0 || power < 0 || power > 1){
             throw new IllegalArgumentException();
@@ -624,13 +606,11 @@ public class AutonomousDriveTrain
             if (degree_rotation < 180 && degree_rotation > 0) {
                 while (initial_heading < target) {
                     turnright(power);
-                    opMode.sleep(5);
                 }
             }
             if(degree_rotation > 180 && degree_rotation < 360){
                 while(initial_heading > target){
                     turnleft(power);
-                    opMode.sleep(5);
                 }
             }
             if(degree_rotation == 0 || degree_rotation == 360){
@@ -638,17 +618,14 @@ public class AutonomousDriveTrain
             }
         }
     }
-    void turnleft(double power) {
-        frontRight.setPower(power);
-        backRight.setPower(power);
-        frontLeft.setPower(power);
-        backLeft.setPower(power);
+    public void ExtendTouchServo(){
+        touch_servo.setPosition(0);
     }
+    public void RetractTouchServo(){
+        touch_servo.setPosition(255);
+    }
+    public void DeAccelerator(double deacceleration_rate, double initial_speed, long time){
+        //input positive value less than one
 
-    void turnright(double power) {
-        frontRight.setPower(-power);
-        backRight.setPower(-power);
-        frontLeft.setPower(-power);
-        backLeft.setPower(-power);
     }
 }

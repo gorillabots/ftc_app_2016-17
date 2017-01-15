@@ -11,10 +11,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous(name="RangeTest", group="test")
 public class RangeTest extends LinearOpMode{
-    ZAutonomousDriveTrain drive;
+    AutonomousDriveTrain drive;
     UltrasonicSensor range;
     public void runOpMode() {
-        drive = new ZAutonomousDriveTrain();
+        range = hardwareMap.ultrasonicSensor.get("range");
+        drive = new AutonomousDriveTrain();
         drive.init(this);
         while(range.getUltrasonicLevel() > 25){
             drive.right_continuous(0.5);
