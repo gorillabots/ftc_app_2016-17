@@ -22,7 +22,7 @@ public class meterTest extends LinearOpMode
     ButtonPresserClass beacon;
     Servo button_presser_1;
     Servo button_presser_2;
-    Servo  sensorSwing;
+
     public void runOpMode()
     {
         driveTrain = new AutonomousDriveTrain(); //Initialize hardware
@@ -38,19 +38,12 @@ public class meterTest extends LinearOpMode
         beaconColor.enableLed(false);
         floorColor.enableLed(false);
 
-        sensorSwing = hardwareMap.servo.get("servoSwing");
-        sensorSwing.setPosition(.56);
+
         waitForStart();
 
         driveTrain.resetGyro();
 
-
-            ColorHelper.printColorHSV(telemetry, beaconColor);
-            telemetry.update();
-            if (ColorHelper.getBeaconColor(beaconColor).equals("blue")) {
-
-                driveTrain.left(.1, .5);
-            }
+        driveTrain.forwards(1, .5);
 
     }
 }
