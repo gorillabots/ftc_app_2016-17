@@ -72,24 +72,24 @@ public class BlueAutoSlam extends LinearOpMode{
 
         sleep(500);
 
-        if(ColorHelper.getBeaconColor(beaconColor).equals("blue"))
+        if(ColorHelper.getBeaconColor(beaconColor).equals("red"))
         {
             driveTrain.left(.1, .5);
             driveTrain.right(.02, .5);
         }
         driveTrain.forwards(.01, .5);
-        if(ColorHelper.getBeaconColor(beaconColor).equals("blue"))
+        if(ColorHelper.getBeaconColor(beaconColor).equals("red"))
         {
             driveTrain.left(.1, .5);
             driveTrain.right(.02, .5);
         }
         driveTrain.back(.02, .5);
-        if(ColorHelper.getBeaconColor(beaconColor).equals("blue"))
+        if(ColorHelper.getBeaconColor(beaconColor).equals("red"))
         {
             driveTrain.left(.1, .5);
             driveTrain.right(.02, .5);
         }
-        if(ColorHelper.getBeaconColor(beaconColor).equals("blue"))
+        if(ColorHelper.getBeaconColor(beaconColor).equals("red"))
         {
             driveTrain.left(.1, .5);
             driveTrain.right(.02, .5);
@@ -104,7 +104,7 @@ public class BlueAutoSlam extends LinearOpMode{
         driveTrain.left(.1); //Changed
 
 
-        if(ColorHelper.getBeaconColor(beaconColor) == "blue"){
+        if(ColorHelper.getBeaconColor(beaconColor) == "red"){
             driveTrain.right(.25);
             driveTrain.left(.1); //Changed
         }
@@ -117,7 +117,7 @@ public class BlueAutoSlam extends LinearOpMode{
         driveTrain.left(.02112);
         beaconColor.enableLed(true);
         driveTrain.left(.352);
-        if(ColorHelper.getBeaconColor(beaconColor) == "blue"){
+        if(ColorHelper.getBeaconColor(beaconColor) == "red"){
             driveTrain.right(.095);
             driveTrain.left(.352);
 
