@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.I2cAddr;
  * Created by mikko on 11/13/16.
  */
 
-@Autonomous(name="RedBeaconsbad", group="concept")
+@Autonomous(name="RedBeacons", group="concept")
 public class RedBeaconsOp extends LinearOpMode
 {
     AutonomousDriveTrain driveTrain;
@@ -31,14 +31,12 @@ public class RedBeaconsOp extends LinearOpMode
 
         floorColor.enableLed(true); //Enable color sensor LED
 
-        /*
+
 
         driveTrain.backRightGyro(1.42, .8, 1, .2); //Run autonomous itself
-        driveTrain.rightToTouch();
-        driveTrain.left(.1);
-        sleep(100);
-
-        */
+        driveTrain.rightGyroToTouch(.8, 1, .2);
+        driveTrain.leftGyro(.1, .5, 1, .1);
+        //sleep(100);
 
         floorColor.enableLed(false); //Disable color sensor LED
     }

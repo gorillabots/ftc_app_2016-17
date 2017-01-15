@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 /**
@@ -107,10 +108,12 @@ public class AutonomousDriveTrain
     {
         double target = getPosFB() + meters * Constants.STRAIGHT_INCREMENTS;
 
+        int heading;
+        double turnpow;
+
         while(getPosFB() < target && opMode.opModeIsActive())
         {
-            int heading = gyro.getHeading();
-            double turnpow;
+            heading = gyro.getHeading();
 
             if(heading <= accuracy || heading >= 360 - accuracy)
             {
@@ -146,10 +149,12 @@ public class AutonomousDriveTrain
 
     public void forwardsGyroToLine(ColorSensor floorColor, double power, int accuracy, double turnpower) //Move forward to line using gyro
     {
+        int heading;
+        double turnpow;
+
         while(!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive())
         {
-            int heading = gyro.getHeading();
-            double turnpow;
+            heading = gyro.getHeading();
 
             if(heading <= accuracy || heading >= 360 - accuracy) //In range 1-359
             {
@@ -229,10 +234,12 @@ public class AutonomousDriveTrain
 
     public void backGyroToLine(ColorSensor floorColor, double power, int accuracy, double turnpower) //Move back to line using gyro
     {
+        int heading;
+        double turnpow;
+
         while(!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive())
         {
-            int heading = gyro.getHeading();
-            double turnpow;
+            heading = gyro.getHeading();
 
             if(heading <= accuracy || heading >= 360 - accuracy)
             {
@@ -312,10 +319,12 @@ public class AutonomousDriveTrain
 
     public void rightGyroToTouch(double power, int accuracy, double turnpower) //Move right until touch sensor is pressed using gyro
     {
+        int heading;
+        double turnpow;
+
         while(!wallTouch.isPressed() && opMode.opModeIsActive())
         {
-            int heading = gyro.getHeading();
-            double turnpow;
+            heading = gyro.getHeading();
 
             if(heading <= accuracy || heading >= 360 - accuracy)
             {
@@ -362,6 +371,49 @@ public class AutonomousDriveTrain
             opMode.telemetry.addData("Action", "Left");
             opMode.telemetry.addData("Currently", getPosRL());
             opMode.telemetry.addData("Target", target);
+            opMode.telemetry.update();
+            opMode.sleep(5);
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
+
+    public void leftGyro(double meters, double power, int accuracy, double turnpower) //Move left specified distance using gyro
+    {
+        double target = getPosRL() - meters * Constants.STRAIGHT_INCREMENTS;
+
+        int heading;
+        double turnpow;
+
+        while(getPosRL() > target && opMode.opModeIsActive())
+        {
+            heading = gyro.getHeading();
+
+            if(heading <= accuracy || heading >= 360 - accuracy)
+            {
+                turnpow = 0;
+            }
+            else if(heading <= 180)
+            {
+                turnpow = -turnpower;
+            }
+            else
+            {
+                turnpow = turnpower;
+            }
+
+            frontRight.setPower(power + turnpow);
+            backRight.setPower(-power + turnpow);
+            frontLeft.setPower(power + turnpow);
+            backLeft.setPower(-power + turnpow);
+
+            opMode.telemetry.addData("Action", "LeftGyro");
+            opMode.telemetry.addData("Currently", getPosRL());
+            opMode.telemetry.addData("Target", target);
+            opMode.telemetry.addData("Heading", heading);
             opMode.telemetry.update();
             opMode.sleep(5);
         }
@@ -457,10 +509,12 @@ public class AutonomousDriveTrain
     {
         double target = getPosBRFL() + meters * Constants.DIAGONAL_INCREMENTS;
 
+        int heading;
+        double turnpow;
+
         while (getPosBRFL() < target && opMode.opModeIsActive())
         {
-            int heading = gyro.getHeading();
-            double turnpow;
+            heading = gyro.getHeading();
 
             if (heading <= accuracy || heading >= 360 - accuracy)
             {
@@ -558,7 +612,10 @@ public class AutonomousDriveTrain
                 turnpow = turnpower;
             }
 
-
+            frontRight.setPower(turnpow);
+            backRight.setPower(turnpow);
+            frontLeft.setPower(turnpow);
+            backLeft.setPower(turnpow);
 
             opMode.sleep(50);
         }
@@ -581,26 +638,26 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
-    double getPosFB() //Get position for use in forwards and backwards movements
+    private double getPosFB() //Get position for use in forwards and backwards movements
     {
         double sum = frontRight.getCurrentPosition() - frontLeft.getCurrentPosition() +
                 backRight.getCurrentPosition() - backLeft.getCurrentPosition();
         return sum / 4;
     }
 
-    double getPosRL() //Get position for use in left and right movements
+    private double getPosRL() //Get position for use in left and right movements
     {
         double sum = -frontRight.getCurrentPosition() - frontLeft.getCurrentPosition() +
                 backRight.getCurrentPosition() + backLeft.getCurrentPosition();
         return sum / 4;
     }
 
-    double getPosBRFL() //Get position for use in frontLeft and backRight
+    private double getPosBRFL() //Get position for use in frontLeft and backRight
     {
         return (backLeft.getCurrentPosition() - frontRight.getCurrentPosition()) / 2;
     }
 
-    double getPosBLFR() //Get position for use in frontRight and backLeft
+    private double getPosBLFR() //Get position for use in frontRight and backLeft
     {
         return (backRight.getCurrentPosition() - frontLeft.getCurrentPosition()) / 2;
     }
@@ -638,14 +695,16 @@ public class AutonomousDriveTrain
             }
         }
     }
-    void turnleft(double power) {
+    private void turnleft(double power)
+    {
         frontRight.setPower(power);
         backRight.setPower(power);
         frontLeft.setPower(power);
         backLeft.setPower(power);
     }
 
-    void turnright(double power) {
+    private void turnright(double power)
+    {
         frontRight.setPower(-power);
         backRight.setPower(-power);
         frontLeft.setPower(-power);
