@@ -43,11 +43,14 @@ public class BlueAutoSlam extends LinearOpMode{
 
         driveTrain.resetGyro();
 
+         /* START COMMENT
+
         //Go to first beacon
         sensorSwing.setPosition(.0);
         driveTrain.backRightGyro(1.76, .5); //Go out
         driveTrain.rightGyroToTouch(.3); //Go to wall slowly
-        sensorSwing.setPosition(52);
+        sensorSwing.setPosition(52
+        );
         driveTrain.right(.0352, .5); //Go out
         driveTrain.turnToGyro(.3);
         //driveTrain.GyroRotation(0e, .2);
@@ -65,28 +68,28 @@ public class BlueAutoSlam extends LinearOpMode{
         driveTrain.right(.02, .5);
         driveTrain.turnToGyro(.3);
         driveTrain.left(.01, .5);
-        // driveTrain.turnToGyro();
+       // driveTrain.turnToGyro();
 
         sleep(500);
 
-        if(ColorHelper.getBeaconColor(beaconColor).equals("red"))
+        if(ColorHelper.getBeaconColor(beaconColor).equals("blue"))
         {
             driveTrain.left(.1, .5);
             driveTrain.right(.02, .5);
         }
         driveTrain.forwards(.01, .5);
-        if(ColorHelper.getBeaconColor(beaconColor).equals("red"))
+        if(ColorHelper.getBeaconColor(beaconColor).equals("blue"))
         {
             driveTrain.left(.1, .5);
             driveTrain.right(.02, .5);
         }
         driveTrain.back(.02, .5);
-        if(ColorHelper.getBeaconColor(beaconColor).equals("red"))
+        if(ColorHelper.getBeaconColor(beaconColor).equals("blue"))
         {
             driveTrain.left(.1, .5);
             driveTrain.right(.02, .5);
         }
-        if(ColorHelper.getBeaconColor(beaconColor).equals("red"))
+        if(ColorHelper.getBeaconColor(beaconColor).equals("blue"))
         {
             driveTrain.left(.1, .5);
             driveTrain.right(.02, .5);
@@ -94,36 +97,36 @@ public class BlueAutoSlam extends LinearOpMode{
 
         driveTrain.backwardsGyroToLine(floorColor, .5);
 
-        /*driveTrain.left(.25);
+        /*driveTrain.right(.25);
         driveTrain.backwardsGyroToLine(floorColor);
 
 
-        driveTrain.right(.1); //Changed
+        driveTrain.left(.1); //Changed
 
 
         if(ColorHelper.getBeaconColor(beaconColor) == "blue"){
-            driveTrain.left(.25);
-            driveTrain.right(.1); //Changed
-        }*/
+            driveTrain.right(.25);
+            driveTrain.left(.1); //Changed
+        }
 
-    /*
         beaconColor.enableLed(false); //Go to second beacon
         floorColor.enableLed(true);
 
         driveTrain.back(.25);
         driveTrain.backwardsGyroToLine(floorColor);
-        driveTrain.right(.02112);
+        driveTrain.left(.02112);
         beaconColor.enableLed(true);
-        driveTrain.right(.352);
+        driveTrain.left(.352);
         if(ColorHelper.getBeaconColor(beaconColor) == "blue"){
-            driveTrain.left(.095);
-            driveTrain.right(.352);
+            driveTrain.right(.095);
+            driveTrain.left(.352);
 
         }
-        driveTrain.left(.15);
+        driveTrain.right(.15);
+
+        END COMMENT */
 
         beaconColor.enableLed(false); //Disable LEDs
         floorColor.enableLed(false);
-    */
     }
 }
