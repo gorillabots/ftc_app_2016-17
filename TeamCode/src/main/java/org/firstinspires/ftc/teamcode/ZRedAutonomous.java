@@ -21,13 +21,13 @@ public class ZRedAutonomous extends LinearOpMode
     ZAutonomousDriveTrain driveTrain;
     ColorSensor floorColor;
     ColorSensor beaconColor;
-    ButtonPresserClass beacon;
+
     Servo button_presser_1;
     Servo button_presser_2;
     public void runOpMode() throws InterruptedException
     {
         driveTrain = new ZAutonomousDriveTrain();
-        beacon = new ButtonPresserClass();
+
         driveTrain.init(this);
         button_presser_1 = hardwareMap.servo.get("la1");
         button_presser_2 = hardwareMap.servo.get("la2");
@@ -37,7 +37,6 @@ public class ZRedAutonomous extends LinearOpMode
         beaconColor.enableLed(false);
         floorColor.enableLed(false);
         driveTrain.RetractTouchServo();
-        beacon.Start(button_presser_1, button_presser_2);
         waitForStart();
         driveTrain.ExtendTouchServo();
         driveTrain.rightToTouch(1);

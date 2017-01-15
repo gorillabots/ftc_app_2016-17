@@ -58,7 +58,7 @@ public class forkNEw extends OpMode {
         flyTwo = hardwareMap.dcMotor.get("flyTwo");
         raise = hardwareMap.dcMotor.get("raise");
         limit = hardwareMap.touchSensor.get("limit");
-        servoSwing = hardwareMap.servo.get("servoSwing");
+        servoSwing = hardwareMap.servo.get("touchServo");
 
         gyro.resetZAxisIntegrator();
 

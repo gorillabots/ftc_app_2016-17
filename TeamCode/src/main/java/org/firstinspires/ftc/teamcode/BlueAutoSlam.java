@@ -19,7 +19,7 @@ public class BlueAutoSlam extends LinearOpMode{
     ColorSensor beaconColor;
     ColorSensor RightBS;
     ColorHelper colorHelp = new ColorHelper();
-    ButtonPresserClass beacon;
+
     Servo button_presser_1;
     Servo button_presser_2;
     Servo sensorSwing;
@@ -28,7 +28,7 @@ public class BlueAutoSlam extends LinearOpMode{
         driveTrain = new AutonomousDriveTrain(); //Initialize hardware
         driveTrain.init(this);
 
-        beacon = new ButtonPresserClass();
+
         button_presser_1 = hardwareMap.servo.get("butt1");
         button_presser_2 = hardwareMap.servo.get("butt2");
 
