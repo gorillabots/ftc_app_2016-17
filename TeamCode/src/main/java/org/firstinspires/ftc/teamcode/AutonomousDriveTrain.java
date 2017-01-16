@@ -21,11 +21,15 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
  *  R       | Yes   | Yes       | Yes       |
  *  L       | Yes   |           | X         |
  *  FR      | Yes   |           |           |
- *  FL      |       |           | X         |
+ *  FL      | Yes   |           | X         |
  *  BR      | Yes   |           |           |
- *  BL      |       |           | X         |
+ *  BL      | Yes   |           | X         |
  *
  *  X - Unnecessary
+ *
+ *  turnToGyro - turn to 0 degrees
+ *
+ *  GyroRotation() -  BETA - turn to any degrees
  *
  */
 
@@ -841,7 +845,9 @@ public class AutonomousDriveTrain
 
 
     }
-    public void right_continuous(double power) {
+
+    public void right_continuous(double power)
+    {
         frontRight.setPower(-power);
         backRight.setPower(power);
         frontLeft.setPower(-power);
