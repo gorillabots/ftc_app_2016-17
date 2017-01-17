@@ -461,6 +461,9 @@ public class AutonomousDriveTrain
 
     public void left(double meters, double power) //Move left by distance
     {
+        opMode.telemetry.addData("Starting left", 42);
+        opMode.telemetry.update();
+
         double pos = getPosRL();
         double target = pos - meters * Constants.STRAIGHT_INCREMENTS;
 
@@ -468,7 +471,6 @@ public class AutonomousDriveTrain
         backRight.setPower(-power);
         frontLeft.setPower(power);
         backLeft.setPower(-power);
-
 
         while(pos > target && opMode.opModeIsActive())
         {
@@ -490,7 +492,7 @@ public class AutonomousDriveTrain
     public void leftGyro(double meters, double power, int accuracy, double turnpower) //Move left by distance using gyro
     {
         double pos = getPosRL();
-        double target = getPosRL() - meters * Constants.STRAIGHT_INCREMENTS;
+        double target = pos - meters * Constants.STRAIGHT_INCREMENTS;
 
         int heading;
         double turnpow;
@@ -581,10 +583,8 @@ public class AutonomousDriveTrain
                 turnpow = turnpower;
             }
 
-            frontRight.setPower(turnpow);
             backRight.setPower(power + turnpow);
             frontLeft.setPower(-power + turnpow);
-            backLeft.setPower(turnpow);
 
             opMode.telemetry.addData("Action", "FrontRight Gyro");
             opMode.telemetry.addData("Currently", pos);
@@ -596,10 +596,8 @@ public class AutonomousDriveTrain
             pos = getPosBLFR();
         }
 
-        frontRight.setPower(0);
         backRight.setPower(0);
         frontLeft.setPower(0);
-        backLeft.setPower(0);
     }
 
     public void backRight(double meters, double power) //Move back and right a specified distance
@@ -650,10 +648,8 @@ public class AutonomousDriveTrain
                 turnpow = turnpower;
             }
 
-            frontRight.setPower(turnpow);
             backLeft.setPower(power + turnpow);
             frontRight.setPower(-power + turnpow);
-            backLeft.setPower(turnpow);
 
             opMode.telemetry.addData("Action", "BackRight Gyro");
             opMode.telemetry.addData("Currently", pos);
@@ -666,8 +662,6 @@ public class AutonomousDriveTrain
         }
 
         frontRight.setPower(0);
-        backRight.setPower(0);
-        frontLeft.setPower(0);
         backLeft.setPower(0);
     }
 
@@ -719,8 +713,6 @@ public class AutonomousDriveTrain
                 turnpow = turnpower;
             }
 
-            frontRight.setPower(turnpow);
-            backRight.setPower(turnpow);
             frontRight.setPower(power + turnpow);
             backLeft.setPower(-power + turnpow);
 
@@ -735,8 +727,6 @@ public class AutonomousDriveTrain
         }
 
         frontRight.setPower(0);
-        backRight.setPower(0);
-        frontLeft.setPower(0);
         backLeft.setPower(0);
     }
 
@@ -771,8 +761,6 @@ public class AutonomousDriveTrain
         int heading;
         double turnpow;
 
-
-
         while(pos > target && opMode.opModeIsActive())
         {
             heading = gyro.getHeading();
@@ -790,10 +778,8 @@ public class AutonomousDriveTrain
                 turnpow = turnpower;
             }
 
-            frontRight.setPower(turnpow);
             backRight.setPower(-power + turnpow);
             frontLeft.setPower(power + turnpow);
-            backLeft.setPower(turnpow);
 
             opMode.telemetry.addData("Action", "BackLeft Gyro");
             opMode.telemetry.addData("Currently", pos);
@@ -805,10 +791,8 @@ public class AutonomousDriveTrain
             pos = getPosBLFR();
         }
 
-        frontRight.setPower(0);
         backRight.setPower(0);
         frontLeft.setPower(0);
-        backLeft.setPower(0);
     }
 
     void turnToGyro(int accuracy, double turnpower) //Turn until we are aligned

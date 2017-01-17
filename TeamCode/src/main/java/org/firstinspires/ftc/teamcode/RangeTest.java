@@ -31,6 +31,8 @@ public class RangeTest extends OpMode{
                 e.printStackTrace();
             }
         }
+
+        range = hardwareMap.ultrasonicSensor.get("range");
     }
     public void loop() {
 
@@ -43,6 +45,7 @@ public class RangeTest extends OpMode{
 
             int rotation = gyro.getHeading();
 
+            telemetry.addData("Range", range.getUltrasonicLevel());
             drive.oneStickLoop(stickX, stickY, stickRot, rotation, gamepad1.back);
     }
 

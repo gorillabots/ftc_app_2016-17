@@ -39,29 +39,50 @@ public class RedAutoSlam extends LinearOpMode {
 
         //Go to first beacon
         sensorSwing.setPosition(.0);
-        driveTrain.backRightGyro(1.76, .5, 1, .1); //Go out
-        driveTrain.rightToTouch(.3); //Go to wall slowly
+        driveTrain.backRightGyro(2.5, .8, 1, .1); //Go out
+        driveTrain.rightGyroToTouch(.3, 1, .1); //Go to wall slowly
         sensorSwing.setPosition(52);
-        driveTrain.left(.0352, .5); //Go out
-        driveTrain.turnToGyro(1, .25);
+        driveTrain.leftGyro(.0352, .5, 1, .15); //Go out
+
+        driveTrain.forwardsGyroToLine(floorColor, .3, 2, .1);
+        /*
+        telemetry.addData("Finished", "Left");
+        telemetry.addData("Now", "TurnToGyro");
+        telemetry.update();
+
+        driveTrain.turnToGyro(3, .2);
         //driveTrain.GyroRotation(0e, .2);
+
+        telemetry.addData("Finished", "TurnToGyro");
+        telemetry.addData("Now", "EnableLED");
+        telemetry.update();
+
         floorColor.enableLed(true);
+
+        telemetry.addData("Finished", "EnableLED");
+        telemetry.addData("Now", "ForwardsToLine");
+        telemetry.update();
+
         driveTrain.forwardsGyroToLine(floorColor, .5, 1, .1);
 
+        telemetry.addData("Finished", "ForwardsToLine");
+        telemetry.update();
+        */
+        /*
         //beacon code //////
         driveTrain.forwardsGyro(.02, .5, 1, .2);
         floorColor.enableLed(false);
-        sleep(200);
+
         driveTrain.turnToGyro(1, .25);
-        sleep(200);
+
         driveTrain.right(.200, .5);
-        sleep(200);
+
         driveTrain.left(.02, .5);
         driveTrain.turnToGyro(1, .25);
         driveTrain.right(.01, .5);
         // driveTrain.turnToGyro();
 
-        sleep(500);
+
 
         if (ColorHelper.getBeaconColor(beaconColor).equals("blue")) {
             driveTrain.right(.1, .5);
@@ -81,6 +102,7 @@ public class RedAutoSlam extends LinearOpMode {
             driveTrain.right(.1, .5);
             driveTrain.left(.02, .5);
         }
+        */
     }
 }
 //driveTrain.backwardsGyroToLine(floorColor, .5);
