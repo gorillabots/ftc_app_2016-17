@@ -13,14 +13,15 @@ import com.qualcomm.robotcore.hardware.Servo;
  */
 
 @Autonomous(name="RedBeaconsBroken", group="beta")
-public class RedAutoSlam extends LinearOpMode {
+public class RedAutoSlam extends LinearOpMode
+{
     AutonomousDriveTrain driveTrain;
     ColorSensor floorColor;
     ColorSensor beaconColor;
-    ColorHelper colorHelp = new ColorHelper();
     Servo sensorSwing;
 
-    public void runOpMode() {
+    public void runOpMode()
+    {
         driveTrain = new AutonomousDriveTrain(); //Initialize hardware
         driveTrain.init(this);
 

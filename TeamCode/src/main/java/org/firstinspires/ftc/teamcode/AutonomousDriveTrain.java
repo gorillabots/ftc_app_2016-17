@@ -868,14 +868,14 @@ public class AutonomousDriveTrain
                 frontLeft.getCurrentPosition() + backLeft.getCurrentPosition();
         return sum / 4;
     }
-    void turnleft(double power) {
+    private void turnleft(double power) {
         frontRight.setPower(power);
         backRight.setPower(power);
         frontLeft.setPower(power);
         backLeft.setPower(power);
     }
 
-    void turnright(double power) {
+    private void turnright(double power) {
         frontRight.setPower(-power);
         backRight.setPower(-power);
         frontLeft.setPower(-power);
