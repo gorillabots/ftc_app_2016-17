@@ -44,6 +44,7 @@ public class AutonomousDriveTrain
 
     ModernRoboticsI2cGyro gyro;
     Servo touch_servo;
+
     public void init(LinearOpMode opMode) //Get hardware from hardwareMap
     {
         this.opMode = opMode;
@@ -52,6 +53,17 @@ public class AutonomousDriveTrain
         backRight = opMode.hardwareMap.dcMotor.get("frontRight"); //backRight
         frontLeft = opMode.hardwareMap.dcMotor.get("backLeft"); //frontLeft
         backLeft = opMode.hardwareMap.dcMotor.get("backRight"); //backLeft
+
+        frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        frontRight.setMaxSpeed(Constants.MAX_INCREMENTS_PER_SECOND);
+        backRight.setMaxSpeed(Constants.MAX_INCREMENTS_PER_SECOND);
+        frontLeft.setMaxSpeed(Constants.MAX_INCREMENTS_PER_SECOND);
+        backLeft.setMaxSpeed(Constants.MAX_INCREMENTS_PER_SECOND);
+
         touch_servo = opMode.hardwareMap.servo.get("touchServo");
         wallTouch = opMode.hardwareMap.touchSensor.get("wallTouch");
         gyro = (ModernRoboticsI2cGyro) opMode.hardwareMap.gyroSensor.get("gyro");
