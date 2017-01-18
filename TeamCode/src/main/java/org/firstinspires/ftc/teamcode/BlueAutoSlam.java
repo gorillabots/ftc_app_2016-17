@@ -34,6 +34,7 @@ public class BlueAutoSlam extends LinearOpMode{
 
         floorColor = hardwareMap.colorSensor.get("floorColor");
         beaconColor = hardwareMap.colorSensor.get("beaconColor");
+
         RightBS = hardwareMap.colorSensor.get("RightBS");
         beaconColor.setI2cAddress(I2cAddr.create8bit(58));
         beaconColor.setI2cAddress(I2cAddr.create8bit(62));
