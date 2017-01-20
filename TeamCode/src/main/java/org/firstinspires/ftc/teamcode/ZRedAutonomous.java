@@ -35,7 +35,7 @@ public class ZRedAutonomous extends LinearOpMode
         driveTrain.RetractTouchServo();
         waitForStart();
         driveTrain.ExtendTouchServo();
-        driveTrain.GyroRotation(45, 0.5);
+        driveTrain.GyroRotation(45, 0.2, 10000);
     }
 }
 

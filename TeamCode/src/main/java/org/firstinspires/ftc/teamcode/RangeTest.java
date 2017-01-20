@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class RangeTest extends LinearOpMode{
     AutonomousDriveTrain drive;
     UltrasonicSensor range;
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException{
         range = hardwareMap.ultrasonicSensor.get("range");
         drive = new AutonomousDriveTrain();
         drive.init(this);
@@ -21,7 +21,7 @@ public class RangeTest extends LinearOpMode{
             drive.right_continuous(0.5);
         }
         if(range.getUltrasonicLevel() < 25){
-            drive.right_continuous(0);
+            drive.stop(5000);
         }
     }
 
