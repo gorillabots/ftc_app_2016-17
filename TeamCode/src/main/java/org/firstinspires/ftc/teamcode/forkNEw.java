@@ -20,10 +20,9 @@ public class forkNEw extends OpMode {
 
     Drivetrain drivetrain;
     ModernRoboticsI2cGyro gyro;
-    CRServo elevator;
+    DcMotor elevator;
     DcMotor vac;
-    DcMotor flyOne;
-    DcMotor flyTwo;
+    DcMotor fly;
     DcMotor raise;
     TouchSensor limit;
 
@@ -51,9 +50,8 @@ public class forkNEw extends OpMode {
             }
         }
         vac = hardwareMap.dcMotor.get("vac");
-        elevator = hardwareMap.crservo.get("elevator");
-        flyOne = hardwareMap.dcMotor.get("flyOne");
-        flyTwo = hardwareMap.dcMotor.get("flyTwo");
+        elevator = hardwareMap.dcMotor.get("elevator");
+        fly = hardwareMap.dcMotor.get("fly");
         raise = hardwareMap.dcMotor.get("raise");
         limit = hardwareMap.touchSensor.get("limit");
         servoSwing = hardwareMap.servo.get("touchServo");
@@ -115,12 +113,10 @@ public class forkNEw extends OpMode {
 
 
         if (gamepad2.right_bumper == true) {
-            flyOne.setPower(-1);
-            flyTwo.setPower(1);
+            fly.setPower(1)
 
         } else {
-            flyOne.setPower(0);
-            flyTwo.setPower(0);
+            fly.setPower(0);
         }
 
         if (gamepad2.y) {
