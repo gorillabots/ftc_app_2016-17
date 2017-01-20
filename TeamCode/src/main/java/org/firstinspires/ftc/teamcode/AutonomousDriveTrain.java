@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 /**
  * Created by mikko on 10/14/16.
  */
@@ -44,8 +46,10 @@ public class AutonomousDriveTrain
 
     ModernRoboticsI2cGyro gyro;
     Servo touch_servo;
+    Telemetry telemetry;
     public void init(LinearOpMode opMode) //Get hardware from hardwareMap
     {
+        telemetry = opMode.telemetry;
         this.opMode = opMode;
 
         frontRight = opMode.hardwareMap.dcMotor.get("frontLeft"); //frontRight
@@ -63,6 +67,8 @@ public class AutonomousDriveTrain
             while (gyro.isCalibrating())
             {
                 Thread.sleep(50);
+                telemetry.addData("is", "calibrating");
+                telemetry.update();
             }
         }
         catch(InterruptedException e)

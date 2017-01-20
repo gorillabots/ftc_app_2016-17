@@ -35,14 +35,19 @@ public class BlueAutoSlam extends LinearOpMode{
         beaconColor.enableLed(false);
         beaconColor2.enableLed(false);
 
+        telemetry.addData("init" , "1");
+        telemetry.update();
         sensorSwing = hardwareMap.servo.get("servoSwing");
         sensorSwing.setPosition(.56);
-
+        telemetry.addData("init" , "2");
+        telemetry.update();
         waitForStart(); //Initialization done!
 
         driveTrain.resetGyro();
 
         sensorSwing.setPosition(.0);
+        telemetry.addData("init" , "3");
+        telemetry.update();
         driveTrain.frontRightGyro(2.5, .8, 1, .1); //Go out
         driveTrain.rightGyroToTouch(.3, 1, .1); //Go to wall slowly
         sensorSwing.setPosition(52);
