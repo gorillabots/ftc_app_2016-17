@@ -20,15 +20,11 @@ public class forkNEw extends OpMode {
 
     Drivetrain drivetrain;
     ModernRoboticsI2cGyro gyro;
-    CRServo elevator;
+    DcMotor elevator;
     DcMotor vac;
-    DcMotor flyOne;
-    DcMotor flyTwo;
-    ButtonPresserClass buttonPress;
+    DcMotor fly;
     DcMotor raise;
     TouchSensor limit;
-    Servo butt1;
-    Servo butt2;
 
     ColorSensor floorColor;
     ColorSensor beaconColor;
@@ -53,18 +49,12 @@ public class forkNEw extends OpMode {
                 e.printStackTrace();
             }
         }
-        buttonPress = new ButtonPresserClass();
         vac = hardwareMap.dcMotor.get("vac");
-        elevator = hardwareMap.crservo.get("elevator");
-        flyOne = hardwareMap.dcMotor.get("flyOne");
-        flyTwo = hardwareMap.dcMotor.get("flyTwo");
+        elevator = hardwareMap.dcMotor.get("elevator");
+        fly = hardwareMap.dcMotor.get("fly");
         raise = hardwareMap.dcMotor.get("raise");
         limit = hardwareMap.touchSensor.get("limit");
-        butt1 = hardwareMap.servo.get("butt1");
-        butt2 = hardwareMap.servo.get("butt2");
-        butt1.setPosition(Constants.ACTUATOR_RESET_VALUE); //Was 30
-        butt2.setPosition(Constants.ACTUATOR_RESET_VALUE); //Was 30
-        servoSwing = hardwareMap.servo.get("servoSwing");
+        servoSwing = hardwareMap.servo.get("touchServo");
 
         gyro.resetZAxisIntegrator();
 
@@ -123,12 +113,10 @@ public class forkNEw extends OpMode {
 
 
         if (gamepad2.right_bumper == true) {
-            flyOne.setPower(-1);
-            flyTwo.setPower(1);
+            fly.setPower(1);
 
         } else {
-            flyOne.setPower(0);
-            flyTwo.setPower(0);
+            fly.setPower(0);
         }
 
         if (gamepad2.y) {
@@ -161,16 +149,12 @@ public class forkNEw extends OpMode {
         } else {
 
             if (gamepad2.left_stick_y < 0) {
-                raise.setPower(-1*(gamepad2.left_stick_y / 2));
+                raise.setPower(-1 * (gamepad2.left_stick_y / 2));
             } else {
-                raise.setPower(-1*(gamepad2.left_stick_y / 2));
+                raise.setPower(-1 * (gamepad2.left_stick_y / 2));
             }
 
         }
-
-
-        butt1.setPosition(.18 + (gamepad1.left_trigger) * .5);
-        butt2.setPosition(.18 + (gamepad1.right_trigger) * .5);
 
 
     }

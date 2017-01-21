@@ -19,18 +19,11 @@ public class meterTest extends LinearOpMode
     ColorSensor floorColor;
     ColorSensor beaconColor;
     ColorHelper colorHelp = new ColorHelper();
-    ButtonPresserClass beacon;
-    Servo button_presser_1;
-    Servo button_presser_2;
-    Servo  sensorSwing;
+
     public void runOpMode()
     {
         driveTrain = new AutonomousDriveTrain(); //Initialize hardware
         driveTrain.init(this);
-
-        beacon = new ButtonPresserClass();
-        button_presser_1 = hardwareMap.servo.get("butt1");
-        button_presser_2 = hardwareMap.servo.get("butt2");
 
         floorColor = hardwareMap.colorSensor.get("floorColor");
         beaconColor = hardwareMap.colorSensor.get("beaconColor");
@@ -38,20 +31,58 @@ public class meterTest extends LinearOpMode
         beaconColor.enableLed(false);
         floorColor.enableLed(false);
 
-        sensorSwing = hardwareMap.servo.get("servoSwing");
-        sensorSwing.setPosition(.56);
+
         waitForStart();
 
         driveTrain.resetGyro();
 
+        //driveTrain.forwards(1, .5);
 
-            ColorHelper.printColorHSV(telemetry, beaconColor);
-            telemetry.update();
-            if (ColorHelper.getBeaconColor(beaconColor).equals("blue")) {
+        int frontRightStart = driveTrain.frontRight.getCurrentPosition();
+        int backRightStart = driveTrain.backRight.getCurrentPosition();
+        int frontLeftStart = driveTrain.frontLeft.getCurrentPosition();
+        int backLeftStart = driveTrain.backLeft.getCurrentPosition();
+        
+        driveTrain.frontRight.setPower(.5);
+        driveTrain.backRight.setPower(.5);
+        driveTrain.frontLeft.setPower(-.5);
+        driveTrain.backLeft.setPower(-.5);
+        
+        sleep(2000);
 
-                driveTrain.left(.1, .5);
-            }
+        driveTrain.frontRight.setPower(0);
+        driveTrain.backRight.setPower(0);
+        driveTrain.frontLeft.setPower(0);
+        driveTrain.backLeft.setPower(0);
 
+        int frontRightEnd = driveTrain.frontRight.getCurrentPosition();
+        int backRightEnd = driveTrain.backRight.getCurrentPosition();
+        int frontLeftEnd = driveTrain.frontLeft.getCurrentPosition();
+        int backLeftEnd = driveTrain.backLeft.getCurrentPosition();
+
+        int frontRightDelta = frontRightEnd - frontRightStart;
+        int backRightDelta = backRightEnd - backRightStart;
+        int frontLeftDelta = frontLeftEnd - frontLeftStart;
+        int backLeftDelta = backLeftEnd - backLeftStart;
+        
+        telemetry.addData("Front Right Start", frontRightStart);
+        telemetry.addData("Back Right Start", backRightStart);
+        telemetry.addData("Front Left Start", frontLeftStart);
+        telemetry.addData("Back Left Start", backLeftStart);
+
+        telemetry.addData("Front Right End", frontRightEnd);
+        telemetry.addData("Back Right End", backRightEnd);
+        telemetry.addData("Front Left End", frontLeftEnd);
+        telemetry.addData("Back Left End", backLeftEnd);
+
+        telemetry.addData("Front Right Delta", frontRightDelta);
+        telemetry.addData("Back Right Delta", backRightDelta);
+        telemetry.addData("Front Left Delta", frontLeftDelta);
+        telemetry.addData("Back Left Delta", backLeftDelta);
+
+        telemetry.update();
+
+        sleep(10000);
     }
 }
 

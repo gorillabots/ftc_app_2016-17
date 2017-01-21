@@ -18,8 +18,6 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 public class CompTele extends OpMode {
     Drivetrain drivetrain;
 
-    ButtonPresserClass buttonPresser;
-
     ForkLift forkLift;
     DcMotor vac;
 
@@ -39,7 +37,6 @@ public class CompTele extends OpMode {
     public void init()
     {
         drivetrain = new Drivetrain(hardwareMap, telemetry);
-        buttonPresser = new ButtonPresserClass();
         forkLift = new ForkLift(hardwareMap, telemetry);
         ballControl = new BallControl(hardwareMap, telemetry );
         butt1 = hardwareMap.servo.get("butt1");
@@ -82,23 +79,7 @@ public class CompTele extends OpMode {
         ballControl.runElevator(gamepad2.left_bumper, gamepad2.left_trigger);
         ballControl.runFlywheel(gamepad2.a);
 
-        buttonPresser.Press_Button(butt1, (.18 +(gamepad1.left_trigger)*5));
-        buttonPresser.Press_Button(butt2, (.18 +(gamepad1.right_trigger)*5));
-
         //autopilot
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     }
 }

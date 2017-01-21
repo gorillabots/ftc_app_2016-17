@@ -17,33 +17,52 @@ public class BlueAutoSlam extends LinearOpMode{
     AutonomousDriveTrain driveTrain;
     ColorSensor floorColor;
     ColorSensor beaconColor;
-    ColorHelper colorHelp = new ColorHelper();
-    ButtonPresserClass beacon;
-    Servo button_presser_1;
-    Servo button_presser_2;
+    ColorSensor beaconColor2;
     Servo sensorSwing;
+
     public void runOpMode()
     {
         driveTrain = new AutonomousDriveTrain(); //Initialize hardware
         driveTrain.init(this);
 
-        beacon = new ButtonPresserClass();
-        button_presser_1 = hardwareMap.servo.get("butt1");
-        button_presser_2 = hardwareMap.servo.get("butt2");
-
         floorColor = hardwareMap.colorSensor.get("floorColor");
         beaconColor = hardwareMap.colorSensor.get("beaconColor");
+        beaconColor2 = hardwareMap.colorSensor.get("beaconColor2");
         beaconColor.setI2cAddress(I2cAddr.create8bit(58));
-        beaconColor.enableLed(false);
-        floorColor.enableLed(false);
+        beaconColor2.setI2cAddress(I2cAddr.create8bit(62));
 
+        floorColor.enableLed(false);
+        beaconColor.enableLed(false);
+        beaconColor2.enableLed(false);
+
+        telemetry.addData("init" , "1");
+        telemetry.update();
         sensorSwing = hardwareMap.servo.get("servoSwing");
         sensorSwing.setPosition(.56);
-        waitForStart();
+        telemetry.addData("init" , "2");
+        telemetry.update();
+        waitForStart(); //Initialization done!
 
         driveTrain.resetGyro();
 
-         /* START COMMENT
+        sensorSwing.setPosition(.0);
+        telemetry.addData("init" , "3");
+        telemetry.update();
+        driveTrain.frontRightGyro(2.5, .8, 1, .1); //Go out
+        driveTrain.rightGyroToTouch(.3, 1, .1); //Go to wall slowly
+        sensorSwing.setPosition(52);
+        driveTrain.leftGyro(.0352, .5, 1, .15); //Go out
+
+        floorColor.enableLed(true);
+        driveTrain.backGyroToLine(floorColor, .3, 2, .1);
+        floorColor.enableLed(false);
+
+
+        floorColor.enableLed(false); //Disable LEDs at end
+        beaconColor.enableLed(false);
+        beaconColor2.enableLed(false);
+
+         /* OLD CODE FOLLOWS
 
         //Go to first beacon
         sensorSwing.setPosition(.0);
@@ -124,9 +143,6 @@ public class BlueAutoSlam extends LinearOpMode{
         }
         driveTrain.right(.15);
 
-        END COMMENT */
-
-        beaconColor.enableLed(false); //Disable LEDs
-        floorColor.enableLed(false);
+        */
     }
 }
