@@ -61,7 +61,7 @@ public class BlueAutoSlam extends LinearOpMode
         floorColor.enableLed(false); //Disable LEDs at end
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
-
+        driveTrain.beaconResponse("blue", beaconColorL, beaconColorR, driveTrain);
          /* OLD CODE FOLLOWS (For reference)
 
         //Go to first beacon

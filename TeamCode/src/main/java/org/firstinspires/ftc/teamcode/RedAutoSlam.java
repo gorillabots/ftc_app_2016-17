@@ -54,6 +54,7 @@ public class RedAutoSlam extends LinearOpMode
         floorColor.enableLed(false); //Disable LEDs at end
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
+        driveTrain.beaconResponse("red", beaconColorL, beaconColorR, driveTrain);
         /*
         telemetry.addData("Finished", "Left");
         telemetry.addData("Now", "TurnToGyro");
