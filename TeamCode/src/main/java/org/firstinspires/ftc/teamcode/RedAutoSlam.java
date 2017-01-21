@@ -17,7 +17,8 @@ public class RedAutoSlam extends LinearOpMode
 {
     AutonomousDriveTrain driveTrain;
     ColorSensor floorColor;
-    ColorSensor beaconColor;
+    ColorSensor beaconColorL;
+    ColorSensor beaconColorR;
     Servo sensorSwing;
 
     public void runOpMode()
@@ -26,10 +27,15 @@ public class RedAutoSlam extends LinearOpMode
         driveTrain.init(this);
 
         floorColor = hardwareMap.colorSensor.get("floorColor");
-        beaconColor = hardwareMap.colorSensor.get("beaconColor");
-        beaconColor.setI2cAddress(I2cAddr.create8bit(58));
-        beaconColor.enableLed(false);
-        floorColor.enableLed(false);
+        beaconColorL = hardwareMap.colorSensor.get("beaconColor");
+        beaconColorR = hardwareMap.colorSensor.get("beaconColor2");
+        beaconColorL.setI2cAddress(I2cAddr.create8bit(58));
+        beaconColorR.setI2cAddress(I2cAddr.create8bit(62));
+
+        floorColor.enableLed(false); //Disable LEDs
+        beaconColorL.enableLed(false);
+        beaconColorR.enableLed(false);
+
 
         sensorSwing = hardwareMap.servo.get("touchServo");
         sensorSwing.setPosition(.56);
@@ -46,6 +52,10 @@ public class RedAutoSlam extends LinearOpMode
         driveTrain.leftGyro(.0352, .5, 1, .15); //Go out
 
         driveTrain.forwardsGyroToLine(floorColor, .3, 2, .1);
+
+        floorColor.enableLed(false); //Disable LEDs at end
+        beaconColorL.enableLed(false);
+        beaconColorR.enableLed(false);
         /*
         telemetry.addData("Finished", "Left");
         telemetry.addData("Now", "TurnToGyro");
