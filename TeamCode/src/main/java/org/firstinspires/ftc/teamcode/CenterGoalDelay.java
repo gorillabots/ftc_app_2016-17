@@ -18,49 +18,37 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 /**
  * Created by Jarred on 12/10/2016.
  */
-@Autonomous(name="center goal Auto w/ delay", group="final")
-public class CenterGoalDelay extends LinearOpMode {
-
-    BallControl shooter;
-    ElapsedTime timer1 = new ElapsedTime();
+@Autonomous(name="Center Goal Auto Delay", group="final")
+public class CenterGoalDelay extends LinearOpMode
+{
     AutonomousDriveTrain driveTrain;
-    ColorSensor floorColor;
-    ColorSensor beaconColor;
+    BallControl shooter;
 
-    Servo button_presser_1;
-    Servo button_presser_2;
-    public void runOpMode(){
+    ElapsedTime timer1 = new ElapsedTime();
+
+    public void runOpMode()
+    {
         driveTrain = new AutonomousDriveTrain();
-        shooter = new BallControl(hardwareMap, telemetry);
-        driveTrain.init(this);driveTrain = new AutonomousDriveTrain();
-
         driveTrain.init(this);
+        shooter = new BallControl(hardwareMap, telemetry);
 
-        button_presser_1 = hardwareMap.servo.get("butt1");
-        button_presser_2 = hardwareMap.servo.get("butt2");
-        floorColor = hardwareMap.colorSensor.get("floorColor");
-        beaconColor = hardwareMap.colorSensor.get("beaconColor");
-        floorColor.setI2cAddress(I2cAddr.create8bit(58));
-        beaconColor.enableLed(false);
-        floorColor.enableLed(false);
-        //float mark =C1.1;
         waitForStart();
 
-        float mark = (float) .3;
         float mark2 = (float) .9;
         sleep(10000);
         driveTrain.right(.4295, .5);
         timer1.reset();
         timer1.startTime();
-        while(timer1.milliseconds() < 15000) {
+
+        while(timer1.milliseconds() < 15000)
+        {
             shooter.runFlywheel(true);
             shooter.runElevator(false, mark2 );
         }
+
         shooter.runFlywheel(false);
         shooter.runElevator(true, mark2);
 
         driveTrain.right(.704, .5);
-
     }
-
 }
