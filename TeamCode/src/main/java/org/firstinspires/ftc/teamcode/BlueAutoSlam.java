@@ -12,12 +12,13 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Created by Owner on 1/15/2017.
  */
 @Autonomous (name="BlueBeaconSlam", group="beta")
-public class BlueAutoSlam extends LinearOpMode{
+public class BlueAutoSlam extends LinearOpMode
+{
 
     AutonomousDriveTrain driveTrain;
     ColorSensor floorColor;
-    ColorSensor beaconColor;
-    ColorSensor beaconColor2;
+    ColorSensor beaconColorL;
+    ColorSensor beaconColorR;
     Servo sensorSwing;
 
     public void runOpMode()
@@ -26,14 +27,14 @@ public class BlueAutoSlam extends LinearOpMode{
         driveTrain.init(this);
 
         floorColor = hardwareMap.colorSensor.get("floorColor");
-        beaconColor = hardwareMap.colorSensor.get("beaconColor");
-        beaconColor2 = hardwareMap.colorSensor.get("beaconColor2");
-        beaconColor.setI2cAddress(I2cAddr.create8bit(58));
-        beaconColor2.setI2cAddress(I2cAddr.create8bit(62));
+        beaconColorL = hardwareMap.colorSensor.get("beaconColor");
+        beaconColorR = hardwareMap.colorSensor.get("beaconColor2");
+        beaconColorL.setI2cAddress(I2cAddr.create8bit(58));
+        beaconColorR.setI2cAddress(I2cAddr.create8bit(62));
 
         floorColor.enableLed(false);
-        beaconColor.enableLed(false);
-        beaconColor2.enableLed(false);
+        beaconColorL.enableLed(false);
+        beaconColorR.enableLed(false);
 
         telemetry.addData("init" , "1");
         telemetry.update();
@@ -41,6 +42,7 @@ public class BlueAutoSlam extends LinearOpMode{
         sensorSwing.setPosition(.56);
         telemetry.addData("init" , "2");
         telemetry.update();
+
         waitForStart(); //Initialization done!
 
         driveTrain.resetGyro();
@@ -50,19 +52,19 @@ public class BlueAutoSlam extends LinearOpMode{
         telemetry.update();
         driveTrain.frontRightGyro(2.5, .5, 1, .1); //Go out
         driveTrain.rightGyroToTouch(.3, 1, .1); //Go to wall slowly
-        sensorSwing.setPosition(52);
-        driveTrain.leftGyro(.0352, .5, 1, .15); //Go out
+        sensorSwing.setPosition(52); //Raise touch arm
+        driveTrain.leftGyro(.0352, .5, 1, .15); //Back away from wall
 
         floorColor.enableLed(true);
-        driveTrain.backGyroToLine(floorColor, .3, 2, .1);
+        driveTrain.backGyroToLine(floorColor, .3, 2, .1); //Go to first beacon line
         floorColor.enableLed(false);
 
 
         floorColor.enableLed(false); //Disable LEDs at end
-        beaconColor.enableLed(false);
-        beaconColor2.enableLed(false);
+        beaconColorL.enableLed(false);
+        beaconColorR.enableLed(false);
 
-         /* OLD CODE FOLLOWS
+         /* OLD CODE FOLLOWS (For reference)
 
         //Go to first beacon
         sensorSwing.setPosition(.0);

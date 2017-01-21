@@ -18,19 +18,15 @@ import static org.firstinspires.ftc.teamcode.Constants.WALL_TO_WALL_IN_AUTONOMOU
 @Autonomous(name="RedAutonomous", group="concept")
 public class ZRedAutonomous extends LinearOpMode
 {
-    ZAutonomousDriveTrain driveTrain;
+    AutonomousDriveTrain driveTrain;
     ColorSensor floorColor;
     ColorSensor beaconColor;
-
-    Servo button_presser_1;
-    Servo button_presser_2;
+    ButtonPresserClass beacon;
     public void runOpMode() throws InterruptedException
     {
-        driveTrain = new ZAutonomousDriveTrain();
-
+        driveTrain = new AutonomousDriveTrain();
+        beacon = new ButtonPresserClass();
         driveTrain.init(this);
-        button_presser_1 = hardwareMap.servo.get("la1");
-        button_presser_2 = hardwareMap.servo.get("la2");
         floorColor = hardwareMap.colorSensor.get("floorColor");
         beaconColor = hardwareMap.colorSensor.get("beaconColor");
         beaconColor.setI2cAddress(I2cAddr.create8bit(58));
@@ -39,7 +35,7 @@ public class ZRedAutonomous extends LinearOpMode
         driveTrain.RetractTouchServo();
         waitForStart();
         driveTrain.ExtendTouchServo();
-        driveTrain.rightToTouch(1);
+        driveTrain.GyroRotation(45, 0.2, 10000);
     }
 }
 
