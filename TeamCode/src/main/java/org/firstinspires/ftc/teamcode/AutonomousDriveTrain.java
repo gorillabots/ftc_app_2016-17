@@ -302,6 +302,8 @@ public class AutonomousDriveTrain
 
             opMode.telemetry.addData("Action", "Back Gyro To Line");
             opMode.telemetry.addData("Heading", heading);
+            opMode.telemetry.addData("Color " ,ColorHelper.getFloorColor(floorColor));
+            opMode.telemetry.addData("line ", ColorHelper.isFloorWhite(floorColor));
             opMode.telemetry.update();
             opMode.sleep(5);
         }
