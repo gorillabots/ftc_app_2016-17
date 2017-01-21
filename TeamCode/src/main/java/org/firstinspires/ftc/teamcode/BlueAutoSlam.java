@@ -57,7 +57,7 @@ public class BlueAutoSlam extends LinearOpMode
         driveTrain.backGyroToLine(floorColor, .3, 2, .1); //Go to first beacon line
         floorColor.enableLed(false);
 
-        driveTrain.beaconResponse("blue", beaconColorL, beaconColorR);
+        driveTrain.beaconResponse(TeamColors.BLUE, beaconColorL, beaconColorR);
 
 
         //Finishing up

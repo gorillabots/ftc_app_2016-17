@@ -17,7 +17,8 @@ public class ColorHelper {
     static float hsvValues[] = {0F, 0F, 0F};
     static float hsvValuesFloor[] = {0F, 0F, 0F};
 
-    public static String getBeaconColor(ColorSensor colorSensor) {
+    public static TeamColors getBeaconColor(ColorSensor colorSensor)
+    {
 
         // convert RGB to HSV values
         Color.RGBToHSV(colorSensor.red() * 8, colorSensor.green() * 8, colorSensor.blue() * 8, hsvValues);
@@ -27,23 +28,25 @@ public class ColorHelper {
 
         // Red if hue is > than 330 or hue < 10 with a saturation > 0.5
         if (hsvValues[0] > 330  && hsvValues[1] > 0.5 || hsvValues[0] < 10 && hsvValues[1] > 0.5) {
-            currentcolor = "red";
+            return TeamColors.RED;
         }
 
         //Blue if 230 < hue < 250 with saturation > 0.5
         else if (hsvValues[0] > 205 && hsvValues[0] < 250 && hsvValues[1] > 0.5){
-            currentcolor = "blue";
+            return TeamColors.BLUE;
         }
 
         //No color if saturation < 0.5
-        else if (hsvValues[1] < 0.6){
-            currentcolor = "blank";
+        else if (hsvValues[1] < 0.6)
+        {
+            return TeamColors.INDECISIVE;
         }
 
-        return currentcolor;
+        return TeamColors.INDECISIVE;
     }
 
-    public static String getRightBeaconColor(ColorSensor colorSensor) {
+    public static String getRightBeaconColor(ColorSensor colorSensor)
+    {
 
         // convert RGB to HSV values
         Color.RGBToHSV(colorSensor.red() * 8, colorSensor.green() * 8, colorSensor.blue() * 8, hsvValues);
@@ -69,7 +72,8 @@ public class ColorHelper {
         return currentcolor;
     }
 
-    public static String getFloorColor(ColorSensor colorSensor) {
+    public static String getFloorColor(ColorSensor colorSensor)
+    {
 
         String currentcolor = "not white";
 
@@ -93,6 +97,7 @@ public class ColorHelper {
         telemetry.addData("G", color.green());
         telemetry.addData("B", color.blue());
     }
+
     public static void printColorHSV(Telemetry telemetry, ColorSensor color)
     {
         Color.RGBToHSV(color.red() * 8, color.green() * 8, color.blue() * 8, hsvValuesFloor);
