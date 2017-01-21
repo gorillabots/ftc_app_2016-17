@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.util.ElapsedTime;
-@Disabled
+
 @TeleOp(name = "Sensor: MR Color", group = "Sensor")
 
 public class Floorcolor extends LinearOpMode {
