@@ -49,13 +49,23 @@ public class RedAutoSlam extends LinearOpMode
         sensorSwing.setPosition(52);
         driveTrain.leftGyro(.0352, .5, 1, .15); //Go out
 
+        floorColor.enableLed(true);
         driveTrain.forwardsGyroToLine(floorColor, .3, 2, .1);
+        floorColor.enableLed(false);
 
-        floorColor.enableLed(false); //Disable LEDs at end
+        driveTrain.beaconResponse("red", beaconColorL, beaconColorR);
+
+
+        //Finishing up
+
+        floorColor.enableLed(false); //Disable LEDs
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
-        driveTrain.beaconResponse("red", beaconColorL, beaconColorR, driveTrain);
-        /*
+
+        //TODO: Retract touch servo?
+
+
+        /* Old Code (For Reference)
         telemetry.addData("Finished", "Left");
         telemetry.addData("Now", "TurnToGyro");
         telemetry.update();

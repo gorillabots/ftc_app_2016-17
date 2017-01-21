@@ -943,7 +943,7 @@ public class AutonomousDriveTrain
     {
         //input positive value less than one
     }
-    public void beaconResponse(String desired_color, ColorSensor color1, ColorSensor color2, AutonomousDriveTrain drive){
+    public void beaconResponse(String desired_color, ColorSensor color1, ColorSensor color2){
         //color1 is always left color sensor
         //color2 is always right color sensor
         if(desired_color.equals("red")){
@@ -951,19 +951,19 @@ public class AutonomousDriveTrain
             if(ColorHelper.getBeaconColor(color1).equals("red") && ColorHelper.getBeaconColor(color2).equals("blue")){
                 //Checks if left color sensor gets red
                 //Checks if right color sensor gets blue
-                drive.forwards(0.1, 0.2);
+                forwards(0.1, 0.2);
                 //Shifts left relative to beacon
-                drive.right(0.2, 0.5);
+                right(0.2, 0.5);
                 //Moves forward to press beacon on red side
-                drive.left(0.2, 0.5);
+                left(0.2, 0.5);
                 //Moves back at same distance and speed to continue autonomous
             }
             else if(ColorHelper.getBeaconColor(color2).equals("red") && ColorHelper.getBeaconColor(color1).equals("blue")){
                 //Checks if right color sensor gets red
                 //Checks if left color sensor gets blue
-                drive.right(0.2, 0.5);
+                right(0.2, 0.5);
                 //Moves forward to press beacon on right side
-                drive.left(0.2, 0.5);
+                left(0.2, 0.5);
                 //Moves backward
             }
             else if(ColorHelper.getBeaconColor(color1).equals("red") && ColorHelper.getBeaconColor(color2).equals("red")){
@@ -972,8 +972,8 @@ public class AutonomousDriveTrain
             }
             else if(ColorHelper.getBeaconColor(color1).equals("blue") && ColorHelper.getBeaconColor(color2).equals("blue")){
                 //Checks if both color sensors receive blue and if true, moves forward to press beacon to change to red
-                drive.right(0.2, 0.5);
-                drive.left(0.2, 0.5);
+                right(0.2, 0.5);
+                left(0.2, 0.5);
             }
             else{
                 //If anything else at all, it does nothing
@@ -985,16 +985,16 @@ public class AutonomousDriveTrain
                 //Checks if left color sensor gets blue
                 //Checks if right color sensor gets red
                 //If true, shifts left, and goes forward to press beacon on left side, and then goes back to continue autonomous
-                drive.forwards(0.1, 0.2);
-                drive.right(0.2, 0.5);
-                drive.left(0.2, 0.5);
+                forwards(0.1, 0.2);
+                right(0.2, 0.5);
+                left(0.2, 0.5);
             }
             else if(ColorHelper.getBeaconColor(color2).equals("blue") && ColorHelper.getBeaconColor(color1).equals("red")){
                 //Checks if right color sensor gets blue
                 //Checks if left color sensor gets red
                 //If true, goes forward to press beacon on right side, and then goes back to continue autonomous
-                drive.right(0.2, 0.5);
-                drive.left(0.2, 0.5);
+                right(0.2, 0.5);
+                left(0.2, 0.5);
             }
             else if(ColorHelper.getBeaconColor(color1).equals("blue") && ColorHelper.getBeaconColor(color2).equals("blue")){
                 //Checks if left color sensor gets blue
@@ -1005,8 +1005,8 @@ public class AutonomousDriveTrain
                 //Checks if left color sensor gets red
                 //Checks if right color sensor gets red
                 //If true, shifts left, and goes forward to press beacon in general, and then goes back to continue autonomous
-                drive.right(0.2, 0.5);
-                drive.left(0.2, 0.5);
+                right(0.2, 0.5);
+                left(0.2, 0.5);
             }
             else{
                 //If none of these conditions apply, it does nothing, and then continues autonomous
