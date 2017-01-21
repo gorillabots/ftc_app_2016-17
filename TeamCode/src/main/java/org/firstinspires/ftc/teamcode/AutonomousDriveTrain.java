@@ -943,17 +943,45 @@ public class AutonomousDriveTrain
     }
     public void beaconResponse(String desired_color, ColorSensor color1, ColorSensor color2, AutonomousDriveTrain drive){
         if(desired_color.equals("red")){
-            if(ColorHelper.getBeaconColor(color1).equals("red") && !ColorHelper.getBeaconColor(color2).equals("red")){
+            if(ColorHelper.getBeaconColor(color1).equals("red") && ColorHelper.getBeaconColor(color2).equals("blue")){
                 drive.forwards(0.1, 0.2);
                 drive.right(0.2, 0.5);
                 drive.left(0.2, 0.5);
             }
-            else if(ColorHelper.getBeaconColor(color2).equals("red") && !ColorHelper.getBeaconColor(color1).equals("red")){
+            else if(ColorHelper.getBeaconColor(color2).equals("red") && ColorHelper.getBeaconColor(color1).equals("blue")){
                 drive.right(0.2, 0.5);
                 drive.left(0.2, 0.5);
             }
             else if(ColorHelper.getBeaconColor(color1).equals("red") && ColorHelper.getBeaconColor(color2).equals("red")){
                 
+            }
+            else if(ColorHelper.getBeaconColor(color1).equals("blue") && ColorHelper.getBeaconColor(color2).equals("blue")){
+                drive.right(0.2, 0.5);
+                drive.left(0.2, 0.5);
+            }
+            else{
+
+            }
+        }
+        if(desired_color.equals("blue")){
+            if(ColorHelper.getBeaconColor(color1).equals("blue") && ColorHelper.getBeaconColor(color2).equals("red")){
+                drive.forwards(0.1, 0.2);
+                drive.right(0.2, 0.5);
+                drive.left(0.2, 0.5);
+            }
+            else if(ColorHelper.getBeaconColor(color2).equals("blue") && ColorHelper.getBeaconColor(color1).equals("red")){
+                drive.right(0.2, 0.5);
+                drive.left(0.2, 0.5);
+            }
+            else if(ColorHelper.getBeaconColor(color1).equals("blue") && ColorHelper.getBeaconColor(color2).equals("blue")){
+
+            }
+            else if(ColorHelper.getBeaconColor(color1).equals("red") && ColorHelper.getBeaconColor(color2).equals("red")){
+                drive.right(0.2, 0.5);
+                drive.left(0.2, 0.5);
+            }
+            else{
+
             }
         }
     }
