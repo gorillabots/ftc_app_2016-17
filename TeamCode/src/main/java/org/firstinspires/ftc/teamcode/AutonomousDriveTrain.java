@@ -45,18 +45,20 @@ public class AutonomousDriveTrain
     TouchSensor wallTouch;
 
     ModernRoboticsI2cGyro gyro;
-    Servo touch_servo;
+    Servo touchServo;
     Telemetry telemetry;
     public void init(LinearOpMode opMode) //Get hardware from hardwareMap
     {
         telemetry = opMode.telemetry;
         this.opMode = opMode;
 
+        //Motors
         frontRight = opMode.hardwareMap.dcMotor.get("frontLeft"); //frontRight
         backRight = opMode.hardwareMap.dcMotor.get("frontRight"); //backRight
         frontLeft = opMode.hardwareMap.dcMotor.get("backLeft"); //frontLeft
         backLeft = opMode.hardwareMap.dcMotor.get("backRight"); //backLeft
-        touch_servo = opMode.hardwareMap.servo.get("touchServo");
+
+        touchServo = opMode.hardwareMap.servo.get("touchServo");
         wallTouch = opMode.hardwareMap.touchSensor.get("wallTouch");
         gyro = (ModernRoboticsI2cGyro) opMode.hardwareMap.gyroSensor.get("gyro");
 
@@ -805,14 +807,15 @@ public class AutonomousDriveTrain
 
     void turnToGyro(int accuracy, double turnpower) //Turn until we are aligned
     {
+        int heading;
+        double turnpow;
+
         while(opMode.opModeIsActive())
         {
-            int heading = gyro.getHeading();
+            heading = gyro.getHeading();
 
             opMode.telemetry.addData("Action", "Turn to Gyro");
             opMode.telemetry.addData("Heading", heading);
-
-            double turnpow;
 
             if(heading <= accuracy || heading >= 360 - accuracy)
             {
@@ -834,8 +837,6 @@ public class AutonomousDriveTrain
 
             opMode.sleep(50);
         }
-
-
     }
 
     public void right_continuous(double power)
@@ -848,16 +849,14 @@ public class AutonomousDriveTrain
 
     private double getPosFB() //Get position for use in forwards and backwards movements
     {
-        double sum = frontRight.getCurrentPosition() - frontLeft.getCurrentPosition() +
-                backRight.getCurrentPosition() - backLeft.getCurrentPosition();
-        return sum / 4;
+        return (frontRight.getCurrentPosition() - frontLeft.getCurrentPosition() +
+                backRight.getCurrentPosition() - backLeft.getCurrentPosition()) / 4;
     }
 
     private double getPosRL() //Get position for use in left and right movements
     {
-        double sum = -frontRight.getCurrentPosition() - frontLeft.getCurrentPosition() +
-                backRight.getCurrentPosition() + backLeft.getCurrentPosition();
-        return sum / 4;
+        return (-frontRight.getCurrentPosition() - frontLeft.getCurrentPosition() +
+                backRight.getCurrentPosition() + backLeft.getCurrentPosition()) / 4;
     }
 
     private double getPosBRFL() //Get position for use in frontLeft and backRight
@@ -872,44 +871,59 @@ public class AutonomousDriveTrain
 
     double getRotation() //Get rotation
     {
-        double sum = frontRight.getCurrentPosition() + backRight.getCurrentPosition() +
-                frontLeft.getCurrentPosition() + backLeft.getCurrentPosition();
-        return sum / 4;
+        return (frontRight.getCurrentPosition() + backRight.getCurrentPosition() +
+                frontLeft.getCurrentPosition() + backLeft.getCurrentPosition()) / 4;
     }
-    private void turnleft(double power) {
+    private void turnleft(double power)
+    {
         frontRight.setPower(power);
         backRight.setPower(power);
         frontLeft.setPower(power);
         backLeft.setPower(power);
     }
 
-    private void turnright(double power) {
+    private void turnright(double power)
+    {
         frontRight.setPower(-power);
         backRight.setPower(-power);
         frontLeft.setPower(-power);
         backLeft.setPower(-power);
     }
-    public void GyroRotation(int target, double power){
-        if(target > 360 || target < 0 || power < 0 || power > 1){
+
+    public void GyroRotation(int target, double power)
+    {
+        if(target > 360 || target < 0 || power < 0 || power > 1)
+        {
             throw new IllegalArgumentException();
         }
-        while(true){
-            int initial_heading = gyro.getHeading();
+
+        while(true)
+        {
+            int initial_heading = gyro.getHeading(); //TODO: Potential memory leak!
             int degree_rotation = target - initial_heading;
-            if(degree_rotation < 0){
+            if(degree_rotation < 0)
+            {
                 degree_rotation = degree_rotation + 360;
             }
-            if (degree_rotation < 180 && degree_rotation > 0) {
-                while (initial_heading < target) {
+
+            if (degree_rotation < 180 && degree_rotation > 0)
+            {
+                while (initial_heading < target)
+                {
                     turnright(power);
                 }
             }
-            if(degree_rotation > 180 && degree_rotation < 360){
-                while(initial_heading > target){
+
+            if(degree_rotation > 180 && degree_rotation < 360)
+            {
+                while(initial_heading > target)
+                {
                     turnleft(power);
                 }
             }
-            if(degree_rotation == 0 || degree_rotation == 360){
+
+            if(degree_rotation == 0 || degree_rotation == 360)
+            {
                 break;
             }
         }
@@ -917,14 +931,15 @@ public class AutonomousDriveTrain
 
     public void ExtendTouchServo()
     {
-        touch_servo.setPosition(0);
+        touchServo.setPosition(0);
     }
 
     public void RetractTouchServo()
     {
-        touch_servo.setPosition(255);
+        touchServo.setPosition(255);
     }
-    public void DeAccelerator(double deacceleration_rate, double initial_speed, long time)
+
+    public void DeAccelerator(double deacceleration_rate, double initial_speed, long time) //TODO: Never used and empty, what is it for?
     {
         //input positive value less than one
     }
