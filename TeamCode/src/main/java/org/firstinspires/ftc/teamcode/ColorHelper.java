@@ -45,6 +45,25 @@ public class ColorHelper {
         return TeamColors.INDECISIVE;
     }
 
+    public static TeamColors getBeaconColorTest(ColorSensor colorSensor)
+    {
+        int r = colorSensor.red();
+        int g = colorSensor.green();
+        int b = colorSensor.blue();
+
+        if(r > b)
+        {
+            return TeamColors.RED;
+        }
+
+        if(r < b)
+        {
+            return TeamColors.BLUE;
+        }
+
+        return TeamColors.INDECISIVE;
+    }
+
     public static String getRightBeaconColor(ColorSensor colorSensor)
     {
 

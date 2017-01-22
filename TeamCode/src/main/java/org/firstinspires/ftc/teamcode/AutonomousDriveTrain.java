@@ -944,8 +944,8 @@ public class AutonomousDriveTrain
         //sensorL is left color sensor
         //sensorR is right color sensor
         
-        TeamColors colorL = ColorHelper.getBeaconColor(sensorL);
-        TeamColors colorR = ColorHelper.getBeaconColor(sensorR);
+        TeamColors colorL = ColorHelper.getBeaconColorTest(sensorL);
+        TeamColors colorR = ColorHelper.getBeaconColorTest(sensorR);
         
         if(desiredColor == TeamColors.RED)
         {
