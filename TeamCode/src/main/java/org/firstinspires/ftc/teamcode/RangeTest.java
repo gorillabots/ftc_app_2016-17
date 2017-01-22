@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode;
  * Created by Jarred on 10/30/2016.
  */
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
@@ -34,11 +35,12 @@ public class RangeTest extends OpMode {
     long startTime;
     long time;
 
-    UltrasonicSensor range;
+    ModernRoboticsI2cRangeSensor range;
     public void init() {
 
         drivetrain = new Drivetrain(hardwareMap, telemetry);
         gyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get("gyro");
+        range = (ModernRoboticsI2cRangeSensor) hardwareMap.ultrasonicSensor.get("range");
         gyro.calibrate();
         try {
             Thread.sleep(500);
@@ -54,7 +56,7 @@ public class RangeTest extends OpMode {
         }
 
         gyro.resetZAxisIntegrator();
-        range = hardwareMap.ultrasonicSensor.get("range");
+
 
     }
 
@@ -76,8 +78,8 @@ public class RangeTest extends OpMode {
         int rotation = gyro.getHeading();
 
         drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation, gamepad1.back);
-        telemetry.addData("level is ", range.getUltrasonicLevel());
-
+        telemetry.addData(" optical level is ", range.cmOptical());
+        telemetry.addData(" ultrasonic level is ", range.cmUltrasonic());
     }
 
     @Override
