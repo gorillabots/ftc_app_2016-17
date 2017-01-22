@@ -18,12 +18,10 @@ public class RangeTest extends LinearOpMode{
         drive = new AutonomousDriveTrain();
         drive.init(this);
         while(range.getUltrasonicLevel() > 25){
-            //Ultrasonic values in cm
             drive.right_continuous(0.5);
-            //Goes forward until it reaches 25 cm, at which point it stops
         }
         if(range.getUltrasonicLevel() < 25){
-            drive.right_continuous(0.0);
+          //  drive.stop(5000);
         }
     }
 

@@ -20,9 +20,10 @@ public class forkNEw extends OpMode {
 
     Drivetrain drivetrain;
     ModernRoboticsI2cGyro gyro;
-   // DcMotor elevator;
+
+    DcMotor elevator;
     DcMotor vac;
-    //DcMotor fly;
+    DcMotor fly;
     DcMotor raise;
     TouchSensor limit;
 
@@ -50,8 +51,8 @@ public class forkNEw extends OpMode {
             }
         }
         vac = hardwareMap.dcMotor.get("vac");
-       // elevator = hardwareMap.dcMotor.get("elevator");
-        //fly = hardwareMap.dcMotor.get("fly");
+        elevator = hardwareMap.dcMotor.get("elevator");
+        fly = hardwareMap.dcMotor.get("fly");
         raise = hardwareMap.dcMotor.get("raise");
         limit = hardwareMap.touchSensor.get("limit");
         servoSwing = hardwareMap.servo.get("touchServo");
@@ -112,16 +113,16 @@ public class forkNEw extends OpMode {
         drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation, gamepad1.back);
 
 
-    /*    if (gamepad2.right_bumper == true) {
-            fly.setPower(1);
+        if (gamepad2.right_bumper == true) {
+            fly.setPower(-1);
 
         } else {
             fly.setPower(0);
         }
-*/
+
         if (gamepad2.y) {
 
-            //elevator.setPower(-5);
+            elevator.setPower(-.5);
             vac.setPower(-1);
 
         } else {
@@ -135,7 +136,7 @@ public class forkNEw extends OpMode {
 
         }
 
-/*
+
         if (gamepad2.left_bumper == true) {
             elevator.setPower(1);
         } else if (gamepad2.left_trigger > .5) {
@@ -144,7 +145,7 @@ public class forkNEw extends OpMode {
             elevator.setPower(0);
         }
 
-*/
+
         if (gamepad2.left_stick_y > .1 && limit.isPressed()) {
             raise.setPower(((Math.abs(gamepad2.left_stick_y))));
         } else {
