@@ -21,11 +21,9 @@ public class ZRedAutonomous extends LinearOpMode
     AutonomousDriveTrain driveTrain;
     ColorSensor floorColor;
     ColorSensor beaconColor;
-    ButtonPresserClass beacon;
     public void runOpMode() throws InterruptedException
     {
         driveTrain = new AutonomousDriveTrain();
-        beacon = new ButtonPresserClass();
         driveTrain.init(this);
         floorColor = hardwareMap.colorSensor.get("floorColor");
         beaconColor = hardwareMap.colorSensor.get("beaconColor");
@@ -35,7 +33,6 @@ public class ZRedAutonomous extends LinearOpMode
         driveTrain.RetractTouchServo();
         waitForStart();
         driveTrain.ExtendTouchServo();
-        driveTrain.GyroRotation(45, 0.2, 10000);
     }
 }
 

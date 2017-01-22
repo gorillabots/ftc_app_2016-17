@@ -1,11 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.I2cAddr;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -29,23 +26,19 @@ public class Drivetrain
     DcMotor backRight;
     DcMotor frontLeft;
     DcMotor backLeft;
-   // TouchSensor wallTouch;
     ModernRoboticsI2cGyro gyro;
-
-    //ColorSensor floorColor;
 
     public Drivetrain(HardwareMap hardwareMap, Telemetry telemetry)
     {
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
 
+        //Initialize Motors
         frontRight = hardwareMap.dcMotor.get("frontRight");
         backRight = hardwareMap.dcMotor.get("backRight");
         frontLeft = hardwareMap.dcMotor.get("frontLeft");
         backLeft = hardwareMap.dcMotor.get("backLeft");
-        //floorColor= hardwareMap.colorSensor.get("floorColor");
-        //wallTouch = hardwareMap.touchSensor.get("wallTouch");
-        //floorColor.setI2cAddress(I2cAddr.create8bit(58));
+
         gyro = (ModernRoboticsI2cGyro)hardwareMap.gyroSensor.get("gyro");
     }
 
@@ -56,13 +49,16 @@ public class Drivetrain
      * @param stickRot how much to turn the robot
      * @param heading how much to robot has rotated from initial value
      */
-    public void oneStickLoop(float stickX, float stickY, float stickRot, int heading, boolean dummy)
+    public void oneStickLoop(float stickX, float stickY, float stickRot, int heading, boolean dummy) //TODO: Fix multiple possible memory leaks
     {
         double holder = 1;
-        if(dummy == true && holder == 1){
+
+        if(dummy == true && holder == 1)
+        {
             holder =.5;
         }
-        else if(dummy == true && holder == .5) {
+        else if(dummy == true && holder == .5)
+        {
             holder = 1;
         }
 
@@ -107,72 +103,12 @@ public class Drivetrain
         return in;
     }
 
-
-
-/*
-    public void backToLine(int direction, boolean stop)
+    public void resetGyro(boolean action)
     {
-        boolean desired =  ColorHelper.isFloorWhite(floorColor);
-        floorColor.enableLed(true);
-        if( direction ==1 ) {
-            frontRight.setPower(-.1);
-            backRight.setPower(-.1);
-            frontLeft.setPower(.1);
-            backLeft.setPower(.1);
-
-            while (!desired) {
-                telemetry.update();
-                frontRight.setPower(-.1);
-                backRight.setPower(-.1);
-                frontLeft.setPower(.1);
-                backLeft.setPower(.1);
-                desired =  ColorHelper.isFloorWhite(floorColor);
-                if(stop == true){
-                    break;
-                }
-            }
-
-            frontRight.setPower(0);
-            backRight.setPower(0);
-            frontLeft.setPower(0);
-            backLeft.setPower(0);
-
-        }
-        if (direction == -1){
-
-            frontRight.setPower(.1);
-            backRight.setPower(.1);
-            frontLeft.setPower(-.1);
-            backLeft.setPower(-.1);
-
-            while(!desired)
-            {
-                telemetry.update();
-                frontRight.setPower(.1);
-                backRight.setPower(.1);
-                frontLeft.setPower(-.1);
-                backLeft.setPower(-.1);
-                desired =  ColorHelper.isFloorWhite(floorColor);
-                ColorHelper.getFloorColor(floorColor);
-                if(stop == true){
-                    break;
-                }
-            }
-
-            frontRight.setPower(0);
-            backRight.setPower(0);
-            frontLeft.setPower(0);
-            backLeft.setPower(0);
-        }
-    }
-    */
-
-    public void resetGyro(boolean action){
-
-        if(action == true) {
+        if(action == true)
+        {
             gyro.resetZAxisIntegrator();
         }
-        }
-
+    }
 }
 

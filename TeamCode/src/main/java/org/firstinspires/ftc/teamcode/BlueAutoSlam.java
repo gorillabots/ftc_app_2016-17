@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.graphics.Color;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -59,12 +57,17 @@ public class BlueAutoSlam extends LinearOpMode
         driveTrain.backGyroToLine(floorColor, .3, 2, .1); //Go to first beacon line
         floorColor.enableLed(false);
 
+        driveTrain.beaconResponse(TeamColors.BLUE, beaconColorL, beaconColorR);
 
-        floorColor.enableLed(false); //Disable LEDs at end
+
+        //Finishing up
+
+        floorColor.enableLed(false); //Disable LEDs
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
 
-         /* OLD CODE FOLLOWS (For reference)
+
+        /* OLD CODE FOLLOWS (For reference)
 
         //Go to first beacon
         sensorSwing.setPosition(.0);

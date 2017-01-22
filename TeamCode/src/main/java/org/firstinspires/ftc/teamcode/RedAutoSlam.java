@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.graphics.Color;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -51,12 +49,23 @@ public class RedAutoSlam extends LinearOpMode
         sensorSwing.setPosition(52);
         driveTrain.leftGyro(.0352, .5, 1, .15); //Go out
 
+        floorColor.enableLed(true);
         driveTrain.forwardsGyroToLine(floorColor, .3, 2, .1);
+        floorColor.enableLed(false);
 
-        floorColor.enableLed(false); //Disable LEDs at end
+        driveTrain.beaconResponse(TeamColors.RED, beaconColorL, beaconColorR);
+
+
+        //Finishing up
+
+        floorColor.enableLed(false); //Disable LEDs
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
-        /*
+
+        //TODO: Retract touch servo?
+
+
+        /* Old Code (For Reference)
         telemetry.addData("Finished", "Left");
         telemetry.addData("Now", "TurnToGyro");
         telemetry.update();

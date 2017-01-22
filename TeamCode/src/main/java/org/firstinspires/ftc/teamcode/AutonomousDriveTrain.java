@@ -45,18 +45,20 @@ public class AutonomousDriveTrain
     TouchSensor wallTouch;
 
     ModernRoboticsI2cGyro gyro;
-    Servo touch_servo;
+    Servo touchServo;
     Telemetry telemetry;
     public void init(LinearOpMode opMode) //Get hardware from hardwareMap
     {
         telemetry = opMode.telemetry;
         this.opMode = opMode;
 
+        //Motors
         frontRight = opMode.hardwareMap.dcMotor.get("frontLeft"); //frontRight
         backRight = opMode.hardwareMap.dcMotor.get("frontRight"); //backRight
         frontLeft = opMode.hardwareMap.dcMotor.get("backLeft"); //frontLeft
         backLeft = opMode.hardwareMap.dcMotor.get("backRight"); //backLeft
-        touch_servo = opMode.hardwareMap.servo.get("touchServo");
+
+        touchServo = opMode.hardwareMap.servo.get("touchServo");
         wallTouch = opMode.hardwareMap.touchSensor.get("wallTouch");
         gyro = (ModernRoboticsI2cGyro) opMode.hardwareMap.gyroSensor.get("gyro");
 
@@ -302,8 +304,8 @@ public class AutonomousDriveTrain
 
             opMode.telemetry.addData("Action", "Back Gyro To Line");
             opMode.telemetry.addData("Heading", heading);
-            opMode.telemetry.addData("Color " ,ColorHelper.getFloorColor(floorColor));
-            opMode.telemetry.addData("line ", ColorHelper.isFloorWhite(floorColor));
+            opMode.telemetry.addData("Color", ColorHelper.getFloorColor(floorColor));
+            opMode.telemetry.addData("line", ColorHelper.isFloorWhite(floorColor));
             opMode.telemetry.update();
             opMode.sleep(5);
         }
@@ -805,14 +807,15 @@ public class AutonomousDriveTrain
 
     void turnToGyro(int accuracy, double turnpower) //Turn until we are aligned
     {
+        int heading;
+        double turnpow;
+
         while(opMode.opModeIsActive())
         {
-            int heading = gyro.getHeading();
+            heading = gyro.getHeading();
 
             opMode.telemetry.addData("Action", "Turn to Gyro");
             opMode.telemetry.addData("Heading", heading);
-
-            double turnpow;
 
             if(heading <= accuracy || heading >= 360 - accuracy)
             {
@@ -834,8 +837,6 @@ public class AutonomousDriveTrain
 
             opMode.sleep(50);
         }
-
-
     }
 
     public void right_continuous(double power)
@@ -848,16 +849,14 @@ public class AutonomousDriveTrain
 
     private double getPosFB() //Get position for use in forwards and backwards movements
     {
-        double sum = frontRight.getCurrentPosition() - frontLeft.getCurrentPosition() +
-                backRight.getCurrentPosition() - backLeft.getCurrentPosition();
-        return sum / 4;
+        return (frontRight.getCurrentPosition() - frontLeft.getCurrentPosition() +
+                backRight.getCurrentPosition() - backLeft.getCurrentPosition()) / 4;
     }
 
     private double getPosRL() //Get position for use in left and right movements
     {
-        double sum = -frontRight.getCurrentPosition() - frontLeft.getCurrentPosition() +
-                backRight.getCurrentPosition() + backLeft.getCurrentPosition();
-        return sum / 4;
+        return (-frontRight.getCurrentPosition() - frontLeft.getCurrentPosition() +
+                backRight.getCurrentPosition() + backLeft.getCurrentPosition()) / 4;
     }
 
     private double getPosBRFL() //Get position for use in frontLeft and backRight
@@ -872,44 +871,59 @@ public class AutonomousDriveTrain
 
     double getRotation() //Get rotation
     {
-        double sum = frontRight.getCurrentPosition() + backRight.getCurrentPosition() +
-                frontLeft.getCurrentPosition() + backLeft.getCurrentPosition();
-        return sum / 4;
+        return (frontRight.getCurrentPosition() + backRight.getCurrentPosition() +
+                frontLeft.getCurrentPosition() + backLeft.getCurrentPosition()) / 4;
     }
-    private void turnleft(double power) {
+    private void turnleft(double power)
+    {
         frontRight.setPower(power);
         backRight.setPower(power);
         frontLeft.setPower(power);
         backLeft.setPower(power);
     }
 
-    private void turnright(double power) {
+    private void turnright(double power)
+    {
         frontRight.setPower(-power);
         backRight.setPower(-power);
         frontLeft.setPower(-power);
         backLeft.setPower(-power);
     }
-    public void GyroRotation(int target, double power){
-        if(target > 360 || target < 0 || power < 0 || power > 1){
+
+    public void GyroRotation(int target, double power)
+    {
+        if(target > 360 || target < 0 || power < 0 || power > 1)
+        {
             throw new IllegalArgumentException();
         }
-        while(true){
-            int initial_heading = gyro.getHeading();
+
+        while(true)
+        {
+            int initial_heading = gyro.getHeading(); //TODO: Potential memory leak!
             int degree_rotation = target - initial_heading;
-            if(degree_rotation < 0){
+            if(degree_rotation < 0)
+            {
                 degree_rotation = degree_rotation + 360;
             }
-            if (degree_rotation < 180 && degree_rotation > 0) {
-                while (initial_heading < target) {
+
+            if (degree_rotation < 180 && degree_rotation > 0)
+            {
+                while (initial_heading < target)
+                {
                     turnright(power);
                 }
             }
-            if(degree_rotation > 180 && degree_rotation < 360){
-                while(initial_heading > target){
+
+            if(degree_rotation > 180 && degree_rotation < 360)
+            {
+                while(initial_heading > target)
+                {
                     turnleft(power);
                 }
             }
-            if(degree_rotation == 0 || degree_rotation == 360){
+
+            if(degree_rotation == 0 || degree_rotation == 360)
+            {
                 break;
             }
         }
@@ -917,15 +931,99 @@ public class AutonomousDriveTrain
 
     public void ExtendTouchServo()
     {
-        touch_servo.setPosition(0);
+        touchServo.setPosition(0);
     }
 
     public void RetractTouchServo()
     {
-        touch_servo.setPosition(255);
+        touchServo.setPosition(255);
     }
-    public void DeAccelerator(double deacceleration_rate, double initial_speed, long time)
+
+    public void beaconResponse(TeamColors desiredColor, ColorSensor sensorL, ColorSensor sensorR)
     {
-        //input positive value less than one
+        //sensorL is left color sensor
+        //sensorR is right color sensor
+        
+        TeamColors colorL = ColorHelper.getBeaconColorTest(sensorL);
+        TeamColors colorR = ColorHelper.getBeaconColorTest(sensorR);
+        
+        if(desiredColor == TeamColors.RED)
+        {
+            //On red side
+            if(colorL == TeamColors.RED && colorR == TeamColors.BLUE)
+            {
+                //Checks if left color sensor gets red
+                //Checks if right color sensor gets blue
+                forwards(0.1, 0.2);
+                //Shifts left relative to beacon
+                right(0.2, 0.5);
+                //Moves forward to press beacon on red side
+                left(0.2, 0.5);
+                //Moves back at same distance and speed to continue autonomous
+            }
+            else if(colorL == TeamColors.BLUE && colorR == TeamColors.RED)
+            {
+                //Checks if right color sensor gets red
+                //Checks if left color sensor gets blue
+                right(0.2, 0.5);
+                //Moves forward to press beacon on right side
+                left(0.2, 0.5);
+                //Moves backward
+            }
+            else if(colorL == TeamColors.RED && colorR == TeamColors.RED)
+            {
+                //Checks if both color sensors receive red
+                //If true, does nothing and continues autonomous
+            }
+            else if(colorL == TeamColors.BLUE && colorR == TeamColors.BLUE)
+            {
+                //Checks if both color sensors receive blue and if true, moves forward to press beacon to change to red
+                right(0.2, 0.5);
+                left(0.2, 0.5);
+            }
+            else
+            {
+                //If anything else at all, it does nothing
+            }
+        }
+
+        if(desiredColor == TeamColors.BLUE)
+        {
+            //On blue side
+            if(colorL == TeamColors.BLUE && colorR == TeamColors.RED)
+            {
+                //Checks if left color sensor gets blue
+                //Checks if right color sensor gets red
+                //If true, shifts left, and goes forward to press beacon on left side, and then goes back to continue autonomous
+                forwards(0.1, 0.2);
+                right(0.2, 0.5);
+                left(0.2, 0.5);
+            }
+            else if(colorL == TeamColors.RED && colorR == TeamColors.BLUE)
+            {
+                //Checks if right color sensor gets blue
+                //Checks if left color sensor gets red
+                //If true, goes forward to press beacon on right side, and then goes back to continue autonomous
+                right(0.2, 0.5);
+                left(0.2, 0.5);
+            }
+            else if(colorL == TeamColors.BLUE && colorR == TeamColors.BLUE)
+            {
+                //Checks if left color sensor gets blue
+                //Checks if right color sensor gets blue
+                //If true, it does nothing, and then continues autonomous
+            }
+            else if(colorL == TeamColors.RED && colorR == TeamColors.RED)
+            {
+                //Checks if left color sensor gets red
+                //Checks if right color sensor gets red
+                //If true, shifts left, and goes forward to press beacon in general, and then goes back to continue autonomous
+                right(0.2, 0.5);
+                left(0.2, 0.5);
+            }
+            else{
+                //If none of these conditions apply, it does nothing, and then continues autonomous
+            }
+        }
     }
 }
