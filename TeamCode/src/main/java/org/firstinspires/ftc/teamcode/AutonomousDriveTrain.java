@@ -950,40 +950,29 @@ public class AutonomousDriveTrain
         if(desiredColor == TeamColors.RED)
         {
             //On red side
-            if(colorL == TeamColors.RED && colorR == TeamColors.BLUE)
+            if(colorL == TeamColors.RED && colorR == TeamColors.BLUE) //If pressing left is necessary
             {
-                //Checks if left color sensor gets red
-                //Checks if right color sensor gets blue
-                forwards(0.1, 0.2);
-                //Shifts left relative to beacon
-                right(0.2, 0.5);
-                //Moves forward to press beacon on red side
-                left(0.2, 0.5);
-                //Moves back at same distance and speed to continue autonomous
+                forwards(0.2, 0.3); //Align mashy spike plate
+                right(0.2, 0.5); //Mash mashy spike plate into left button
+                left(0.2, 0.5); //Back away
             }
-            else if(colorL == TeamColors.BLUE && colorR == TeamColors.RED)
+            else if(colorL == TeamColors.BLUE && colorR == TeamColors.RED) //If pressing right is necessary
             {
-                //Checks if right color sensor gets red
-                //Checks if left color sensor gets blue
-                right(0.2, 0.5);
-                //Moves forward to press beacon on right side
-                left(0.2, 0.5);
-                //Moves backward
+                right(0.2, 0.5); //Mash mashy spike plate into left button
+                left(0.2, 0.5); //Back away
             }
-            else if(colorL == TeamColors.RED && colorR == TeamColors.RED)
+            else if(colorL == TeamColors.RED && colorR == TeamColors.RED) //If both are red, do nothing
             {
-                //Checks if both color sensors receive red
-                //If true, does nothing and continues autonomous
+                //See, nothing!
             }
-            else if(colorL == TeamColors.BLUE && colorR == TeamColors.BLUE)
+            else if(colorL == TeamColors.BLUE && colorR == TeamColors.BLUE) //If both are blue, hit any (right is closest)
             {
-                //Checks if both color sensors receive blue and if true, moves forward to press beacon to change to red
-                right(0.2, 0.5);
-                left(0.2, 0.5);
+                right(0.2, 0.5); //Mash mashy spike plate into left button
+                left(0.2, 0.5); //Back away
             }
             else
             {
-                //If anything else at all, it does nothing
+                //If any are indecisive, do nothing to be safe
             }
         }
 

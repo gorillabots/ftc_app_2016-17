@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -10,64 +11,43 @@ import com.qualcomm.robotcore.hardware.I2cAddr;
  */
 
 @TeleOp(name = "ColorEnumTest", group = "Concept")
-public class ColorEnumTest extends OpMode
+public class ColorEnumTest extends LinearOpMode
 {
+    AutonomousDriveTrain driveTrain;
+
     ColorSensor beaconColorL;
     ColorSensor beaconColorR;
 
-    boolean currentLeftPress;
-    boolean currentRightPress;
-    boolean lastLeftPress = false;
-    boolean lastRightPress = false;
-    
-    boolean leftLED = false;
-    boolean rightLED = false;
-
     @Override
-    public void init()
+    public void runOpMode() throws InterruptedException
     {
+        //Initialize hardware
+        driveTrain = new AutonomousDriveTrain(); //Initialize hardware
+        driveTrain.init(this);
+
         beaconColorL = hardwareMap.colorSensor.get("beaconColor");
         beaconColorR = hardwareMap.colorSensor.get("beaconColor2");
         beaconColorL.setI2cAddress(I2cAddr.create8bit(58));
         beaconColorR.setI2cAddress(I2cAddr.create8bit(62));
 
         beaconColorL.enableLed(false);
-        beaconColorR.enableLed(false);
-    }
+        beaconColorR.enableLed(true);
 
-    @Override
-    public void loop()
-    {
-        currentLeftPress = gamepad1.dpad_left;
-        currentRightPress = gamepad1.dpad_right;
-        
-        if(currentLeftPress && !lastLeftPress)
-        {
-            leftLED = !leftLED;
-            beaconColorL.enableLed(leftLED);
-        }
+        waitForStart(); //Done initializing
 
-        if(currentRightPress && !lastRightPress)
-        {
-            rightLED = !rightLED;
-            beaconColorR.enableLed(rightLED);
-        }
-        
-        lastLeftPress = currentLeftPress;
-        lastRightPress = currentRightPress;
-        
-        telemetry.addData("Left color", enumToString(ColorHelper.getBeaconColorTest(beaconColorL)));
-        telemetry.addData("Right color", enumToString(ColorHelper.getBeaconColorTest(beaconColorR)));
+        TeamColors l = ColorHelper.getBeaconColorTest(beaconColorL);
+        TeamColors r = ColorHelper.getBeaconColorTest(beaconColorR);
+
+        telemetry.addData("Left", enumToString(l));
+        telemetry.addData("Right", enumToString(r));
         telemetry.update();
-    }
 
-    @Override
-    public void stop()
-    {
-        super.stop();
+        sleep(1000);
+
+        driveTrain.beaconResponse(TeamColors.RED, beaconColorL, beaconColorR);
 
         beaconColorL.enableLed(false);
-        beaconColorR.enableLed(false);
+        beaconColorR.enableLed(true);
     }
 
     private String enumToString(TeamColors color)
