@@ -21,7 +21,7 @@ public class RangeTest extends LinearOpMode{
             drive.right_continuous(0.5);
         }
         if(range.getUltrasonicLevel() < 25){
-            drive.stop(5000);
+          //  drive.stop(5000);
         }
     }
 
