@@ -17,6 +17,8 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
 @TeleOp(name = "range test", group = "Concept")
 public class RangeTest extends OpMode {
 
@@ -35,12 +37,12 @@ public class RangeTest extends OpMode {
     long startTime;
     long time;
 
-    ModernRoboticsI2cRangeSensor range;
+    ModernRoboticsI2cRangeSensor rangeSensor;
     public void init() {
 
         drivetrain = new Drivetrain(hardwareMap, telemetry);
         gyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get("gyro");
-        range = (ModernRoboticsI2cRangeSensor) hardwareMap.ultrasonicSensor.get("range");
+        rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
         gyro.calibrate();
         try {
             Thread.sleep(500);
@@ -78,8 +80,11 @@ public class RangeTest extends OpMode {
         int rotation = gyro.getHeading();
 
         drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation, gamepad1.back);
-        telemetry.addData(" optical level is ", range.cmOptical());
-        telemetry.addData(" ultrasonic level is ", range.cmUltrasonic());
+        telemetry.addData("raw ultrasonic", rangeSensor.rawUltrasonic());
+        telemetry.addData("raw optical", rangeSensor.rawOptical());
+        telemetry.addData("cm optical", "%.2f cm", rangeSensor.cmOptical());
+        telemetry.addData("cm", "%.2f cm", rangeSensor.getDistance(DistanceUnit.CM));
+        telemetry.update();
     }
 
     @Override
