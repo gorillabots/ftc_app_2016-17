@@ -952,14 +952,11 @@ public class AutonomousDriveTrain
             //On red side
             if(colorL == TeamColors.RED && colorR == TeamColors.BLUE) //If pressing left is necessary
             {
-                forwards(0.2, 0.3); //Align mashy spike plate
-                right(0.2, 0.5); //Mash mashy spike plate into left button
-                left(0.2, 0.5); //Back away
+                pressLeft();
             }
             else if(colorL == TeamColors.BLUE && colorR == TeamColors.RED) //If pressing right is necessary
             {
-                right(0.2, 0.5); //Mash mashy spike plate into left button
-                left(0.2, 0.5); //Back away
+                pressRight();
             }
             else if(colorL == TeamColors.RED && colorR == TeamColors.RED) //If both are red, do nothing
             {
@@ -967,8 +964,7 @@ public class AutonomousDriveTrain
             }
             else if(colorL == TeamColors.BLUE && colorR == TeamColors.BLUE) //If both are blue, hit any (right is closest)
             {
-                right(0.2, 0.5); //Mash mashy spike plate into left button
-                left(0.2, 0.5); //Back away
+                pressRight();
             }
             else
             {
@@ -978,41 +974,39 @@ public class AutonomousDriveTrain
 
         if(desiredColor == TeamColors.BLUE)
         {
-            //On blue side
-            if(colorL == TeamColors.BLUE && colorR == TeamColors.RED)
+            if(colorL == TeamColors.BLUE && colorR == TeamColors.RED) //If pressing left is necessary
             {
-                //Checks if left color sensor gets blue
-                //Checks if right color sensor gets red
-                //If true, shifts left, and goes forward to press beacon on left side, and then goes back to continue autonomous
-                forwards(0.1, 0.2);
-                right(0.2, 0.5);
-                left(0.2, 0.5);
+                pressLeft();
             }
-            else if(colorL == TeamColors.RED && colorR == TeamColors.BLUE)
+            else if(colorL == TeamColors.RED && colorR == TeamColors.BLUE) //If pressing right is necessary
             {
-                //Checks if right color sensor gets blue
-                //Checks if left color sensor gets red
-                //If true, goes forward to press beacon on right side, and then goes back to continue autonomous
-                right(0.2, 0.5);
-                left(0.2, 0.5);
+                pressRight();
             }
-            else if(colorL == TeamColors.BLUE && colorR == TeamColors.BLUE)
+            else if(colorL == TeamColors.BLUE && colorR == TeamColors.BLUE) //If both are blue, do nothing
             {
-                //Checks if left color sensor gets blue
-                //Checks if right color sensor gets blue
-                //If true, it does nothing, and then continues autonomous
+                //See, nothing!
             }
-            else if(colorL == TeamColors.RED && colorR == TeamColors.RED)
+            else if(colorL == TeamColors.RED && colorR == TeamColors.RED) //If both are red, hit any (right is closest)
             {
-                //Checks if left color sensor gets red
-                //Checks if right color sensor gets red
-                //If true, shifts left, and goes forward to press beacon in general, and then goes back to continue autonomous
-                right(0.2, 0.5);
-                left(0.2, 0.5);
+                pressRight();
             }
-            else{
-                //If none of these conditions apply, it does nothing, and then continues autonomous
+            else
+            {
+                //If any are indecisive, do nothing to be safe
             }
         }
+    }
+
+    private void pressLeft()
+    {
+        forwards(0.2, 0.3); //Align mashy spike plate
+        right(0.2, 0.5); //Mash mashy spike plate into left button
+        left(0.2, 0.5); //Back away
+    }
+
+    private void pressRight()
+    {
+        right(0.2, 0.5); //Mash mashy spike plate into left button
+        left(0.2, 0.5); //Back away
     }
 }
