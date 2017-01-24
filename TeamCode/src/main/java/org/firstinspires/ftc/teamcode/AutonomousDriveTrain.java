@@ -938,11 +938,6 @@ public class AutonomousDriveTrain
     {
         touchServo.setPosition(255);
     }
-
-    public void DeAccelerator(double deacceleration_rate, double initial_speed, long time) //TODO: Never used and empty, what is it for?
-    {
-        //input positive value less than one
-    }
     public void beaconResponse(String desired_color, ColorSensor color1, ColorSensor color2){
         //color1 is always left color sensor
         //color2 is always right color sensor
