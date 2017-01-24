@@ -43,27 +43,33 @@ public class RedAutoSlam extends LinearOpMode
 
 
         //Go to first beacon
-        sensorSwing.setPosition(.0);
+        sensorSwing.setPosition(.09);
         driveTrain.backRightGyro(2.5, .8, 1, .1); //Go out
         driveTrain.rightGyroToTouch(.3, 1, .1); //Go to wall slowly
         sensorSwing.setPosition(52);
         driveTrain.leftGyro(.0352, .5, 1, .15); //Go out
 
         floorColor.enableLed(true);
-        driveTrain.forwardsGyroToLine(floorColor, .3, 2, .1);
+        driveTrain.forwardsGyroToLine(floorColor, .3, 1, .05);
         floorColor.enableLed(false);
-        beaconColorL.enableLed(false);
-        beaconColorR.enableLed(false);
-        driveTrain.beaconResponse("red", beaconColorL, beaconColorR);
 
-        driveTrain.backGyroToLine(floorColor, 0.3, 2, 0.1);
-        driveTrain.beaconResponse("red", beaconColorL, beaconColorR);
+        //driveTrain.turnToGyro(2, .09);
+
+        sleep(100);
+
+        driveTrain.back(.12, .25);
+
+        driveTrain.beaconResponse(TeamColors.RED, beaconColorL, beaconColorR);
+
+
+        //Finishing up
+
         floorColor.enableLed(false); //Disable LEDs
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
 
         //TODO: Retract touch servo?
-        //TODO: Ultrasonic sensor vs. touch sensor?
+
 
         /* Old Code (For Reference)
         telemetry.addData("Finished", "Left");

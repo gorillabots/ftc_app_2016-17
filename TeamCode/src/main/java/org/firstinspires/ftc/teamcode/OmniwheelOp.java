@@ -61,7 +61,7 @@ public class OmniwheelOp extends OpMode
         //rotation = gyro.getHeading();
 
         //drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation);
-        String beaconColor = ColorHelper.getBeaconColor(colorSensor);
+        TeamColors beaconColor = ColorHelper.getBeaconColor(colorSensor);
         String floorColor = ColorHelper.getFloorColor(colorSensorF);
         telemetry.addData("Beacon color", beaconColor);
         telemetry.addData("Floor color", floorColor);

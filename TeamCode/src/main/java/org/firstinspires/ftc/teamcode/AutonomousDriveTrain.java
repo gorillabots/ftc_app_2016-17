@@ -938,45 +938,49 @@ public class AutonomousDriveTrain
     {
         touchServo.setPosition(255);
     }
-    public void beaconResponse(String desired_color, ColorSensor color1, ColorSensor color2){
-        //color1 is always left color sensor
-        //color2 is always right color sensor
-        if(desired_color.equals("red")){
+
+    public void beaconResponse(TeamColors desiredColor, ColorSensor sensorL, ColorSensor sensorR)
+    {
+        //sensorL is left color sensor
+        //sensorR is right color sensor
+        
+        TeamColors colorL = ColorHelper.getBeaconColorTest(sensorL);
+        TeamColors colorR = ColorHelper.getBeaconColorTest(sensorR);
+        
+        if(desiredColor == TeamColors.RED)
+        {
             //On red side
-            if(ColorHelper.getBeaconColor(color1).equals("red") && ColorHelper.getBeaconColor(color2).equals("blue")){
-                //Checks if left color sensor gets red
-                //Checks if right color sensor gets blue
-                forwards(0.1, 0.2);
-                //Shifts left relative to beacon
-                right(0.2, 0.5);
-                //Moves forward to press beacon on red side
-                left(0.2, 0.5);
-                //Moves back at same distance and speed to continue autonomous
+            if(colorL == TeamColors.RED && colorR == TeamColors.BLUE) //If pressing left is necessary
+            {
+                forwards(0.2, 0.3); //Align mashy spike plate
+                right(0.2, 0.5); //Mash mashy spike plate into left button
+                left(0.2, 0.5); //Back away
             }
-            else if(ColorHelper.getBeaconColor(color2).equals("red") && ColorHelper.getBeaconColor(color1).equals("blue")){
-                //Checks if right color sensor gets red
-                //Checks if left color sensor gets blue
-                right(0.2, 0.5);
-                //Moves forward to press beacon on right side
-                left(0.2, 0.5);
-                //Moves backward
+            else if(colorL == TeamColors.BLUE && colorR == TeamColors.RED) //If pressing right is necessary
+            {
+                right(0.2, 0.5); //Mash mashy spike plate into left button
+                left(0.2, 0.5); //Back away
             }
-            else if(ColorHelper.getBeaconColor(color1).equals("red") && ColorHelper.getBeaconColor(color2).equals("red")){
-                //Checks if both color sensors receive red
-                //If true, does nothing and continues autonomous
+            else if(colorL == TeamColors.RED && colorR == TeamColors.RED) //If both are red, do nothing
+            {
+                //See, nothing!
             }
-            else if(ColorHelper.getBeaconColor(color1).equals("blue") && ColorHelper.getBeaconColor(color2).equals("blue")){
-                //Checks if both color sensors receive blue and if true, moves forward to press beacon to change to red
-                right(0.2, 0.5);
-                left(0.2, 0.5);
+            else if(colorL == TeamColors.BLUE && colorR == TeamColors.BLUE) //If both are blue, hit any (right is closest)
+            {
+                right(0.2, 0.5); //Mash mashy spike plate into left button
+                left(0.2, 0.5); //Back away
             }
-            else{
-                //If anything else at all, it does nothing
+            else
+            {
+                //If any are indecisive, do nothing to be safe
             }
         }
-        if(desired_color.equals("blue")){
+
+        if(desiredColor == TeamColors.BLUE)
+        {
             //On blue side
-            if(ColorHelper.getBeaconColor(color1).equals("blue") && ColorHelper.getBeaconColor(color2).equals("red")){
+            if(colorL == TeamColors.BLUE && colorR == TeamColors.RED)
+            {
                 //Checks if left color sensor gets blue
                 //Checks if right color sensor gets red
                 //If true, shifts left, and goes forward to press beacon on left side, and then goes back to continue autonomous
@@ -984,19 +988,22 @@ public class AutonomousDriveTrain
                 right(0.2, 0.5);
                 left(0.2, 0.5);
             }
-            else if(ColorHelper.getBeaconColor(color2).equals("blue") && ColorHelper.getBeaconColor(color1).equals("red")){
+            else if(colorL == TeamColors.RED && colorR == TeamColors.BLUE)
+            {
                 //Checks if right color sensor gets blue
                 //Checks if left color sensor gets red
                 //If true, goes forward to press beacon on right side, and then goes back to continue autonomous
                 right(0.2, 0.5);
                 left(0.2, 0.5);
             }
-            else if(ColorHelper.getBeaconColor(color1).equals("blue") && ColorHelper.getBeaconColor(color2).equals("blue")){
+            else if(colorL == TeamColors.BLUE && colorR == TeamColors.BLUE)
+            {
                 //Checks if left color sensor gets blue
                 //Checks if right color sensor gets blue
                 //If true, it does nothing, and then continues autonomous
             }
-            else if(ColorHelper.getBeaconColor(color1).equals("red") && ColorHelper.getBeaconColor(color2).equals("red")){
+            else if(colorL == TeamColors.RED && colorR == TeamColors.RED)
+            {
                 //Checks if left color sensor gets red
                 //Checks if right color sensor gets red
                 //If true, shifts left, and goes forward to press beacon in general, and then goes back to continue autonomous
