@@ -58,7 +58,8 @@ public class RedAutoSlam extends LinearOpMode
         sleep(100);
 
         driveTrain.back(.12, .25);
-
+        beaconColorL.enableLed(false);
+        beaconColorR.enableLed(false);
         driveTrain.beaconResponse(TeamColors.RED, beaconColorL, beaconColorR);
 
 
