@@ -96,8 +96,6 @@ public class AutonomousDriveTrain
         frontLeft.setPower(-power);
         backLeft.setPower(-power);
 
-
-
         while(pos < target && opMode.opModeIsActive())
         {
             opMode.telemetry.addData("Action", "Forwards");
@@ -153,6 +151,26 @@ public class AutonomousDriveTrain
             opMode.sleep(5);
 
             pos = getPosFB();
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
+
+    public void forwardsToLine(ColorSensor floorColor, double power) //Move forward to line using gyro
+    {
+        frontRight.setPower(power);
+        backRight.setPower(power);
+        frontLeft.setPower(-power);
+        backLeft.setPower(-power);
+
+        while(!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive())
+        {
+            opMode.telemetry.addData("Action", "Forwards To Line");
+            opMode.telemetry.update();
+            opMode.sleep(5);
         }
 
         frontRight.setPower(0);
