@@ -51,7 +51,8 @@ public class RedAutoSlam extends LinearOpMode
         driveTrain.left(.015, .5); //Go out
 
         floorColor.enableLed(true);
-        driveTrain.forwardsToLine(floorColor, .3); // driveTrain.forwardsGyroToLine(floorColor, .3, 1, .05)
+        //driveTrain.forwardsToLine(floorColor, .3);
+        driveTrain.forwardsGyroToLine(floorColor, .3, 1, .05);
         floorColor.enableLed(false);
 
         //driveTrain.turnToGyro(2, .09);
