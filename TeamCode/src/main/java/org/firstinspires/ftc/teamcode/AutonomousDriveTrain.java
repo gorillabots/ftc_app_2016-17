@@ -57,6 +57,9 @@ public class AutonomousDriveTrain
         backRight = opMode.hardwareMap.dcMotor.get("frontRight"); //backRight
         frontLeft = opMode.hardwareMap.dcMotor.get("backLeft"); //frontLeft
         backLeft = opMode.hardwareMap.dcMotor.get("backRight"); //backLeft
+
+        //Link about DC Motors / Encoders: https://ftc-tricks.com/dc-motors/
+
         frontRight.setMode(RunMode.RUN_USING_ENCODER);
         frontLeft.setMode(RunMode.RUN_USING_ENCODER);
         backRight.setMode(RunMode.RUN_USING_ENCODER);
