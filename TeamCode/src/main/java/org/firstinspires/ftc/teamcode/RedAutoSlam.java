@@ -37,6 +37,7 @@ public class RedAutoSlam extends LinearOpMode
 
         sensorSwing = hardwareMap.servo.get("touchServo");
         sensorSwing.setPosition(.56);
+
         waitForStart();
 
         driveTrain.resetGyro();
@@ -47,17 +48,17 @@ public class RedAutoSlam extends LinearOpMode
         driveTrain.backRightGyro(2.5, .8, 1, .1); //Go out
         driveTrain.rightGyroToTouch(.3, 1, .1); //Go to wall slowly
         sensorSwing.setPosition(52);
-        driveTrain.leftGyro(.0352, .5, 1, .15); //Go out
+        driveTrain.left(.015, .5); //Go out
 
         floorColor.enableLed(true);
-        driveTrain.forwardsGyroToLine(floorColor, .3, 1, .05);
+        driveTrain.forwardsToLine(floorColor, .3); // driveTrain.forwardsGyroToLine(floorColor, .3, 1, .05)
         floorColor.enableLed(false);
 
         //driveTrain.turnToGyro(2, .09);
 
         sleep(100);
 
-        driveTrain.back(.12, .25);
+        driveTrain.back(.12, .35);
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
         driveTrain.beaconResponse(TeamColors.RED, beaconColorL, beaconColorR);
