@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
-
+import com.qualcomm.robotcore.hardware.DcMotor.RunMode;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 /**
@@ -57,7 +57,10 @@ public class AutonomousDriveTrain
         backRight = opMode.hardwareMap.dcMotor.get("frontRight"); //backRight
         frontLeft = opMode.hardwareMap.dcMotor.get("backLeft"); //frontLeft
         backLeft = opMode.hardwareMap.dcMotor.get("backRight"); //backLeft
-
+        frontRight.setMode(RunMode.RUN_USING_ENCODER);
+        frontLeft.setMode(RunMode.RUN_USING_ENCODER);
+        backRight.setMode(RunMode.RUN_USING_ENCODER);
+        backLeft.setMode(RunMode.RUN_USING_ENCODER);
         touchServo = opMode.hardwareMap.servo.get("touchServo");
         wallTouch = opMode.hardwareMap.touchSensor.get("wallTouch");
         gyro = (ModernRoboticsI2cGyro) opMode.hardwareMap.gyroSensor.get("gyro");
