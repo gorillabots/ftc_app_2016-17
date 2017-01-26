@@ -190,7 +190,7 @@ public class AutonomousDriveTrain
         int heading;
         double turnpow;
 
-        while(!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive())
+        while(!ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive())
         {
             heading = gyro.getHeading();
 
@@ -214,6 +214,7 @@ public class AutonomousDriveTrain
 
             opMode.telemetry.addData("Action", "Forwards Gyro To Line");
             opMode.telemetry.addData("Heading", heading);
+            ColorHelper.printColorRGB(opMode.telemetry, floorColor);
             opMode.telemetry.update();
             opMode.sleep(5);
         }

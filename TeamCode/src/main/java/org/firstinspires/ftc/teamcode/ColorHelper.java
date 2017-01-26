@@ -141,6 +141,11 @@ public class ColorHelper {
         return hsvValuesFloor[2] > .8;
     }
 
+    public static boolean isFloorWhiteTest(ColorSensor color)
+    {
+        return (color.red() > 10 && color.green() > 10 && color.blue() > 10);
+    }
+
     public static float getFloorValue()
     {
         return hsvValuesFloor[2];

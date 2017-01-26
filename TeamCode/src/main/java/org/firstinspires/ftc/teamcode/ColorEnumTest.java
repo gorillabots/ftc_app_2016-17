@@ -11,57 +11,30 @@ import com.qualcomm.robotcore.hardware.I2cAddr;
  */
 
 @TeleOp(name = "ColorEnumTest", group = "Concept")
-public class ColorEnumTest extends LinearOpMode
+public class ColorEnumTest extends OpMode
 {
-    AutonomousDriveTrain driveTrain;
-
-    ColorSensor beaconColorL;
-    ColorSensor beaconColorR;
+    ColorSensor floorColor;
 
     @Override
-    public void runOpMode() throws InterruptedException
+    public void init()
     {
         //Initialize hardware
-        driveTrain = new AutonomousDriveTrain(); //Initialize hardware
-        driveTrain.init(this);
+        floorColor = hardwareMap.colorSensor.get("floorColor");
+        floorColor.enableLed(false);
 
-        beaconColorL = hardwareMap.colorSensor.get("beaconColor");
-        beaconColorR = hardwareMap.colorSensor.get("beaconColor2");
-        beaconColorL.setI2cAddress(I2cAddr.create8bit(58));
-        beaconColorR.setI2cAddress(I2cAddr.create8bit(62));
-
-        beaconColorL.enableLed(false);
-        beaconColorR.enableLed(true);
-
-        waitForStart(); //Done initializing
-
-        TeamColors l = ColorHelper.getBeaconColorTest(beaconColorL);
-        TeamColors r = ColorHelper.getBeaconColorTest(beaconColorR);
-
-        telemetry.addData("Left", enumToString(l));
-        telemetry.addData("Right", enumToString(r));
-        telemetry.update();
-
-        sleep(1000);
-
-        driveTrain.beaconResponse(TeamColors.RED, beaconColorL, beaconColorR);
-
-        beaconColorL.enableLed(false);
-        beaconColorR.enableLed(true);
+        floorColor.enableLed(true);
     }
 
-    private String enumToString(TeamColors color)
+    public void loop()
     {
-        switch(color)
-        {
-            case RED:
-                return "Red";
-            case BLUE:
-                return "Blue";
-            case INDECISIVE:
-                return "Indecisive";
-        }
+        ColorHelper.printColorRGB(telemetry, floorColor);
+        telemetry.addData("Is white", ColorHelper.isFloorWhiteTest(floorColor));
+        telemetry.update();
+    }
 
-        return "Null";
+    public void stop()
+    {
+        super.stop();
+        floorColor.enableLed(false);
     }
 }
