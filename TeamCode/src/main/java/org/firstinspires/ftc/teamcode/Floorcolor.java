@@ -22,7 +22,8 @@ public class Floorcolor extends LinearOpMode {
 
         ElapsedTime opmodeRunTime = new ElapsedTime();
         colorSensor = hardwareMap.colorSensor.get("floorColor");
-
+        colorSensor.enableLed(false);
+        colorSensor.enableLed(true);
         waitForStart();
         while (opModeIsActive()) {
 

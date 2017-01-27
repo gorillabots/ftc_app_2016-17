@@ -20,6 +20,7 @@ public class forkNEw extends OpMode {
 
     Drivetrain drivetrain;
     ModernRoboticsI2cGyro gyro;
+
     DcMotor elevator;
     DcMotor vac;
     DcMotor fly;
@@ -113,7 +114,7 @@ public class forkNEw extends OpMode {
 
 
         if (gamepad2.right_bumper == true) {
-            fly.setPower(1);
+            fly.setPower(-1);
 
         } else {
             fly.setPower(0);
@@ -121,7 +122,7 @@ public class forkNEw extends OpMode {
 
         if (gamepad2.y) {
 
-            elevator.setPower(-5);
+            elevator.setPower(-.5);
             vac.setPower(-1);
 
         } else {
@@ -143,6 +144,7 @@ public class forkNEw extends OpMode {
         } else {
             elevator.setPower(0);
         }
+
 
         if (gamepad2.left_stick_y > .1 && limit.isPressed()) {
             raise.setPower(((Math.abs(gamepad2.left_stick_y))));

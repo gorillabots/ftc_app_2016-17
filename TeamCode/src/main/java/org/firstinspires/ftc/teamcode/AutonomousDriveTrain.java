@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
-
+import com.qualcomm.robotcore.hardware.DcMotor.RunMode;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 /**
@@ -58,6 +58,12 @@ public class AutonomousDriveTrain
         frontLeft = opMode.hardwareMap.dcMotor.get("backLeft"); //frontLeft
         backLeft = opMode.hardwareMap.dcMotor.get("backRight"); //backLeft
 
+        //Link about DC Motors / Encoders: https://ftc-tricks.com/dc-motors/
+
+        frontRight.setMode(RunMode.RUN_USING_ENCODER);
+        frontLeft.setMode(RunMode.RUN_USING_ENCODER);
+        backRight.setMode(RunMode.RUN_USING_ENCODER);
+        backLeft.setMode(RunMode.RUN_USING_ENCODER);
         touchServo = opMode.hardwareMap.servo.get("touchServo");
         wallTouch = opMode.hardwareMap.touchSensor.get("wallTouch");
         gyro = (ModernRoboticsI2cGyro) opMode.hardwareMap.gyroSensor.get("gyro");
@@ -95,8 +101,6 @@ public class AutonomousDriveTrain
         backRight.setPower(power);
         frontLeft.setPower(-power);
         backLeft.setPower(-power);
-
-
 
         while(pos < target && opMode.opModeIsActive())
         {
@@ -161,12 +165,32 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
+    public void forwardsToLine(ColorSensor floorColor, double power) //Move forward to line using gyro
+    {
+        frontRight.setPower(power);
+        backRight.setPower(power);
+        frontLeft.setPower(-power);
+        backLeft.setPower(-power);
+
+        while(!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive())
+        {
+            opMode.telemetry.addData("Action", "Forwards To Line");
+            opMode.telemetry.update();
+            opMode.sleep(5);
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
+
     public void forwardsGyroToLine(ColorSensor floorColor, double power, int accuracy, double turnpower) //Move forward to line using gyro
     {
         int heading;
         double turnpow;
 
-        while(!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive())
+        while(!ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive())
         {
             heading = gyro.getHeading();
 
@@ -190,6 +214,7 @@ public class AutonomousDriveTrain
 
             opMode.telemetry.addData("Action", "Forwards Gyro To Line");
             opMode.telemetry.addData("Heading", heading);
+            ColorHelper.printColorRGB(opMode.telemetry, floorColor);
             opMode.telemetry.update();
             opMode.sleep(5);
         }
@@ -283,6 +308,48 @@ public class AutonomousDriveTrain
         while(!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive())
         {
             heading = gyro.getHeading();
+
+            if(heading <= accuracy || heading >= 360 - accuracy)
+            {
+                turnpow = 0;
+            }
+            else if(heading <= 180)
+            {
+                turnpow = -turnpower;
+            }
+            else
+            {
+                turnpow = turnpower;
+            }
+
+            frontRight.setPower(-power + turnpow);
+            backRight.setPower(-power + turnpow);
+            frontLeft.setPower(power + turnpow);
+            backLeft.setPower(power + turnpow);
+
+            opMode.telemetry.addData("Action", "Back Gyro To Line");
+            opMode.telemetry.addData("Heading", heading);
+            opMode.telemetry.addData("Color", ColorHelper.getFloorColor(floorColor));
+            opMode.telemetry.addData("line", ColorHelper.isFloorWhite(floorColor));
+            opMode.telemetry.update();
+            opMode.sleep(5);
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
+    public void backGyroToLineDelay(ColorSensor floorColor, double power, int accuracy, double turnpower) //Move back to line using gyro
+    {
+        int heading;
+        double turnpow;
+        back(.2, .4);
+        while(!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive())
+        {
+            heading = gyro.getHeading();
+
+
 
             if(heading <= accuracy || heading >= 360 - accuracy)
             {
@@ -939,78 +1006,74 @@ public class AutonomousDriveTrain
         touchServo.setPosition(255);
     }
 
-    public void DeAccelerator(double deacceleration_rate, double initial_speed, long time) //TODO: Never used and empty, what is it for?
+    public void beaconResponse(TeamColors desiredColor, ColorSensor sensorL, ColorSensor sensorR)
     {
-        //input positive value less than one
-    }
-    public void beaconResponse(String desired_color, ColorSensor color1, ColorSensor color2){
-        //color1 is always left color sensor
-        //color2 is always right color sensor
-        if(desired_color.equals("red")){
+        //sensorL is left color sensor
+        //sensorR is right color sensor
+        
+        TeamColors colorL = ColorHelper.getBeaconColorTest(sensorL);
+        TeamColors colorR = ColorHelper.getBeaconColorTest(sensorR);
+        
+        if(desiredColor == TeamColors.RED)
+        {
             //On red side
-            if(ColorHelper.getBeaconColor(color1).equals("red") && ColorHelper.getBeaconColor(color2).equals("blue")){
-                //Checks if left color sensor gets red
-                //Checks if right color sensor gets blue
-                forwards(0.1, 0.2);
-                //Shifts left relative to beacon
-                right(0.2, 0.5);
-                //Moves forward to press beacon on red side
-                left(0.2, 0.5);
-                //Moves back at same distance and speed to continue autonomous
+            if(colorL == TeamColors.RED && colorR == TeamColors.BLUE) //If pressing left is necessary
+            {
+                pressLeft();
             }
-            else if(ColorHelper.getBeaconColor(color2).equals("red") && ColorHelper.getBeaconColor(color1).equals("blue")){
-                //Checks if right color sensor gets red
-                //Checks if left color sensor gets blue
-                right(0.2, 0.5);
-                //Moves forward to press beacon on right side
-                left(0.2, 0.5);
-                //Moves backward
+            else if(colorL == TeamColors.BLUE && colorR == TeamColors.RED) //If pressing right is necessary
+            {
+                pressRight();
             }
-            else if(ColorHelper.getBeaconColor(color1).equals("red") && ColorHelper.getBeaconColor(color2).equals("red")){
-                //Checks if both color sensors receive red
-                //If true, does nothing and continues autonomous
+            else if(colorL == TeamColors.RED && colorR == TeamColors.RED) //If both are red, do nothing
+            {
+                //See, nothing!
             }
-            else if(ColorHelper.getBeaconColor(color1).equals("blue") && ColorHelper.getBeaconColor(color2).equals("blue")){
-                //Checks if both color sensors receive blue and if true, moves forward to press beacon to change to red
-                right(0.2, 0.5);
-                left(0.2, 0.5);
+            else if(colorL == TeamColors.BLUE && colorR == TeamColors.BLUE) //If both are blue, hit any (right is closest)
+            {
+                pressRight();
             }
-            else{
-                //If anything else at all, it does nothing
+            else
+            {
+                //If any are indecisive, do nothing to be safe
             }
         }
-        if(desired_color.equals("blue")){
-            //On blue side
-            if(ColorHelper.getBeaconColor(color1).equals("blue") && ColorHelper.getBeaconColor(color2).equals("red")){
-                //Checks if left color sensor gets blue
-                //Checks if right color sensor gets red
-                //If true, shifts left, and goes forward to press beacon on left side, and then goes back to continue autonomous
-                forwards(0.1, 0.2);
-                right(0.2, 0.5);
-                left(0.2, 0.5);
+
+        if(desiredColor == TeamColors.BLUE)
+        {
+            if(colorL == TeamColors.BLUE && colorR == TeamColors.RED) //If pressing left is necessary
+            {
+                pressLeft();
             }
-            else if(ColorHelper.getBeaconColor(color2).equals("blue") && ColorHelper.getBeaconColor(color1).equals("red")){
-                //Checks if right color sensor gets blue
-                //Checks if left color sensor gets red
-                //If true, goes forward to press beacon on right side, and then goes back to continue autonomous
-                right(0.2, 0.5);
-                left(0.2, 0.5);
+            else if(colorL == TeamColors.RED && colorR == TeamColors.BLUE) //If pressing right is necessary
+            {
+                pressRight();
             }
-            else if(ColorHelper.getBeaconColor(color1).equals("blue") && ColorHelper.getBeaconColor(color2).equals("blue")){
-                //Checks if left color sensor gets blue
-                //Checks if right color sensor gets blue
-                //If true, it does nothing, and then continues autonomous
+            else if(colorL == TeamColors.BLUE && colorR == TeamColors.BLUE) //If both are blue, do nothing
+            {
+                //See, nothing!
             }
-            else if(ColorHelper.getBeaconColor(color1).equals("red") && ColorHelper.getBeaconColor(color2).equals("red")){
-                //Checks if left color sensor gets red
-                //Checks if right color sensor gets red
-                //If true, shifts left, and goes forward to press beacon in general, and then goes back to continue autonomous
-                right(0.2, 0.5);
-                left(0.2, 0.5);
+            else if(colorL == TeamColors.RED && colorR == TeamColors.RED) //If both are red, hit any (right is closest)
+            {
+                pressRight();
             }
-            else{
-                //If none of these conditions apply, it does nothing, and then continues autonomous
+            else
+            {
+                //If any are indecisive, do nothing to be safe
             }
         }
+    }
+
+    private void pressLeft()
+    {
+        forwards(0.2, 0.3); //Align mashy spike plate
+        right(0.2, 0.5); //Mash mashy spike plate into left button
+        left(0.2, 0.5); //Back away
+    }
+
+    private void pressRight()
+    {
+        right(0.2, 0.5); //Mash mashy spike plate into left button
+        left(0.2, 0.5); //Back away
     }
 }
