@@ -19,7 +19,7 @@ public class RedAutoSlam extends LinearOpMode
     ColorSensor beaconColorR;
     Servo sensorSwing;
 
-    public void runOpMode()
+    public void runOpMode() throws InterruptedException
     {
         driveTrain = new AutonomousDriveTrain(); //Initialize hardware
         driveTrain.init(this);
@@ -44,10 +44,11 @@ public class RedAutoSlam extends LinearOpMode
 
 
         //Go to first beacon
-        sensorSwing.setPosition(.09);
+        //sensorSwing.setPosition(.09);
         driveTrain.backRightGyro(2.5, .8, 1, .1); //Go out
-        driveTrain.rightGyroToTouch(.3, 1, .1); //Go to wall slowly
-        sensorSwing.setPosition(52);
+        //driveTrain.rightGyroToTouch(.3, 1, .1); //Go to wall slowly
+        driveTrain.approach_Wall_Range(20, 0.25);
+        /*sensorSwing.setPosition(52);
         driveTrain.left(.015, .5); //Go out
 
         floorColor.enableLed(true);

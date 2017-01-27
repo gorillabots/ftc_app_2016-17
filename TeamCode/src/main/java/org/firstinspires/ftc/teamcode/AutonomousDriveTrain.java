@@ -8,7 +8,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.DcMotor.RunMode;
+import com.qualcomm.robotcore.hardware.UltrasonicSensor;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+
+import static java.lang.Thread.sleep;
 
 /**
  * Created by mikko on 10/14/16.
@@ -43,7 +47,7 @@ public class AutonomousDriveTrain
     DcMotor frontRight, backRight, frontLeft, backLeft;
 
     TouchSensor wallTouch;
-
+    UltrasonicSensor range;
     ModernRoboticsI2cGyro gyro;
     Servo touchServo;
     Telemetry telemetry;
@@ -74,7 +78,7 @@ public class AutonomousDriveTrain
         {
             while (gyro.isCalibrating())
             {
-                Thread.sleep(50);
+                sleep(50);
                 telemetry.addData("is", "calibrating");
                 telemetry.update();
             }
@@ -340,7 +344,13 @@ public class AutonomousDriveTrain
         frontLeft.setPower(0);
         backLeft.setPower(0);
     }
-
+    public void approach_Wall_Range(int cm, double power) throws InterruptedException{
+        if(range.getUltrasonicLevel() > cm && opMode.opModeIsActive()){
+            right_continuous(power);
+            sleep(5);
+        }
+        else{}
+    }
     public void right(double meters, double power) //Move right by distance
     {
         double pos = getPosRL();
@@ -454,7 +464,6 @@ public class AutonomousDriveTrain
         frontLeft.setPower(0);
         backLeft.setPower(0);
     }
-
     public void rightGyroToTouch(double power, int accuracy, double turnpower) //Move right to touch using gyro
     {
         int heading;
