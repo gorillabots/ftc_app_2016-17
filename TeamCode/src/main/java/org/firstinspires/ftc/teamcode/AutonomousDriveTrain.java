@@ -340,6 +340,48 @@ public class AutonomousDriveTrain
         frontLeft.setPower(0);
         backLeft.setPower(0);
     }
+    public void backGyroToLineDelay(ColorSensor floorColor, double power, int accuracy, double turnpower) //Move back to line using gyro
+    {
+        int heading;
+        double turnpow;
+        back(.2, .4);
+        while(!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive())
+        {
+            heading = gyro.getHeading();
+
+
+
+            if(heading <= accuracy || heading >= 360 - accuracy)
+            {
+                turnpow = 0;
+            }
+            else if(heading <= 180)
+            {
+                turnpow = -turnpower;
+            }
+            else
+            {
+                turnpow = turnpower;
+            }
+
+            frontRight.setPower(-power + turnpow);
+            backRight.setPower(-power + turnpow);
+            frontLeft.setPower(power + turnpow);
+            backLeft.setPower(power + turnpow);
+
+            opMode.telemetry.addData("Action", "Back Gyro To Line");
+            opMode.telemetry.addData("Heading", heading);
+            opMode.telemetry.addData("Color", ColorHelper.getFloorColor(floorColor));
+            opMode.telemetry.addData("line", ColorHelper.isFloorWhite(floorColor));
+            opMode.telemetry.update();
+            opMode.sleep(5);
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
 
     public void right(double meters, double power) //Move right by distance
     {
