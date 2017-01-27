@@ -25,14 +25,14 @@ public class CenterGoalAuto extends LinearOpMode
 
         float mark2 = (float) .9;
 
-        driveTrain.right(.429, .5);
+        driveTrain.right(1, .5);
         timer1.reset();
         timer1.startTime();
 
         while(timer1.milliseconds() < 15000)
         {
             shooter.runFlywheel(true);
-            shooter.runElevator(false, mark2 );
+            shooter.runElevator(false, mark2);
         }
 
         shooter.runFlywheel(false);
