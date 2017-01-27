@@ -71,7 +71,7 @@ public class AutonomousDriveTrain
         touchServo = opMode.hardwareMap.servo.get("touchServo");
         wallTouch = opMode.hardwareMap.touchSensor.get("wallTouch");
         gyro = (ModernRoboticsI2cGyro) opMode.hardwareMap.gyroSensor.get("gyro");
-
+        range = opMode.hardwareMap.ultrasonicSensor.get("range");
         gyro.calibrate();
 
         try //Wait for gyro to calibrate
