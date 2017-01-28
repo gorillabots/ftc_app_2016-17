@@ -54,7 +54,7 @@ public class RedAutoSlam extends LinearOpMode
 
         driveTrain.rightGyroToTouch(.3, 1, .1); //Go to wall slowly
 
-        sensorSwing.setPosition(52);
+        sensorSwing.setPosition(.52);
 
         driveTrain.left(.08, .5);
 
@@ -62,9 +62,9 @@ public class RedAutoSlam extends LinearOpMode
         driveTrain.forwardsGyroToLine(floorColor, .22, 1, .05); //Go to white line 1
         floorColor.enableLed(false);
 
-        driveTrain.back(.095, .3); //Align color sensors
+        driveTrain.back(.06 , .3); //Align color sensors
 
-        driveTrain.goToDistance(range, 8, 1, .2); //Approach beacon
+        driveTrain.goToDistance(range, 10, 1, .2); //Approach beacon
 
         sleep(100);
 
@@ -72,7 +72,7 @@ public class RedAutoSlam extends LinearOpMode
         beaconColorR.enableLed(false);
         driveTrain.beaconResponse(TeamColors.RED, beaconColorL, beaconColorR); //Press button
 
-        driveTrain.left(.8, .25);
+        driveTrain.left(.08, .25);
 
         driveTrain.back(.25, .8);
 
@@ -80,9 +80,9 @@ public class RedAutoSlam extends LinearOpMode
         driveTrain.backGyroToLine(floorColor, .23, 1, .05); //Go white line 2
         floorColor.enableLed(false);
 
-        driveTrain.back(.095, .3); //Align color sensors
+        //driveTrain.back(.095, .3); //Align color sensors
 
-        driveTrain.goToDistance(range, 8, 1, .2); //Approach beacon
+        driveTrain.goToDistance(range, 10, 1, .2); //Approach beacon
 
         sleep(100);
 
