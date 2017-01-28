@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -18,8 +19,8 @@ public class RedAutoSlam extends LinearOpMode
     ColorSensor beaconColorL;
     ColorSensor beaconColorR;
     Servo sensorSwing;
-
-    public void runOpMode()
+    ModernRoboticsI2cRangeSensor range;
+    public void runOpMode() throws InterruptedException
     {
         driveTrain = new AutonomousDriveTrain(); //Initialize hardware
         driveTrain.init(this);
@@ -34,7 +35,7 @@ public class RedAutoSlam extends LinearOpMode
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
 
-
+        range = (ModernRoboticsI2cRangeSensor) hardwareMap.gyroSensor.get("range");
         sensorSwing = hardwareMap.servo.get("touchServo");
         sensorSwing.setPosition(.56);
 
@@ -62,7 +63,7 @@ public class RedAutoSlam extends LinearOpMode
         driveTrain.back(.095, .3);
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
-        driveTrain.beaconResponse(TeamColors.RED, beaconColorL, beaconColorR);
+        driveTrain.beaconResponse(TeamColors.RED, beaconColorL, beaconColorR, range, 20, 2);
 
         driveTrain.left(.175, .5);
         driveTrain.back(.5, .8);
