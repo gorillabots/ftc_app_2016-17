@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -305,7 +306,7 @@ public class AutonomousDriveTrain
         int heading;
         double turnpow;
 
-        while(!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive())
+        while(!ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive())
         {
             heading = gyro.getHeading();
 
@@ -902,7 +903,7 @@ public class AutonomousDriveTrain
             frontLeft.setPower(turnpow);
             backLeft.setPower(turnpow);
 
-            opMode.sleep(50);
+            opMode.sleep(5);
         }
     }
 
@@ -1004,6 +1005,46 @@ public class AutonomousDriveTrain
     public void RetractTouchServo()
     {
         touchServo.setPosition(255);
+    }
+
+    public void goToDistance(ModernRoboticsI2cRangeSensor rangeSensor, double target, double accuracy, double power)
+    {
+        double min = target - accuracy;
+        double max = target + accuracy;
+
+        double range = rangeSensor.cmUltrasonic();
+
+        while((range < min || range > max) && opMode.opModeIsActive())
+        {
+            if(range > target)
+            {
+                frontRight.setPower(-power);
+                backRight.setPower(power);
+                frontLeft.setPower(-power);
+                backLeft.setPower(power);
+            }
+            else
+            {
+                frontRight.setPower(power);
+                backRight.setPower(-power);
+                frontLeft.setPower(power);
+                backLeft.setPower(-power);
+            }
+
+            opMode.telemetry.addData("Action", "GoToDistance");
+            opMode.telemetry.addData("Target", target);
+            opMode.telemetry.addData("Accuracy", accuracy);
+            opMode.telemetry.addData("Current", range);
+
+            opMode.sleep(5);
+
+            range = rangeSensor.cmUltrasonic();
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
     }
 
     public void beaconResponse(TeamColors desiredColor, ColorSensor sensorL, ColorSensor sensorR)
