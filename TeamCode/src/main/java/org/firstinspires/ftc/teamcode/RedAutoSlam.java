@@ -35,7 +35,7 @@ public class RedAutoSlam extends LinearOpMode
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
 
-        range = (ModernRoboticsI2cRangeSensor) hardwareMap.gyroSensor.get("range");
+        range = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
         sensorSwing = hardwareMap.servo.get("touchServo");
         sensorSwing.setPosition(.56);
 
