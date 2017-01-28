@@ -50,13 +50,13 @@ public class BlueAutoSlam extends LinearOpMode
         telemetry.update();
         driveTrain.frontRightGyro(2.5, .5, 1, .1); //Go out
         driveTrain.rightGyroToTouch(.3, 1, .1); //Go to wall slowly
-        sensorSwing.setPosition(52); //Raise touch arm
+        sensorSwing.setPosition(.52); //Raise touch arm
         driveTrain.leftGyro(.0352, .5, 1, .15); //Back away from wall
 
         floorColor.enableLed(true);
         driveTrain.backGyroToLine(floorColor, .3, 2, .1); //Go to first beacon line
         floorColor.enableLed(false);
-
+        
         driveTrain.beaconResponse(TeamColors.BLUE, beaconColorL, beaconColorR);
 
 
