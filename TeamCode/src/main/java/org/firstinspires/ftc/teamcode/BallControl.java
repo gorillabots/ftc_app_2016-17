@@ -17,19 +17,18 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class BallControl {
 
 
-    DcMotor flyOne;
-    DcMotor flyTwo;
+    DcMotor fly;
     DcMotor vac;
     CRServo elevator;
     HardwareMap hardwareMap;
     Telemetry telemetry;
+
     public BallControl(HardwareMap hardwareMap, Telemetry telemetry)
     {
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
         vac = hardwareMap.dcMotor.get("vac");
-        flyOne = hardwareMap.dcMotor.get("flyOne");
-        flyTwo = hardwareMap.dcMotor.get("flyTwo");
+        fly = hardwareMap.dcMotor.get("fly");
         elevator = hardwareMap.crservo.get("elevator");
     }
 
@@ -39,13 +38,11 @@ public class BallControl {
     public void runFlywheel(boolean on){
 
         if(on == true){
-            flyOne.setPower(-1);
-            flyTwo.setPower(1);
+            fly.setPower(-1);
         }
 
         else{
-            flyOne.setPower(0);
-            flyTwo.setPower(0);
+            fly.setPower(0);
         }
 
     }
@@ -85,7 +82,55 @@ public class BallControl {
         }
     }
 
+    public void newRunFlywheel(boolean on)
+    {
+        if(on)
+        {
+            fly.setPower(-1);
+        }
+        else
+        {
+            fly.setPower(0);
+        }
+
+    }
+
+    public void newRunElevator(boolean direction)
+    {
+        if(direction)
+        {
+            elevator.setPower(1);
+        }
+        else
+        {
+            elevator.setPower(-1);
+        }
+    }
+
+    public void newStopElevator()
+    {
+        elevator.setPower(0);
+    }
+
+    public void newRunCollector(boolean direction)
+    {
+
+        if(direction)
+        {
+            vac.setPower(1);
+        }
+        else
+        {
+            vac.setPower(-1);
+        }
+    }
+
+    public void newStopCollector()
+    {
+        vac.setPower(0);
+    }
 
 
 
     }
+
