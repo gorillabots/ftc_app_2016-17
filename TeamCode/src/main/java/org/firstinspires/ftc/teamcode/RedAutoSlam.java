@@ -19,8 +19,7 @@ public class RedAutoSlam extends LinearOpMode
     ColorSensor beaconColorL;
     ColorSensor beaconColorR;
     Servo sensorSwing;
-    ModernRoboticsI2cRangeSensor range;
-    public void runOpMode() throws InterruptedException
+    public void runOpMode()
     {
         driveTrain = new AutonomousDriveTrain(); //Initialize hardware
         driveTrain.init(this);
@@ -35,7 +34,6 @@ public class RedAutoSlam extends LinearOpMode
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
 
-        range = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
         sensorSwing = hardwareMap.servo.get("touchServo");
         sensorSwing.setPosition(.56);
 
@@ -63,7 +61,7 @@ public class RedAutoSlam extends LinearOpMode
         driveTrain.back(.095, .3);
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
-        driveTrain.beaconResponse(TeamColors.RED, beaconColorL, beaconColorR, range, 20, 2);
+        driveTrain.beaconResponse(TeamColors.RED, beaconColorL, beaconColorR);
 
 
         //Finishing up

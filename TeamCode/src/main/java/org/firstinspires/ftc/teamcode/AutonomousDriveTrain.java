@@ -1006,37 +1006,61 @@ public class AutonomousDriveTrain
     {
         touchServo.setPosition(255);
     }
+    public void beaconDebug(TeamColors team, ColorSensor lcolor, ColorSensor rcolor){
+        TeamColors Left = ColorHelper.getBeaconColorTest(lcolor);
+        TeamColors Right = ColorHelper.getBeaconColorTest(rcolor);
+        if(team == TeamColors.RED) {
+            if (Left == TeamColors.RED && Right == TeamColors.BLUE) {
 
-    public void beaconResponse(TeamColors desiredColor, ColorSensor sensorL, ColorSensor sensorR, ModernRoboticsI2cRangeSensor range, double needed_distance, int accuracy) throws InterruptedException{
+            }
+            else if(Left == TeamColors.BLUE && Right == TeamColors.RED){
+
+            }
+            else if(Left == TeamColors.RED && Right == TeamColors.RED){
+
+            }
+            else if(Left == TeamColors.BLUE && Right == TeamColors.BLUE){
+
+            }
+            else if (Left == TeamColors.RED && Right == TeamColors.INDECISIVE){
+
+            }
+            else if (Left == TeamColors.BLUE && Right == TeamColors.INDECISIVE){
+
+            }
+            else if (Left == TeamColors.INDECISIVE && Right == TeamColors.RED){
+
+            }
+            else if (Left == TeamColors.INDECISIVE && Right == TeamColors.BLUE){
+
+            }
+            else{
+
+            }
+        }
+    }
+    public void beaconResponse(TeamColors desiredColor, ColorSensor sensorL, ColorSensor sensorR){
         //sensorL is left color sensor
         //sensorR is right color sensor
 
         TeamColors colorL = ColorHelper.getBeaconColorTest(sensorL);
         TeamColors colorR = ColorHelper.getBeaconColorTest(sensorR);
-        double distance = range.getDistance(DistanceUnit.CM);
-        while (opMode.opModeIsActive()) {
-            if (distance == needed_distance || distance > needed_distance - (double) accuracy || distance < needed_distance + (double) accuracy) {
                 if (desiredColor == TeamColors.RED) {
                     //On red side
                     if (colorL == TeamColors.RED && colorR == TeamColors.BLUE) //If pressing left is necessary
                     {
                         pressLeft();
-                        break;
                     } else if (colorL == TeamColors.BLUE && colorR == TeamColors.RED) //If pressing right is necessary
                     {
                         pressRight();
-                        break;
                     } else if (colorL == TeamColors.RED && colorR == TeamColors.RED) //If both are red, do nothing
                     {
                         //See, nothing!
-                        break;
                     } else if (colorL == TeamColors.BLUE && colorR == TeamColors.BLUE) //If both are blue, hit any (right is closest)
                     {
                         pressRight();
-                        break;
                     } else {
                         //If any are indecisive, do nothing to be safe
-                        break;
                     }
                 }
 
@@ -1044,37 +1068,20 @@ public class AutonomousDriveTrain
                     if (colorL == TeamColors.BLUE && colorR == TeamColors.RED) //If pressing left is necessary
                     {
                         pressLeft();
-                        break;
                     } else if (colorL == TeamColors.RED && colorR == TeamColors.BLUE) //If pressing right is necessary
                     {
                         pressRight();
-                        break;
                     } else if (colorL == TeamColors.BLUE && colorR == TeamColors.BLUE) //If both are blue, do nothing
                     {
                         //See, nothing!
-                        break;
                     } else if (colorL == TeamColors.RED && colorR == TeamColors.RED) //If both are red, hit any (right is closest)
                     {
                         pressRight();
-                        break;
                     } else {
                         //If any are indecisive, do nothing to be safe
-                        break;
                     }
                 }
             }
-            else if(distance > needed_distance + (double)accuracy){
-                right_continuous(0.2);
-                Thread.sleep(5);
-                right_continuous(0);
-            }
-            else{
-                right_continuous(-0.2);
-                Thread.sleep(5);
-                right_continuous(0);
-            }
-        }
-    }
     private void pressLeft()
     {
         forwards(0.2, 0.3); //Align mashy spike plate

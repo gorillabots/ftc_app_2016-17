@@ -20,22 +20,30 @@ public class ZRedAutonomous extends LinearOpMode
 {
     AutonomousDriveTrain driveTrain;
     ColorSensor floorColor;
-    ColorSensor beaconColor;
-    //ButtonPresserClass beacon;
-    public void runOpMode() throws InterruptedException
+    ColorSensor beaconColorL;
+    ColorSensor beaconColorR;
+    Servo sensorSwing;
+    public void runOpMode()
     {
-        driveTrain = new AutonomousDriveTrain();
-       // beacon = new ButtonPresserClass();
+        driveTrain = new AutonomousDriveTrain(); //Initialize hardware
         driveTrain.init(this);
+
         floorColor = hardwareMap.colorSensor.get("floorColor");
-        beaconColor = hardwareMap.colorSensor.get("beaconColor");
-        beaconColor.setI2cAddress(I2cAddr.create8bit(58));
-        beaconColor.enableLed(false);
-        floorColor.enableLed(false);
-        driveTrain.RetractTouchServo();
+        beaconColorL = hardwareMap.colorSensor.get("beaconColor");
+        beaconColorR = hardwareMap.colorSensor.get("beaconColor2");
+        beaconColorL.setI2cAddress(I2cAddr.create8bit(58));
+        beaconColorR.setI2cAddress(I2cAddr.create8bit(62));
+
+        floorColor.enableLed(false); //Disable LEDs
+        beaconColorL.enableLed(false);
+        beaconColorR.enableLed(false);
+
+        sensorSwing = hardwareMap.servo.get("touchServo");
+        sensorSwing.setPosition(.56);
+
         waitForStart();
-        driveTrain.ExtendTouchServo();
-      //  driveTrain.GyroRotation(45, 0.2, 10000);
+
+        driveTrain.resetGyro();
     }
 }
 
