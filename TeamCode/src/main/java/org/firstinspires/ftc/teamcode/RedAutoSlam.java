@@ -18,7 +18,7 @@ public class RedAutoSlam extends LinearOpMode
     ColorSensor floorColor;
     ColorSensor beaconColorL;
     ColorSensor beaconColorR;
-    Servo sensorSwing;
+    Servo servoSwing;
 
     ModernRoboticsI2cRangeSensor range;
 
@@ -37,8 +37,8 @@ public class RedAutoSlam extends LinearOpMode
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
 
-        sensorSwing = hardwareMap.servo.get("touchServo");
-        sensorSwing.setPosition(.56);
+        servoSwing = hardwareMap.servo.get("servoSwing");
+        servoSwing.setPosition(.56);
 
         range = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
 
@@ -48,13 +48,13 @@ public class RedAutoSlam extends LinearOpMode
 
 
         //Go to first beacon
-        sensorSwing.setPosition(.09);
+        servoSwing.setPosition(.09);
 
         driveTrain.backRightGyro(2.5, .8, 1, .1); //First (diagonal) move
 
         driveTrain.rightGyroToTouch(.3, 1, .1); //Go to wall slowly
 
-        sensorSwing.setPosition(.52);
+        servoSwing.setPosition(.52);
 
         driveTrain.left(.08, .5);
 

@@ -67,7 +67,7 @@ public class AutonomousDriveTrain
         frontLeft.setMode(RunMode.RUN_USING_ENCODER);
         backRight.setMode(RunMode.RUN_USING_ENCODER);
         backLeft.setMode(RunMode.RUN_USING_ENCODER);
-        touchServo = opMode.hardwareMap.servo.get("touchServo");
+        touchServo = opMode.hardwareMap.servo.get("servoSwing");
         wallTouch = opMode.hardwareMap.touchSensor.get("wallTouch");
         gyro = (ModernRoboticsI2cGyro) opMode.hardwareMap.gyroSensor.get("gyro");
 
