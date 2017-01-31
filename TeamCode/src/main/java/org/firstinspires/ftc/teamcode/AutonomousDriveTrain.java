@@ -48,7 +48,7 @@ public class AutonomousDriveTrain
     TouchSensor wallTouch;
 
     ModernRoboticsI2cGyro gyro;
-    Servo touchServo;
+    //Servo touchServo;
     Telemetry telemetry;
     public void init(LinearOpMode opMode) //Get hardware from hardwareMap
     {
@@ -67,7 +67,7 @@ public class AutonomousDriveTrain
         frontLeft.setMode(RunMode.RUN_USING_ENCODER);
         backRight.setMode(RunMode.RUN_USING_ENCODER);
         backLeft.setMode(RunMode.RUN_USING_ENCODER);
-        touchServo = opMode.hardwareMap.servo.get("servoSwing");
+        //touchServo = opMode.hardwareMap.servo.get("servoSwing");
         wallTouch = opMode.hardwareMap.touchSensor.get("wallTouch");
         gyro = (ModernRoboticsI2cGyro) opMode.hardwareMap.gyroSensor.get("gyro");
 
@@ -999,7 +999,7 @@ public class AutonomousDriveTrain
         }
     }
 
-    public void ExtendTouchServo()
+    /*public void ExtendTouchServo()
     {
         touchServo.setPosition(0);
     }
@@ -1008,7 +1008,7 @@ public class AutonomousDriveTrain
     {
         touchServo.setPosition(255);
     }
-
+    */
     public void goToDistance(ModernRoboticsI2cRangeSensor rangeSensor, double target, double accuracy, double power)
     {
         double min = target - accuracy;
