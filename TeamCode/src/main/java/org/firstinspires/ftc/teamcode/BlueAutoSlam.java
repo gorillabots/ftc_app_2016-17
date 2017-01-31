@@ -34,29 +34,33 @@ public class BlueAutoSlam extends LinearOpMode
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
 
-        telemetry.addData("init" , "1");
-        telemetry.update();
-        sensorSwing = hardwareMap.servo.get("servoSwing");
+        sensorSwing = hardwareMap.servo.get("touchServo");
         sensorSwing.setPosition(.56);
-        telemetry.addData("init" , "2");
-        telemetry.update();
 
-        waitForStart(); //Initialization done!
+        waitForStart();
 
         driveTrain.resetGyro();
 
-        sensorSwing.setPosition(.0);
-        telemetry.addData("init" , "3");
-        telemetry.update();
-        driveTrain.frontRightGyro(2.5, .5, 1, .1); //Go out
+
+        //Go to first beacon
+        sensorSwing.setPosition(.09);
+        driveTrain.backRightGyro(2.5, .8, 1, .1); //Go out
         driveTrain.rightGyroToTouch(.3, 1, .1); //Go to wall slowly
-        sensorSwing.setPosition(52); //Raise touch arm
-        driveTrain.leftGyro(.0352, .5, 1, .15); //Back away from wall
+        sensorSwing.setPosition(52);
+        driveTrain.left(.015, .5); //Go out
 
         floorColor.enableLed(true);
-        driveTrain.backGyroToLine(floorColor, .3, 2, .1); //Go to first beacon line
+        //driveTrain.forwardsToLine(floorColor, .3);
+        driveTrain.forwardsGyroToLine(floorColor, .22, 1, .05);
         floorColor.enableLed(false);
 
+        //driveTrain.turnToGyro(2, .09);
+
+        sleep(100);
+
+        driveTrain.back(.095, .3);
+        beaconColorL.enableLed(false);
+        beaconColorR.enableLed(false);
         driveTrain.beaconResponse(TeamColors.BLUE, beaconColorL, beaconColorR);
 
 
@@ -66,71 +70,81 @@ public class BlueAutoSlam extends LinearOpMode
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
 
+        //TODO: Retract touch servo?
 
-        /* OLD CODE FOLLOWS (For reference)
 
-        //Go to first beacon
-        sensorSwing.setPosition(.0);
-        driveTrain.backRightGyro(1.76, .5); //Go out
-        driveTrain.rightGyroToTouch(.3); //Go to wall slowly
-        sensorSwing.setPosition(52
-        );
-        driveTrain.right(.0352, .5); //Go out
-        driveTrain.turnToGyro(.3);
+        /* Old Code (For Reference)
+        telemetry.addData("Finished", "Left");
+        telemetry.addData("Now", "TurnToGyro");
+        telemetry.update();
+
+        driveTrain.turnToGyro(3, .2);
         //driveTrain.GyroRotation(0e, .2);
+
+        telemetry.addData("Finished", "TurnToGyro");
+        telemetry.addData("Now", "EnableLED");
+        telemetry.update();
+
         floorColor.enableLed(true);
-        driveTrain.forwardsGyroToLine(floorColor, .5);
 
+        telemetry.addData("Finished", "EnableLED");
+        telemetry.addData("Now", "ForwardsToLine");
+        telemetry.update();
+
+        driveTrain.forwardsGyroToLine(floorColor, .5, 1, .1);
+
+        telemetry.addData("Finished", "ForwardsToLine");
+        telemetry.update();
+        */
+        /*
         //beacon code //////
-        driveTrain.forwardsGyro(.02, 5);
+        driveTrain.forwardsGyro(.02, .5, 1, .2);
         floorColor.enableLed(false);
-        sleep(200);
-        driveTrain.turnToGyro(.3);
-        sleep(200);
-        driveTrain.left(.200, .5);
-        sleep(200);
-        driveTrain.right(.02, .5);
-        driveTrain.turnToGyro(.3);
-        driveTrain.left(.01, .5);
-       // driveTrain.turnToGyro();
 
-        sleep(500);
+        driveTrain.turnToGyro(1, .25);
 
-        if(ColorHelper.getBeaconColor(beaconColor).equals("red"))
-        {
-            driveTrain.left(.1, .5);
-            driveTrain.right(.02, .5);
+        driveTrain.right(.200, .5);
+
+        driveTrain.left(.02, .5);
+        driveTrain.turnToGyro(1, .25);
+        driveTrain.right(.01, .5);
+        // driveTrain.turnToGyro();
+
+
+
+        if (ColorHelper.getBeaconColor(beaconColor).equals("blue")) {
+            driveTrain.right(.1, .5);
+            driveTrain.left(.02, .5);
         }
         driveTrain.forwards(.01, .5);
-        if(ColorHelper.getBeaconColor(beaconColor).equals("red"))
-        {
-            driveTrain.left(.1, .5);
-            driveTrain.right(.02, .5);
+        if (ColorHelper.getBeaconColor(beaconColor).equals("blue")) {
+            driveTrain.right(.1, .5);
+            driveTrain.left(.02, .5);
         }
         driveTrain.back(.02, .5);
-        if(ColorHelper.getBeaconColor(beaconColor).equals("red"))
-        {
-            driveTrain.left(.1, .5);
-            driveTrain.right(.02, .5);
+        if (ColorHelper.getBeaconColor(beaconColor).equals("blue")) {
+            driveTrain.right(.1, .5);
+            driveTrain.left(.02, .5);
         }
-        if(ColorHelper.getBeaconColor(beaconColor).equals("red"))
-        {
-            driveTrain.left(.1, .5);
-            driveTrain.right(.02, .5);
+        if (ColorHelper.getBeaconColor(beaconColor).equals("blue")) {
+            driveTrain.right(.1, .5);
+            driveTrain.left(.02, .5);
         }
+        */
+    }
+}
+//driveTrain.backwardsGyroToLine(floorColor, .5);
 
-        driveTrain.backwardsGyroToLine(floorColor, .5);
-
-        /*driveTrain.right(.25);
+        /*driveTrain.left(.25);
         driveTrain.backwardsGyroToLine(floorColor);
 
 
-        driveTrain.left(.1); //Changed
+        driveTrain.right(.1); //Changed
 
 
-        if(ColorHelper.getBeaconColor(beaconColor) == "red"){
-            driveTrain.right(.25);
-            driveTrain.left(.1); //Changed
+        if(ColorHelper.getBeaconColor(beaconColor) == "blue"){
+            driveTrain.left(.25);
+            driveTrain.right(.1); //Changed
         }
 
         beaconColor.enableLed(false); //Go to second beacon
@@ -138,16 +152,21 @@ public class BlueAutoSlam extends LinearOpMode
 
         driveTrain.back(.25);
         driveTrain.backwardsGyroToLine(floorColor);
-        driveTrain.left(.02112);
+        driveTrain.right(.02112);
         beaconColor.enableLed(true);
-        driveTrain.left(.352);
-        if(ColorHelper.getBeaconColor(beaconColor) == "red"){
-            driveTrain.right(.095);
-            driveTrain.left(.352);
+        driveTrain.right(.352);
+        if(ColorHelper.getBeaconColor(beaconColor) == "blue"){
+            driveTrain.left(.095);
+            driveTrain.right(.352);
 
         }
-        driveTrain.right(.15);
+        driveTrain.left(.15);
 
-        */
-    }
-}
+
+
+        beaconColor.enableLed(false); //Disable LEDs
+        floorColor.enableLed(false);
+  //  }
+//
+//}
+*/
