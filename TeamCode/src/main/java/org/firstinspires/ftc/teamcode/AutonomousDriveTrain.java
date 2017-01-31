@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -9,6 +10,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.DcMotor.RunMode;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+
+import static org.firstinspires.ftc.teamcode.TeamColors.RED;
 
 /**
  * Created by mikko on 10/14/16.
@@ -45,7 +48,7 @@ public class AutonomousDriveTrain
     TouchSensor wallTouch;
 
     ModernRoboticsI2cGyro gyro;
-    Servo touchServo;
+    //Servo touchServo;
     Telemetry telemetry;
     public void init(LinearOpMode opMode) //Get hardware from hardwareMap
     {
@@ -64,7 +67,7 @@ public class AutonomousDriveTrain
         frontLeft.setMode(RunMode.RUN_USING_ENCODER);
         backRight.setMode(RunMode.RUN_USING_ENCODER);
         backLeft.setMode(RunMode.RUN_USING_ENCODER);
-        touchServo = opMode.hardwareMap.servo.get("touchServo");
+        //touchServo = opMode.hardwareMap.servo.get("servoSwing");
         wallTouch = opMode.hardwareMap.touchSensor.get("wallTouch");
         gyro = (ModernRoboticsI2cGyro) opMode.hardwareMap.gyroSensor.get("gyro");
 
@@ -305,7 +308,7 @@ public class AutonomousDriveTrain
         int heading;
         double turnpow;
 
-        while(!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive())
+        while(!ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive())
         {
             heading = gyro.getHeading();
 
@@ -902,7 +905,7 @@ public class AutonomousDriveTrain
             frontLeft.setPower(turnpow);
             backLeft.setPower(turnpow);
 
-            opMode.sleep(50);
+            opMode.sleep(5);
         }
     }
 
@@ -996,7 +999,7 @@ public class AutonomousDriveTrain
         }
     }
 
-    public void ExtendTouchServo()
+    /*public void ExtendTouchServo()
     {
         touchServo.setPosition(0);
     }
@@ -1004,6 +1007,46 @@ public class AutonomousDriveTrain
     public void RetractTouchServo()
     {
         touchServo.setPosition(255);
+    }
+    */
+    public void goToDistance(ModernRoboticsI2cRangeSensor rangeSensor, double target, double accuracy, double power)
+    {
+        double min = target - accuracy;
+        double max = target + accuracy;
+
+        double range = rangeSensor.cmUltrasonic();
+
+        while((range < min || range > max) && opMode.opModeIsActive())
+        {
+            if(range > target)
+            {
+                frontRight.setPower(-power);
+                backRight.setPower(power);
+                frontLeft.setPower(-power);
+                backLeft.setPower(power);
+            }
+            else
+            {
+                frontRight.setPower(power);
+                backRight.setPower(-power);
+                frontLeft.setPower(power);
+                backLeft.setPower(-power);
+            }
+
+            opMode.telemetry.addData("Action", "GoToDistance");
+            opMode.telemetry.addData("Target", target);
+            opMode.telemetry.addData("Accuracy", accuracy);
+            opMode.telemetry.addData("Current", range);
+
+            opMode.sleep(5);
+
+            range = rangeSensor.cmUltrasonic();
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
     }
 
     public void beaconResponse(TeamColors desiredColor, ColorSensor sensorL, ColorSensor sensorR)
@@ -1013,19 +1056,28 @@ public class AutonomousDriveTrain
         
         TeamColors colorL = ColorHelper.getBeaconColorTest(sensorL);
         TeamColors colorR = ColorHelper.getBeaconColorTest(sensorR);
-        
-        if(desiredColor == TeamColors.RED)
+
+        telemetry.addData("l-r", sensorL.red());
+        telemetry.addData("l-b", sensorL.blue());
+        telemetry.addData("l-c", enumToString(colorL));
+        telemetry.addData("r-r", sensorR.red());
+        telemetry.addData("r-b", sensorR.blue());
+        telemetry.addData("r-c", enumToString(colorR));
+        telemetry.update();
+        opMode.sleep(1000);
+
+        if(desiredColor == RED)
         {
             //On red side
-            if(colorL == TeamColors.RED && colorR == TeamColors.BLUE) //If pressing left is necessary
+            if(colorL == RED && colorR == TeamColors.BLUE) //If pressing left is necessary
             {
                 pressLeft();
             }
-            else if(colorL == TeamColors.BLUE && colorR == TeamColors.RED) //If pressing right is necessary
+            else if(colorL == TeamColors.BLUE && colorR == RED) //If pressing right is necessary
             {
                 pressRight();
             }
-            else if(colorL == TeamColors.RED && colorR == TeamColors.RED) //If both are red, do nothing
+            else if(colorL == RED && colorR == RED) //If both are red, do nothing
             {
                 //See, nothing!
             }
@@ -1041,11 +1093,11 @@ public class AutonomousDriveTrain
 
         if(desiredColor == TeamColors.BLUE)
         {
-            if(colorL == TeamColors.BLUE && colorR == TeamColors.RED) //If pressing left is necessary
+            if(colorL == TeamColors.BLUE && colorR == RED) //If pressing left is necessary
             {
                 pressLeft();
             }
-            else if(colorL == TeamColors.RED && colorR == TeamColors.BLUE) //If pressing right is necessary
+            else if(colorL == RED && colorR == TeamColors.BLUE) //If pressing right is necessary
             {
                 pressRight();
             }
@@ -1053,7 +1105,7 @@ public class AutonomousDriveTrain
             {
                 //See, nothing!
             }
-            else if(colorL == TeamColors.RED && colorR == TeamColors.RED) //If both are red, hit any (right is closest)
+            else if(colorL == RED && colorR == RED) //If both are red, hit any (right is closest)
             {
                 pressRight();
             }
@@ -1064,9 +1116,25 @@ public class AutonomousDriveTrain
         }
     }
 
+    private String enumToString(TeamColors color)
+    {
+        switch(color)
+        {
+            case RED:
+                return "RED";
+            case BLUE:
+                return "BLUE";
+            case INDECISIVE:
+                return "INDECISIVE";
+
+        }
+
+        return "???";
+    }
+
     private void pressLeft()
     {
-        forwards(0.2, 0.3); //Align mashy spike plate
+        forwards(0.15, 0.3); //Align mashy spike plate
         right(0.2, 0.5); //Mash mashy spike plate into left button
         left(0.2, 0.5); //Back away
     }

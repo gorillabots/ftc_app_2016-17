@@ -32,10 +32,10 @@ public class ZRedAutonomous extends LinearOpMode
         beaconColor.setI2cAddress(I2cAddr.create8bit(58));
         beaconColor.enableLed(false);
         floorColor.enableLed(false);
-        driveTrain.RetractTouchServo();
+        //driveTrain.RetractTouchServo();
         waitForStart();
-        driveTrain.ExtendTouchServo();
-      //  driveTrain.GyroRotation(45, 0.2, 10000);
+        //driveTrain.ExtendTouchServo();
+        //driveTrain.GyroRotation(45, 0.2, 10000);
     }
 }
 

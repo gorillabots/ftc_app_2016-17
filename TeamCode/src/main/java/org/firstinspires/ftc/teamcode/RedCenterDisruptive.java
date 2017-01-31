@@ -5,10 +5,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
- * Created by Jarred on 12/10/2016.
+ * Created by mikko on 1/29/17.
  */
-@Autonomous(name="Center Goal Auto", group="final")
-public class CenterGoalAuto extends LinearOpMode
+
+@Autonomous(name="Red Center Disruptive", group="final")
+public class RedCenterDisruptive extends LinearOpMode
 {
     AutonomousDriveTrain driveTrain;
     BallControl shooter;
@@ -28,7 +29,7 @@ public class CenterGoalAuto extends LinearOpMode
         timer1.reset();
         timer1.startTime();
 
-        while(timer1.milliseconds() < 15000)
+        while(timer1.milliseconds() < 10000)
         {
             shooter.newRunFlywheel(true);
             shooter.newRunElevator(false);
@@ -37,6 +38,7 @@ public class CenterGoalAuto extends LinearOpMode
         shooter.newRunFlywheel(false);
         shooter.newRunElevator(true);
 
-        driveTrain.right(.704, .5);
+        driveTrain.right(1.2, .5);
+        driveTrain.backRight(1, .5);
     }
 }
