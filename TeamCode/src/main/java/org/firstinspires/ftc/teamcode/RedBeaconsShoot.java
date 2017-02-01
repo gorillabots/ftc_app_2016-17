@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Created by Mikko on 12/11/16.
  */
 
-@Autonomous(name="RedBeacons", group="Comp")
+@Autonomous(name="RedBeaconsShoot", group="Comp")
 public class RedBeaconsShoot extends LinearOpMode
 {
     AutonomousDriveTrain driveTrain;
@@ -90,6 +90,11 @@ public class RedBeaconsShoot extends LinearOpMode
         beaconColorR.enableLed(false);
         driveTrain.beaconResponse(TeamColors.RED, beaconColorL, beaconColorR); //Press button
 
+        driveTrain.leftGyro(.5, .8, 2, .1);
+
+        driveTrain.turnToGyroAny(225, .4, 5);
+
+        driveTrain.forwards(1, .6);
 
         //Finishing up
 

@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  */
 
 @Autonomous(name="RedBeacons", group="Comp")
-public class RedBeaconds extends LinearOpMode
+public class RedBeacons extends LinearOpMode
 {
     AutonomousDriveTrain driveTrain;
     ColorSensor floorColor;
