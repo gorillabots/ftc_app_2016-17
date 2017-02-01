@@ -60,7 +60,7 @@ public class BlueAutoSlam extends LinearOpMode
         floorColor.enableLed(false);
 
         //driveTrain.forwards(.06, .3);
-        driveTrain.goToDistance(range, 12, 1, .2);
+        driveTrain.goToDistance(range, 11, 1, .2);
         driveTrain.beaconResponse(TeamColors.BLUE, beaconColorL, beaconColorR);
 
 
@@ -70,7 +70,7 @@ public class BlueAutoSlam extends LinearOpMode
         driveTrain.forwards(.2, .8);
         floorColor.enableLed(true);
         driveTrain.forwardsGyroToLine(floorColor, .23,1,.05);
-        driveTrain.goToDistance(range,12,1,.2);
+        driveTrain.goToDistance(range,11,1,.2);
 
 
         beaconColorL.enableLed(false);

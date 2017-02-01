@@ -64,7 +64,7 @@ public class RedAutoSlam extends LinearOpMode
 
         driveTrain.back(.06 , .3); //Align color sensors
 
-        driveTrain.goToDistance(range, 12, 1, .2); //Approach beacon
+        driveTrain.goToDistance(range, 11, 1, .2); //Approach beacon
 
         sleep(100);
 
@@ -82,7 +82,7 @@ public class RedAutoSlam extends LinearOpMode
 
         //driveTrain.back(.095, .3); //Align color sensors
 
-        driveTrain.goToDistance(range, 12, 1, .2); //Approach beacon
+        driveTrain.goToDistance(range, 11, 1, .2); //Approach beacon
 
         sleep(100);
 
