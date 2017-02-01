@@ -29,7 +29,7 @@ public class RedCenterDisruptive extends LinearOpMode
         timer1.reset();
         timer1.startTime();
 
-        while(timer1.milliseconds() < 10000)
+        while(timer1.milliseconds() < 5000)
         {
             shooter.newRunFlywheel(true);
             shooter.newRunElevator(false);
