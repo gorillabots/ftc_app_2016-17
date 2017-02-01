@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 //Created by Mikko on 9/27/2016
-//TODO: Fix possible memory leaks in oneStickLoop()
 
 /**
  * Related Links:

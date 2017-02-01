@@ -12,8 +12,6 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.TeamColors;
 
-import static org.firstinspires.ftc.teamcode.TeamColors.RED;
-
 //Created by mikko on 10/14/16.
 //TODO: Commenting, update function list, remove commentend out lines of code
 
@@ -909,6 +907,7 @@ public class AutonomousDriveTrain
         }
     }
 
+    @Deprecated
     public void right_continuous(double power)
     {
         frontRight.setPower(-power);
@@ -992,13 +991,14 @@ public class AutonomousDriveTrain
                 }
             }
 
-            if(degree_rotation == 0 || degree_rotation == 360)
+            if(degree_rotation == 0 || degree_rotation == 360) //Very specific, may never happen and wobble forever
             {
                 break;
             }
         }
     }
 
+    //TODO: Explain better
     public void turnToGyroAny(int target, double speed, int accuracy)
     {
         int heading = gyro.getHeading();
@@ -1055,17 +1055,6 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
-
-    /*public void ExtendTouchServo()
-    {
-        touchServo.setPosition(0);
-    }
-
-    public void RetractTouchServo()
-    {
-        touchServo.setPosition(255);
-    }
-    */
     public void goToDistance(ModernRoboticsI2cRangeSensor rangeSensor, double target, double accuracy, double power)
     {
         double min = target - accuracy;
@@ -1121,20 +1110,20 @@ public class AutonomousDriveTrain
         telemetry.addData("r-b", sensorR.blue());
         telemetry.addData("r-c", enumToString(colorR));
         telemetry.update();
-        opMode.sleep(1000);
+        //opMode.sleep(1000);
 
-        if(desiredColor == RED)
+        if(desiredColor == TeamColors.RED)
         {
             //On red side
-            if(colorL == RED && colorR == TeamColors.BLUE) //If pressing left is necessary
+            if(colorL == TeamColors.RED && colorR == TeamColors.BLUE) //If pressing left is necessary
             {
                 pressLeft();
             }
-            else if(colorL == TeamColors.BLUE && colorR == RED) //If pressing right is necessary
+            else if(colorL == TeamColors.BLUE && colorR == TeamColors.RED) //If pressing right is necessary
             {
                 pressRight();
             }
-            else if(colorL == RED && colorR == RED) //If both are red, do nothing
+            else if(colorL == TeamColors.RED && colorR == TeamColors.RED) //If both are red, do nothing
             {
                 //See, nothing!
             }
@@ -1150,11 +1139,11 @@ public class AutonomousDriveTrain
 
         if(desiredColor == TeamColors.BLUE)
         {
-            if(colorL == TeamColors.BLUE && colorR == RED) //If pressing left is necessary
+            if(colorL == TeamColors.BLUE && colorR == TeamColors.RED) //If pressing left is necessary
             {
                 pressLeft();
             }
-            else if(colorL == RED && colorR == TeamColors.BLUE) //If pressing right is necessary
+            else if(colorL == TeamColors.RED && colorR == TeamColors.BLUE) //If pressing right is necessary
             {
                 pressRight();
             }
@@ -1162,7 +1151,7 @@ public class AutonomousDriveTrain
             {
                 //See, nothing!
             }
-            else if(colorL == RED && colorR == RED) //If both are red, hit any (right is closest)
+            else if(colorL == TeamColors.RED && colorR == TeamColors.RED) //If both are red, hit any (right is closest)
             {
                 pressRight();
             }

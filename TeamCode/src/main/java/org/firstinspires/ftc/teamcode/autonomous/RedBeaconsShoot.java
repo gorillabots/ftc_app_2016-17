@@ -16,13 +16,13 @@ import org.firstinspires.ftc.teamcode.subclasses.AutonomousDriveTrain;
 @Autonomous(name="RedBeaconsShoot", group="Final")
 public class RedBeaconsShoot extends LinearOpMode
 {
-    AutonomousDriveTrain driveTrain;
-    ColorSensor floorColor;
-    ColorSensor beaconColorL;
-    ColorSensor beaconColorR;
-    Servo servoSwing;
+    private AutonomousDriveTrain driveTrain;
+    private ColorSensor floorColor;
+    private ColorSensor beaconColorL;
+    private ColorSensor beaconColorR;
+    private Servo servoSwing;
 
-    ModernRoboticsI2cRangeSensor range;
+    private ModernRoboticsI2cRangeSensor range;
 
     public void runOpMode()
     {

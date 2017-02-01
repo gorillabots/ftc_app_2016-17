@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 import org.firstinspires.ftc.teamcode.subclasses.DriveTrain;
 
 //Created by Jarred on 10/30/2016
-//TODO: Private vars, commenting, formatting, remove timer stuff
+//TODO: Private vars, commenting, formatting, remove timer stuff, use BallControl, remove limit sensor
 
 @TeleOp(name = "Comp Tele", group = "Final")
 public class CompTele extends OpMode

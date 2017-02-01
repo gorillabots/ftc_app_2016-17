@@ -13,10 +13,10 @@ import org.firstinspires.ftc.teamcode.subclasses.AutonomousDriveTrain;
 @Autonomous(name="Red Center Disruptive", group="Final")
 public class RedCenterDisruptive extends LinearOpMode
 {
-    AutonomousDriveTrain driveTrain;
-    BallControl shooter;
+    private AutonomousDriveTrain driveTrain;
+    private BallControl shooter;
 
-    ElapsedTime timer1 = new ElapsedTime();
+    private ElapsedTime timer1 = new ElapsedTime();
 
     public void runOpMode()
     {
@@ -31,14 +31,16 @@ public class RedCenterDisruptive extends LinearOpMode
         timer1.reset();
         timer1.startTime();
 
+        shooter.newRunFlywheel(true);
+        shooter.newRunElevator(true);
+
         while(timer1.milliseconds() < 5000)
         {
-            shooter.newRunFlywheel(true);
-            shooter.newRunElevator(false);
+            sleep(200);
         }
 
         shooter.newRunFlywheel(false);
-        shooter.newRunElevator(true);
+        shooter.newStopElevator();
 
         driveTrain.right(1.2, .5);
         driveTrain.backRight(1, .5);
