@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Created by Mikko on 12/11/16.
  */
 
-@Autonomous(name="RedBeaconsBroken", group="beta")
+@Autonomous(name="RedBeacons", group="Comp")
 public class RedAutoSlam extends LinearOpMode
 {
     AutonomousDriveTrain driveTrain;
@@ -64,7 +64,7 @@ public class RedAutoSlam extends LinearOpMode
 
         driveTrain.back(.06 , .3); //Align color sensors
 
-        driveTrain.goToDistance(range, 12, 1, .2); //Approach beacon
+        driveTrain.goToDistance(range, 11, 1, .2); //Approach beacon
 
         sleep(100);
 
@@ -82,7 +82,7 @@ public class RedAutoSlam extends LinearOpMode
 
         //driveTrain.back(.095, .3); //Align color sensors
 
-        driveTrain.goToDistance(range, 12, 1, .2); //Approach beacon
+        driveTrain.goToDistance(range, 11, 1, .2); //Approach beacon
 
         sleep(100);
 

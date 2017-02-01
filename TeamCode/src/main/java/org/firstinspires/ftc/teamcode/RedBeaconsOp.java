@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Created by mikko on 11/13/16.
  */
 
+@Disabled
 @Autonomous(name="RedBeacons", group="concept")
 public class RedBeaconsOp extends LinearOpMode
 {

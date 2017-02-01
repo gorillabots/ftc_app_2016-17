@@ -10,7 +10,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 /**
  * Created by Owner on 1/15/2017.
  */
-@Autonomous (name="BlueBeaconSlam", group="beta")
+
+@Autonomous (name="BlueBeacons", group="Comp")
 public class BlueAutoSlam extends LinearOpMode
 {
 

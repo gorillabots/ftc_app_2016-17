@@ -999,6 +999,56 @@ public class AutonomousDriveTrain
         }
     }
 
+    public void turnToGyroAny(int target, double speed, int accuracy)
+    {
+        int heading = gyro.getHeading();
+
+        int pivot;
+
+        double power;
+
+        while(heading < target - accuracy || heading > target + accuracy) //Not acceptable
+        {
+            if(target < 180)
+            {
+                pivot = target + 180;
+
+                if(heading > target && heading < pivot) //Inside of range to subtract
+                {
+                    power = -speed;
+                }
+                else //Inside of range to add
+                {
+                    power = speed;
+                }
+            }
+            else //target >= 180
+            {
+                pivot = target - 180;
+
+                if(heading > pivot && heading < target) //Inside of range to add
+                {
+                    power = speed;
+                }
+                else //Inside of range to subtract
+                {
+                    power = -speed;
+                }
+            }
+
+            frontRight.setPower(power);
+            backRight.setPower(power);
+            frontLeft.setPower(power);
+            backLeft.setPower(power);
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
+
+
     /*public void ExtendTouchServo()
     {
         touchServo.setPosition(0);
