@@ -67,7 +67,7 @@ public class BlueBeacons extends LinearOpMode
 
         //Finishing up
 
-       driveTrain.left(.12,.25);
+       driveTrain.left(.09008,.25);
         driveTrain.forwards(.2, .8);
         floorColor.enableLed(true);
         driveTrain.forwardsGyroToLine(floorColor, .23,1,.05);
