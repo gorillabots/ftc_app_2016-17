@@ -1007,7 +1007,7 @@ public class AutonomousDriveTrain
 
         double power;
 
-        while(heading < target - accuracy || heading > target + accuracy) //Not acceptable
+        while((heading < target - accuracy || heading > target + accuracy) && opMode.opModeIsActive()) //Not acceptable
         {
             if(target < 180)
             {
@@ -1040,6 +1040,13 @@ public class AutonomousDriveTrain
             backRight.setPower(power);
             frontLeft.setPower(power);
             backLeft.setPower(power);
+
+            opMode.telemetry.addData("Action", "Turn to Gyro Any");
+            opMode.telemetry.addData("Heading", heading);
+
+            opMode.sleep(50);
+
+            heading = gyro.getHeading();
         }
 
         frontRight.setPower(0);

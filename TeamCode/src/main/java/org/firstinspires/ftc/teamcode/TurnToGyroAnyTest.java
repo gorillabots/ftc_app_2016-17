@@ -19,6 +19,8 @@ public class TurnToGyroAnyTest extends LinearOpMode
 
         waitForStart();
 
+        driveTrain.resetGyro();
+
         driveTrain.turnToGyroAny(45, .5, 5);
     }
 }
