@@ -33,7 +33,7 @@ class TankDrivetrain implements DrivetrainInterface {
      */
     TankDrivetrain(HardwareMap hardwareMap, Telemetry telemetry) throws InterruptedException {
         this.telemetry = telemetry;
-        this.telemetry.addData("Drivetrain State","Initializing");
+        this.telemetry.addData("DriveTrain State","Initializing");
         this.telemetry.update();
 
         frontLeft = hardwareMap.dcMotor.get("motor1");
@@ -52,7 +52,7 @@ class TankDrivetrain implements DrivetrainInterface {
             Thread.sleep(500);
         }
 
-        this.telemetry.addData("Drivetrain State","Initialized");
+        this.telemetry.addData("DriveTrain State","Initialized");
         this.telemetry.update();
     }
 

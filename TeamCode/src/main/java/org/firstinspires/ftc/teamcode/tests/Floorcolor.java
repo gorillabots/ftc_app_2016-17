@@ -1,0 +1,44 @@
+package org.firstinspires.ftc.teamcode.tests;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.teamcode.subclasses.ColorHelper;
+
+@Disabled
+@TeleOp(name = "Sensor: MR Color", group = "Tests")
+
+public class Floorcolor extends LinearOpMode {
+
+    ColorSensor colorSensor;    // Hardware Device Object
+    float hsvValues[] = {0F, 0F, 0F};
+
+    @Override
+    public void runOpMode() {
+
+
+        ElapsedTime opmodeRunTime = new ElapsedTime();
+        colorSensor = hardwareMap.colorSensor.get("floorColor");
+        colorSensor.enableLed(false);
+        colorSensor.enableLed(true);
+        waitForStart();
+        while (opModeIsActive()) {
+
+            String currentcolor = ColorHelper.getFloorColor(colorSensor);
+
+            // send the info back to driver station using telemetry function.
+            telemetry.addData("Running Time", opmodeRunTime.seconds());
+            telemetry.addData("Clear", colorSensor.alpha());
+            telemetry.addData("Red", colorSensor.red());
+            telemetry.addData("Green", colorSensor.green());
+            telemetry.addData("Blue ", colorSensor.blue());
+            telemetry.addData("Hue", hsvValues[0]);
+            telemetry.addData("Saturation", hsvValues[1]);
+            telemetry.addData("value", hsvValues[2]);
+            telemetry.addData("current color", currentcolor);
+            telemetry.update();
+        }
+    }
+}
