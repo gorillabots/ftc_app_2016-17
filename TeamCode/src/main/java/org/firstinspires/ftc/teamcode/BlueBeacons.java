@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  */
 
 @Autonomous (name="BlueBeacons", group="Comp")
-public class BlueAutoSlam extends LinearOpMode
+public class BlueBeacons extends LinearOpMode
 {
 
     AutonomousDriveTrain driveTrain;
