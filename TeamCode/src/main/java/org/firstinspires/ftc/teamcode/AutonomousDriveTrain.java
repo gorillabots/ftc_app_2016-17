@@ -1005,44 +1005,58 @@ public class AutonomousDriveTrain
 
         int pivot;
 
+        if(target < 180) //0 - 179
+        {
+            pivot = target + 180;
+        }
+        else //180 - 359
+        {
+            pivot = target - 180;
+        }
+
         double power;
 
+        //     Less than minimum           or More than maximum            and is running
         while((heading < target - accuracy || heading > target + accuracy) && opMode.opModeIsActive()) //Not acceptable
         {
+            //PSA: Clockwise: -, Counter: +
+
+            opMode.telemetry.addData("Action", "Turn to Gyro Any");
+            opMode.telemetry.addData("Heading", heading);
+
             if(target < 180)
             {
-                pivot = target + 180;
-
                 if(heading > target && heading < pivot) //Inside of range to subtract
                 {
+                    opMode.telemetry.addData("Condition", "A- : Clockwise");
                     power = -speed;
                 }
                 else //Inside of range to add
                 {
+                    opMode.telemetry.addData("Condition", "A+ : Counter");
                     power = speed;
                 }
             }
             else //target >= 180
             {
-                pivot = target - 180;
-
                 if(heading > pivot && heading < target) //Inside of range to add
                 {
+                    opMode.telemetry.addData("Condition", "B+ : Counter");
                     power = speed;
                 }
                 else //Inside of range to subtract
                 {
+                    opMode.telemetry.addData("Condition", "B- : Clockwise");
                     power = -speed;
                 }
             }
+
+            opMode.telemetry.update();
 
             frontRight.setPower(power);
             backRight.setPower(power);
             frontLeft.setPower(power);
             backLeft.setPower(power);
-
-            opMode.telemetry.addData("Action", "Turn to Gyro Any");
-            opMode.telemetry.addData("Heading", heading);
 
             opMode.sleep(50);
 
