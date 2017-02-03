@@ -19,7 +19,7 @@ public class BallControl {
 
     DcMotor fly;
     DcMotor vac;
-    CRServo elevator;
+    DcMotor elevator;
     HardwareMap hardwareMap;
     Telemetry telemetry;
 
@@ -29,7 +29,7 @@ public class BallControl {
         this.telemetry = telemetry;
         vac = hardwareMap.dcMotor.get("vac");
         fly = hardwareMap.dcMotor.get("fly");
-        elevator = hardwareMap.crservo.get("elevator");
+        elevator = hardwareMap.dcMotor.get("elevator");
     }
 
 
@@ -99,11 +99,11 @@ public class BallControl {
     {
         if(direction)
         {
-            elevator.setPower(1);
+            elevator.setPower(-1);
         }
         else
         {
-            elevator.setPower(-1);
+            elevator.setPower(1);
         }
     }
 

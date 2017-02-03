@@ -10,7 +10,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.DcMotor.RunMode;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
+import static org.firstinspires.ftc.teamcode.TeamColors.RED;
 
 /**
  * Created by mikko on 10/14/16.
@@ -45,6 +46,7 @@ public class AutonomousDriveTrain
     DcMotor frontRight, backRight, frontLeft, backLeft;
 
     TouchSensor wallTouch;
+
     ModernRoboticsI2cGyro gyro;
     Servo touchServo;
     Telemetry telemetry;
@@ -65,7 +67,7 @@ public class AutonomousDriveTrain
         frontLeft.setMode(RunMode.RUN_USING_ENCODER);
         backRight.setMode(RunMode.RUN_USING_ENCODER);
         backLeft.setMode(RunMode.RUN_USING_ENCODER);
-        touchServo = opMode.hardwareMap.servo.get("touchServo");
+        touchServo = opMode.hardwareMap.servo.get("servoSwing");
         wallTouch = opMode.hardwareMap.touchSensor.get("wallTouch");
         gyro = (ModernRoboticsI2cGyro) opMode.hardwareMap.gyroSensor.get("gyro");
 
@@ -306,7 +308,7 @@ public class AutonomousDriveTrain
         int heading;
         double turnpow;
 
-        while(!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive())
+        while(!ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive())
         {
             heading = gyro.getHeading();
 
@@ -903,7 +905,7 @@ public class AutonomousDriveTrain
             frontLeft.setPower(turnpow);
             backLeft.setPower(turnpow);
 
-            opMode.sleep(50);
+            opMode.sleep(5);
         }
     }
 
@@ -958,44 +960,6 @@ public class AutonomousDriveTrain
         backLeft.setPower(-power);
     }
 
-    public void GyroRotation(int target, double power)
-    {
-        if(target > 360 || target < 0 || power < 0 || power > 1)
-        {
-            throw new IllegalArgumentException();
-        }
-
-        while(true)
-        {
-            int initial_heading = gyro.getHeading(); //TODO: Potential memory leak!
-            int degree_rotation = target - initial_heading;
-            if(degree_rotation < 0)
-            {
-                degree_rotation = degree_rotation + 360;
-            }
-
-            if (degree_rotation < 180 && degree_rotation > 0)
-            {
-                while (initial_heading < target)
-                {
-                    turnright(power);
-                }
-            }
-
-            if(degree_rotation > 180 && degree_rotation < 360)
-            {
-                while(initial_heading > target)
-                {
-                    turnleft(power);
-                }
-            }
-
-            if(degree_rotation == 0 || degree_rotation == 360)
-            {
-                break;
-            }
-        }
-    }
 
     public void ExtendTouchServo()
     {
@@ -1006,85 +970,133 @@ public class AutonomousDriveTrain
     {
         touchServo.setPosition(255);
     }
-    public void beaconDebug(TeamColors team, ColorSensor lcolor, ColorSensor rcolor){
-        TeamColors Left = ColorHelper.getBeaconColorTest(lcolor);
-        TeamColors Right = ColorHelper.getBeaconColorTest(rcolor);
-        if(team == TeamColors.RED) {
-            if (Left == TeamColors.RED && Right == TeamColors.BLUE) {
 
+    public void goToDistance(ModernRoboticsI2cRangeSensor rangeSensor, double target, double accuracy, double power)
+    {
+        double min = target - accuracy;
+        double max = target + accuracy;
+
+        double range = rangeSensor.cmUltrasonic();
+
+        while((range < min || range > max) && opMode.opModeIsActive())
+        {
+            if(range > target)
+            {
+                frontRight.setPower(-power);
+                backRight.setPower(power);
+                frontLeft.setPower(-power);
+                backLeft.setPower(power);
             }
-            else if(Left == TeamColors.BLUE && Right == TeamColors.RED){
-
+            else
+            {
+                frontRight.setPower(power);
+                backRight.setPower(-power);
+                frontLeft.setPower(power);
+                backLeft.setPower(-power);
             }
-            else if(Left == TeamColors.RED && Right == TeamColors.RED){
 
+            opMode.telemetry.addData("Action", "GoToDistance");
+            opMode.telemetry.addData("Target", target);
+            opMode.telemetry.addData("Accuracy", accuracy);
+            opMode.telemetry.addData("Current", range);
+
+            opMode.sleep(5);
+
+            range = rangeSensor.cmUltrasonic();
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
+
+    public void beaconResponse(TeamColors desiredColor, ColorSensor sensorL, ColorSensor sensorR)
+    {
+        //sensorL is left color sensor
+        //sensorR is right color sensor
+        
+        TeamColors colorL = ColorHelper.getBeaconColorTest(sensorL);
+        TeamColors colorR = ColorHelper.getBeaconColorTest(sensorR);
+
+        telemetry.addData("l-r", sensorL.red());
+        telemetry.addData("l-b", sensorL.blue());
+        telemetry.addData("l-c", enumToString(colorL));
+        telemetry.addData("r-r", sensorR.red());
+        telemetry.addData("r-b", sensorR.blue());
+        telemetry.addData("r-c", enumToString(colorR));
+        telemetry.update();
+        opMode.sleep(1000);
+
+        if(desiredColor == RED)
+        {
+            //On red side
+            if(colorL == RED && colorR == TeamColors.BLUE) //If pressing left is necessary
+            {
+                pressLeft();
             }
-            else if(Left == TeamColors.BLUE && Right == TeamColors.BLUE){
-
+            else if(colorL == TeamColors.BLUE && colorR == RED) //If pressing right is necessary
+            {
+                pressRight();
             }
-            else if (Left == TeamColors.RED && Right == TeamColors.INDECISIVE){
-
+            else if(colorL == RED && colorR == RED) //If both are red, do nothing
+            {
+                //See, nothing!
             }
-            else if (Left == TeamColors.BLUE && Right == TeamColors.INDECISIVE){
-
+            else if(colorL == TeamColors.BLUE && colorR == TeamColors.BLUE) //If both are blue, hit any (right is closest)
+            {
+                pressRight();
             }
-            else if (Left == TeamColors.INDECISIVE && Right == TeamColors.RED){
-
+            else
+            {
+                //If any are indecisive, do nothing to be safe
             }
-            else if (Left == TeamColors.INDECISIVE && Right == TeamColors.BLUE){
+        }
 
+        if(desiredColor == TeamColors.BLUE)
+        {
+            if(colorL == TeamColors.BLUE && colorR == RED) //If pressing left is necessary
+            {
+                pressLeft();
             }
-            else{
-
+            else if(colorL == RED && colorR == TeamColors.BLUE) //If pressing right is necessary
+            {
+                pressRight();
+            }
+            else if(colorL == TeamColors.BLUE && colorR == TeamColors.BLUE) //If both are blue, do nothing
+            {
+                //See, nothing!
+            }
+            else if(colorL == RED && colorR == RED) //If both are red, hit any (right is closest)
+            {
+                pressRight();
+            }
+            else
+            {
+                //If any are indecisive, do nothing to be safe
             }
         }
     }
-    public void beaconResponse(TeamColors desiredColor, ColorSensor sensorL, ColorSensor sensorR){
-        //sensorL is left color sensor
-        //sensorR is right color sensor
 
-        TeamColors colorL = ColorHelper.getBeaconColorTest(sensorL);
-        TeamColors colorR = ColorHelper.getBeaconColorTest(sensorR);
-                if (desiredColor == TeamColors.RED) {
-                    //On red side
-                    if (colorL == TeamColors.RED && colorR == TeamColors.BLUE) //If pressing left is necessary
-                    {
-                        pressLeft();
-                    } else if (colorL == TeamColors.BLUE && colorR == TeamColors.RED) //If pressing right is necessary
-                    {
-                        pressRight();
-                    } else if (colorL == TeamColors.RED && colorR == TeamColors.RED) //If both are red, do nothing
-                    {
-                        //See, nothing!
-                    } else if (colorL == TeamColors.BLUE && colorR == TeamColors.BLUE) //If both are blue, hit any (right is closest)
-                    {
-                        pressRight();
-                    } else {
-                        //If any are indecisive, do nothing to be safe
-                    }
-                }
+    private String enumToString(TeamColors color)
+    {
+        switch(color)
+        {
+            case RED:
+                return "RED";
+            case BLUE:
+                return "BLUE";
+            case INDECISIVE:
+                return "INDECISIVE";
 
-                if (desiredColor == TeamColors.BLUE) {
-                    if (colorL == TeamColors.BLUE && colorR == TeamColors.RED) //If pressing left is necessary
-                    {
-                        pressLeft();
-                    } else if (colorL == TeamColors.RED && colorR == TeamColors.BLUE) //If pressing right is necessary
-                    {
-                        pressRight();
-                    } else if (colorL == TeamColors.BLUE && colorR == TeamColors.BLUE) //If both are blue, do nothing
-                    {
-                        //See, nothing!
-                    } else if (colorL == TeamColors.RED && colorR == TeamColors.RED) //If both are red, hit any (right is closest)
-                    {
-                        pressRight();
-                    } else {
-                        //If any are indecisive, do nothing to be safe
-                    }
-                }
-            }
+        }
+
+        return "???";
+    }
+
     private void pressLeft()
     {
-        forwards(0.2, 0.3); //Align mashy spike plate
+        forwards(0.15, 0.3); //Align mashy spike plate
         right(0.2, 0.5); //Mash mashy spike plate into left button
         left(0.2, 0.5); //Back away
     }
@@ -1093,5 +1105,16 @@ public class AutonomousDriveTrain
     {
         right(0.2, 0.5); //Mash mashy spike plate into left button
         left(0.2, 0.5); //Back away
+    }
+    public void turnGyro(int desired_angle, double power) throws InterruptedException{
+        int g = gyro.getHeading();
+        while(opMode.opModeIsActive() && g != desired_angle){
+            if(g > desired_angle){g = g - 360;}
+            double rotate_speed = (desired_angle - g <= 180) ? -power : power;
+            turnright(rotate_speed);
+            Thread.sleep(1);
+            g = gyro.getHeading();
+        }
+        turnright(0);
     }
 }

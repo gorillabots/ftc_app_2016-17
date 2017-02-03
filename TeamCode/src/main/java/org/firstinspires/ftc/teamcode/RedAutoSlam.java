@@ -18,7 +18,10 @@ public class RedAutoSlam extends LinearOpMode
     ColorSensor floorColor;
     ColorSensor beaconColorL;
     ColorSensor beaconColorR;
-    Servo sensorSwing;
+    Servo servoSwing;
+
+    ModernRoboticsI2cRangeSensor range;
+
     public void runOpMode()
     {
         driveTrain = new AutonomousDriveTrain(); //Initialize hardware
@@ -34,8 +37,10 @@ public class RedAutoSlam extends LinearOpMode
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
 
-        sensorSwing = hardwareMap.servo.get("touchServo");
-        sensorSwing.setPosition(.56);
+        servoSwing = hardwareMap.servo.get("servoSwing");
+        servoSwing.setPosition(.56);
+
+        range = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
 
         waitForStart();
 
@@ -43,25 +48,47 @@ public class RedAutoSlam extends LinearOpMode
 
 
         //Go to first beacon
-        sensorSwing.setPosition(.09);
-        driveTrain.backRightGyro(2.5, .8, 1, .1); //Go out
+        servoSwing.setPosition(.09);
+
+        driveTrain.backRightGyro(2.5, .8, 1, .1); //First (diagonal) move
+
         driveTrain.rightGyroToTouch(.3, 1, .1); //Go to wall slowly
-        sensorSwing.setPosition(52);
-        driveTrain.left(.015, .5); //Go out
+
+        servoSwing.setPosition(.52);
+
+        driveTrain.left(.08, .5);
 
         floorColor.enableLed(true);
-        //driveTrain.forwardsToLine(floorColor, .3);
-        driveTrain.forwardsGyroToLine(floorColor, .22, 1, .05);
+        driveTrain.forwardsGyroToLine(floorColor, .22, 1, .05); //Go to white line 1
         floorColor.enableLed(false);
 
-        //driveTrain.turnToGyro(2, .09);
+        driveTrain.back(.06 , .3); //Align color sensors
+
+        driveTrain.goToDistance(range, 10, 1, .2); //Approach beacon
 
         sleep(100);
 
-        driveTrain.back(.095, .3);
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
-        driveTrain.beaconResponse(TeamColors.RED, beaconColorL, beaconColorR);
+        driveTrain.beaconResponse(TeamColors.RED, beaconColorL, beaconColorR); //Press button
+
+        driveTrain.left(.08, .25);
+
+        driveTrain.back(.25, .8);
+
+        floorColor.enableLed(true);
+        driveTrain.backGyroToLine(floorColor, .23, 1, .05); //Go white line 2
+        floorColor.enableLed(false);
+
+        //driveTrain.back(.095, .3); //Align color sensors
+
+        driveTrain.goToDistance(range, 10, 1, .2); //Approach beacon
+
+        sleep(100);
+
+        beaconColorL.enableLed(false);
+        beaconColorR.enableLed(false);
+        driveTrain.beaconResponse(TeamColors.RED, beaconColorL, beaconColorR); //Press button
 
 
         //Finishing up
