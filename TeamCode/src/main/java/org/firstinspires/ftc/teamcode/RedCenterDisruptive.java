@@ -28,17 +28,18 @@ public class RedCenterDisruptive extends LinearOpMode
 
         timer1.reset();
         timer1.startTime();
-
+        /*
         while(timer1.milliseconds() < 5000)
         {
             shooter.newRunFlywheel(true);
             shooter.newRunElevator(false);
         }
-
+*/
         shooter.newRunFlywheel(false);
         shooter.newRunElevator(true);
 
         driveTrain.right(1.2, .5);
         driveTrain.backRight(1, .5);
+        driveTrain.forwards(.5,.5);
     }
 }

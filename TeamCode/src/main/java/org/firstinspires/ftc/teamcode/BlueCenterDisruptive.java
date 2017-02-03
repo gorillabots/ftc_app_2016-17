@@ -40,5 +40,6 @@ public class BlueCenterDisruptive extends LinearOpMode
 
         driveTrain.right(.704, .5);
         driveTrain.frontRight(1, .5);
+        driveTrain.forwards(.5,.5);
     }
 }
