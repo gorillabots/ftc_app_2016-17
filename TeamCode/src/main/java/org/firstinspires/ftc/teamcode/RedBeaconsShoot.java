@@ -19,11 +19,14 @@ public class RedBeaconsShoot extends LinearOpMode
     ColorSensor beaconColorL;
     ColorSensor beaconColorR;
     Servo servoSwing;
+    BallControl shooter;
 
     ModernRoboticsI2cRangeSensor range;
 
     public void runOpMode()
     {
+        shooter = new BallControl(hardwareMap, telemetry);
+
         driveTrain = new AutonomousDriveTrain(); //Initialize hardware
         driveTrain.init(this);
 
@@ -46,13 +49,14 @@ public class RedBeaconsShoot extends LinearOpMode
 
         driveTrain.resetGyro();
 
-
+        servoSwing.setPosition(.52);
         //Go to first beacon
-        servoSwing.setPosition(.09);
+        //servoSwing.setPosition(.09);
 
         driveTrain.backRightGyro(2.5, .8, 1, .1); //First (diagonal) move
 
-        driveTrain.rightGyroToTouch(.3, 1, .1); //Go to wall slowly
+        //driveTrain.rightGyroToTouch(.3, 1, .1); //Go to wall slowly
+        driveTrain.goToDistance(range, 6, .5, .1);
 
         servoSwing.setPosition(.52);
 
@@ -90,11 +94,31 @@ public class RedBeaconsShoot extends LinearOpMode
         beaconColorR.enableLed(false);
         driveTrain.beaconResponse(TeamColors.RED, beaconColorL, beaconColorR); //Press button
 
+        //Shooting code follows
+
         driveTrain.leftGyro(.5, .8, 2, .1);
 
-        driveTrain.turnToGyroAny(225, .4, 5);
+        driveTrain.turnToGyroAny(250, .2, 5);
 
-        driveTrain.forwards(1, .6);
+        driveTrain.right(.5, .6);
+
+        long startTime = System.currentTimeMillis();
+        long target = startTime + 5000;
+
+        shooter.newRunFlywheel(true);
+        shooter.newRunElevator(false);
+
+        while(System.currentTimeMillis() < target)
+        {
+            telemetry.addData("Action", "Shooting");
+            telemetry.update();
+            sleep(200);
+        }
+
+        shooter.newRunFlywheel(false);
+        shooter.newStopElevator();
+
+        driveTrain.right(.15, .6);
 
         //Finishing up
 
