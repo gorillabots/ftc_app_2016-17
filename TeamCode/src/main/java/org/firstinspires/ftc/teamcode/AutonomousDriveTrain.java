@@ -1194,7 +1194,7 @@ public class AutonomousDriveTrain
         forwards(0.15, 0.3); //Align mashy spike plate
         right(0.2, 0.5);
         forwards (0.02, 0.2);
-        back(0.02, 0.5);
+        back(0.02, 0.2);
         //Mash mashy spike plate into left button
         left(0.2, 0.5); //Back away
     }
