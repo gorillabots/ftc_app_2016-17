@@ -48,12 +48,13 @@ public class BlueBeacons extends LinearOpMode
 
         driveTrain.resetGyro();
 
-        sensorSwing.setPosition(.0);
+        sensorSwing.setPosition(.52);
         telemetry.addData("init" , "3");
         telemetry.update();
         driveTrain.frontRightGyro(2.5, .8, 1, .1); //Go out
-        driveTrain.rightGyroToTouch(.3, 1, .1); //Go to wall slowly
-        sensorSwing.setPosition(.52); //Raise touch arm
+        //driveTrain.rightGyroToTouch(.3, 1, .1); //Go to wall slowly
+        driveTrain.goToDistance(range, 6, .5, .1);
+        //sensorSwing.setPosition(.52); //Raise touch arm
         driveTrain.left(.15, .5); //Back away from wall
 
         floorColor.enableLed(true);
@@ -70,7 +71,8 @@ public class BlueBeacons extends LinearOpMode
        driveTrain.left(.05,.25);
         driveTrain.forwards(.2, .8);
         floorColor.enableLed(true);
-        driveTrain.forwardsGyroToLine(floorColor, .23,1,.15);
+        driveTrain.forwardsGyroToLine(floorColor, .2,1,.05);
+        driveTrain.turnToGyro(2, .2);
         driveTrain.goToDistance(range,11,1,.2);
 
 
