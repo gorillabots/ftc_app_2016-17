@@ -122,6 +122,40 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
+    void turnToGyro(int accuracy, double turnpower) //Turn until we are aligned
+    {
+        int heading;
+        double turnpow;
+
+        while(opMode.opModeIsActive())
+        {
+            heading = gyro.getHeading();
+
+            opMode.telemetry.addData("Action", "Turn to Gyro");
+            opMode.telemetry.addData("Heading", heading);
+
+            if(heading <= accuracy || heading >= 360 - accuracy)
+            {
+                turnpow = 0;
+            }
+            else if(heading <= 180)
+            {
+                turnpow = -turnpower;
+            }
+            else
+            {
+                turnpow = turnpower;
+            }
+
+            frontRight.setPower(turnpow);
+            backRight.setPower(turnpow);
+            frontLeft.setPower(turnpow);
+            backLeft.setPower(turnpow);
+
+            opMode.sleep(5);
+        }
+    }
+
     public void forwardsGyro(double meters, double power, int accuracy, double turnpower) //Move forward by distance with gyro
     {
         double pos = getPosFB();
@@ -1132,12 +1166,12 @@ public class AutonomousDriveTrain
 
     private void pressLeft()
     {
-        forwards(0.15, 0.3); //Align mashy spike plate
+         //Align mashy spike plate
         right(0.2, 0.5);
         forwards (0.02, 0.2);
         back(0.02, 0.2);
         //Mash mashy spike plate into left button
-        left(0.2, 0.5); //Back away
+       
     }
 
     private void pressRight()
@@ -1145,7 +1179,7 @@ public class AutonomousDriveTrain
         right(0.2, 0.5); //Mash mashy spike plate into left button
         forwards(0.02, 0.2);
         back(0.02, 0.2);
-        left(0.2, 0.5); //Back away
+        //Back away
     }
     public void turnGyro(int desired_angle, double power) throws InterruptedException{
         int g = gyro.getHeading();
