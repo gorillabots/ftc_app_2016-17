@@ -67,6 +67,9 @@ public class BlueBeaconsShoot extends LinearOpMode
 
         //driveTrain.forwards(.06, .3);
         driveTrain.goToDistance(range, 11, 1, .2);
+
+        sleep(3000);
+
         driveTrain.beaconResponse(TeamColors.BLUE, beaconColorL, beaconColorR);
 
 
@@ -82,6 +85,9 @@ public class BlueBeaconsShoot extends LinearOpMode
 
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
+
+        sleep(3000);
+
         driveTrain.beaconResponse(TeamColors.BLUE, beaconColorL, beaconColorR);
 
 
@@ -99,7 +105,7 @@ public class BlueBeaconsShoot extends LinearOpMode
         shooter.newRunFlywheel(true);
         shooter.newRunElevator(false);
 
-        while(System.currentTimeMillis() < target)
+        while(System.currentTimeMillis() < target && opModeIsActive())
         {
             telemetry.addData("Action", "Shooting");
             telemetry.update();

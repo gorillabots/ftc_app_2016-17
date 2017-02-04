@@ -1135,7 +1135,7 @@ public class AutonomousDriveTrain
         telemetry.addData("r-b", sensorR.blue());
         telemetry.addData("r-c", enumToString(colorR));
         telemetry.update();
-        opMode.sleep(1000);
+        //opMode.sleep(1000);
 
         if(desiredColor == RED)
         {

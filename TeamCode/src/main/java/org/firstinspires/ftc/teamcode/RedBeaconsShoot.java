@@ -96,11 +96,11 @@ public class RedBeaconsShoot extends LinearOpMode
 
         //Shooting code follows
 
-        driveTrain.leftGyro(.5, .8, 2, .1);
+        driveTrain.leftGyro(.35, .8, 2, .1);
 
-        driveTrain.turnToGyroAny(250, .2, 5);
+        driveTrain.turnToGyroAny(253, .2, 5);
 
-        driveTrain.right(.5, .6);
+        driveTrain.right(.7, .6);
 
         long startTime = System.currentTimeMillis();
         long target = startTime + 5000;
@@ -108,7 +108,7 @@ public class RedBeaconsShoot extends LinearOpMode
         shooter.newRunFlywheel(true);
         shooter.newRunElevator(false);
 
-        while(System.currentTimeMillis() < target)
+        while(System.currentTimeMillis() < target && opModeIsActive())
         {
             telemetry.addData("Action", "Shooting");
             telemetry.update();
@@ -118,7 +118,7 @@ public class RedBeaconsShoot extends LinearOpMode
         shooter.newRunFlywheel(false);
         shooter.newStopElevator();
 
-        driveTrain.right(.15, .6);
+        driveTrain.right(.4, .6);
 
         //Finishing up
 
