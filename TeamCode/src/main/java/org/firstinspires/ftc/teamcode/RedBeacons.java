@@ -46,13 +46,14 @@ public class RedBeacons extends LinearOpMode
 
         driveTrain.resetGyro();
 
-
+        servoSwing.setPosition(.52);
         //Go to first beacon
-        servoSwing.setPosition(.09);
+        //servoSwing.setPosition(.09);
 
         driveTrain.backRightGyro(2.5, .8, 1, .1); //First (diagonal) move
 
-        driveTrain.rightGyroToTouch(.3, 1, .1); //Go to wall slowly
+        //driveTrain.rightGyroToTouch(.3, 1, .1); //Go to wall slowly
+        driveTrain.goToDistance(range, 6, .5, .1);
 
         servoSwing.setPosition(.52);
 
