@@ -48,7 +48,7 @@ public class AutonomousDriveTrain
     TouchSensor wallTouch;
 
     ModernRoboticsI2cGyro gyro;
-    Servo touchServo;
+    //Servo touchServo;
     Telemetry telemetry;
     public void init(LinearOpMode opMode) //Get hardware from hardwareMap
     {
@@ -67,7 +67,7 @@ public class AutonomousDriveTrain
         frontLeft.setMode(RunMode.RUN_USING_ENCODER);
         backRight.setMode(RunMode.RUN_USING_ENCODER);
         backLeft.setMode(RunMode.RUN_USING_ENCODER);
-        touchServo = opMode.hardwareMap.servo.get("servoSwing");
+        //touchServo = opMode.hardwareMap.servo.get("servoSwing");
         wallTouch = opMode.hardwareMap.touchSensor.get("wallTouch");
         gyro = (ModernRoboticsI2cGyro) opMode.hardwareMap.gyroSensor.get("gyro");
 
@@ -874,41 +874,6 @@ public class AutonomousDriveTrain
         backRight.setPower(0);
         frontLeft.setPower(0);
     }
-
-    void turnToGyro(int accuracy, double turnpower) //Turn until we are aligned
-    {
-        int heading;
-        double turnpow;
-
-        while(opMode.opModeIsActive())
-        {
-            heading = gyro.getHeading();
-
-            opMode.telemetry.addData("Action", "Turn to Gyro");
-            opMode.telemetry.addData("Heading", heading);
-
-            if(heading <= accuracy || heading >= 360 - accuracy)
-            {
-                turnpow = 0;
-            }
-            else if(heading <= 180)
-            {
-                turnpow = -turnpower;
-            }
-            else
-            {
-                turnpow = turnpower;
-            }
-
-            frontRight.setPower(turnpow);
-            backRight.setPower(turnpow);
-            frontLeft.setPower(turnpow);
-            backLeft.setPower(turnpow);
-
-            opMode.sleep(5);
-        }
-    }
-
     public void right_continuous(double power)
     {
         frontRight.setPower(-power);
@@ -961,7 +926,78 @@ public class AutonomousDriveTrain
     }
 
 
-    public void ExtendTouchServo()
+    public void turnToGyroAny(int target, double speed, int accuracy)
+    {
+        int heading = gyro.getHeading();
+
+        int pivot;
+
+        if(target < 180) //0 - 179
+        {
+            pivot = target + 180;
+        }
+        else //180 - 359
+        {
+            pivot = target - 180;
+        }
+
+        double power;
+
+        //     Less than minimum           or More than maximum            and is running
+        while((heading < target - accuracy || heading > target + accuracy) && opMode.opModeIsActive()) //Not acceptable
+        {
+            //PSA: Clockwise: -, Counter: +
+
+            opMode.telemetry.addData("Action", "Turn to Gyro Any");
+            opMode.telemetry.addData("Heading", heading);
+
+            if(target < 180)
+            {
+                if(heading > target && heading < pivot) //Inside of range to subtract
+                {
+                    opMode.telemetry.addData("Condition", "A- : Clockwise");
+                    power = -speed;
+                }
+                else //Inside of range to add
+                {
+                    opMode.telemetry.addData("Condition", "A+ : Counter");
+                    power = speed;
+                }
+            }
+            else //target >= 180
+            {
+                if(heading > pivot && heading < target) //Inside of range to add
+                {
+                    opMode.telemetry.addData("Condition", "B+ : Counter");
+                    power = speed;
+                }
+                else //Inside of range to subtract
+                {
+                    opMode.telemetry.addData("Condition", "B- : Clockwise");
+                    power = -speed;
+                }
+            }
+
+            opMode.telemetry.update();
+
+            frontRight.setPower(power);
+            backRight.setPower(power);
+            frontLeft.setPower(power);
+            backLeft.setPower(power);
+
+            opMode.sleep(50);
+
+            heading = gyro.getHeading();
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
+
+
+    /*public void ExtendTouchServo()
     {
         touchServo.setPosition(0);
     }
@@ -970,7 +1006,7 @@ public class AutonomousDriveTrain
     {
         touchServo.setPosition(255);
     }
-
+    */
     public void goToDistance(ModernRoboticsI2cRangeSensor rangeSensor, double target, double accuracy, double power)
     {
         double min = target - accuracy;
@@ -1097,13 +1133,18 @@ public class AutonomousDriveTrain
     private void pressLeft()
     {
         forwards(0.15, 0.3); //Align mashy spike plate
-        right(0.2, 0.5); //Mash mashy spike plate into left button
+        right(0.2, 0.5);
+        forwards (0.02, 0.2);
+        back(0.02, 0.2);
+        //Mash mashy spike plate into left button
         left(0.2, 0.5); //Back away
     }
 
     private void pressRight()
     {
         right(0.2, 0.5); //Mash mashy spike plate into left button
+        forwards(0.02, 0.2);
+        back(0.02, 0.2);
         left(0.2, 0.5); //Back away
     }
     public void turnGyro(int desired_angle, double power) throws InterruptedException{
