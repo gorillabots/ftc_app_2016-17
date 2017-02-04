@@ -874,41 +874,6 @@ public class AutonomousDriveTrain
         backRight.setPower(0);
         frontLeft.setPower(0);
     }
-
-    void turnToGyro(int accuracy, double turnpower) //Turn until we are aligned
-    {
-        int heading;
-        double turnpow;
-
-        while(opMode.opModeIsActive())
-        {
-            heading = gyro.getHeading();
-
-            opMode.telemetry.addData("Action", "Turn to Gyro");
-            opMode.telemetry.addData("Heading", heading);
-
-            if(heading <= accuracy || heading >= 360 - accuracy)
-            {
-                turnpow = 0;
-            }
-            else if(heading <= 180)
-            {
-                turnpow = -turnpower;
-            }
-            else
-            {
-                turnpow = turnpower;
-            }
-
-            frontRight.setPower(turnpow);
-            backRight.setPower(turnpow);
-            frontLeft.setPower(turnpow);
-            backLeft.setPower(turnpow);
-
-            opMode.sleep(5);
-        }
-    }
-
     public void right_continuous(double power)
     {
         frontRight.setPower(-power);
@@ -960,44 +925,6 @@ public class AutonomousDriveTrain
         backLeft.setPower(-power);
     }
 
-    public void GyroRotation(int target, double power)
-    {
-        if(target > 360 || target < 0 || power < 0 || power > 1)
-        {
-            throw new IllegalArgumentException();
-        }
-
-        while(true)
-        {
-            int initial_heading = gyro.getHeading(); //TODO: Potential memory leak!
-            int degree_rotation = target - initial_heading;
-            if(degree_rotation < 0)
-            {
-                degree_rotation = degree_rotation + 360;
-            }
-
-            if (degree_rotation < 180 && degree_rotation > 0)
-            {
-                while (initial_heading < target)
-                {
-                    turnright(power);
-                }
-            }
-
-            if(degree_rotation > 180 && degree_rotation < 360)
-            {
-                while(initial_heading > target)
-                {
-                    turnleft(power);
-                }
-            }
-
-            if(degree_rotation == 0 || degree_rotation == 360)
-            {
-                break;
-            }
-        }
-    }
 
     public void turnToGyroAny(int target, double speed, int accuracy)
     {
@@ -1219,5 +1146,16 @@ public class AutonomousDriveTrain
         forwards(0.02, 0.2);
         back(0.02, 0.2);
         left(0.2, 0.5); //Back away
+    }
+    public void turnGyro(int desired_angle, double power) throws InterruptedException{
+        int g = gyro.getHeading();
+        while(opMode.opModeIsActive() && g != desired_angle){
+            if(g > desired_angle){g = g - 360;}
+            double rotate_speed = (desired_angle - g <= 180) ? -power : power;
+            turnright(rotate_speed);
+            Thread.sleep(1);
+            g = gyro.getHeading();
+        }
+        turnright(0);
     }
 }
