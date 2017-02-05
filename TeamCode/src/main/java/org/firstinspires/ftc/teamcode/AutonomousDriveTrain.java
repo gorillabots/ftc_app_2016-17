@@ -50,6 +50,11 @@ public class AutonomousDriveTrain
     ModernRoboticsI2cGyro gyro;
     //Servo touchServo;
     Telemetry telemetry;
+
+    /**
+     * Initializes motors, encoders, gyro, and touch sensor; also uses each class's opMode and telemetry after this method has been utilized in class
+     * @param opMode use each class as subclass of LinearOpMode
+     */
     public void init(LinearOpMode opMode) //Get hardware from hardwareMap
     {
         telemetry = opMode.telemetry;
@@ -86,15 +91,22 @@ public class AutonomousDriveTrain
         {
             e.printStackTrace();
         }
-
         gyro.resetZAxisIntegrator(); //Reset heading
     }
 
+    /**
+     * Resets gyro sensor heading to 0.
+     */
     public void resetGyro()
     {
         gyro.resetZAxisIntegrator();
     }
 
+    /**
+     * Move robot forward(relative to sensors on front of robot, it is moving left)
+     * @param meters how far you want to move this direction
+     * @param power relative speed that you would like to move at
+     */
     public void forwards(double meters, double power) //Move forwards by distance
     {
         double pos = getPosFB();
@@ -122,6 +134,12 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
+    /**
+     * turns robot with gyro sensor
+     * @param accuracy allowed margin of error while turning
+     * @param turnpower relative speed of turn
+     * @deprecated Method is not functional  Use: {@link #turnToGyroAny(int, double, int)}
+     */
     void turnToGyro(int accuracy, double turnpower) //Turn until we are aligned
     {
         int heading;
@@ -156,6 +174,14 @@ public class AutonomousDriveTrain
         }
     }
 
+    /**
+     * Moves "forward" while using gyro sensor to compensate for motor errors; keeps robot straight while moving "forward"
+     * @param meters distance traveled while moving
+     * @param power relative speed of movement
+     * @param accuracy margin of error that the gyro sensor does not have to compensate for
+     * @param turnpower relative speed of compensation
+     * @see #forwards(double, double)
+     */
     public void forwardsGyro(double meters, double power, int accuracy, double turnpower) //Move forward by distance with gyro
     {
         double pos = getPosFB();
@@ -202,6 +228,12 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
+    /**
+     * Move "forward" until over white line; determines this using bottom color sensor
+     * @param floorColor color sensor under robot used to see beacon white line
+     * @param power relative speed at which the robot approaches the white line
+     * @see #forwards(double, double)
+     */
     public void forwardsToLine(ColorSensor floorColor, double power) //Move forward to line using gyro
     {
         frontRight.setPower(power);
@@ -222,6 +254,13 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
+    /**
+     * Same as forwardsToLine(ColorSensor, double), although this method utilizes the gyro sensor for motor inaccuracy compensation, similar to forwardsGyro(double, double, int, double)
+     * @param floorColor
+     * @param power
+     * @param accuracy
+     * @param turnpower
+     */
     public void forwardsGyroToLine(ColorSensor floorColor, double power, int accuracy, double turnpower) //Move forward to line using gyro
     {
         int heading;
