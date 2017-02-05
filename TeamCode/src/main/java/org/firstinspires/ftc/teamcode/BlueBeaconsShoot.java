@@ -5,24 +5,21 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.I2cAddr;
-import com.qualcomm.robotcore.hardware.Servo;
 
-/**
- * Created by Owner on 1/15/2017.
- */
+//Created by Mikko on 2/3/2017
 
 @Autonomous (name="BlueBeaconsShoot", group="Comp")
 public class BlueBeaconsShoot extends LinearOpMode
 {
-
     AutonomousDriveTrain driveTrain;
+    BallControl shooter;
+
     ColorSensor floorColor;
     ColorSensor beaconColorL;
     ColorSensor beaconColorR;
-    Servo sensorSwing;
+
     ModernRoboticsI2cRangeSensor range;
 
-    BallControl shooter;
 
     public void runOpMode()
     {
@@ -43,8 +40,6 @@ public class BlueBeaconsShoot extends LinearOpMode
         range = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
         telemetry.addData("init" , "1");
         telemetry.update();
-        sensorSwing = hardwareMap.servo.get("servoSwing");
-        sensorSwing.setPosition(.56);
         telemetry.addData("init" , "2");
         telemetry.update();
 
@@ -52,7 +47,6 @@ public class BlueBeaconsShoot extends LinearOpMode
 
         driveTrain.resetGyro();
 
-        sensorSwing.setPosition(.52);
         telemetry.addData("init" , "3");
         telemetry.update();
         driveTrain.frontRightGyro(2.5, .8, 1, .1); //Go out
