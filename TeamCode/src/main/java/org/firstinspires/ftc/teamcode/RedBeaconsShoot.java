@@ -76,7 +76,7 @@ public class RedBeaconsShoot extends LinearOpMode
         beaconColorR.enableLed(false);
         driveTrain.beaconResponse(TeamColors.RED, beaconColorL, beaconColorR); //Press button
 
-        driveTrain.left(.08, .25);
+        driveTrain.left(.05, .25);
 
         driveTrain.back(.25, .8);
 
@@ -96,16 +96,17 @@ public class RedBeaconsShoot extends LinearOpMode
 
         //Shooting code follows
 
-        driveTrain.leftGyro(.35, .8, 2, .1);
+        driveTrain.leftGyro(.14, .8, 2, .1);
 
-        driveTrain.turnToGyroAny(253, .2, 5);
+        driveTrain.turnToGyroAny(236, .2, 5);
 
-        driveTrain.right(.7, .6);
+        shooter.newRunFlywheel(true);
+
+        driveTrain.right(.92, .6);
 
         long startTime = System.currentTimeMillis();
         long target = startTime + 5000;
 
-        shooter.newRunFlywheel(true);
         shooter.newRunElevator(false);
 
         while(System.currentTimeMillis() < target && opModeIsActive())
