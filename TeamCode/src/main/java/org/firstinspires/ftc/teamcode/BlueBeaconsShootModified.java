@@ -100,7 +100,7 @@ public class BlueBeaconsShootModified extends LinearOpMode
 
         driveTrain.leftGyro(.2, .8, 2, .1);
 
-        driveTrain.turnToGyroAny(110, .2, 5);
+        driveTrain.turnToGyroAny(95, .2, 5);
 
         shooter.newRunFlywheel(true);
 
