@@ -116,9 +116,16 @@ public class forkNEw extends OpMode {
         if (gamepad2.right_bumper == true) {
             fly.setPower(-1);
 
-        } else {
+        }
+        else if(gamepad2.right_trigger>.5) {
+            fly.setPower(1a);
+
+        }
+            else
+         {
             fly.setPower(0);
         }
+
 
         if (gamepad2.y) {
 
