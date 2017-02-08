@@ -1120,6 +1120,8 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
+    public boolean lastPressLeft;
+
     public void beaconResponse(TeamColors desiredColor, ColorSensor sensorL, ColorSensor sensorR)
     {
         //sensorL is left color sensor
@@ -1136,6 +1138,8 @@ public class AutonomousDriveTrain
         telemetry.addData("r-c", enumToString(colorR));
         telemetry.update();
         //opMode.sleep(1000);
+
+        lastPressLeft = false;
 
         if(desiredColor == RED)
         {
@@ -1211,6 +1215,8 @@ public class AutonomousDriveTrain
         back(0.02, 0.2);
         //Mash mashy spike plate into left button
         left(0.2, 0.5); //Back away
+
+        lastPressLeft = true;
     }
 
     private void pressRight()

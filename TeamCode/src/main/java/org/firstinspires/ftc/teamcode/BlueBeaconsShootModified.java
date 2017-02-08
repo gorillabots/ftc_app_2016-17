@@ -65,7 +65,7 @@ public class BlueBeaconsShootModified extends LinearOpMode
         driveTrain.backGyroToLine(floorColor, .22, 1, .05); //Go to first beacon line
         floorColor.enableLed(false);
 
-        driveTrain.back(.03, .2);
+        driveTrain.back(.02, .2);
 
         //driveTrain.forwards(.06, .3);
         driveTrain.goToDistance(range, 11, 1, .2);
@@ -79,7 +79,7 @@ public class BlueBeaconsShootModified extends LinearOpMode
 
         //Finishing up
 
-        driveTrain.left(.03, .25);
+        driveTrain.left(.02, .25);
         driveTrain.forwards(.2, .8);
         floorColor.enableLed(true);
         driveTrain.forwardsGyroToLine(floorColor, .2,1,.05);
@@ -96,15 +96,20 @@ public class BlueBeaconsShootModified extends LinearOpMode
         driveTrain.beaconResponse(TeamColors.BLUE, beaconColorL, beaconColorR);
 
 
+        if(!driveTrain.lastPressLeft)
+        {
+            driveTrain.forwards(0.15, 0.3);
+        }
+
         //Shooting code follows
 
-        driveTrain.leftGyro(.2, .8, 2, .1);
+        driveTrain.left(.2, .8);
 
-        driveTrain.turnToGyroAny(95, .2, 5);
+        driveTrain.turnToGyroAny(100, .17, 5);
 
         shooter.newRunFlywheel(true);
 
-        driveTrain.right(.8, .6);
+        driveTrain.right(1, .6);
 
         long startTime = System.currentTimeMillis();
         long target = startTime + 5000;
