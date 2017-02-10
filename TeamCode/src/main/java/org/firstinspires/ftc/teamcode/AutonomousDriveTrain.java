@@ -6,16 +6,12 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.DcMotor.RunMode;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-import static org.firstinspires.ftc.teamcode.TeamColors.RED;
 
-/**
- * Created by mikko on 10/14/16.
- */
+//Created by Mikko on 10/14/16.
 
 /*
  * Implemented functions:
@@ -33,8 +29,9 @@ import static org.firstinspires.ftc.teamcode.TeamColors.RED;
  *  X - Unnecessary
  *
  *  turnToGyro - turn to 0 degrees
+ *  turnToGyroAny - turn to any number of degrees
  *
- *  GyroRotation() -  BETA - turn to any degrees
+ *  GyroRotation() - Depricated - turn to any number of degrees
  *
  */
 
@@ -90,7 +87,7 @@ public class AutonomousDriveTrain
         gyro.resetZAxisIntegrator(); //Reset heading
     }
 
-    public void resetGyro()
+    public void resetGyro() //Define the current heading as 0 degrees
     {
         gyro.resetZAxisIntegrator();
     }
@@ -168,7 +165,8 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
-    public void forwardsToLine(ColorSensor floorColor, double power) //Move forward to line using gyro
+    @Deprecated //Use forwardsGyroToLine()
+    public void forwardsToLine(ColorSensor floorColor, double power) //Move forwards to line
     {
         frontRight.setPower(power);
         backRight.setPower(power);
@@ -256,11 +254,10 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
-    public void backGyro(double meters, double power, int accuracy, double turnpower) //Move back to line using gyro
+    public void backGyro(double meters, double power, int accuracy, double turnpower) //Move backwards using gyro
     {
         double pos = getPosFB();
         double target = pos - meters * Constants.STRAIGHT_INCREMENTS;
-
 
         int heading;
         double turnpow;
@@ -343,6 +340,8 @@ public class AutonomousDriveTrain
         frontLeft.setPower(0);
         backLeft.setPower(0);
     }
+
+    @Deprecated //Unused and seemingly unimportant
     public void backGyroToLineDelay(ColorSensor floorColor, double power, int accuracy, double turnpower) //Move back to line using gyro
     {
         int heading;
@@ -351,8 +350,6 @@ public class AutonomousDriveTrain
         while(!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive())
         {
             heading = gyro.getHeading();
-
-
 
             if(heading <= accuracy || heading >= 360 - accuracy)
             {
@@ -541,8 +538,8 @@ public class AutonomousDriveTrain
 
     public void left(double meters, double power) //Move left by distance
     {
-        opMode.telemetry.addData("Starting left", 42);
-        opMode.telemetry.update();
+        //opMode.telemetry.addData("Starting left", 42);
+        //opMode.telemetry.update();
 
         double pos = getPosRL();
         double target = pos - meters * Constants.STRAIGHT_INCREMENTS;
@@ -558,6 +555,7 @@ public class AutonomousDriveTrain
             opMode.telemetry.addData("Currently", pos);
             opMode.telemetry.addData("Target", target);
             opMode.telemetry.update();
+
             opMode.sleep(5);
 
             pos = getPosRL();
@@ -680,7 +678,7 @@ public class AutonomousDriveTrain
         frontLeft.setPower(0);
     }
 
-    public void backRight(double meters, double power) //Move back and right a specified distance
+    public void backRight(double meters, double power) //Move back-right by distance
     {
         double pos = getPosBRFL();
         double target = pos + meters * Constants.DIAGONAL_INCREMENTS;
@@ -703,7 +701,7 @@ public class AutonomousDriveTrain
         frontRight.setPower(0);
     }
 
-    public void backRightGyro(double meters, double power, int accuracy, double turnpower) //Move back and right a specified distance
+    public void backRightGyro(double meters, double power, int accuracy, double turnpower) //Move back-right by distance using gyro
     {
         double pos = getPosBRFL();
         double target = pos + meters * Constants.DIAGONAL_INCREMENTS;
@@ -745,7 +743,7 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
-    public void frontLeft(double meters, double power) //Move forward and left a specified distance
+    public void frontLeft(double meters, double power) //Move forward-left by distance
     {
         double pos = getPosBRFL();
         double target = pos - meters * Constants.DIAGONAL_INCREMENTS;
@@ -768,7 +766,7 @@ public class AutonomousDriveTrain
         frontRight.setPower(0);
     }
 
-    public void frontLeftGyro(double meters, double power, int accuracy, double turnpower) //Move forward and left a specified distance
+    public void frontLeftGyro(double meters, double power, int accuracy, double turnpower) //Move forward-left by distance using gyro
     {
         double pos = getPosBRFL();
         double target = pos - meters * Constants.DIAGONAL_INCREMENTS;
@@ -810,7 +808,7 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
-    public void backLeft(double meters, double power) //Move back and left specified distance
+    public void backLeft(double meters, double power) //Move back-left by distance
     {
         double pos = getPosBLFR();
         double target = pos - meters * Constants.DIAGONAL_INCREMENTS;
@@ -833,7 +831,7 @@ public class AutonomousDriveTrain
         frontRight.setPower(0);
     }
 
-    public void backLeftGyro(double meters, double power, int accuracy, double turnpower) //Move back and left specified distance
+    public void backLeftGyro(double meters, double power, int accuracy, double turnpower) //Move back-left by distance using gyro
     {
         double pos = getPosBLFR();
         double target = pos - meters * Constants.DIAGONAL_INCREMENTS;
@@ -909,6 +907,7 @@ public class AutonomousDriveTrain
         }
     }
 
+    @Deprecated //Unused
     public void right_continuous(double power)
     {
         frontRight.setPower(-power);
@@ -960,6 +959,7 @@ public class AutonomousDriveTrain
         backLeft.setPower(-power);
     }
 
+    @Deprecated //Unused and non-functional
     public void GyroRotation(int target, double power)
     {
         if(target > 360 || target < 0 || power < 0 || power > 1)
@@ -1141,18 +1141,18 @@ public class AutonomousDriveTrain
 
         lastPressLeft = false;
 
-        if(desiredColor == RED)
+        if(desiredColor == TeamColors.RED)
         {
-            //On red side
-            if(colorL == RED && colorR == TeamColors.BLUE) //If pressing left is necessary
+            //On TeamColors.RED side
+            if(colorL == TeamColors.RED && colorR == TeamColors.BLUE) //If pressing left is necessary
             {
                 pressLeft();
             }
-            else if(colorL == TeamColors.BLUE && colorR == RED) //If pressing right is necessary
+            else if(colorL == TeamColors.BLUE && colorR == TeamColors.RED) //If pressing right is necessary
             {
                 pressRight();
             }
-            else if(colorL == RED && colorR == RED) //If both are red, do nothing
+            else if(colorL == TeamColors.RED && colorR == TeamColors.RED) //If both are TeamColors.RED, do nothing
             {
                 //See, nothing!
             }
@@ -1168,11 +1168,11 @@ public class AutonomousDriveTrain
 
         if(desiredColor == TeamColors.BLUE)
         {
-            if(colorL == TeamColors.BLUE && colorR == RED) //If pressing left is necessary
+            if(colorL == TeamColors.BLUE && colorR == TeamColors.RED) //If pressing left is necessary
             {
                 pressLeft();
             }
-            else if(colorL == RED && colorR == TeamColors.BLUE) //If pressing right is necessary
+            else if(colorL == TeamColors.RED && colorR == TeamColors.BLUE) //If pressing right is necessary
             {
                 pressRight();
             }
@@ -1180,7 +1180,7 @@ public class AutonomousDriveTrain
             {
                 //See, nothing!
             }
-            else if(colorL == RED && colorR == RED) //If both are red, hit any (right is closest)
+            else if(colorL == TeamColors.RED && colorR == TeamColors.RED) //If both are TeamColors.RED, hit any (right is closest)
             {
                 pressRight();
             }
