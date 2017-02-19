@@ -876,7 +876,7 @@ public class AutonomousDriveTrain
         frontLeft.setPower(0);
     }
 
-    void turnToGyro(int accuracy, double turnpower) //Turn until we are aligned
+    public void turnToGyro(int accuracy, double turnpower) //Turn until we are aligned
     {
         int heading;
         double turnpow;
@@ -1129,6 +1129,9 @@ public class AutonomousDriveTrain
     {
         //sensorL is left color sensor
         //sensorR is right color sensor
+
+        sensorL.enableLed(false);
+        sensorR.enableLed(false);
         
         TeamColors colorL = ColorHelper.getBeaconColorTest(sensorL);
         TeamColors colorR = ColorHelper.getBeaconColorTest(sensorR);

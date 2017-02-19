@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.tests;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.submodules.AutonomousDriveTrain;
@@ -11,6 +12,8 @@ import org.firstinspires.ftc.teamcode.submodules.AutonomousDriveTrain;
  * Created by root on 1/22/17.
  */
 
+@Deprecated
+@Disabled
 @Autonomous(name = "RangeTestMikko", group = "Concept")
 public class RangeTestMikko extends LinearOpMode
 {

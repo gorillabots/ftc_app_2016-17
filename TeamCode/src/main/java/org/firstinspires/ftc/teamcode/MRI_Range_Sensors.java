@@ -16,6 +16,7 @@ Support is available by emailing support@modernroboticsinc.com.
 */
 
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -26,6 +27,8 @@ import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
+@Deprecated
+@Disabled
 @TeleOp(name = "Range Sensors", group = "MRI")
 //@Disabled
 public class MRI_Range_Sensors extends OpMode {

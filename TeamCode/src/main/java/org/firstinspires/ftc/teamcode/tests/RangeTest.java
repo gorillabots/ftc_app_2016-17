@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.tests;
 //Created by Jarred on 10/30/2016.
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
@@ -14,6 +15,8 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.submodules.Drivetrain;
 
+@Deprecated
+@Disabled
 @TeleOp(name = "range test", group = "Concept")
 public class RangeTest extends OpMode {
 

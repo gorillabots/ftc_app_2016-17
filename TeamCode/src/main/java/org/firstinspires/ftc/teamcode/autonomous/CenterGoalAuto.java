@@ -4,12 +4,13 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.BallControl;
+import org.firstinspires.ftc.teamcode.submodules.AutonomousDriveTrain;
+import org.firstinspires.ftc.teamcode.submodules.BallControl;
 
-/**
- * Created by Jarred on 12/10/2016.
- */
-@Autonomous(name="Center Goal Auto", group="final")
+//Created by Jarred on 12/10/2016.
+
+@Deprecated
+@Autonomous(name="Center Goal Auto", group="Dead")
 public class CenterGoalAuto extends LinearOpMode
 {
     AutonomousDriveTrain driveTrain;

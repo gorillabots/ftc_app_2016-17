@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.submodules.Drivetrain;
 
 @Deprecated
 @Disabled
-@TeleOp(name = "CompTeleOld", group = "beta")
+@TeleOp(name = "CompTeleOld", group = "Dead")
 public class CompTeleOld extends OpMode {
     Drivetrain drivetrain;
 

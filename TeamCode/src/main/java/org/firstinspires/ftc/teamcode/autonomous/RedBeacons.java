@@ -8,12 +8,12 @@ import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.TeamColors;
+import org.firstinspires.ftc.teamcode.submodules.AutonomousDriveTrain;
 
-/**
- * Created by Mikko on 12/11/16.
- */
+//Created by Mikko on 12/11/16
 
-@Autonomous(name="RedBeacons", group="Comp")
+@Deprecated
+@Autonomous(name="RedBeacons", group="Dead")
 public class RedBeacons extends LinearOpMode
 {
     AutonomousDriveTrain driveTrain;

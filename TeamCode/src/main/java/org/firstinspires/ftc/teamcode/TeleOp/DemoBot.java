@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.TeleOp;
+package org.firstinspires.ftc.teamcode.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -7,10 +7,13 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.submodules.Drivetrain;
+
 /**
  * Created by Jarred on 10/30/2016.
  */
-@TeleOp(name = "Demo", group = "final")
+
+@TeleOp(name = "DemoBot", group = "Final")
 public class DemoBot extends OpMode {
 
 

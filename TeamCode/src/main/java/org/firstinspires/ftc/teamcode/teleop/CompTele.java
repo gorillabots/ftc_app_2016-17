@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.submodules.Drivetrain;
 
-@TeleOp(name = "Comp Tele", group = "Concept")
+@TeleOp(name = "Main", group = "Final")
 public class CompTele extends OpMode {
 
     Drivetrain drivetrain;

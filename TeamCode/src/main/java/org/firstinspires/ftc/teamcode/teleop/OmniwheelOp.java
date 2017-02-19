@@ -13,8 +13,10 @@ import org.firstinspires.ftc.teamcode.submodules.Drivetrain;
 /**
  * Created by mikko on 9/30/16.
  */
+
+@Deprecated
 @Disabled
-@TeleOp(name = "OmniwheelOp", group = "Concept")
+@TeleOp(name = "OmniwheelOp", group = "Dead")
 public class OmniwheelOp extends OpMode
 {
     Drivetrain drivetrain;

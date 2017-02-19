@@ -7,23 +7,21 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.BallControl;
+import org.firstinspires.ftc.teamcode.submodules.AutonomousDriveTrain;
+import org.firstinspires.ftc.teamcode.submodules.BallControl;
 import org.firstinspires.ftc.teamcode.TeamColors;
 
-/**
- * Created by Mikko on 12/11/16.
- */
+//Created by Mikko on ???
 
-@Autonomous(name="RedBeaconsShoot", group="Comp")
+@Autonomous(name="RedBeaconsShoot", group="Final")
 public class RedBeaconsShoot extends LinearOpMode
 {
     AutonomousDriveTrain driveTrain;
+    BallControl shooter;
+
     ColorSensor floorColor;
     ColorSensor beaconColorL;
     ColorSensor beaconColorR;
-    Servo servoSwing;
-    BallControl shooter;
-
     ModernRoboticsI2cRangeSensor range;
 
     public void runOpMode()
@@ -38,30 +36,21 @@ public class RedBeaconsShoot extends LinearOpMode
         beaconColorR = hardwareMap.colorSensor.get("beaconColor2");
         beaconColorL.setI2cAddress(I2cAddr.create8bit(58));
         beaconColorR.setI2cAddress(I2cAddr.create8bit(62));
+        range = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
 
         floorColor.enableLed(false); //Disable LEDs
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
 
-        servoSwing = hardwareMap.servo.get("servoSwing");
-        servoSwing.setPosition(.56);
-
-        range = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
-
         waitForStart();
 
         driveTrain.resetGyro();
 
-        servoSwing.setPosition(.52);
         //Go to first beacon
-        //servoSwing.setPosition(.09);
 
         driveTrain.backRightGyro(2.5, .8, 1, .1); //First (diagonal) move
 
-        //driveTrain.rightGyroToTouch(.3, 1, .1); //Go to wall slowly
         driveTrain.goToDistance(range, 6, .5, .1);
-
-        servoSwing.setPosition(.52);
 
         driveTrain.left(.08, .5);
 

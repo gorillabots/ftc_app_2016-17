@@ -14,6 +14,7 @@ Support is available by emailing support@modernroboticsinc.com.
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.I2cAddr;
@@ -22,6 +23,8 @@ import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+@Deprecated
+@Disabled
 @TeleOp(name = "Range Linear", group = "MRI")
 public class MRI_Range_Linear extends LinearOpMode {
 

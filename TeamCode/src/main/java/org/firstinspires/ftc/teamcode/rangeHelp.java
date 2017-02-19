@@ -7,7 +7,9 @@ import com.qualcomm.robotcore.hardware.UltrasonicSensor;
  * Created by Jarred  on 1/17/17.
  */
 
-public class rangeHelp{
+@Deprecated
+public class rangeHelp
+{
 
     public double range(UltrasonicSensor range){
         return range.getUltrasonicLevel();
