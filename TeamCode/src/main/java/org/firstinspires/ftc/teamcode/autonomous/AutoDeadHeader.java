@@ -13,5 +13,7 @@ public class AutoDeadHeader extends LinearOpMode
     {
         telemetry.addData("Note", "This is a dummy OpMode, why are you running it?");
         telemetry.update();
+
+        waitForStart();
     }
 }
