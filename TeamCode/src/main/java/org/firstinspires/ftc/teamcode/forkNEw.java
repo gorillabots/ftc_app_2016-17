@@ -95,7 +95,7 @@ public class forkNEw extends OpMode {
             {
                 e.printStackTrace();
             }
-
+3
             gyro.resetZAxisIntegrator();
         }
 
@@ -153,19 +153,14 @@ public class forkNEw extends OpMode {
         }
 
 
-        if (gamepad2.left_stick_y > .1 && limit.isPressed()) {
-            raise.setPower(((Math.abs(gamepad2.left_stick_y))));
-        } else {
-
-            if (gamepad2.left_stick_y < 0) {
-                raise.setPower(-1 * (gamepad2.left_stick_y / 2));
-            } else {
-                raise.setPower(-1 * (gamepad2.left_stick_y / 2));
-            }
-
+        if (gamepad2.left_stick_y > .1 && limit.isPressed())
+        {
+            raise.setPower(Math.abs(gamepad2.left_stick_y));
         }
-
-
+        else
+        {
+            raise.setPower(-gamepad2.left_stick_y);
+        }
     }
 
     @Override
