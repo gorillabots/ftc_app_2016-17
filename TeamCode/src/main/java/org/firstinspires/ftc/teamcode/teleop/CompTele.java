@@ -13,51 +13,25 @@ import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
+import org.firstinspires.ftc.teamcode.submodules.BallControl;
 import org.firstinspires.ftc.teamcode.submodules.Drivetrain;
+import org.firstinspires.ftc.teamcode.submodules.ForkLift;
 
 @TeleOp(name = "Main", group = "Final")
-public class CompTele extends OpMode {
-
+public class CompTele extends OpMode
+{
     Drivetrain drivetrain;
-    ModernRoboticsI2cGyro gyro;
-
-    DcMotor elevator;
-    DcMotor vac;
-    DcMotor fly;
-    DcMotor raise;
-    TouchSensor limit;
+    BallControl ballControl;
+    ForkLift forkLift;
 
     ColorSensor floorColor;
     ColorSensor beaconColor;
-    Servo servoSwing;
+
     long startTime;
-    long time;
 
-    public void init() {
-
+    public void init()
+    {
         drivetrain = new Drivetrain(hardwareMap, telemetry);
-        gyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get("gyro");
-        gyro.calibrate();
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        if (gyro.isCalibrating()) {
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        vac = hardwareMap.dcMotor.get("vac");
-        elevator = hardwareMap.dcMotor.get("elevator");
-        fly = hardwareMap.dcMotor.get("fly");
-        raise = hardwareMap.dcMotor.get("raise");
-        limit = hardwareMap.touchSensor.get("limit");
-        servoSwing = hardwareMap.servo.get("touchServo");
-
-        gyro.resetZAxisIntegrator();
 
         floorColor = hardwareMap.colorSensor.get("floorColor");
         floorColor.enableLed(false);
@@ -69,66 +43,60 @@ public class CompTele extends OpMode {
         beaconColor.enableLed(true);
 
         startTime = System.currentTimeMillis();
-
-        servoSwing.setPosition(.56);
     }
 
 
 
-    public void loop() {
-        servoSwing.setPosition(.56);
+    public void loop()
+    {
         float stickX = (gamepad1.left_stick_x); // Stick position (Absolute heading)
         float stickY = (gamepad1.left_stick_y); // Each is in range -1 to 1
         float stickRot = (gamepad1.right_stick_x / 2f); //Used to rotate the robot;
 
+        if (gamepad1.b)
+        {
+            drivetrain.resetGyro();
+        }
+
+        drivetrain.oneStickLoop(stickX, stickY, stickRot);
+
+        //TODO: Insert code for other buttons here
+    }
+
+    @Override
+    public void stop()
+    {
+        super.stop();
+        floorColor.enableLed(false);
+    }
+}
+
 /*
-        if(gamepad1.x){
-            try
-            {
-                // make sure the gyro is calibrated.
-                while (gyro.isCalibrating())
-                {
-                    Thread.sleep(50);
-                }
-            }
-            catch(InterruptedException e)
-            {
-                e.printStackTrace();
-            }
-3
-            gyro.resetZAxisIntegrator();
+
+if (gamepad2.right_bumper)
+        {
+            ballControl.newRunFlywheel(true);
+        }
+        else
+        {
+            ballControl.newRunFlywheel(false);
         }
 
-
-*/
-
-
-
-        if (gamepad1.b == true) {
-            gyro.resetZAxisIntegrator();
-        }
-
-        int rotation = gyro.getHeading();
-
-        drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation, gamepad1.back);
-
-
-        if (gamepad2.right_bumper == true) {
-            fly.setPower(-1);
-
-        } else {
-            fly.setPower(0);
-        }
-
-        if (gamepad2.y) {
+        if (gamepad2.y)
+        {
 
             elevator.setPower(-.5);
             vac.setPower(-1);
 
-        } else {
-            if (gamepad1.right_bumper == true) {
+        }
+        else
+        {
+            if (gamepad1.right_bumper == true)
+            {
                 vac.setPower(1);
-            } else if (gamepad1.a == true) {
+            }
+            else if (gamepad1.a == true)
+            {
                 vac.setPower(-1);
             } else {
                 vac.setPower(0);
@@ -154,15 +122,5 @@ public class CompTele extends OpMode {
         {
             raise.setPower(-gamepad2.left_stick_y);
         }
-    }
 
-    @Override
-    public void stop()
-    {
-        super.stop();
-        floorColor.enableLed(false);
-    }
-
-
-}
-
+ */

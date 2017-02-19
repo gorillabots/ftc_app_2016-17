@@ -12,66 +12,25 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 
 public class ForkLift {
 
-    HardwareMap lifthardwareMap;
-    DcMotor lift;
-    Servo release;
-    TouchSensor limit;
-
     HardwareMap hardwareMap;
-    Telemetry telemetry;
+    DcMotor lift;
 
-
-    public ForkLift(HardwareMap hardwareMap, Telemetry telemetry) {
+    public ForkLift(HardwareMap hardwareMap)
+    {
         this.hardwareMap = hardwareMap;
-        this.telemetry = telemetry;
-        lift = lifthardwareMap.dcMotor.get("lift");
-
-        limit = lifthardwareMap.touchSensor.get("limit");
-
+        lift = hardwareMap.dcMotor.get("lift");
     }
 
-
-    public void manipulateLift(double control) {
-
-        if (limit.isPressed() && control > .1) {
-
-            lift.setPower((Math.abs(control)));
-
-        } else {
-            lift.setPower(control);
-        }
+    public void lift(double power)
+    {
+        lift.setPower(power);
     }
 
-
-
-        /*
-        if the safety is activated for the cap ball lifter, force all values to be
-        positive. If the safety is not pressed, allow the lift to be controlled with
-        the left joystick's Y values on the second controller.
-         */
-
-
-    //public void releaseFork(){
-
-      //  if (getReleaseState() == true){
-          //  release.setPosition(1);
-        //}
-        //else{
-          //  release.setPosition(0);
-        //}
-
-    //}
-
-    //public boolean getReleaseState(){
-
-      //  if(release.getPosition() == 0){
-        //    return true;
-        }
-        //else {
-         //   return false;
-       // }
-
-    //}
+    public void stop()
+    {
+        lift.setPower(0);
+    }
+}
 
 
 
