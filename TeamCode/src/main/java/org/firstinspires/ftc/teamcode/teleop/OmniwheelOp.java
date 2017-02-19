@@ -1,11 +1,14 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.teleop;
 
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.I2cAddr;
+
+import org.firstinspires.ftc.teamcode.TeamColors;
+import org.firstinspires.ftc.teamcode.submodules.ColorHelper;
+import org.firstinspires.ftc.teamcode.submodules.Drivetrain;
 
 /**
  * Created by mikko on 9/30/16.

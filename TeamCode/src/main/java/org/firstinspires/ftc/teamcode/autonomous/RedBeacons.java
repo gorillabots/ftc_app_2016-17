@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -7,26 +7,25 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.TeamColors;
+
 /**
  * Created by Mikko on 12/11/16.
  */
 
-@Autonomous(name="RedBeaconsShoot", group="Comp")
-public class RedBeaconsShoot extends LinearOpMode
+@Autonomous(name="RedBeacons", group="Comp")
+public class RedBeacons extends LinearOpMode
 {
     AutonomousDriveTrain driveTrain;
     ColorSensor floorColor;
     ColorSensor beaconColorL;
     ColorSensor beaconColorR;
     Servo servoSwing;
-    BallControl shooter;
 
     ModernRoboticsI2cRangeSensor range;
 
     public void runOpMode()
     {
-        shooter = new BallControl(hardwareMap, telemetry);
-
         driveTrain = new AutonomousDriveTrain(); //Initialize hardware
         driveTrain.init(this);
 
@@ -66,7 +65,7 @@ public class RedBeaconsShoot extends LinearOpMode
         driveTrain.forwardsGyroToLine(floorColor, .22, 1, .05); //Go to white line 1
         floorColor.enableLed(false);
 
-        driveTrain.back(.04 , .3); //Align color sensors
+        driveTrain.back(.06 , .3); //Align color sensors
 
         driveTrain.goToDistance(range, 11, 1, .2); //Approach beacon
 
@@ -76,7 +75,7 @@ public class RedBeaconsShoot extends LinearOpMode
         beaconColorR.enableLed(false);
         driveTrain.beaconResponse(TeamColors.RED, beaconColorL, beaconColorR); //Press button
 
-        driveTrain.left(.05, .25);
+        driveTrain.left(.08, .25);
 
         driveTrain.back(.25, .8);
 
@@ -94,37 +93,6 @@ public class RedBeaconsShoot extends LinearOpMode
         beaconColorR.enableLed(false);
         driveTrain.beaconResponse(TeamColors.RED, beaconColorL, beaconColorR); //Press button
 
-        if(!driveTrain.lastPressLeft)
-        {
-            driveTrain.forwards(0.15, 0.3);
-        }
-
-        //Shooting code follows
-
-        driveTrain.leftGyro(.14, .8, 2, .1);
-
-        driveTrain.turnToGyroAny(236, .2, 5);
-
-        shooter.newRunFlywheel(true);
-
-        driveTrain.right(.92, .6);
-
-        long startTime = System.currentTimeMillis();
-        long target = startTime + 5000;
-
-        shooter.newRunElevator(false);
-
-        while(System.currentTimeMillis() < target && opModeIsActive())
-        {
-            telemetry.addData("Action", "Shooting");
-            telemetry.update();
-            sleep(200);
-        }
-
-        shooter.newRunFlywheel(false);
-        shooter.newStopElevator();
-
-        driveTrain.right(.4, .6);
 
         //Finishing up
 

@@ -1,21 +1,24 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.teleop;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.TouchSensor;
+
+import org.firstinspires.ftc.teamcode.submodules.BallControl;
+import org.firstinspires.ftc.teamcode.submodules.ForkLift;
+import org.firstinspires.ftc.teamcode.submodules.Drivetrain;
 
 /**
  * Created by Jarred on 10/18/2016.
  */
+
+@Deprecated
 @Disabled
-@TeleOp(name = "CompTele", group = "beta")
-public class CompTele extends OpMode {
+@TeleOp(name = "CompTeleOld", group = "beta")
+public class CompTeleOld extends OpMode {
     Drivetrain drivetrain;
 
     ForkLift forkLift;
