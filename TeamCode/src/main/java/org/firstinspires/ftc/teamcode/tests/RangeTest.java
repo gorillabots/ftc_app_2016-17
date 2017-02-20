@@ -77,7 +77,7 @@ public class RangeTest extends OpMode {
 
         int rotation = gyro.getHeading();
 
-        drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation, gamepad1.back);
+        drivetrain.oneStickLoop(stickX, stickY, stickRot);
         telemetry.addData("raw ultrasonic", rangeSensor.rawUltrasonic());
         telemetry.addData("raw optical", rangeSensor.rawOptical());
         telemetry.addData("cm optical", "%.2f cm", rangeSensor.cmOptical());
