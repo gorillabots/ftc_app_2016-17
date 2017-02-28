@@ -7,11 +7,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.submodules.AutonomousDriveTrain;
 import org.firstinspires.ftc.teamcode.submodules.BallControl;
 
-/**
- * Created by mikko on 1/29/17.
- */
+//Created by Mikko on 1/29/17
 
-@Autonomous(name="Red Center Disruptive", group="final")
+@Autonomous(name="Red Center Disruptive", group="Final")
 public class RedCenterDisruptive extends LinearOpMode
 {
     AutonomousDriveTrain driveTrain;

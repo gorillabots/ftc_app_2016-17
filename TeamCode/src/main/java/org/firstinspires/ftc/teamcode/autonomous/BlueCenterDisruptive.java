@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.submodules.BallControl;
  * Created by mikko on 1/29/17.
  */
 
-@Autonomous(name="Blue Center Disruptive", group="final")
+@Autonomous(name="Blue Center Disruptive", group="Final")
 public class BlueCenterDisruptive extends LinearOpMode
 {
     AutonomousDriveTrain driveTrain;

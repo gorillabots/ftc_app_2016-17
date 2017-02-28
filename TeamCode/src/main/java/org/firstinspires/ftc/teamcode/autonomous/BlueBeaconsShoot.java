@@ -42,11 +42,11 @@ public class BlueBeaconsShoot extends LinearOpMode
         beaconColorR = hardwareMap.colorSensor.get("beaconColor2");
         beaconColorL.setI2cAddress(I2cAddr.create8bit(58));
         beaconColorR.setI2cAddress(I2cAddr.create8bit(62));
-        range = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
-
         floorColor.enableLed(false);
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
+
+        range = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
 
         waitForStart();
 
