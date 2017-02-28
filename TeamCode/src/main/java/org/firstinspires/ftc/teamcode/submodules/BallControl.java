@@ -22,6 +22,7 @@ public class BallControl
     DcMotor fly;
     DcMotor vac;
     DcMotor elevator;
+    ElapsedTime rampTime;
 
     public BallControl(HardwareMap hardwareMap, Telemetry telemetry)
     {
@@ -31,6 +32,9 @@ public class BallControl
         vac = hardwareMap.dcMotor.get("vac");
         fly = hardwareMap.dcMotor.get("fly");
         elevator = hardwareMap.dcMotor.get("elevator");
+
+        rampTime = new ElapsedTime();
+        rampTime.startTime();
     }
 
     public void runFlywheel(boolean on)
@@ -128,7 +132,141 @@ public class BallControl
         vac.setPower(0);
     }
 
+    public String getRampState = "null";
+
+    void rampFlyDown(){
+        if(getRampState.equals("running") || getRampState.equals("ramping down") && fly.getPower() >= 0){
+            if(fly.getPower()== -1){
+                fly.setPower(-.9);
+                getRampState = "ramping up";
+
+            }
+            if(fly.getPower()== -.9 && rampTime.milliseconds() >500){
+                fly.setPower(-.8);
+                getRampState = "ramping up";
+                rampTime.reset();
+                rampTime.startTime();
+            }
+            if(fly.getPower()== -.8 && rampTime.milliseconds() >500){
+                fly.setPower(-.7);
+                getRampState = "ramping up";
+                rampTime.reset();
+                rampTime.startTime();
+            }
+            if(fly.getPower()== -.7 && rampTime.milliseconds() >500){
+                fly.setPower(-.6);
+                getRampState = "ramping up";
+                rampTime.reset();
+                rampTime.startTime();
+            }
+            if(fly.getPower()== -.6 && rampTime.milliseconds() >500){
+                fly.setPower(-.5);
+                getRampState = "ramping up";
+                rampTime.reset();
+                rampTime.startTime();
+            }
+            if(fly.getPower()== -.5 && rampTime.milliseconds() >500){
+                fly.setPower(-.4);
+                getRampState = "ramping up";
+                rampTime.reset();
+                rampTime.startTime();
+            }
+            if(fly.getPower()== -.4 && rampTime.milliseconds() >500){
+                fly.setPower(-.3);
+                getRampState = "ramping up";
+                rampTime.reset();
+                rampTime.startTime();
+            }
+            if(fly.getPower()== -.3 && rampTime.milliseconds() >500){
+                fly.setPower(-.2);
+                getRampState = "ramping up";
+                rampTime.reset();
+                rampTime.startTime();
+            }
+            if(fly.getPower()== -.2 && rampTime.milliseconds() >500){
+                fly.setPower(-.1);
+                getRampState = "ramping up";
+                rampTime.reset();
+                rampTime.startTime();
+            }if(fly.getPower()== -.1 && rampTime.milliseconds() >500){
+                fly.setPower(0);
+                getRampState = "still";
+                rampTime.reset();
+                rampTime.startTime();
+            }
+
+
+        }
 
 
     }
+
+    void rampFlyUp(){
+        if(getRampState.equals("running") || getRampState.equals("ramping down") && fly.getPower() >= 0){
+            if(fly.getPower()== 0){
+                fly.setPower(-.1);
+                getRampState = "ramping down";
+
+            }
+            if(fly.getPower()== -.1 && rampTime.milliseconds() >500){
+                fly.setPower(-.2);
+                getRampState = "ramping down";
+                rampTime.reset();
+                rampTime.startTime();
+            }
+            if(fly.getPower()== -.2 && rampTime.milliseconds() >500){
+                fly.setPower(-.3);
+                getRampState = "ramping down";
+                rampTime.reset();
+                rampTime.startTime();
+            }
+            if(fly.getPower()== -.3 && rampTime.milliseconds() >500){
+                fly.setPower(-.4);
+                getRampState = "ramping down";
+                rampTime.reset();
+                rampTime.startTime();
+            }
+            if(fly.getPower()== -.4 && rampTime.milliseconds() >500){
+                fly.setPower(-.5);
+                getRampState = "ramping down";
+                rampTime.reset();
+                rampTime.startTime();
+            }
+            if(fly.getPower()== -.5 && rampTime.milliseconds() >500){
+                fly.setPower(-.6);
+                getRampState = "ramping down";
+                rampTime.reset();
+                rampTime.startTime();
+            }
+            if(fly.getPower()== -.6 && rampTime.milliseconds() >500){
+                fly.setPower(-.7);
+                getRampState = "ramping down";
+                rampTime.reset();
+                rampTime.startTime();
+            }
+            if(fly.getPower()== -.7 && rampTime.milliseconds() >500){
+                fly.setPower(-.8);
+                getRampState = "ramping down";
+                rampTime.reset();
+                rampTime.startTime();
+            }
+            if(fly.getPower()== -8 && rampTime.milliseconds() >500){
+                fly.setPower(-.9);
+                getRampState = "ramping down";
+                rampTime.reset();
+                rampTime.startTime();
+            }if(fly.getPower()== -.9 && rampTime.milliseconds() >500){
+                fly.setPower(-1);
+                getRampState = "running";
+                rampTime.reset();
+                rampTime.startTime();
+            }
+
+
+        }
+    }
+
+    }
+
+
 
