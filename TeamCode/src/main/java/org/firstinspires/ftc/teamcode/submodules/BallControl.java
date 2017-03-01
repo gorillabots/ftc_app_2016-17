@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.submodules;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -14,43 +14,40 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  * Created by Jarred on 10/11/2016.
  */
 
-public class BallControl {
-
+public class BallControl
+{
+    HardwareMap hardwareMap;
+    Telemetry telemetry;
 
     DcMotor fly;
     DcMotor vac;
     DcMotor elevator;
-    HardwareMap hardwareMap;
-    Telemetry telemetry;
 
     public BallControl(HardwareMap hardwareMap, Telemetry telemetry)
     {
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
+
         vac = hardwareMap.dcMotor.get("vac");
         fly = hardwareMap.dcMotor.get("fly");
         elevator = hardwareMap.dcMotor.get("elevator");
     }
 
+    public void runFlywheel(boolean on)
+    {
 
-
-
-    public void runFlywheel(boolean on){
-
-        if(on == true){
+        if(on)
+        {
             fly.setPower(-1);
         }
-
-        else{
+        else
+        {
             fly.setPower(0);
         }
 
     }
 
-    /*
-    if the flywheels receive an on signal, run the flywheels in a manner that ejects the balls
-    when they pass through the lower portion of the flywheel
-    */
+    @Deprecated
     public void runCollector(boolean on, boolean switcher){
 
         if(on == true && switcher == false){
@@ -70,6 +67,7 @@ public class BallControl {
     */
     }
 
+    @Deprecated
     public void runElevator(boolean on, float switcher){
         if(on == true && switcher<.6){
             elevator.setPower(-1);

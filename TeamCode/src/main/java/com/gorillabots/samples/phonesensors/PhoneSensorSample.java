@@ -1,5 +1,6 @@
 package com.gorillabots.samples.phonesensors;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import android.content.Context;
 import android.hardware.Sensor;
@@ -18,6 +19,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  *
  * @see "https://github.com/acharraggi/my_ftc_app/blob/master/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/OrientOp.java"
  */
+@Disabled
 @Autonomous(name = "Phone Sensor Sample", group = "Working Samples")
 public class PhoneSensorSample extends OpMode implements SensorEventListener {
     private SensorManager mSensorManager;

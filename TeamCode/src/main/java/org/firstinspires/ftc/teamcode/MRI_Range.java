@@ -22,6 +22,8 @@ import com.qualcomm.robotcore.hardware.I2cDevice;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 
+@Deprecated
+@Disabled
 @TeleOp(name = "Range", group = "MRI")
 public class MRI_Range extends OpMode {
 

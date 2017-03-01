@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -7,113 +7,106 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
 
-/**
- * Created by Owner on 1/15/2017.
- */
+import org.firstinspires.ftc.teamcode.submodules.AutonomousDriveTrain;
+import org.firstinspires.ftc.teamcode.submodules.BallControl;
+import org.firstinspires.ftc.teamcode.TeamColors;
 
-@Autonomous (name="BlueBeaconsShootModified", group="Comp")
-public class BlueBeaconsShootModified extends LinearOpMode
+//Created by Mikko on ???
+
+@Autonomous(name="RedBeaconsShoot", group="Final")
+public class RedBeaconsShoot extends LinearOpMode
 {
-
+    //Submodules
     AutonomousDriveTrain driveTrain;
+    BallControl shooter;
+
+    //Sensors
     ColorSensor floorColor;
     ColorSensor beaconColorL;
     ColorSensor beaconColorR;
-    Servo sensorSwing;
     ModernRoboticsI2cRangeSensor range;
-
-    BallControl shooter;
 
     public void runOpMode()
     {
-        shooter = new BallControl(hardwareMap, telemetry);
-
+        //Initialize Submodules
         driveTrain = new AutonomousDriveTrain(); //Initialize hardware
         driveTrain.init(this);
 
+        shooter = new BallControl(hardwareMap, telemetry);
+
+        //Initialize Sensors
         floorColor = hardwareMap.colorSensor.get("floorColor");
         beaconColorL = hardwareMap.colorSensor.get("beaconColor");
         beaconColorR = hardwareMap.colorSensor.get("beaconColor2");
         beaconColorL.setI2cAddress(I2cAddr.create8bit(58));
         beaconColorR.setI2cAddress(I2cAddr.create8bit(62));
-
         floorColor.enableLed(false);
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
-        range = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
-        telemetry.addData("init" , "1");
-        telemetry.update();
-        sensorSwing = hardwareMap.servo.get("servoSwing");
-        sensorSwing.setPosition(.56);
-        telemetry.addData("init" , "2");
-        telemetry.update();
 
-        waitForStart(); //Initialization done!
+        range = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
+
+        waitForStart();
 
         driveTrain.resetGyro();
 
-        sensorSwing.setPosition(.52);
-        telemetry.addData("init" , "3");
-        telemetry.update();
-        driveTrain.frontRightGyro(2.5, .8, 1, .1); //Go out
-        //driveTrain.rightGyroToTouch(.3, 1, .1); //Go to wall slowly
+        //First beacon
+        driveTrain.backRightGyro(2.5, .8, 1, .1); //First (diagonal) move
+
         driveTrain.goToDistance(range, 6, .5, .1);
-        //sensorSwing.setPosition(.52); //Raise touch arm
-        driveTrain.left(.1, .5); //Back away from wall
+
+        driveTrain.left(.08, .5);
 
         floorColor.enableLed(true);
-        driveTrain.backGyroToLine(floorColor, .22, 1, .05); //Go to first beacon line
+        driveTrain.forwardsGyroToLine(floorColor, .22, 1, .05); //Go to white line 1
         floorColor.enableLed(false);
 
-        driveTrain.back(.02, .2);
+        driveTrain.back(.04 , .3); //Align color sensors
 
-        //driveTrain.forwards(.06, .3);
-        driveTrain.goToDistance(range, 11, 1, .2);
+        driveTrain.goToDistance(range, 11, 1, .2); //Approach beacon
 
         sleep(100);
 
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
-        driveTrain.beaconResponse(TeamColors.BLUE, beaconColorL, beaconColorR);
+        driveTrain.beaconResponse(TeamColors.RED, beaconColorL, beaconColorR); //Press button
 
+        //Second beacon
+        driveTrain.left(.05, .25);
 
-        //Finishing up
+        driveTrain.back(.25, .8);
 
-        driveTrain.left(.02, .25);
-        driveTrain.forwards(.2, .8);
         floorColor.enableLed(true);
-        driveTrain.forwardsGyroToLine(floorColor, .2,1,.05);
+        driveTrain.backGyroToLine(floorColor, .23, 1, .05); //Go white line 2
+        floorColor.enableLed(false);
 
-        driveTrain.back(.05, .2);
-
-        //driveTrain.turnToGyro(2, .2);
-        driveTrain.goToDistance(range,11,1,.2);
+        driveTrain.goToDistance(range, 11, 1, .2); //Approach beacon
 
         sleep(100);
 
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
-        driveTrain.beaconResponse(TeamColors.BLUE, beaconColorL, beaconColorR);
-
+        driveTrain.beaconResponse(TeamColors.RED, beaconColorL, beaconColorR); //Press button
 
         if(!driveTrain.lastPressLeft)
         {
             driveTrain.forwards(0.15, 0.3);
         }
 
-        //Shooting code follows
+        //Go to shoot
 
-        driveTrain.left(.2, .8);
+        driveTrain.leftGyro(.14, .8, 2, .1);
 
-        driveTrain.turnToGyroAny(100, .17, 5);
+        driveTrain.turnToGyroAny(236, .2, 5);
 
         shooter.newRunFlywheel(true);
 
-        driveTrain.right(1, .6);
+        driveTrain.right(.92, .6);
 
         long startTime = System.currentTimeMillis();
         long target = startTime + 5000;
 
+        //Shoot
         shooter.newRunElevator(false);
 
         while(System.currentTimeMillis() < target && opModeIsActive())
@@ -126,11 +119,10 @@ public class BlueBeaconsShootModified extends LinearOpMode
         shooter.newRunFlywheel(false);
         shooter.newStopElevator();
 
-        driveTrain.right(.5, .6);
+        driveTrain.right(.4, .6);
 
         //Finishing up
-
-        floorColor.enableLed(false); //Disable LEDs
+        floorColor.enableLed(false);
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
     }

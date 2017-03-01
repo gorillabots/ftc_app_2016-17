@@ -1,21 +1,24 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.teleop;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.TouchSensor;
+
+import org.firstinspires.ftc.teamcode.submodules.BallControl;
+import org.firstinspires.ftc.teamcode.submodules.ForkLift;
+import org.firstinspires.ftc.teamcode.submodules.Drivetrain;
 
 /**
  * Created by Jarred on 10/18/2016.
  */
+
+@Deprecated
 @Disabled
-@TeleOp(name = "CompTele", group = "beta")
-public class CompTele extends OpMode {
+@TeleOp(name = "CompTeleOld", group = "Dead")
+public class CompTeleOld extends OpMode {
     Drivetrain drivetrain;
 
     ForkLift forkLift;
@@ -37,8 +40,8 @@ public class CompTele extends OpMode {
     public void init()
     {
         drivetrain = new Drivetrain(hardwareMap, telemetry);
-        forkLift = new ForkLift(hardwareMap, telemetry);
-        ballControl = new BallControl(hardwareMap, telemetry );
+        forkLift = new ForkLift(hardwareMap);
+        ballControl = new BallControl(hardwareMap, telemetry);
         butt1 = hardwareMap.servo.get("butt1");
         butt2 = hardwareMap.servo.get("butt2");
 
@@ -70,10 +73,7 @@ public class CompTele extends OpMode {
         float stickY = gamepad1.left_stick_y; // Each is in range -1 to 1
         float stickRot = gamepad1.right_stick_x / 2f; //Used to rotate the robot;
         rotation = gyro.getHeading();
-        drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation,gamepad1.back);
-        drivetrain.resetGyro(gamepad1.a);
-
-        forkLift.manipulateLift(gamepad2.left_stick_y);
+        drivetrain.oneStickLoop(stickX, stickY, stickRot);
 
         ballControl.runCollector(gamepad1.right_bumper, gamepad1.left_bumper);
         ballControl.runElevator(gamepad2.left_bumper, gamepad2.left_trigger);
