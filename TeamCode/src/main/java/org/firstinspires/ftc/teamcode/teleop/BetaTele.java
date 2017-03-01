@@ -22,8 +22,6 @@ public class BetaTele extends OpMode
     ColorSensor floorColor;
     ColorSensor beaconColor;
 
-    long startTime;
-
     public void init()
     {
         drivetrain = new Drivetrain(hardwareMap, telemetry);
@@ -36,8 +34,6 @@ public class BetaTele extends OpMode
         beaconColor.setI2cAddress(I2cAddr.create8bit(58));
         beaconColor.enableLed(false);
         beaconColor.enableLed(true);
-
-        startTime = System.currentTimeMillis();
     }
 
 
@@ -65,57 +61,3 @@ public class BetaTele extends OpMode
         floorColor.enableLed(false);
     }
 }
-
-/*
-
-if (gamepad2.right_bumper)
-        {
-            ballControl.newRunFlywheel(true);
-        }
-        else
-        {
-            ballControl.newRunFlywheel(false);
-        }
-
-        if (gamepad2.y)
-        {
-
-            elevator.setPower(-.5);
-            vac.setPower(-1);
-
-        }
-        else
-        {
-            if (gamepad1.right_bumper == true)
-            {
-                vac.setPower(1);
-            }
-            else if (gamepad1.a == true)
-            {
-                vac.setPower(-1);
-            } else {
-                vac.setPower(0);
-            }
-
-        }
-
-
-        if (gamepad2.left_bumper == true) {
-            elevator.setPower(1);
-        } else if (gamepad2.left_trigger > .5) {
-            elevator.setPower(-1);
-        } else {
-            elevator.setPower(0);
-        }
-
-
-        if (gamepad2.left_stick_y > .1 && limit.isPressed())
-        {
-            raise.setPower(Math.abs(gamepad2.left_stick_y));
-        }
-        else
-        {
-            raise.setPower(-gamepad2.left_stick_y);
-        }
-
- */
