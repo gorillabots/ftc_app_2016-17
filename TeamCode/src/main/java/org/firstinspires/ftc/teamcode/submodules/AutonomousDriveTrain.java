@@ -170,7 +170,6 @@ public class AutonomousDriveTrain
 
     @Deprecated //Use forwardsGyroToLine()
     public void forwardsToLine(ColorSensor floorColor, double power) //Move forwards to line
-     * @deprecated Gyro method is more accurate Use: {@link #forwardsGyroToLine(ColorSensor, double, int, double)}
     {
         frontRight.setPower(power);
         backRight.setPower(power);
@@ -190,13 +189,14 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
-    /**
+    /*
      * Same as forwardsToLine(ColorSensor, double), although this method utilizes the gyro sensor for motor inaccuracy compensation, similar to forwardsGyro(double, double, int, double)
      * @param floorColor color sensor to be used to detect white line
      * @param power relative speed of movement of robot
      * @param accuracy gyro sensor heading margin of error that is allowed
      * @param turnpower speed change applied to motors when compensating
      * @see #forwardsToLine(ColorSensor, double)
+     */
     public void forwardsGyroToLine(ColorSensor floorColor, double power, int accuracy, double turnpower) //Move forward to line using gyro
     {
         int heading;
@@ -278,6 +278,7 @@ public class AutonomousDriveTrain
      * @param turnpower Speed change applied to motors when compensating inaccurate movement
      * @see #back(double, double)
      */
+    public void backGyro(double meters, double power, int accuracy, double turnpower) //Move backwards using gyro
     {
         double pos = getPosFB();
         double target = pos - meters * Constants.STRAIGHT_INCREMENTS;
