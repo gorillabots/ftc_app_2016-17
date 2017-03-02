@@ -97,7 +97,7 @@ public class BallControl
     {
         if(direction)
         {
-            elevator.setPower(-1);
+            elevator.setPower(1);
         }
         else
         {
