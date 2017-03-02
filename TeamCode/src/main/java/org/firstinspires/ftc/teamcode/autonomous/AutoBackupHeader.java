@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 //Created by Mikko on 2/18/2017
 
-@Autonomous(name=".Dead", group="Dead")
-public class AutoDeadHeader extends LinearOpMode
+@Autonomous(name=".Backup", group="Backup")
+public class AutoBackupHeader extends LinearOpMode
 {
     @Override
     public void runOpMode()

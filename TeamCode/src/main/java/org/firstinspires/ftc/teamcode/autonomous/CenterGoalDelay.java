@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.submodules.BallControl;
 
 //Created by Jarred on 12/10/2016
 
-@Autonomous(name="Center Goal Auto Delay", group="Dead")
+@Autonomous(name="Center Goal Auto Delay", group="Final")
 public class CenterGoalDelay extends LinearOpMode
 {
     AutonomousDriveTrain driveTrain;
