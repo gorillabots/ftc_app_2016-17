@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.submodules.ColorHelper;
 
-@Deprecated
 @Disabled
 @TeleOp(name = "Sensor: MR Color", group = "Sensor")
 

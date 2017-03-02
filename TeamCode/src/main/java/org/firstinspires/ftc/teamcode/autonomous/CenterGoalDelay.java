@@ -9,7 +9,6 @@ import org.firstinspires.ftc.teamcode.submodules.BallControl;
 
 //Created by Jarred on 12/10/2016
 
-@Deprecated
 @Autonomous(name="Center Goal Auto Delay", group="Dead")
 public class CenterGoalDelay extends LinearOpMode
 {
