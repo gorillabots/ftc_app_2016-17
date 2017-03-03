@@ -1,17 +1,19 @@
 package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 
+import org.firstinspires.ftc.teamcode.TeamColors;
 import org.firstinspires.ftc.teamcode.submodules.AutonomousDriveTrain;
 import org.firstinspires.ftc.teamcode.submodules.BallControl;
 
 /**
  * Created by Jarred on 3/2/2017.
  */
-
+@Autonomous(name="ShootFirstBlue", group="Beta")
 public class ShootFirstBlue extends LinearOpMode {
     AutonomousDriveTrain driveTrain;
     BallControl shooter;
@@ -50,13 +52,52 @@ public class ShootFirstBlue extends LinearOpMode {
         shooter.newRunFlywheel(true);
         sleep(1000);
         shooter.newRunElevator(true);
-        sleep(5000);
+        sleep(2500);
 
         shooter.newRunFlywheel(false);
         shooter.newStopElevator();
 
-        driveTrain.left(.1, .4);
+        driveTrain.left(.085, .4);
 
-        driveTrain.frontRightGyro(2.5, .8, 1, .1);
+        driveTrain.backRight(1.55, .5);
+
+        driveTrain.turnToGyroAny(90, .2 , 5);
+
+        driveTrain.goToDistance(range, 6, .5, .1);
+        driveTrain.right(.09,.4);
+        driveTrain.resetGyro();
+
+
+        driveTrain.left(.08, .5);
+
+        floorColor.enableLed(true);
+        driveTrain.backGyroToLine(floorColor, .22, 1, .05); //Go to first beacon line
+        floorColor.enableLed(false);
+
+        driveTrain.back(.02, .2);
+
+        driveTrain.goToDistance(range, 11, 1, .2);
+
+        sleep(100);
+
+        beaconColorL.enableLed(false);
+        beaconColorR.enableLed(false);
+        driveTrain.beaconResponse(TeamColors.BLUE, beaconColorL, beaconColorR);
+
+        //Second beacon
+        driveTrain.left(.02, .25);
+        driveTrain.forwards(.2, .8);
+        floorColor.enableLed(true);
+        driveTrain.forwardsGyroToLine(floorColor, .2,1,.05);
+
+        driveTrain.back(.05, .2);
+
+        driveTrain.goToDistance(range,11,1,.2);
+
+        sleep(100);
+
+        beaconColorL.enableLed(false);
+        beaconColorR.enableLed(false);
+        driveTrain.beaconResponse(TeamColors.BLUE, beaconColorL, beaconColorR);
     }
 }

@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.submodules.BallControl;
 /**
  * Created by Jarred on 3/2/2017.
  */
-@Autonomous(name="ShootFirst", group="Beta")
+@Autonomous(name="ShootFirstRed", group="Beta")
 public class ShootFirstRed extends LinearOpMode {
     AutonomousDriveTrain driveTrain;
     BallControl shooter;
