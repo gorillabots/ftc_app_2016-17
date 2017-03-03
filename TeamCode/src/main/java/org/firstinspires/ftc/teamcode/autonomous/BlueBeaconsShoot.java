@@ -107,7 +107,7 @@ public class BlueBeaconsShoot extends LinearOpMode
         long target = startTime + 5000;
 
         //Shoot
-        shooter.newRunElevator(false);
+        shooter.newRunElevator(true);
 
         while(System.currentTimeMillis() < target && opModeIsActive())
         {

@@ -35,11 +35,11 @@ public class BlueCenterDisruptive extends LinearOpMode
         while(timer1.milliseconds() < 5000)
         {
             shooter.newRunFlywheel(true);
-            shooter.newRunElevator(false);
+            shooter.newRunElevator(true);
         }
 
         shooter.newRunFlywheel(false);
-        shooter.newRunElevator(true);
+        shooter.newStopElevator();
 
         sleep(3000);
 
