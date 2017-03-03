@@ -19,7 +19,7 @@ public class BallControl
     HardwareMap hardwareMap;
     Telemetry telemetry;
 
-    DcMotor fly;
+    public DcMotor fly;
     DcMotor vac;
     DcMotor elevator;
 
