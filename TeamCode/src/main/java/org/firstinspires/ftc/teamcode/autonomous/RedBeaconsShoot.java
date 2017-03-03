@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.TeamColors;
 
 //Created by Mikko on ???
 
-@Autonomous(name="Red Beacons Shoot", group="Final")
+@Autonomous(name="Red Beacons Shoot", group="Beta")
 public class RedBeaconsShoot extends LinearOpMode
 {
     //Submodules
@@ -46,6 +46,9 @@ public class RedBeaconsShoot extends LinearOpMode
 
         range = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
 
+        telemetry.addData("Status", "Initialized");
+        telemetry.update();
+
         waitForStart();
 
         driveTrain.resetGyro();
@@ -67,27 +70,23 @@ public class RedBeaconsShoot extends LinearOpMode
 
         sleep(100);
 
-        beaconColorL.enableLed(false);
-        beaconColorR.enableLed(false);
         driveTrain.beaconResponse(TeamColors.RED, beaconColorL, beaconColorR); //Press button
 
         //Second beacon
         driveTrain.left(.05, .25);
 
-        driveTrain.back(.75, .8);
+        driveTrain.back(.75, .5);
 
-        driveTrain.goToDistance(range, 32, 2, .2);
+        driveTrain.goToDistance(range, 20, 2, .2);
 
         floorColor.enableLed(true);
-        driveTrain.backGyroToLine(floorColor, .3, 1, .05); //Go white line 2
+        driveTrain.backGyroToLine(floorColor, .24, 1, .05); //Go white line 2
         floorColor.enableLed(false);
 
         driveTrain.goToDistance(range, 11, 1, .2); //Approach beacon
 
         sleep(100);
 
-        beaconColorL.enableLed(false);
-        beaconColorR.enableLed(false);
         driveTrain.beaconResponse(TeamColors.RED, beaconColorL, beaconColorR); //Press button
 
         if(!driveTrain.lastPressLeft)

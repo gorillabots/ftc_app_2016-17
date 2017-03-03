@@ -13,8 +13,7 @@ import org.firstinspires.ftc.teamcode.submodules.BallControl;
 
 //Created by ??? on 1/15/2017
 
-
-@Autonomous (name="Blue Beacons Shoot", group="Final")
+@Autonomous (name="Blue Beacons Shoot", group="Beta")
 public class BlueBeaconsShoot extends LinearOpMode
 {
     //Submodules

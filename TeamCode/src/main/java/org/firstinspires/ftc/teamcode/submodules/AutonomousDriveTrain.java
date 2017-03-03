@@ -78,7 +78,7 @@ public class AutonomousDriveTrain
             while (gyro.isCalibrating())
             {
                 Thread.sleep(50);
-                telemetry.addData("is", "calibrating");
+                telemetry.addData("Status", "Calibrating Gyro");
                 telemetry.update();
             }
         }
