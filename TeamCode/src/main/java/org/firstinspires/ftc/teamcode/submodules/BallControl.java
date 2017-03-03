@@ -101,7 +101,7 @@ public class BallControl
         }
         else
         {
-            elevator.setPower(1);
+            elevator.setPower(-1);
         }
     }
 
