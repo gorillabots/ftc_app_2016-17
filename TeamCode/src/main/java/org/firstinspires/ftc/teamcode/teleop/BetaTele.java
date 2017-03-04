@@ -70,7 +70,7 @@ public class BetaTele extends OpMode
                 case OFF:
                     if(trigger)
                     {
-                        flyRamp = new DoubleScale(time, time + 5, 0, 1);
+                        flyRamp = new DoubleScale(time, time + 5, .3, 1);
                         flyState = FlyState.R_UP;
                     }
                     break;
@@ -84,7 +84,7 @@ public class BetaTele extends OpMode
                         }
                         else
                         {
-                            ballControl.fly.setPower(flyRamp.scale(time));
+                            ballControl.fly.setPower(Math.sqrt(flyRamp.scale(time)));
                         }
                     }
                     else
@@ -96,7 +96,7 @@ public class BetaTele extends OpMode
                 case ON:
                     if(!trigger)
                     {
-                        flyRamp = new DoubleScale(time, time + 5, 1, 0);
+                        flyRamp = new DoubleScale(time, time + 5, 1, .3);
                         flyState = FlyState.R_DOWN;
                     }
                     break;
@@ -115,7 +115,7 @@ public class BetaTele extends OpMode
                         }
                         else
                         {
-                            ballControl.fly.setPower(flyRamp.scale(time));
+                            ballControl.fly.setPower(Math.sqrt(flyRamp.scale(time)));
                         }
                     }
                     break;
@@ -131,6 +131,12 @@ public class BetaTele extends OpMode
     {
         super.stop();
         floorColor.enableLed(false);
+    }
+
+    //Graph: https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Logistic-curve.svg/320px-Logistic-curve.svg.png
+    public static double sigmoid(double x)
+    {
+        return (1 / (1 + Math.pow(Math.E, -x)));
     }
 }
 

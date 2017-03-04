@@ -238,6 +238,49 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
+    public void forwardsGyroToLineTimeout(ColorSensor floorColor, double power, int accuracy, double turnpower, double timeout) //Move forward to line using gyro with timeout
+    {
+        int heading;
+        double turnpow;
+
+        long startTime = System.currentTimeMillis();
+        long endTime = startTime + (int)(timeout * 1000);
+
+        while(!ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive() && System.currentTimeMillis() < endTime)
+        {
+            heading = gyro.getHeading();
+
+            if(heading <= accuracy || heading >= 360 - accuracy) //In range 1-359
+            {
+                turnpow = 0;
+            }
+            else if(heading <= 180)
+            {
+                turnpow = -turnpower;
+            }
+            else
+            {
+                turnpow = turnpower;
+            }
+
+            frontRight.setPower(power + turnpow);
+            backRight.setPower(power + turnpow);
+            frontLeft.setPower(-power + turnpow);
+            backLeft.setPower(-power + turnpow);
+
+            opMode.telemetry.addData("Action", "Forwards Gyro To Line");
+            opMode.telemetry.addData("Heading", heading);
+            ColorHelper.printColorRGB(opMode.telemetry, floorColor);
+            opMode.telemetry.update();
+            opMode.sleep(5);
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
+
     /**
      * Move robot backwards(relative to sensors on front of robot, it is moving right)
      * @param meters distance that the robot moves using encoders
@@ -372,6 +415,50 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
+    public void backGyroToLineTimeout(ColorSensor floorColor, double power, int accuracy, double turnpower, double timeout) //Move back to line using gyro with timeout
+    {
+        int heading;
+        double turnpow;
+
+        long startTime = System.currentTimeMillis();
+        long endTime = startTime + (int)(timeout * 1000);
+
+        while(!ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive() && System.currentTimeMillis() < endTime)
+        {
+            heading = gyro.getHeading();
+
+            if(heading <= accuracy || heading >= 360 - accuracy)
+            {
+                turnpow = 0;
+            }
+            else if(heading <= 180)
+            {
+                turnpow = -turnpower;
+            }
+            else
+            {
+                turnpow = turnpower;
+            }
+
+            frontRight.setPower(-power + turnpow);
+            backRight.setPower(-power + turnpow);
+            frontLeft.setPower(power + turnpow);
+            backLeft.setPower(power + turnpow);
+
+            opMode.telemetry.addData("Action", "Back Gyro To Line");
+            opMode.telemetry.addData("Heading", heading);
+            opMode.telemetry.addData("Color", ColorHelper.getFloorColor(floorColor));
+            opMode.telemetry.addData("line", ColorHelper.isFloorWhite(floorColor));
+            opMode.telemetry.update();
+            opMode.sleep(5);
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
+
     /**This method does the exact same thing as backGyroToLine(ColorSensor, double, int, double), although this one will give an initial headstart going backwards
      * @param floorColor color sensor to be used to detect white line
      * @param power relative speed of movement of robot
@@ -379,6 +466,7 @@ public class AutonomousDriveTrain
      * @param turnpower speed change applied to motors when compensating
      * @see #backGyroToLine(ColorSensor, double, int, double)
      */
+    @Deprecated
     public void backGyroToLineDelay(ColorSensor floorColor, double power, int accuracy, double turnpower) //Move back to line using gyro
     {
         int heading;
