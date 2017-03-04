@@ -63,6 +63,7 @@ public class ShootFirstBlue extends LinearOpMode {
 
         driveTrain.turnToGyroAny(90, .2 , 5);
 
+        driveTrain.forwards(.05,.8);
         driveTrain.goToDistance(range, 6, .5, .1);
         driveTrain.right(.09,.4);
         driveTrain.resetGyro();

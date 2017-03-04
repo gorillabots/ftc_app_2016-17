@@ -52,7 +52,7 @@ public class ShootFirstRed extends LinearOpMode {
         shooter.newRunFlywheel(true);
         sleep(1000);
         shooter.newRunElevator(true);
-        sleep(5000);
+        sleep(2500);
 
         shooter.newRunFlywheel(false);
         shooter.newStopElevator();
