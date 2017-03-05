@@ -30,7 +30,7 @@ public class BetaTele extends OpMode
     {
         drivetrain = new Drivetrain(hardwareMap, telemetry);
         ballControl = new BallControl(hardwareMap, telemetry);
-
+        forkLift = new ForkLift(hardwareMap);
 
         floorColor = hardwareMap.colorSensor.get("floorColor");
         floorColor.enableLed(false);
@@ -62,7 +62,7 @@ public class BetaTele extends OpMode
 
         //Flywheel ramping stuff
         {
-            boolean trigger = gamepad1.right_trigger > .2;
+            boolean trigger = gamepad2.right_bumper;
             double time = System.currentTimeMillis() / 1000d;
 
             switch(flyState)
@@ -84,7 +84,7 @@ public class BetaTele extends OpMode
                         }
                         else
                         {
-                            ballControl.fly.setPower(Math.sqrt(flyRamp.scale(time)));
+                            ballControl.fly.setPower(-Math.sqrt(flyRamp.scale(time)));
                         }
                     }
                     else
@@ -115,7 +115,7 @@ public class BetaTele extends OpMode
                         }
                         else
                         {
-                            ballControl.fly.setPower(Math.sqrt(flyRamp.scale(time)));
+                            ballControl.fly.setPower(-Math.sqrt(flyRamp.scale(time)));
                         }
                     }
                     break;
@@ -123,6 +123,39 @@ public class BetaTele extends OpMode
                     //Why would this ever happen?
                     break;
             }
+        }
+
+        if(gamepad1.right_bumper)
+        {
+            ballControl.newRunCollector(true);
+        }
+        else if(gamepad1.right_trigger >= .6)
+        {
+            ballControl.newRunCollector(false);
+        }
+        else
+        {
+            ballControl.newStopCollector();
+        }
+
+        if(gamepad2.left_bumper)
+        {
+            ballControl.newRunElevator(true);
+        }
+        else if(gamepad2.left_trigger >= .6)
+        {
+            ballControl.newRunElevator(false);
+        }
+        else
+        {
+            ballControl.newStopElevator();
+        }
+
+        float stick2Y = gamepad2.left_stick_y;
+
+        if(Math.abs(stick2Y) >= .2)
+        {
+            forkLift.lift(stick2Y);
         }
     }
 
