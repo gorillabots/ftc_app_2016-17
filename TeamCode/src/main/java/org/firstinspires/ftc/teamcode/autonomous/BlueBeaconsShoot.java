@@ -59,7 +59,7 @@ public class BlueBeaconsShoot extends LinearOpMode
         driveTrain.left(.1, .5); //Back away from wall
 
         floorColor.enableLed(true);
-        driveTrain.backGyroToLine(floorColor, .22, 1, .05); //Go to first beacon line
+        driveTrain.backGyroToLineTimeout(floorColor, .22, 1, .05,3); //Go to first beacon line
         floorColor.enableLed(false);
 
         driveTrain.back(.02, .2);
@@ -76,7 +76,7 @@ public class BlueBeaconsShoot extends LinearOpMode
         driveTrain.left(.02, .25);
         driveTrain.forwards(.2, .8);
         floorColor.enableLed(true);
-        driveTrain.forwardsGyroToLine(floorColor, .2,1,.05);
+        driveTrain.forwardsGyroToLineTimeout(floorColor, .2,1,.05, 3);
 
         driveTrain.back(.05, .2);
 

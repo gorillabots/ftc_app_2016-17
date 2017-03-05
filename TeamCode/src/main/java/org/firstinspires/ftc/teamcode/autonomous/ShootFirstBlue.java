@@ -72,7 +72,7 @@ public class ShootFirstBlue extends LinearOpMode {
         driveTrain.left(.08, .5);
 
         floorColor.enableLed(true);
-        driveTrain.backGyroToLine(floorColor, .22, 1, .05); //Go to first beacon line
+        driveTrain.backGyroToLineTimeout(floorColor, .22, 1, .05,4); //Go to first beacon line
         floorColor.enableLed(false);
 
         driveTrain.back(.02, .2);
@@ -87,9 +87,11 @@ public class ShootFirstBlue extends LinearOpMode {
 
         //Second beacon
         driveTrain.left(.02, .25);
-        driveTrain.forwards(.2, .8);
+        driveTrain.forwards(.75, .8);
+
+        driveTrain.goToDistance(range, 20, 2, .2);
         floorColor.enableLed(true);
-        driveTrain.forwardsGyroToLine(floorColor, .2,1,.05);
+        driveTrain.forwardsGyroToLineTimeout(floorColor, .22, 1, .05,4);
 
         driveTrain.back(.05, .2);
 

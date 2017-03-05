@@ -61,7 +61,7 @@ public class RedBeaconsShoot extends LinearOpMode
         driveTrain.left(.08, .5);
 
         floorColor.enableLed(true);
-        driveTrain.forwardsGyroToLine(floorColor, .22, 1, .05); //Go to white line 1
+        driveTrain.forwardsGyroToLineTimeout(floorColor, .22, 1, .05, 3); //Go to white line 1
         floorColor.enableLed(false);
 
         driveTrain.back(.04 , .3); //Align color sensors
@@ -80,7 +80,7 @@ public class RedBeaconsShoot extends LinearOpMode
         driveTrain.goToDistance(range, 20, 2, .2);
 
         floorColor.enableLed(true);
-        driveTrain.backGyroToLine(floorColor, .24, 1, .05); //Go white line 2
+        driveTrain.backGyroToLineTimeout(floorColor, .24, 1, .05, 3); //Go white line 2
         floorColor.enableLed(false);
 
         driveTrain.goToDistance(range, 11, 1, .2); //Approach beacon
