@@ -1,13 +1,15 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-/**
- * Created by Jarred on 12/10/2016.
- */
-@Autonomous(name="Center Goal Auto Delay", group="final")
+import org.firstinspires.ftc.teamcode.submodules.AutonomousDriveTrain;
+import org.firstinspires.ftc.teamcode.submodules.BallControl;
+
+//Created by Jarred on 12/10/2016
+
+@Autonomous(name="Center Goal Auto Delay", group="Final")
 public class CenterGoalDelay extends LinearOpMode
 {
     AutonomousDriveTrain driveTrain;

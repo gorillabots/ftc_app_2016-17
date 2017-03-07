@@ -1,24 +1,22 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.tests;
 
-/**
- * Created by Jarred on 10/30/2016.
- */
+//Created by Jarred on 10/30/2016.
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
-import com.qualcomm.robotcore.hardware.UltrasonicSensor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.submodules.Drivetrain;
 
+@Deprecated
+@Disabled
 @TeleOp(name = "range test", group = "Concept")
 public class RangeTest extends OpMode {
 
@@ -79,7 +77,7 @@ public class RangeTest extends OpMode {
 
         int rotation = gyro.getHeading();
 
-        drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation, gamepad1.back);
+        drivetrain.oneStickLoop(stickX, stickY, stickRot);
         telemetry.addData("raw ultrasonic", rangeSensor.rawUltrasonic());
         telemetry.addData("raw optical", rangeSensor.rawOptical());
         telemetry.addData("cm optical", "%.2f cm", rangeSensor.cmOptical());

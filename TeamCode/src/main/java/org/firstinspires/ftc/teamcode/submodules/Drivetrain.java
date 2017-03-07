@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.submodules;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -22,45 +22,47 @@ public class Drivetrain
     HardwareMap hardwareMap;
     Telemetry telemetry;
 
+    ModernRoboticsI2cGyro gyro;
+
     DcMotor frontRight;
     DcMotor backRight;
     DcMotor frontLeft;
     DcMotor backLeft;
-    ModernRoboticsI2cGyro gyro;
 
     public Drivetrain(HardwareMap hardwareMap, Telemetry telemetry)
     {
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
 
+        gyro = (ModernRoboticsI2cGyro)hardwareMap.gyroSensor.get("gyro");
+
+        gyro.calibrate();
+
+        try //Give up to 1 second to calibrate
+        {
+            Thread.sleep(500);
+
+            if (gyro.isCalibrating())
+            {
+                Thread.sleep(500);
+            }
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+
         //Initialize Motors
         frontRight = hardwareMap.dcMotor.get("frontRight");
         backRight = hardwareMap.dcMotor.get("backRight");
         frontLeft = hardwareMap.dcMotor.get("frontLeft");
         backLeft = hardwareMap.dcMotor.get("backLeft");
-
-        gyro = (ModernRoboticsI2cGyro)hardwareMap.gyroSensor.get("gyro");
     }
 
-    /**
-     *
-      * @param stickX direction to move relative to the field (X)
-     * @param stickY direction to move relative to the field (Y)
-     * @param stickRot how much to turn the robot
-     * @param heading how much to robot has rotated from initial value
-     */
-    public void oneStickLoop(float stickX, float stickY, float stickRot, int heading, boolean dummy) //TODO: Fix multiple possible memory leaks
+    //TODO: Remove possible memory leaks
+    public void oneStickLoop(float stickX, float stickY, float stickRot) //TODO: Fix multiple possible memory leaks
     {
-        double holder = 1;
-
-        if(dummy == true && holder == 1)
-        {
-            holder =.5;
-        }
-        else if(dummy == true && holder == .5)
-        {
-            holder = 1;
-        }
+        int heading = gyro.getHeading();
 
         int facingDeg = -45 - heading; //Robot's rotation
         double facingRad = Math.toRadians(facingDeg); // Convert to radians
@@ -83,10 +85,10 @@ public class Drivetrain
         double backRightPower = limitToOne(headY + stickRot);
         double frontLeftPower = limitToOne(-headY + stickRot);
 
-        backLeft.setPower((backLeftPower)*holder);
-        frontRight.setPower((frontRightPower)*holder);
-        backRight.setPower((backRightPower)*holder);
-        frontLeft.setPower((frontLeftPower)*holder);
+        backLeft.setPower(backLeftPower);
+        frontRight.setPower(frontRightPower);
+        backRight.setPower(backRightPower);
+        frontLeft.setPower(frontLeftPower);
     }
 
     double limitToOne(double in)
@@ -103,12 +105,10 @@ public class Drivetrain
         return in;
     }
 
-    public void resetGyro(boolean action)
+    public void resetGyro()
     {
-        if(action == true)
-        {
-            gyro.resetZAxisIntegrator();
-        }
+
+        gyro.resetZAxisIntegrator();
     }
 }
 

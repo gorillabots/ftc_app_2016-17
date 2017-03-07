@@ -1,15 +1,16 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-/**
- * Created by mikko on 1/29/17.
- */
+import org.firstinspires.ftc.teamcode.submodules.AutonomousDriveTrain;
+import org.firstinspires.ftc.teamcode.submodules.BallControl;
 
-@Autonomous(name="Blue Center Disruptive", group="final")
-public class BlueCenterDisruptive extends LinearOpMode
+//Created by Jarred on 12/10/2016.
+
+@Autonomous(name="Center Goal Auto", group="Final")
+public class CenterGoalAuto extends LinearOpMode
 {
     AutonomousDriveTrain driveTrain;
     BallControl shooter;
@@ -29,17 +30,15 @@ public class BlueCenterDisruptive extends LinearOpMode
         timer1.reset();
         timer1.startTime();
 
-        while(timer1.milliseconds() < 5000)
+        while(timer1.milliseconds() < 15000)
         {
             shooter.newRunFlywheel(true);
-            shooter.newRunElevator(false);
+            shooter.newRunElevator(true);
         }
 
         shooter.newRunFlywheel(false);
-        shooter.newRunElevator(true);
+        shooter.newStopElevator();
 
         driveTrain.right(.704, .5);
-        driveTrain.frontRight(1, .5);
-        driveTrain.forwards(.5,.5);
     }
 }

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.teleop;
 
 /**
  * Created by Jarred on 10/30/2016.
@@ -15,8 +15,10 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.submodules.Drivetrain;
+
 @TeleOp(name = "Comp Tele", group = "Concept")
-public class forkNEw extends OpMode {
+public class CompTele extends OpMode {
 
     Drivetrain drivetrain;
     ModernRoboticsI2cGyro gyro;
@@ -29,9 +31,6 @@ public class forkNEw extends OpMode {
 
     ColorSensor floorColor;
     ColorSensor beaconColor;
-    Servo servoSwing;
-    long startTime;
-    long time;
 
     public void init() {
 
@@ -55,7 +54,6 @@ public class forkNEw extends OpMode {
         fly = hardwareMap.dcMotor.get("fly");
         raise = hardwareMap.dcMotor.get("raise");
         limit = hardwareMap.touchSensor.get("limit");
-        servoSwing = hardwareMap.servo.get("touchServo");
 
         gyro.resetZAxisIntegrator();
 
@@ -67,16 +65,11 @@ public class forkNEw extends OpMode {
         beaconColor.setI2cAddress(I2cAddr.create8bit(58));
         beaconColor.enableLed(false);
         beaconColor.enableLed(true);
-
-        startTime = System.currentTimeMillis();
-
-        servoSwing.setPosition(.56);
     }
 
 
 
     public void loop() {
-        servoSwing.setPosition(.56);
         float stickX = (gamepad1.left_stick_x); // Stick position (Absolute heading)
         float stickY = (gamepad1.left_stick_y); // Each is in range -1 to 1
         float stickRot = (gamepad1.right_stick_x / 2f); //Used to rotate the robot;
@@ -95,7 +88,7 @@ public class forkNEw extends OpMode {
             {
                 e.printStackTrace();
             }
-
+3
             gyro.resetZAxisIntegrator();
         }
 
@@ -110,22 +103,15 @@ public class forkNEw extends OpMode {
 
         int rotation = gyro.getHeading();
 
-        drivetrain.oneStickLoop(stickX, stickY, stickRot, rotation, gamepad1.back);
+        drivetrain.oneStickLoop(stickX, stickY, stickRot);
 
 
         if (gamepad2.right_bumper == true) {
             fly.setPower(-1);
 
-        }
-        else if(gamepad2.right_trigger>.5) {
-            fly.setPower(1a);
-
-        }
-            else
-         {
+        } else {
             fly.setPower(0);
         }
-
 
         if (gamepad2.y) {
 
@@ -153,19 +139,14 @@ public class forkNEw extends OpMode {
         }
 
 
-        if (gamepad2.left_stick_y > .1 && limit.isPressed()) {
-            raise.setPower(((Math.abs(gamepad2.left_stick_y))));
-        } else {
-
-            if (gamepad2.left_stick_y < 0) {
-                raise.setPower(-1 * (gamepad2.left_stick_y / 2));
-            } else {
-                raise.setPower(-1 * (gamepad2.left_stick_y / 2));
-            }
-
+        if (gamepad2.left_stick_y > .1 && limit.isPressed())
+        {
+            raise.setPower(Math.abs(gamepad2.left_stick_y));
         }
-
-
+        else
+        {
+            raise.setPower(-gamepad2.left_stick_y);
+        }
     }
 
     @Override
