@@ -82,6 +82,10 @@ public class BallControl {
         }
     }
 
+    /**
+     * if on is true, run wheels; false stop
+     * @param on
+     */
     public void newRunFlywheel(boolean on)
     {
         if(on)
@@ -95,6 +99,10 @@ public class BallControl {
 
     }
 
+    /**
+     * if direction is false, raise elevator; true lower
+     * @param direction
+     */
     public void newRunElevator(boolean direction)
     {
         if(direction)
