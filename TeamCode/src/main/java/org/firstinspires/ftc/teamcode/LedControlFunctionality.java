@@ -14,7 +14,7 @@ public class LedControlFunctionality implements LedControlInterface {
     Telemetry telemetry;
     private static final double LED_ON = 1.0;
     private static final double LED_OFF = 0.0;
-    public void init(LinearOpMode opMode) {
+    public LedControlFunctionality(LinearOpMode opMode) {
         telemetry = opMode.telemetry;
         this.opMode = opMode;
         controlPort = opMode.hardwareMap.dcMotor.get("ledcontrol");
@@ -32,61 +32,47 @@ public class LedControlFunctionality implements LedControlInterface {
     }
 
     @Override
-    public void setLedState(LedStates state, long time) throws InterruptedException{
-        switch (state) {
-            case ON:
-                controlPort.setPower(LED_ON);
-                Thread.sleep(time);
-                controlPort.setPower(LED_OFF);
-                break;
-            default:
-                controlPort.setPower(LED_OFF);
-                Thread.sleep(time);
-                controlPort.setPower(LED_ON);
-                break;
-        }
-    }
-
-    @Override
-    public void LedFlash(LedStates state, long interval) throws InterruptedException{
-        switch (state) {
-            case ON:
-                if (this.getState() == LedStates.ON) {
-                    controlPort.setPower(LED_OFF);
-                    Thread.sleep(interval);
-                } else if (this.getState() == LedStates.OFF) {
-                    controlPort.setPower(LED_ON);
-                    Thread.sleep(interval);
-                }
-            default:
-                if (this.getState() == LedStates.ON) {
-                    controlPort.setPower(LED_ON);
-                } else if (this.getState() == LedStates.OFF) {
-                    controlPort.setPower(LED_OFF);
-                }
-                break;
-        }
-    }
-
-    @Override
-    public void LedFlash(long time, long interval) throws InterruptedException{
+    public void LedFlash(LedStates state, double interval){
         final long time_init = System.currentTimeMillis();
-        while(System.currentTimeMillis()-time_init < time){
+        if ((System.currentTimeMillis() - time_init) % (interval * 1000) == 0) {
             if (this.getState() == LedStates.ON) {
                 controlPort.setPower(LED_OFF);
-                Thread.sleep(interval);
             } else if (this.getState() == LedStates.OFF) {
                 controlPort.setPower(LED_ON);
-                Thread.sleep(interval);
+            }
+        }
+        if(state == LedStates.OFF){
+            if (this.getState() == LedStates.ON) {
+                controlPort.setPower(LED_ON);
+            } else if (this.getState() == LedStates.OFF) {
+                controlPort.setPower(LED_OFF);
             }
         }
     }
 
     @Override
+    public void LedFlash(double time, double interval) {
+        final long time_init = System.currentTimeMillis();
+        if ((System.currentTimeMillis() - time_init) < time) {
+            if ((System.currentTimeMillis() - time_init) % (interval * 1000) == 0) {
+                if (this.getState() == LedStates.ON) {
+                    controlPort.setPower(LED_OFF);
+                } else if (this.getState() == LedStates.OFF) {
+                    controlPort.setPower(LED_ON);
+                }
+            }
+        }
+    }
+    @Override
     public LedStates getState() {
         if(controlPort.getPower() == LED_ON){
             return LedStates.ON;
         }
-        if ()
+        else if(controlPort.getPower() == LED_OFF){
+            return LedStates.OFF;
+        }
+        else{
+            return null;
+        }
     }
 }

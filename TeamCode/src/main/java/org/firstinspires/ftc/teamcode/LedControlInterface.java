@@ -14,26 +14,18 @@ public interface LedControlInterface {
     void setLedState(LedStates state);
 
     /**
-     * Turns the LED on or off for a specific amount of time
-     * @param state Whether the LED is on or not
-     *              Enter either LedStates.ON or LedStates.OFF
-     * @param time  How long the LED is to be on
-     */
-    void setLedState(LedStates state, long time) throws InterruptedException;
-
-    /**
      * Starts LED flashing, which continues until instructed to stop
      * @param state Whether the LED is flashing or not
      *              Enter either LedStates.ON or LedStates.OFF
      * @param interval How long the LED is on or off before it switches to the other state while flashing
      */
-    void LedFlash(LedStates state, long interval);
+    void LedFlash(LedStates state, double interval);
 
     /**
      * Flashes LED for a specific amount of time
      * @param time
      */
-    void LedFlash(long time, long interval) throws InterruptedException;
+    void LedFlash(double time, double interval);
 
     /**
      * Determines the state of the LED
