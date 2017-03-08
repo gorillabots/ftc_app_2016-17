@@ -6,5 +6,6 @@ package org.firstinspires.ftc.teamcode;
 
 public enum LedStates {
     ON,
-    OFF
+    OFF,
+    FLASHING
 }
