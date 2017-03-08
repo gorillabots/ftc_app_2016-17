@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.submodules;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
@@ -6,16 +6,15 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.DcMotor.RunMode;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.submodules.ColorHelper;
+import org.firstinspires.ftc.teamcode.Constants;
+import org.firstinspires.ftc.teamcode.TeamColors;
 
-import static org.firstinspires.ftc.teamcode.TeamColors.RED;
 
-/**
- * Created by mikko on 10/14/16.
- */
+//Created by Mikko on 10/14/16.
 
 /*
  * Implemented functions:
@@ -33,8 +32,9 @@ import static org.firstinspires.ftc.teamcode.TeamColors.RED;
  *  X - Unnecessary
  *
  *  turnToGyro - turn to 0 degrees
+ *  turnToGyroAny - turn to any number of degrees
  *
- *  GyroRotation() -  BETA - turn to any degrees
+ *  GyroRotation() - Depricated - turn to any number of degrees
  *
  */
 
@@ -50,11 +50,6 @@ public class AutonomousDriveTrain
     ModernRoboticsI2cGyro gyro;
     //Servo touchServo;
     Telemetry telemetry;
-
-    /**
-     * Initializes motors, encoders, gyro, and touch sensor; also uses each class's opMode and telemetry after this method has been utilized in class
-     * @param opMode use each class as subclass of LinearOpMode
-     */
     public void init(LinearOpMode opMode) //Get hardware from hardwareMap
     {
         telemetry = opMode.telemetry;
@@ -83,7 +78,7 @@ public class AutonomousDriveTrain
             while (gyro.isCalibrating())
             {
                 Thread.sleep(50);
-                telemetry.addData("is", "calibrating");
+                telemetry.addData("Status", "Calibrating Gyro");
                 telemetry.update();
             }
         }
@@ -91,22 +86,16 @@ public class AutonomousDriveTrain
         {
             e.printStackTrace();
         }
+
         gyro.resetZAxisIntegrator(); //Reset heading
     }
 
-    /**
-     * Resets gyro sensor heading to 0.
-     */
-    public void resetGyro()
+    public void resetGyro() //Define the current heading as 0 degrees
     {
         gyro.resetZAxisIntegrator();
     }
 
-    /**
-     * Move robot forward(relative to sensors on front of robot, it is moving left)
-     * @param meters how far you want to move this direction
-     * @param power relative speed that you would like to move at
-     */
+
     public void forwards(double meters, double power) //Move forwards by distance
     {
         double pos = getPosFB();
@@ -134,54 +123,6 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
-    /**
-     * turns robot with gyro sensor
-     * @param accuracy allowed margin of error while turning
-     * @param turnpower relative speed of turn
-     * @deprecated Method is not functional  Use: {@link #turnToGyroAny(int, double, int)}
-     */
-    void turnToGyro(int accuracy, double turnpower) //Turn until we are aligned
-    {
-        int heading;
-        double turnpow;
-
-        while(opMode.opModeIsActive())
-        {
-            heading = gyro.getHeading();
-
-            opMode.telemetry.addData("Action", "Turn to Gyro");
-            opMode.telemetry.addData("Heading", heading);
-
-            if(heading <= accuracy || heading >= 360 - accuracy)
-            {
-                turnpow = 0;
-            }
-            else if(heading <= 180)
-            {
-                turnpow = -turnpower;
-            }
-            else
-            {
-                turnpow = turnpower;
-            }
-
-            frontRight.setPower(turnpow);
-            backRight.setPower(turnpow);
-            frontLeft.setPower(turnpow);
-            backLeft.setPower(turnpow);
-
-            opMode.sleep(5);
-        }
-    }
-
-    /**
-     * Moves "forward" while using gyro sensor to compensate for motor errors; keeps robot straight while moving "forward"
-     * @param meters distance traveled while moving
-     * @param power relative speed of movement
-     * @param accuracy margin of error that the gyro sensor does not have to compensate for
-     * @param turnpower relative speed of compensation
-     * @see #forwards(double, double)
-     */
     public void forwardsGyro(double meters, double power, int accuracy, double turnpower) //Move forward by distance with gyro
     {
         double pos = getPosFB();
@@ -228,14 +169,8 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
-    /**
-     * Move "forward" until over white line; determines this using bottom color sensor
-     * @param floorColor color sensor under robot used to see beacon white line
-     * @param power relative speed at which the robot approaches the white line
-     * @see #forwards(double, double)
-     * @deprecated Gyro method is more accurate Use: {@link #forwardsGyroToLine(ColorSensor, double, int, double)}
-     */
-    public void forwardsToLine(ColorSensor floorColor, double power) //Move forward to line using gyro
+    @Deprecated //Use forwardsGyroToLine()
+    public void forwardsToLine(ColorSensor floorColor, double power) //Move forwards to line
     {
         frontRight.setPower(power);
         backRight.setPower(power);
@@ -255,7 +190,7 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
-    /**
+    /*
      * Same as forwardsToLine(ColorSensor, double), although this method utilizes the gyro sensor for motor inaccuracy compensation, similar to forwardsGyro(double, double, int, double)
      * @param floorColor color sensor to be used to detect white line
      * @param power relative speed of movement of robot
@@ -269,6 +204,49 @@ public class AutonomousDriveTrain
         double turnpow;
 
         while(!ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive())
+        {
+            heading = gyro.getHeading();
+
+            if(heading <= accuracy || heading >= 360 - accuracy) //In range 1-359
+            {
+                turnpow = 0;
+            }
+            else if(heading <= 180)
+            {
+                turnpow = -turnpower;
+            }
+            else
+            {
+                turnpow = turnpower;
+            }
+
+            frontRight.setPower(power + turnpow);
+            backRight.setPower(power + turnpow);
+            frontLeft.setPower(-power + turnpow);
+            backLeft.setPower(-power + turnpow);
+
+            opMode.telemetry.addData("Action", "Forwards Gyro To Line");
+            opMode.telemetry.addData("Heading", heading);
+            ColorHelper.printColorRGB(opMode.telemetry, floorColor);
+            opMode.telemetry.update();
+            opMode.sleep(5);
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
+
+    public void forwardsGyroToLineTimeout(ColorSensor floorColor, double power, int accuracy, double turnpower, double timeout) //Move forward to line using gyro with timeout
+    {
+        int heading;
+        double turnpow;
+
+        long startTime = System.currentTimeMillis();
+        long endTime = startTime + (int)(timeout * 1000);
+
+        while(!ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive() && System.currentTimeMillis() < endTime)
         {
             heading = gyro.getHeading();
 
@@ -344,11 +322,10 @@ public class AutonomousDriveTrain
      * @param turnpower Speed change applied to motors when compensating inaccurate movement
      * @see #back(double, double)
      */
-    public void backGyro(double meters, double power, int accuracy, double turnpower) //Move back to line using gyro
+    public void backGyro(double meters, double power, int accuracy, double turnpower) //Move backwards using gyro
     {
         double pos = getPosFB();
         double target = pos - meters * Constants.STRAIGHT_INCREMENTS;
-
 
         int heading;
         double turnpow;
@@ -438,6 +415,50 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
+    public void backGyroToLineTimeout(ColorSensor floorColor, double power, int accuracy, double turnpower, double timeout) //Move back to line using gyro with timeout
+    {
+        int heading;
+        double turnpow;
+
+        long startTime = System.currentTimeMillis();
+        long endTime = startTime + (int)(timeout * 1000);
+
+        while(!ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive() && System.currentTimeMillis() < endTime)
+        {
+            heading = gyro.getHeading();
+
+            if(heading <= accuracy || heading >= 360 - accuracy)
+            {
+                turnpow = 0;
+            }
+            else if(heading <= 180)
+            {
+                turnpow = -turnpower;
+            }
+            else
+            {
+                turnpow = turnpower;
+            }
+
+            frontRight.setPower(-power + turnpow);
+            backRight.setPower(-power + turnpow);
+            frontLeft.setPower(power + turnpow);
+            backLeft.setPower(power + turnpow);
+
+            opMode.telemetry.addData("Action", "Back Gyro To Line");
+            opMode.telemetry.addData("Heading", heading);
+            opMode.telemetry.addData("Color", ColorHelper.getFloorColor(floorColor));
+            opMode.telemetry.addData("line", ColorHelper.isFloorWhite(floorColor));
+            opMode.telemetry.update();
+            opMode.sleep(5);
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
+
     /**This method does the exact same thing as backGyroToLine(ColorSensor, double, int, double), although this one will give an initial headstart going backwards
      * @param floorColor color sensor to be used to detect white line
      * @param power relative speed of movement of robot
@@ -445,6 +466,7 @@ public class AutonomousDriveTrain
      * @param turnpower speed change applied to motors when compensating
      * @see #backGyroToLine(ColorSensor, double, int, double)
      */
+    @Deprecated
     public void backGyroToLineDelay(ColorSensor floorColor, double power, int accuracy, double turnpower) //Move back to line using gyro
     {
         int heading;
@@ -453,8 +475,6 @@ public class AutonomousDriveTrain
         while(!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive())
         {
             heading = gyro.getHeading();
-
-
 
             if(heading <= accuracy || heading >= 360 - accuracy)
             {
@@ -669,8 +689,8 @@ public class AutonomousDriveTrain
      */
     public void left(double meters, double power) //Move left by distance
     {
-        opMode.telemetry.addData("Starting left", 42);
-        opMode.telemetry.update();
+        //opMode.telemetry.addData("Starting left", 42);
+        //opMode.telemetry.update();
 
         double pos = getPosRL();
         double target = pos - meters * Constants.STRAIGHT_INCREMENTS;
@@ -686,6 +706,7 @@ public class AutonomousDriveTrain
             opMode.telemetry.addData("Currently", pos);
             opMode.telemetry.addData("Target", target);
             opMode.telemetry.update();
+
             opMode.sleep(5);
 
             pos = getPosRL();
@@ -815,7 +836,7 @@ public class AutonomousDriveTrain
         frontLeft.setPower(0);
     }
 
-    public void backRight(double meters, double power) //Move back and right a specified distance
+    public void backRight(double meters, double power) //Move back-right by distance
     {
         double pos = getPosBRFL();
         double target = pos + meters * Constants.DIAGONAL_INCREMENTS;
@@ -838,7 +859,7 @@ public class AutonomousDriveTrain
         frontRight.setPower(0);
     }
 
-    public void backRightGyro(double meters, double power, int accuracy, double turnpower) //Move back and right a specified distance
+    public void backRightGyro(double meters, double power, int accuracy, double turnpower) //Move back-right by distance using gyro
     {
         double pos = getPosBRFL();
         double target = pos + meters * Constants.DIAGONAL_INCREMENTS;
@@ -880,7 +901,7 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
-    public void frontLeft(double meters, double power) //Move forward and left a specified distance
+    public void frontLeft(double meters, double power) //Move forward-left by distance
     {
         double pos = getPosBRFL();
         double target = pos - meters * Constants.DIAGONAL_INCREMENTS;
@@ -903,7 +924,7 @@ public class AutonomousDriveTrain
         frontRight.setPower(0);
     }
 
-    public void frontLeftGyro(double meters, double power, int accuracy, double turnpower) //Move forward and left a specified distance
+    public void frontLeftGyro(double meters, double power, int accuracy, double turnpower) //Move forward-left by distance using gyro
     {
         double pos = getPosBRFL();
         double target = pos - meters * Constants.DIAGONAL_INCREMENTS;
@@ -945,7 +966,7 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
-    public void backLeft(double meters, double power) //Move back and left specified distance
+    public void backLeft(double meters, double power) //Move back-left by distance
     {
         double pos = getPosBLFR();
         double target = pos - meters * Constants.DIAGONAL_INCREMENTS;
@@ -968,7 +989,7 @@ public class AutonomousDriveTrain
         frontRight.setPower(0);
     }
 
-    public void backLeftGyro(double meters, double power, int accuracy, double turnpower) //Move back and left specified distance
+    public void backLeftGyro(double meters, double power, int accuracy, double turnpower) //Move back-left by distance using gyro
     {
         double pos = getPosBLFR();
         double target = pos - meters * Constants.DIAGONAL_INCREMENTS;
@@ -1009,6 +1030,42 @@ public class AutonomousDriveTrain
         backRight.setPower(0);
         frontLeft.setPower(0);
     }
+
+    public void turnToGyro(int accuracy, double turnpower) //Turn until we are aligned
+    {
+        int heading;
+        double turnpow;
+
+        while(opMode.opModeIsActive())
+        {
+            heading = gyro.getHeading();
+
+            opMode.telemetry.addData("Action", "Turn to Gyro");
+            opMode.telemetry.addData("Heading", heading);
+
+            if(heading <= accuracy || heading >= 360 - accuracy)
+            {
+                turnpow = 0;
+            }
+            else if(heading <= 180)
+            {
+                turnpow = -turnpower;
+            }
+            else
+            {
+                turnpow = turnpower;
+            }
+
+            frontRight.setPower(turnpow);
+            backRight.setPower(turnpow);
+            frontLeft.setPower(turnpow);
+            backLeft.setPower(turnpow);
+
+            opMode.sleep(5);
+        }
+    }
+
+    @Deprecated //Unused
     public void right_continuous(double power)
     {
         frontRight.setPower(-power);
@@ -1060,6 +1117,45 @@ public class AutonomousDriveTrain
         backLeft.setPower(-power);
     }
 
+    @Deprecated //Unused and non-functional
+    public void GyroRotation(int target, double power)
+    {
+        if(target > 360 || target < 0 || power < 0 || power > 1)
+        {
+            throw new IllegalArgumentException();
+        }
+
+        while(true)
+        {
+            int initial_heading = gyro.getHeading(); //TODO: Potential memory leak!
+            int degree_rotation = target - initial_heading;
+            if(degree_rotation < 0)
+            {
+                degree_rotation = degree_rotation + 360;
+            }
+
+            if (degree_rotation < 180 && degree_rotation > 0)
+            {
+                while (initial_heading < target)
+                {
+                    turnright(power);
+                }
+            }
+
+            if(degree_rotation > 180 && degree_rotation < 360)
+            {
+                while(initial_heading > target)
+                {
+                    turnleft(power);
+                }
+            }
+
+            if(degree_rotation == 0 || degree_rotation == 360)
+            {
+                break;
+            }
+        }
+    }
 
     public void turnToGyroAny(int target, double speed, int accuracy)
     {
@@ -1182,10 +1278,15 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
+    public boolean lastPressLeft;
+
     public void beaconResponse(TeamColors desiredColor, ColorSensor sensorL, ColorSensor sensorR)
     {
         //sensorL is left color sensor
         //sensorR is right color sensor
+
+        sensorL.enableLed(false);
+        sensorR.enableLed(false);
         
         TeamColors colorL = ColorHelper.getBeaconColorTest(sensorL);
         TeamColors colorR = ColorHelper.getBeaconColorTest(sensorR);
@@ -1199,18 +1300,20 @@ public class AutonomousDriveTrain
         telemetry.update();
         //opMode.sleep(1000);
 
-        if(desiredColor == RED)
+        lastPressLeft = false;
+
+        if(desiredColor == TeamColors.RED)
         {
-            //On red side
-            if(colorL == RED && colorR == TeamColors.BLUE) //If pressing left is necessary
+            //On TeamColors.RED side
+            if(colorL == TeamColors.RED && colorR == TeamColors.BLUE) //If pressing left is necessary
             {
                 pressLeft();
             }
-            else if(colorL == TeamColors.BLUE && colorR == RED) //If pressing right is necessary
+            else if(colorL == TeamColors.BLUE && colorR == TeamColors.RED) //If pressing right is necessary
             {
                 pressRight();
             }
-            else if(colorL == RED && colorR == RED) //If both are red, do nothing
+            else if(colorL == TeamColors.RED && colorR == TeamColors.RED) //If both are TeamColors.RED, do nothing
             {
                 //See, nothing!
             }
@@ -1226,11 +1329,11 @@ public class AutonomousDriveTrain
 
         if(desiredColor == TeamColors.BLUE)
         {
-            if(colorL == TeamColors.BLUE && colorR == RED) //If pressing left is necessary
+            if(colorL == TeamColors.BLUE && colorR == TeamColors.RED) //If pressing left is necessary
             {
                 pressLeft();
             }
-            else if(colorL == RED && colorR == TeamColors.BLUE) //If pressing right is necessary
+            else if(colorL == TeamColors.RED && colorR == TeamColors.BLUE) //If pressing right is necessary
             {
                 pressRight();
             }
@@ -1238,7 +1341,7 @@ public class AutonomousDriveTrain
             {
                 //See, nothing!
             }
-            else if(colorL == RED && colorR == RED) //If both are red, hit any (right is closest)
+            else if(colorL == TeamColors.RED && colorR == TeamColors.RED) //If both are TeamColors.RED, hit any (right is closest)
             {
                 pressRight();
             }
@@ -1267,12 +1370,14 @@ public class AutonomousDriveTrain
 
     private void pressLeft()
     {
-         //Align mashy spike plate
+        forwards(0.15, 0.3); //Align mashy spike plate
         right(0.2, 0.5);
         forwards (0.02, 0.2);
         back(0.02, 0.2);
         //Mash mashy spike plate into left button
-       
+        left(0.2, 0.5); //Back away
+
+        lastPressLeft = true;
     }
 
     private void pressRight()
@@ -1280,17 +1385,6 @@ public class AutonomousDriveTrain
         right(0.2, 0.5); //Mash mashy spike plate into left button
         forwards(0.02, 0.2);
         back(0.02, 0.2);
-        //Back away
-    }
-    public void turnGyro(int desired_angle, double power) throws InterruptedException{
-        int g = gyro.getHeading();
-        while(opMode.opModeIsActive() && g != desired_angle){
-            if(g > desired_angle){g = g - 360;}
-            double rotate_speed = (desired_angle - g <= 180) ? -power : power;
-            turnright(rotate_speed);
-            Thread.sleep(1);
-            g = gyro.getHeading();
-        }
-        turnright(0);
+        left(0.2, 0.5); //Back away
     }
 }
