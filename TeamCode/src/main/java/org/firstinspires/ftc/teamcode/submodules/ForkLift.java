@@ -14,22 +14,58 @@ public class ForkLift {
 
     HardwareMap hardwareMap;
     DcMotor lift;
-
+    TouchSensor magnetSense;
+    double liftMaxAdder;
+    double liftZero;
     public ForkLift(HardwareMap hardwareMap)
     {
         this.hardwareMap = hardwareMap;
         lift = hardwareMap.dcMotor.get("lift");
+        magnetSense = hardwareMap.touchSensor.get("liftSafe");
+        liftMaxAdder = 100000;
+        liftZero = -1000;
     }
+
 
     public void lift(double power)
     {
-        lift.setPower(power);
+
+        if(getBottomState()){
+            liftZero = lift.getCurrentPosition();
+            if(power > 0){
+                lift.setPower(power);
+            }
+            else{
+                lift.setPower(0);
+            }
+        }
+
+        else if(lift.getCurrentPosition() >= (liftMaxAdder + liftZero )){
+        if(power < 0){
+            lift.setPower(power);
+        }
+            else{
+            lift.setPower(0);
+        }
+        }
+
+        else{
+            lift.setPower(power);
+        }
+
+
     }
 
-    public void stop()
+     void stop()
     {
         lift.setPower(0);
     }
+
+    public boolean getBottomState(){
+
+        return magnetSense.isPressed();
+    }
+
 }
 
 
