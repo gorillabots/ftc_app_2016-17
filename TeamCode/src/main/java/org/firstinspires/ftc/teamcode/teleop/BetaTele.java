@@ -30,8 +30,8 @@ public class BetaTele extends OpMode
     {
         drivetrain = new Drivetrain(hardwareMap, telemetry);
         ballControl = new BallControl(hardwareMap, telemetry);
-
         forkLift = new ForkLift(hardwareMap);
+
         floorColor = hardwareMap.colorSensor.get("floorColor");
         floorColor.enableLed(false);
         floorColor.enableLed(true);
@@ -45,9 +45,12 @@ public class BetaTele extends OpMode
         //flyRamp = new DoubleScale(1, 1, 1, 1);
     }
 
+    boolean button;
+    boolean buttonLast = false;
+    boolean flyActive = false;
+
     public void loop()
     {
-        forkLift.lift(gamepad2.left_stick_y);
         float stickX = (gamepad1.left_stick_x); // Stick position (Absolute heading)
         float stickY = (gamepad1.left_stick_y); // Each is in range -1 to 1
         float stickRot = (gamepad1.right_stick_x / 2f); //Used to rotate the robot;
@@ -59,64 +62,53 @@ public class BetaTele extends OpMode
 
         drivetrain.oneStickLoop(stickX, stickY, stickRot);
 
-        //TODO: Insert code for other buttons here
-
         //Flywheel ramping stuff
         {
-            boolean trigger = gamepad1.right_trigger > .2;
+            button = gamepad2.right_bumper;
+
+            if(button && !buttonLast)
+            {
+                flyActive = !flyActive;
+            }
+
             double time = System.currentTimeMillis() / 1000d;
 
-            switch(flyState)
-            {
+            switch(flyState) {
                 case OFF:
-                    if(trigger)
-                    {
+                    if (flyActive) {
                         flyRamp = new DoubleScale(time, time + 5, .3, 1);
                         flyState = FlyState.R_UP;
                     }
                     break;
                 case R_UP:
-                    if(trigger)
-                    {
-                        if(time > flyRamp.inmax)
-                        {
+                    if (flyActive) {
+                        if (time > flyRamp.inmax) {
                             ballControl.fly.setPower(1);
                             flyState = FlyState.ON;
+                        } else {
+                            ballControl.fly.setPower(-Math.sqrt(flyRamp.scale(time)));
                         }
-                        else
-                        {
-                            ballControl.fly.setPower(Math.sqrt(flyRamp.scale(time)));
-                        }
-                    }
-                    else
-                    {
+                    } else {
                         ballControl.fly.setPower(0);
                         flyState = FlyState.OFF;
                     }
                     break;
                 case ON:
-                    if(!trigger)
-                    {
+                    if (!flyActive) {
                         flyRamp = new DoubleScale(time, time + 5, 1, .3);
                         flyState = FlyState.R_DOWN;
                     }
                     break;
                 case R_DOWN:
-                    if(trigger)
-                    {
+                    if (flyActive) {
                         ballControl.fly.setPower(1);
                         flyState = FlyState.ON;
-                    }
-                    else
-                    {
-                        if(time > flyRamp.inmax)
-                        {
+                    } else {
+                        if (time > flyRamp.inmax) {
                             ballControl.fly.setPower(0);
                             flyState = FlyState.OFF;
-                        }
-                        else
-                        {
-                            ballControl.fly.setPower(Math.sqrt(flyRamp.scale(time)));
+                        } else {
+                            ballControl.fly.setPower(-Math.sqrt(flyRamp.scale(time)));
                         }
                     }
                     break;
@@ -124,6 +116,41 @@ public class BetaTele extends OpMode
                     //Why would this ever happen?
                     break;
             }
+
+            buttonLast = button;
+        }
+
+        if(gamepad1.right_bumper)
+        {
+            ballControl.newRunCollector(true);
+        }
+        else if(gamepad1.right_trigger >= .6)
+        {
+            ballControl.newRunCollector(false);
+        }
+        else
+        {
+            ballControl.newStopCollector();
+        }
+
+        if(gamepad2.left_bumper)
+        {
+            ballControl.newRunElevator(true);
+        }
+        else if(gamepad2.left_trigger >= .6)
+        {
+            ballControl.newRunElevator(false);
+        }
+        else
+        {
+            ballControl.newStopElevator();
+        }
+
+        float stick2Y = gamepad2.left_stick_y;
+
+        if(Math.abs(stick2Y) >= .2)
+        {
+            forkLift.lift(stick2Y);
         }
     }
 
