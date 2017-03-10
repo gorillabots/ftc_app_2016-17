@@ -31,7 +31,7 @@ public class BetaTele extends OpMode
         drivetrain = new Drivetrain(hardwareMap, telemetry);
         ballControl = new BallControl(hardwareMap, telemetry);
 
-
+        forkLift = new ForkLift(hardwareMap);
         floorColor = hardwareMap.colorSensor.get("floorColor");
         floorColor.enableLed(false);
         floorColor.enableLed(true);
@@ -47,6 +47,7 @@ public class BetaTele extends OpMode
 
     public void loop()
     {
+        forkLift.lift(gamepad2.left_stick_y);
         float stickX = (gamepad1.left_stick_x); // Stick position (Absolute heading)
         float stickY = (gamepad1.left_stick_y); // Each is in range -1 to 1
         float stickRot = (gamepad1.right_stick_x / 2f); //Used to rotate the robot;

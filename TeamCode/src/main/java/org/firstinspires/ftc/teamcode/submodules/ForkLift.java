@@ -4,6 +4,8 @@ package org.firstinspires.ftc.teamcode.submodules;
  * Created by Jarred on 11/15/2016.
  */
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+
+import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -14,15 +16,17 @@ public class ForkLift {
 
     HardwareMap hardwareMap;
     DcMotor lift;
-    TouchSensor magnetSense;
+    AnalogInput magnetSense;
     double liftMaxAdder;
     double liftZero;
+
     public ForkLift(HardwareMap hardwareMap)
     {
         this.hardwareMap = hardwareMap;
-        lift = hardwareMap.dcMotor.get("lift");
-        magnetSense = hardwareMap.touchSensor.get("liftSafe");
-        liftMaxAdder = 100000;
+        lift = hardwareMap.dcMotor.get("raise");
+        magnetSense = hardwareMap.analogInput.get("stop");
+        liftMaxAdder = 12000;
+        //19147
         liftZero = -1000;
     }
 
@@ -30,7 +34,7 @@ public class ForkLift {
     public void lift(double power)
     {
 
-        if(getBottomState()){
+        if(getBottomState()<.045){
             liftZero = lift.getCurrentPosition();
             if(power > 0){
                 lift.setPower(power);
@@ -61,9 +65,8 @@ public class ForkLift {
         lift.setPower(0);
     }
 
-    public boolean getBottomState(){
-
-        return magnetSense.isPressed();
+    public double getBottomState(){
+        return magnetSense.getVoltage();
     }
 
 }
