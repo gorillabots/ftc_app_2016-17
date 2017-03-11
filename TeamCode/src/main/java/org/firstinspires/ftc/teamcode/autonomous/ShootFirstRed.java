@@ -47,7 +47,7 @@ public class ShootFirstRed extends LinearOpMode {
 
         driveTrain.resetGyro();
 
-        driveTrain.right(.56, .4);
+        driveTrain.right(.68, .4);
 
         shooter.newRunFlywheel(true);
         sleep(1000);

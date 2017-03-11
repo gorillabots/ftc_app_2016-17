@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.submodules;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.LedControlInterface;
@@ -18,9 +19,10 @@ public class LedController implements LedControlInterface {
     private static final double LED_OFF = 0.0;
     private LedStates currentState;
     private double flash_start;
-    public LedController(OpMode opMode) {
-        telemetry = opMode.telemetry;
-        controlPort = opMode.hardwareMap.dcMotor.get("ledcontrol");
+    public LedController(HardwareMap map, Telemetry tele) {
+
+
+        controlPort = map.dcMotor.get("ledcontrol");
         setLedState(LedStates.OFF);
     }
     @Override
