@@ -10,8 +10,10 @@ public interface LedControlInterface {
      * Turns the LED on or off until otherwise specified
      * @param state Whether the LED is on or not
      *              Enter either LedStates.ON or LedStates.OFF
+     * @param time If the LED is to flash, this is the time it does so
+     * @param interval If the LED is to flash, this is its interval of flashing
      */
-    void setLedState(LedStates state);
+    void setLedState(LedStates state, Double time, Double interval);
 
 
     /**

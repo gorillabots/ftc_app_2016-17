@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.LedStates;
  */
 
 public class LedController implements LedControlInterface {
+    private Thread flashingThreadHandle = null;
     private DcMotor controlPort;
     Telemetry telemetry;
     private static final double LED_ON = 1.0;
@@ -20,14 +21,11 @@ public class LedController implements LedControlInterface {
     private LedStates currentState;
     private double flash_start;
     public LedController(HardwareMap map, Telemetry tele) {
-
-
         controlPort = map.dcMotor.get("ledcontrol");
-        setLedState(LedStates.OFF);
+        setLedState(LedStates.OFF, null, null);
     }
     @Override
-    public void setLedState(LedStates state) {
-
+    public void setLedState(LedStates state, Double time, Double interval) {
         currentState = state;
         switch (state) {
             case ON:
@@ -37,31 +35,46 @@ public class LedController implements LedControlInterface {
                 controlPort.setPower(LED_OFF);
                 break;
             case FLASHING:
-                break;
-        }
-    }
-
-    @Override
-    public void LedFlash(double time, double interval) {
-        if (currentState != LedStates.FLASHING) {
-            currentState = LedStates.FLASHING;
-            flash_start = System.currentTimeMillis();
-        }
-        if ((System.currentTimeMillis() - flash_start) < time*1000) {
-            if ((System.currentTimeMillis() - flash_start) % (interval * 1000) == 0) {
-                if (this.getState() == LedStates.ON) {
-                    controlPort.setPower(LED_OFF);
-                } else if (this.getState() == LedStates.OFF) {
-                    controlPort.setPower(LED_ON);
+                flashingThreadHandle = new Thread(new Flashing(time, interval));
+                if(flashingThreadHandle.isAlive()){}
+                if(!flashingThreadHandle.isAlive()){
+                    flashingThreadHandle.start();
                 }
-            }
-        } else {
-            currentState = LedStates.OFF;
-            controlPort.setPower(LED_OFF);
+                break;
         }
     }
     @Override
     public LedStates getState() {
         return currentState;
+    }
+    private class Flashing implements Runnable{
+        private double time;
+        private double interval;
+        public Flashing(double time, double interval){
+            this.time = time;
+            this.interval = interval;
+        }
+        public void LedFlash(double time, double interval) {
+            if (currentState != LedStates.FLASHING) {
+                currentState = LedStates.FLASHING;
+                flash_start = System.currentTimeMillis();
+            }
+            if ((System.currentTimeMillis() - flash_start) < time*1000) {
+                if ((System.currentTimeMillis() - flash_start) % (interval * 1000) == 0) {
+                    if (getState() == LedStates.ON) {
+                        controlPort.setPower(LED_OFF);
+                    } else if (getState() == LedStates.OFF) {
+                        controlPort.setPower(LED_ON);
+                    }
+                }
+            } else {
+                currentState = LedStates.OFF;
+                controlPort.setPower(LED_OFF);
+            }
+        }
+        @Override
+        public void run() {
+            LedFlash(time, interval);
+        }
     }
 }
