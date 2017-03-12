@@ -102,10 +102,5 @@ public class ShootFirstRed extends LinearOpMode {
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
         driveTrain.beaconResponse(TeamColors.RED, beaconColorL, beaconColorR);
-
-
-
-
-
     }
 }
