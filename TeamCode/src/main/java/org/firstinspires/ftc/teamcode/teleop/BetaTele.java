@@ -71,31 +71,23 @@ public class BetaTele extends OpMode
                 flyActive = !flyActive;
             }
 
+            telemetry.addData("Button", button);
+            telemetry.addData("FlyActive", flyActive);
+            telemetry.update();
+
             double time = System.currentTimeMillis() / 1000d;
 
             switch(flyState) {
                 case OFF:
-                    if (flyActive) {
-                        flyRamp = new DoubleScale(time, time + 5, .3, 1);
-                        flyState = FlyState.R_UP;
-                    }
-                    break;
-                case R_UP:
-                    if (flyActive) {
-                        if (time > flyRamp.inmax) {
-                            ballControl.fly.setPower(1);
-                            flyState = FlyState.ON;
-                        } else {
-                            ballControl.fly.setPower(-Math.sqrt(flyRamp.scale(time)));
-                        }
-                    } else {
-                        ballControl.fly.setPower(0);
-                        flyState = FlyState.OFF;
+                    if (flyActive)
+                    {
+                        ballControl.newRunFlywheel(true);
+                        flyState = FlyState.ON;
                     }
                     break;
                 case ON:
                     if (!flyActive) {
-                        flyRamp = new DoubleScale(time, time + 5, 1, .3);
+                        flyRamp = new DoubleScale(time, time + 1, 1, .3);
                         flyState = FlyState.R_DOWN;
                     }
                     break;
@@ -166,12 +158,4 @@ public class BetaTele extends OpMode
     {
         return (1 / (1 + Math.pow(Math.E, -x)));
     }
-}
-
-enum FlyState
-{
-    OFF,
-    R_UP,
-    ON,
-    R_DOWN
 }
