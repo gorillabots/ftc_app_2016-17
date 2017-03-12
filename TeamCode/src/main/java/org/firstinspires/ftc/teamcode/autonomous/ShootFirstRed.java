@@ -47,9 +47,9 @@ public class ShootFirstRed extends LinearOpMode {
 
         driveTrain.resetGyro();
 
-        driveTrain.right(.68, .4);
-
         shooter.newRunFlywheel(true);
+
+        driveTrain.right(.68, .4);
         sleep(1000);
         shooter.newRunElevator(true);
         sleep(2500);
@@ -67,7 +67,7 @@ public class ShootFirstRed extends LinearOpMode {
         driveTrain.resetGyro();
 
 
-        driveTrain.left(.08, .5);
+        driveTrain.left(.1198, .5);
 
 
         floorColor.enableLed(true);
@@ -92,20 +92,15 @@ public class ShootFirstRed extends LinearOpMode {
         driveTrain.goToDistanceGyro(range, 20, 2, .2,5,.2);
 
         floorColor.enableLed(true);
-        driveTrain.backToLine(floorColor, .3, 4); //Go white line 2
+        driveTrain.backToLine(floorColor, .3); //Go white line 2
         floorColor.enableLed(false);
 
-        driveTrain.goToDistanceGyro(range, 11, 1, .2,5,.2); //Approach beacon
+        driveTrain.goToDistanceGyro(range, 11, 1, .2, 5,.1); //Approach beacon
 
         sleep(100);
 
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
         driveTrain.beaconResponse(TeamColors.RED, beaconColorL, beaconColorR);
-
-
-
-
-
     }
 }

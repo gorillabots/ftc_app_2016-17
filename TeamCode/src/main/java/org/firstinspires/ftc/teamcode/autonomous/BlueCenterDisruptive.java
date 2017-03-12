@@ -27,7 +27,7 @@ public class BlueCenterDisruptive extends LinearOpMode
 
         waitForStart();
 
-        driveTrain.right(1.2, .5);
+        driveTrain.rightGyro(1.3, .5, 3, .15);
 
         timer1.reset();
         timer1.startTime();
@@ -44,7 +44,7 @@ public class BlueCenterDisruptive extends LinearOpMode
         sleep(3000);
 
         driveTrain.right(.704, .5);
-        driveTrain.frontRight(1, .5);
-        driveTrain.forwards(.5,.5);
+        driveTrain.frontRight(.7, .5);
+        driveTrain.forwards(.3,.5);
     }
 }
