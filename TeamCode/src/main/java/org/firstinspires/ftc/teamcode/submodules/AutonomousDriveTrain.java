@@ -367,6 +367,29 @@ public class AutonomousDriveTrain
         frontLeft.setPower(0);
         backLeft.setPower(0);
     }
+
+    public void backToLine(ColorSensor floorColor, double power) //Move back to line using gyro
+    {
+        frontRight.setPower(-power);
+        backRight.setPower(-power);
+        frontLeft.setPower(power);
+        backLeft.setPower(power);
+
+        while(!ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive())
+        {
+            opMode.telemetry.addData("Action", "Back To Line");
+            opMode.telemetry.addData("Color", ColorHelper.getFloorColor(floorColor));
+            opMode.telemetry.addData("Line", ColorHelper.isFloorWhite(floorColor));
+            opMode.telemetry.update();
+            opMode.sleep(5);
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
+
     /**
      * This method moves the robot "back," utilizing the gyro sensor for motor inaccuracy compensation while approaching the line, similar to backGyro(double, double, int, double)
      * @param floorColor color sensor to be used to detect white line
@@ -1265,6 +1288,64 @@ public class AutonomousDriveTrain
             opMode.telemetry.addData("Action", "GoToDistance");
             opMode.telemetry.addData("Target", target);
             opMode.telemetry.addData("Accuracy", accuracy);
+            opMode.telemetry.addData("Current", range);
+
+            opMode.sleep(5);
+
+            range = rangeSensor.cmUltrasonic();
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
+
+    public void goToDistanceGyro(ModernRoboticsI2cRangeSensor rangeSensor, double target, double accuracyLin, double powerLin, double accuracyRot, double powerRot)
+    {
+        double min = target - accuracyLin;
+        double max = target + accuracyLin;
+
+        double range = rangeSensor.cmUltrasonic();
+
+        int heading;
+        double turnpow;
+
+        while((range < min || range > max) && opMode.opModeIsActive())
+        {
+            heading = gyro.getHeading();
+
+            if (heading <= accuracyRot || heading >= 360 - accuracyRot)
+            {
+                turnpow = 0;
+            }
+            else if (heading <= 180)
+            {
+                turnpow = -powerRot;
+            }
+            else
+            {
+                turnpow = powerRot;
+            }
+
+            if(range > target)
+            {
+                frontRight.setPower(-powerLin + turnpow);
+                backRight.setPower(powerLin + turnpow);
+                frontLeft.setPower(-powerLin + turnpow);
+                backLeft.setPower(powerLin + turnpow);
+            }
+            else
+            {
+                frontRight.setPower(powerLin + turnpow);
+                backRight.setPower(-powerLin + turnpow);
+                frontLeft.setPower(powerLin + turnpow);
+                backLeft.setPower(-powerLin + turnpow);
+            }
+
+            opMode.telemetry.addData("Action", "GoToDistanceGyro");
+            opMode.telemetry.addData("Target", target);
+            opMode.telemetry.addData("Linear Accuracy", accuracyLin);
             opMode.telemetry.addData("Current", range);
 
             opMode.sleep(5);
