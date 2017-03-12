@@ -15,13 +15,6 @@ public interface LedControlInterface {
 
 
     /**
-     * Flashes LED for a specific amount of time
-     * @param time
-     * @param interval Length between flashes in seconds
-     */
-    void LedFlash(double time, double interval);
-
-    /**
      * Determines the state of the LED
      * @return LED state as either ON or OFF
      */
