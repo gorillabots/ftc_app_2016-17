@@ -367,6 +367,29 @@ public class AutonomousDriveTrain
         frontLeft.setPower(0);
         backLeft.setPower(0);
     }
+
+    public void backToLine(ColorSensor floorColor, double power) //Move back to line using gyro
+    {
+        frontRight.setPower(-power);
+        backRight.setPower(-power);
+        frontLeft.setPower(power);
+        backLeft.setPower(power);
+
+        while(!ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive())
+        {
+            opMode.telemetry.addData("Action", "Back To Line");
+            opMode.telemetry.addData("Color", ColorHelper.getFloorColor(floorColor));
+            opMode.telemetry.addData("Line", ColorHelper.isFloorWhite(floorColor));
+            opMode.telemetry.update();
+            opMode.sleep(5);
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
+
     /**
      * This method moves the robot "back," utilizing the gyro sensor for motor inaccuracy compensation while approaching the line, similar to backGyro(double, double, int, double)
      * @param floorColor color sensor to be used to detect white line
