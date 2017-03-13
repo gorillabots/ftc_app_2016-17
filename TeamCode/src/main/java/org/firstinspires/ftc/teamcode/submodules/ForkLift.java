@@ -60,7 +60,12 @@ public class ForkLift {
 
     }
 
-     void stop()
+    public void liftOverride(double power)
+    {
+        lift.setPower(power);
+    }
+
+    public void stop()
     {
         lift.setPower(0);
     }
