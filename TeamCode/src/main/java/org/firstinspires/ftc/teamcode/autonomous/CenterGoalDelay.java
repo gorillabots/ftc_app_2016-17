@@ -27,7 +27,7 @@ public class CenterGoalDelay extends LinearOpMode
 
         float mark2 = (float) .9;
         sleep(10000);
-        driveTrain.right(.4295, .5);
+        driveTrain.right(1.3, .5);
         timer1.reset();
         timer1.startTime();
 
