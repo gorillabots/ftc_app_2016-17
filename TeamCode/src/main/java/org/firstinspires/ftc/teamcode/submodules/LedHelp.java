@@ -44,7 +44,7 @@ public class LedHelp {
         if(timer.milliseconds() < 1000 && timer.milliseconds()> 500){
             LedOff();
         }
-        if(timer.milliseconds()< 1000 && timer.milliseconds() < 1500){
+        if(timer.milliseconds()> 1000 && timer.milliseconds() < 1500){
             ledOn();
         }
         if(timer.milliseconds() < 2000 && timer.milliseconds()> 1500){
@@ -53,50 +53,48 @@ public class LedHelp {
         if(timer.milliseconds()>2000 && timer.milliseconds() < 2500){
             ledOn();
         }
-        if(timer.milliseconds() < 3000 && timer.milliseconds()> 3500){
+        if(timer.milliseconds() > 3000 && timer.milliseconds()< 3500){
             LedOff();
         }
-        if(timer.milliseconds()< 3500 && timer.milliseconds() > 4000){
+        if(timer.milliseconds()> 3500 && timer.milliseconds() < 4000){
             ledOn();
         }
-        if(timer.milliseconds() < 4000 && timer.milliseconds()> 4500){
+        if(timer.milliseconds() > 4000 && timer.milliseconds()< 4500){
             LedOff();
         }
-        if(timer.milliseconds()< 4500 && timer.milliseconds() > 5000){
+        if(timer.milliseconds()> 4500 && timer.milliseconds() < 5000){
             ledOn();
         }
-        if(timer.milliseconds() < 5000 && timer.milliseconds()> 5500){
+        if(timer.milliseconds() > 5000 && timer.milliseconds()< 5500){
             LedOff();
         }
-        if(timer.milliseconds()< 5500 && timer.milliseconds() > 6000){
+        if(timer.milliseconds()> 5500 && timer.milliseconds() < 6000){
             ledOn();
         }
-        if(timer.milliseconds() < 6000 && timer.milliseconds()> 6500){
+        if(timer.milliseconds() > 6000 && timer.milliseconds()< 6500){
             LedOff();
-        }if(timer.milliseconds()< 6500 && timer.milliseconds() > 7000){
+        }if(timer.milliseconds()> 6500 && timer.milliseconds() < 7000){
             ledOn();
         }
-        if(timer.milliseconds() < 7000 && timer.milliseconds()> 7500){
+        if(timer.milliseconds() > 7000 && timer.milliseconds()< 7500){
             LedOff();
         }
-        if(timer.milliseconds()< 7500 && timer.milliseconds() > 8000){
+        if(timer.milliseconds()> 7500 && timer.milliseconds() < 8000){
             ledOn();
         }
-        if(timer.milliseconds() < 8000 && timer.milliseconds()> 8500){
+        if(timer.milliseconds() > 8000 && timer.milliseconds()< 8500){
             LedOff();
         }
-        if(timer.milliseconds()< 8500 && timer.milliseconds() > 9000){
+        if(timer.milliseconds()> 8500 && timer.milliseconds() < 9000){
             ledOn();
         }
-        if(timer.milliseconds() < 9000 && timer.milliseconds()> 9500){
+        if(timer.milliseconds() > 9000 && timer.milliseconds()< 9500){
             LedOff();
         }
-        if(timer.milliseconds()< 9500 && timer.milliseconds()>10000){
+        if(timer.milliseconds()> 9500 && timer.milliseconds()<10000){
             ledOn();
         }
-        if(timer.milliseconds() < 1000 && timer.milliseconds()> 500){
-            LedOff();
-        }
+
     }
 
     public double getLed(){
