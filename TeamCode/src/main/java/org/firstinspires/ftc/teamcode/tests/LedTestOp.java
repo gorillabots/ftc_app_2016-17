@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.submodules.LedController;
 public class LedTestOp extends LinearOpMode {
     LedController led;
     public void runOpMode() {
-        led = new LedController(hardwareMap, telemetry);
+       // led = new LedController(hardwareMap, telemetry);
         led.setLedState(LedStates.ON);
         ElapsedTime timer = new ElapsedTime();
         //led.LedFlash(30, 0.5);

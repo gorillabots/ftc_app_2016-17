@@ -32,7 +32,7 @@ public class forkTest extends OpMode {
     ModernRoboticsI2cGyro gyro;
     public void init(){
         raise = hardwareMap.dcMotor.get("raise");
-        led = new LedController(hardwareMap, telemetry);
+        //led = new LedController(hardwareMap, telemetry);
         cdim = hardwareMap.deviceInterfaceModule.get("dim");
         stop = hardwareMap.analogInput.get("stop");
         fork = new ForkLift(hardwareMap);

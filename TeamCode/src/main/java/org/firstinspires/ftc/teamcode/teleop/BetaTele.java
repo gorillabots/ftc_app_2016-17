@@ -7,11 +7,13 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.I2cAddr;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.DoubleScale;
 import org.firstinspires.ftc.teamcode.submodules.BallControl;
 import org.firstinspires.ftc.teamcode.submodules.Drivetrain;
 import org.firstinspires.ftc.teamcode.submodules.ForkLift;
+import org.firstinspires.ftc.teamcode.submodules.LedHelp;
 
 @TeleOp(name = "Beta TeleOp", group = "Final")
 public class BetaTele extends OpMode
@@ -25,7 +27,8 @@ public class BetaTele extends OpMode
 
     FlyState flyState;
     DoubleScale flyRamp;
-
+    ElapsedTime heartBeat;
+    LedHelp led;
     public void init()
     {
         drivetrain = new Drivetrain(hardwareMap, telemetry);
@@ -40,7 +43,8 @@ public class BetaTele extends OpMode
         beaconColor.setI2cAddress(I2cAddr.create8bit(58));
         beaconColor.enableLed(false);
         beaconColor.enableLed(true);
-
+        heartBeat = new ElapsedTime();
+        led = new LedHelp(hardwareMap,telemetry);
         flyState = FlyState.OFF;
         //flyRamp = new DoubleScale(1, 1, 1, 1);
     }
@@ -48,9 +52,29 @@ public class BetaTele extends OpMode
     boolean button;
     boolean buttonLast = false;
     boolean flyActive = false;
-
+    boolean firstCycle = false;
     public void loop()
     {
+        if(!firstCycle){
+            heartBeat.reset();
+            heartBeat.startTime();
+            firstCycle = true;
+        }
+//90000
+        led.ledOn();
+       led.flash();
+        /*
+        if(heartBeat.milliseconds() > 0 && heartBeat.milliseconds() <10000){
+            if((heartBeat.milliseconds()%500) == 0){
+                if(led.getLed() == 0){
+                    led.ledOn();
+                }
+                if(led.getLed() == 1){
+                    led.LedOff();
+                }
+            }
+        }
+        */
         float stickX = (gamepad1.left_stick_x); // Stick position (Absolute heading)
         float stickY = (gamepad1.left_stick_y); // Each is in range -1 to 1
         float stickRot = (gamepad1.right_stick_x / 2f); //Used to rotate the robot;

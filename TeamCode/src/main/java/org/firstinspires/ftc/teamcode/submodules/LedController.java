@@ -19,12 +19,7 @@ public class LedController implements LedControlInterface {
     private static final double LED_OFF = 0.0;
     private LedStates currentState;
     private double flash_start;
-    public LedController(HardwareMap map, Telemetry tele) {
 
-
-        controlPort = map.dcMotor.get("ledcontrol");
-        setLedState(LedStates.OFF);
-    }
     @Override
     public void setLedState(LedStates state) {
 
