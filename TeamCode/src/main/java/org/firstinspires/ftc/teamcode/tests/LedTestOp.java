@@ -15,28 +15,13 @@ import org.firstinspires.ftc.teamcode.submodules.LedController;
 public class LedTestOp extends LinearOpMode {
     LedController led;
     public void runOpMode() {
-       // led = new LedController(hardwareMap, telemetry);
-        led.setLedState(LedStates.ON);
-        ElapsedTime timer = new ElapsedTime();
-        //led.LedFlash(30, 0.5);
+        led = new LedController(hardwareMap, telemetry);
+        led.setLedState(LedStates.ON, null, null);
         waitForStart();
-        timer.startTime();
-        boolean ledOn = false;
-        while(timer.milliseconds()<10000){
-
-            if(timer.milliseconds()%500 == 0){
-                if(ledOn){
-                    led.setLedState(LedStates.ON);
-                    ledOn = true;
-                }
-                else{
-                    led.setLedState(LedStates.OFF);
-                    ledOn = false;
-                }
-            }
+        led.setLedState(LedStates.FLASHING, new Double(10), new Double(0.5));
 
         }
 
     }
-}
+
 
