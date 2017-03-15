@@ -34,7 +34,6 @@ public class LedController implements LedControlInterface {
                 controlPort.setPower(LED_ON);
                 break;
             case OFF:
-                new Flashing(null, null).close();
                 currentState = LedStates.OFF;
                 controlPort.setPower(LED_OFF);
                 break;
