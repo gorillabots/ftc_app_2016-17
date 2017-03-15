@@ -43,7 +43,8 @@ public class RedCenterDisruptive extends LinearOpMode
 
         driveTrain.left(.2, .5);
         driveTrain.right(1.4, .5);
-        driveTrain.backRight(.7, .5);
-        driveTrain.forwards(.3,.5);
+        driveTrain.backRight(.9, .7);
+        //driveTrain.backRight(.7, .5);
+        //driveTrain.forwards(.3,.5);
     }
 }
