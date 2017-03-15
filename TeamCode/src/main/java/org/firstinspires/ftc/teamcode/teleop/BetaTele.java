@@ -52,17 +52,23 @@ public class BetaTele extends OpMode
     boolean button;
     boolean buttonLast = false;
     boolean flyActive = false;
-    boolean firstCycle = false;
+    boolean firstCycle = true;
     public void loop()
     {
-        if(!firstCycle){
+        if(firstCycle)
+        {
+            firstCycle = false;
             heartBeat.reset();
-            heartBeat.startTime();
-            firstCycle = true;
+        }
+
+        if(heartBeat.milliseconds() > 80000){
+           led.flash();
+        }
+        else{
+            led.ledOn();
         }
 //90000
-        led.ledOn();
-       led.flash();
+
         /*
         if(heartBeat.milliseconds() > 0 && heartBeat.milliseconds() <10000){
             if((heartBeat.milliseconds()%500) == 0){
