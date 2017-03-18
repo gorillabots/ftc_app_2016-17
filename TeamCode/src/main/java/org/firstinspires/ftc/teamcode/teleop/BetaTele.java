@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.submodules.Drivetrain;
 import org.firstinspires.ftc.teamcode.submodules.ForkLift;
 import org.firstinspires.ftc.teamcode.submodules.LedHelp;
 
-@TeleOp(name = "Beta TeleOp", group = "Final")
+@TeleOp(name = "Beta TeleOp Broken", group = "Final")
 public class BetaTele extends OpMode
 {
     Drivetrain drivetrain;
@@ -25,12 +25,18 @@ public class BetaTele extends OpMode
     ColorSensor floorColor;
     ColorSensor beaconColor;
 
-    FlyState flyState;
-    DoubleScale flyRamp;
+    //FlyState flyState;
+    //DoubleScale flyRamp;
+
     ElapsedTime heartBeat;
     LedHelp led;
+
+    Runtime runtime;
+
     public void init()
     {
+        runtime = Runtime.getRuntime();
+
         drivetrain = new Drivetrain(hardwareMap, telemetry);
         ballControl = new BallControl(hardwareMap, telemetry);
         forkLift = new ForkLift(hardwareMap);
@@ -45,7 +51,7 @@ public class BetaTele extends OpMode
         beaconColor.enableLed(true);
         heartBeat = new ElapsedTime();
         led = new LedHelp(hardwareMap,telemetry);
-        flyState = FlyState.OFF;
+        //flyState = FlyState.OFF;
         //flyRamp = new DoubleScale(1, 1, 1, 1);
     }
 
@@ -53,8 +59,13 @@ public class BetaTele extends OpMode
     boolean buttonLast = false;
     boolean flyActive = false;
     boolean firstCycle = true;
+
+    long allocatedRAM;
+
     public void loop()
     {
+        allocatedRAM = runtime.totalMemory() / 1024;
+
         if(firstCycle)
         {
             firstCycle = false;
@@ -79,8 +90,8 @@ public class BetaTele extends OpMode
                     led.LedOff();
                 }
             }
-        }
-        */
+        }*/
+
         float stickX = (gamepad1.left_stick_x); // Stick position (Absolute heading)
         float stickY = (gamepad1.left_stick_y); // Each is in range -1 to 1
         float stickRot = (gamepad1.right_stick_x / 2f); //Used to rotate the robot;
@@ -92,8 +103,28 @@ public class BetaTele extends OpMode
 
         drivetrain.oneStickLoop(stickX, stickY, stickRot);
 
-        //Flywheel ramping stuff
         {
+            button = gamepad2.right_bumper;
+
+            if(button && !buttonLast)
+            {
+                flyActive = !flyActive;
+            }
+
+            if(flyActive)
+            {
+                ballControl.newRunFlywheel(true);
+            }
+            else
+            {
+                ballControl.newRunFlywheel(false);
+            }
+
+            buttonLast = button;
+        }
+
+        //Flywheel ramping stuff
+        /*{
             button = gamepad2.right_bumper;
 
             if(button && !buttonLast)
@@ -140,7 +171,7 @@ public class BetaTele extends OpMode
             }
 
             buttonLast = button;
-        }
+        }*/
 
         if(gamepad1.right_bumper)
         {
@@ -185,6 +216,8 @@ public class BetaTele extends OpMode
         {
             forkLift.stop();
         }
+
+        telemetry.addData("Allocated RAM", allocatedRAM + "KiB");
     }
 
     @Override
