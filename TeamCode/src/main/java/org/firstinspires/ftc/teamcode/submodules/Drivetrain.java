@@ -60,7 +60,7 @@ public class Drivetrain
     }
 
     //TODO: Remove possible memory leaks
-    public void oneStickLoop(float stickX, float stickY, float stickRot)  //TODO: Fix multiple possible memory leaks
+    public void oneStickLoop(float stickX, float stickY, float stickRot) //TODO: Fix multiple possible memory leaks
     {
         int heading = gyro.getHeading();
 

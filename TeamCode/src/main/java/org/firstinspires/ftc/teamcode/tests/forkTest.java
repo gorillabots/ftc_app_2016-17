@@ -4,11 +4,18 @@ import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.AnalogInput;
+import com.qualcomm.robotcore.hardware.AnalogInputController;
+import com.qualcomm.robotcore.hardware.AnalogOutput;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
+import com.qualcomm.robotcore.hardware.DigitalChannelController;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
+import org.firstinspires.ftc.teamcode.LedStates;
 import org.firstinspires.ftc.teamcode.submodules.Drivetrain;
 import org.firstinspires.ftc.teamcode.submodules.ForkLift;
+import org.firstinspires.ftc.teamcode.submodules.LedController;
 
 /**
  * Created by Jarred on 3/7/2017.
@@ -16,7 +23,7 @@ import org.firstinspires.ftc.teamcode.submodules.ForkLift;
 @TeleOp(name = "Fork Test", group = "Concept")
 public class forkTest extends OpMode {
     DcMotor raise;
-    //LedController led;
+        LedController led;
     DeviceInterfaceModule cdim;
     AnalogInput stop;
     ForkLift fork;
@@ -47,8 +54,8 @@ public class forkTest extends OpMode {
         gyro.resetZAxisIntegrator();
     }
     public void loop(){
-        //led.setLedState(LedStates.ON);
-        //led.LedFlash(10000, 1000);
+        led.setLedState(LedStates.ON);
+        led.LedFlash(10000, 1000);
         fork.lift(-gamepad2.left_stick_y);
         telemetry.addData("encoder at", raise.getCurrentPosition());
         telemetry.addData("Voltage", stop.getVoltage());

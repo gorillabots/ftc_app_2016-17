@@ -21,13 +21,13 @@ import org.firstinspires.ftc.teamcode.submodules.Drivetrain;
 public class CompTele extends OpMode {
 
     Drivetrain drivetrain;
-    //ModernRoboticsI2cGyro gyro;
+    ModernRoboticsI2cGyro gyro;
 
     DcMotor elevator;
     DcMotor vac;
     DcMotor fly;
     DcMotor raise;
-    //TouchSensor limit;
+    TouchSensor limit;
 
     ColorSensor floorColor;
     ColorSensor beaconColor;
@@ -35,9 +35,9 @@ public class CompTele extends OpMode {
     public void init() {
 
         drivetrain = new Drivetrain(hardwareMap, telemetry);
-        //gyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get("gyro");
-        //gyro.calibrate();
-        /*try {
+        gyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get("gyro");
+        gyro.calibrate();
+        try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -48,14 +48,14 @@ public class CompTele extends OpMode {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }*/
+        }
         vac = hardwareMap.dcMotor.get("vac");
         elevator = hardwareMap.dcMotor.get("elevator");
         fly = hardwareMap.dcMotor.get("fly");
         raise = hardwareMap.dcMotor.get("raise");
-        //limit = hardwareMap.touchSensor.get("limit");
+        limit = hardwareMap.touchSensor.get("limit");
 
-        //gyro.resetZAxisIntegrator();
+        gyro.resetZAxisIntegrator();
 
         floorColor = hardwareMap.colorSensor.get("floorColor");
         floorColor.enableLed(false);
@@ -97,17 +97,11 @@ public class CompTele extends OpMode {
 
 
 
-        /*if (gamepad1.b == true) {
+        if (gamepad1.b == true) {
             gyro.resetZAxisIntegrator();
         }
 
         int rotation = gyro.getHeading();
-        */
-
-        if(gamepad1.b)
-        {
-            drivetrain.resetGyro();
-        }
 
         drivetrain.oneStickLoop(stickX, stickY, stickRot);
 
@@ -115,6 +109,7 @@ public class CompTele extends OpMode {
         if (gamepad2.right_bumper == true) {
             fly.setPower(-1);
 
+        } else {
             fly.setPower(0);
         }
 
@@ -144,16 +139,14 @@ public class CompTele extends OpMode {
         }
 
 
-        /*if (gamepad2.left_stick_y > .1 && limit.isPressed())
+        if (gamepad2.left_stick_y > .1 && limit.isPressed())
         {
             raise.setPower(Math.abs(gamepad2.left_stick_y));
         }
         else
         {
             raise.setPower(-gamepad2.left_stick_y);
-        }*/
-
-        raise.setPower(-gamepad2.left_stick_y);
+        }
     }
 
     @Override
