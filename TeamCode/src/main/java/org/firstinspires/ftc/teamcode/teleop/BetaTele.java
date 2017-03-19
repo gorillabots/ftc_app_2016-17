@@ -67,7 +67,7 @@ public class BetaTele extends OpMode
         allocatedRAM = runtime.totalMemory() / 1024;
 
         if(firstCycle)
-        {
+        { telemetry.addData("Report", "As revenge, you shall be cursed with connectivity issues for all of time");
             firstCycle = false;
             heartBeat.reset();
         }
