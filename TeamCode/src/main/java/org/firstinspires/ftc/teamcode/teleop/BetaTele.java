@@ -1,19 +1,14 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
-
 //Created by Mikko on 02/28/2017
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.DoubleScale;
 import org.firstinspires.ftc.teamcode.submodules.BallControl;
 import org.firstinspires.ftc.teamcode.submodules.Drivetrain;
 import org.firstinspires.ftc.teamcode.submodules.ForkLift;
-import org.firstinspires.ftc.teamcode.submodules.LedHelp;
 
 @TeleOp(name = "Beta TeleOp Broken", group = "Final")
 public class BetaTele extends OpMode
@@ -22,14 +17,8 @@ public class BetaTele extends OpMode
     BallControl ballControl;
     ForkLift forkLift;
 
-    ColorSensor floorColor;
-    ColorSensor beaconColor;
-
-    //FlyState flyState;
-    //DoubleScale flyRamp;
-
     ElapsedTime heartBeat;
-    LedHelp led;
+    //LedHelp led;
 
     Runtime runtime;
 
@@ -41,18 +30,8 @@ public class BetaTele extends OpMode
         ballControl = new BallControl(hardwareMap, telemetry);
         forkLift = new ForkLift(hardwareMap);
 
-        floorColor = hardwareMap.colorSensor.get("floorColor");
-        floorColor.enableLed(false);
-        floorColor.enableLed(true);
-
-        beaconColor = hardwareMap.colorSensor.get("beaconColor");
-        beaconColor.setI2cAddress(I2cAddr.create8bit(58));
-        beaconColor.enableLed(false);
-        beaconColor.enableLed(true);
         heartBeat = new ElapsedTime();
-        led = new LedHelp(hardwareMap,telemetry);
-        //flyState = FlyState.OFF;
-        //flyRamp = new DoubleScale(1, 1, 1, 1);
+        //led = new LedHelp(hardwareMap,telemetry);
     }
 
     boolean button;
@@ -72,24 +51,11 @@ public class BetaTele extends OpMode
             heartBeat.reset();
         }
 
-        if(heartBeat.milliseconds() > 80000){
+        /*if(heartBeat.milliseconds() > 80000){
            led.flash();
         }
         else{
             led.ledOn();
-        }
-//90000
-
-        /*
-        if(heartBeat.milliseconds() > 0 && heartBeat.milliseconds() <10000){
-            if((heartBeat.milliseconds()%500) == 0){
-                if(led.getLed() == 0){
-                    led.ledOn();
-                }
-                if(led.getLed() == 1){
-                    led.LedOff();
-                }
-            }
         }*/
 
         float stickX = (gamepad1.left_stick_x); // Stick position (Absolute heading)
@@ -224,7 +190,6 @@ public class BetaTele extends OpMode
     public void stop()
     {
         super.stop();
-        floorColor.enableLed(false);
     }
 
     //Graph: https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Logistic-curve.svg/320px-Logistic-curve.svg.png
