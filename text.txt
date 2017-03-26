@@ -1,0 +1,500 @@
+ [[1;32m2017-03-15[m] Added the made sure that the internal time of the robot, coincided with the match time <[1;33mJarred Moyer[m>
+ [[1;32m2017-03-13[m] Fixed distance for only auto programs that only shoot <[1;33mJarred Moyer[m>
+ [[1;32m2017-03-13[m] Disruptor'sare now final and working, <[1;33mJarred Moyer[m>
+ [[1;32m2017-03-13[m] Work on LED <[1;33mJarred Moyer[m>
+ [[1;32m2017-03-13[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2017-03-13[m] troubleshooting red autonomous. <[1;33mJarred Moyer[m>
+ [[1;32m2017-03-12[m] Added override to BetaTele ForkLift <[1;33mMikko Neukirch[m>
+ [[1;32m2017-03-12[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2017-03-12[m] fixed shooting distance issues <[1;33mJarred Moyer[m>
+ [[1;32m2017-03-12[m] Worked on Disruptives and ShootFirstRed <[1;33mMikko Neukirch[m>
+ [[1;32m2017-03-12[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2017-03-12[m] tweaked the the beacon approach. <[1;33mJarred Moyer[m>
+ [[1;32m2017-03-12[m] Added backToLine to AutonomousDriveTrain <[1;33mMikko Neukirch[m>
+ [[1;32m2017-03-12[m] Added goToDistanceGyro and test <[1;33mMikko Neukirch[m>
+ [[1;32m2017-03-12[m] Led test updated to pulse <[1;33mJarred Moyer[m>
+ [[1;32m2017-03-12[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2017-03-12[m] Testing Led Op changes <[1;33mJarred Moyer[m>
+ [[1;32m2017-03-10[m] Removed ramping up, reduced ramp time from 5 to 1 seconds <[1;33mMikko Neukirch[m>
+ [[1;32m2017-03-10[m] testing led <[1;33mJarred Moyer[m>
+ [[1;32m2017-03-10[m] Fixed gradle build problems <[1;33mJarred Moyer[m>
+ [[1;32m2017-03-10[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2017-03-10[m] Fork lift safety has been created and implemented. <[1;33mJarred Moyer[m>
+ [[1;32m2017-03-10[m] Worked on BetaTele <[1;33mMikko Neukirch[m>
+ [[1;32m2017-03-09[m] Merge pull request #4 from emperorjoshua1/master <[1;33mChris Soper[m>
+ [[1;32m2017-03-07[m] Updated LED classes. <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-03-07[m] Merge remote-tracking branch 'upstream/master' <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-03-07[m] Updated LED classes. <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-03-07[m] Added code for getting values for the lift and updated the lift subclass to include safties. <[1;33mJarred Moyer[m>
+ [[1;32m2017-03-05[m] LED control classes <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-03-05[m] All functions now in BetaTele <[1;33mMikko[m>
+ [[1;32m2017-03-05[m] Used new gyroToLineTimeout functions in autonomouses <[1;33mJarred Moyer[m>
+ [[1;32m2017-03-03[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2017-03-03[m] Changed thetime the robot spends shooting <[1;33mJarred Moyer[m>
+ [[1;32m2017-03-03[m] Added forwardsGyroToLineTimout and backGyroToLineTimeout to AutonomousDriveTrain <[1;33mMikko[m>
+ [[1;32m2017-03-03[m] Changed fly ramping to sqrt function <[1;33mMikko[m>
+ [[1;32m2017-03-03[m] FInal tweaks to red and started blue <[1;33mJarred Moyer[m>
+ [[1;32m2017-03-03[m] fixed elavator statements <[1;33mJarred Moyer[m>
+ [[1;32m2017-03-02[m] Added flywheel speed ramping up and down for BetaTele <[1;33mMikko[m>
+ [[1;32m2017-03-02[m] Merge remote-tracking branch 'origin/master' into Shoot_First <[1;33mJarred Moyer[m>
+ [[1;32m2017-03-02[m] Red shoot first is working <[1;33mJarred Moyer[m>
+ [[1;32m2017-03-02[m] Minor tweaks to shooting autonomouses <[1;33mMikko[m>
+ [[1;32m2017-03-02[m] First attempt at making the Robot shoot first and then move to wall <[1;33mJarred Moyer[m>
+ [[1;32m2017-03-02[m] Organized Autonomouses <[1;33mMikko[m>
+ [[1;32m2017-03-02[m] Removed deprecated classes <[1;33mMikko[m>
+ [[1;32m2017-03-01[m] Reverted CompTele to version pre-my changes, but without unnecessary touch servo and timer stuff <[1;33mMikko Neukirch[m>
+ [[1;32m2017-02-28[m] Removed two teleOpModes, copied CompTele to BetaTele <[1;33mMikko[m>
+ [[1;32m2017-02-28[m] Fixed errors from merge in AutonomousDriveTrain <[1;33mMikko[m>
+ [[1;32m2017-02-07[m] Merged documentation back in <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-02-28[m] Merge from spring cleaning <[1;33mJarred Moyer[m>
+ [[1;32m2017-02-28[m] Minor changes to a few autonomouses, mostly comments, formatting, and grouping <[1;33mMikko Neukirch[m>
+ [[1;32m2017-02-19[m] Allowed the app to actually build <[1;33mMikko Neukirch[m>
+ [[1;32m2017-02-19[m] Realized we probably need the demo bot opmode <[1;33mMikko Neukirch[m>
+ [[1;32m2017-02-19[m] Merged in Utica day changes, moved DemoBot to different package <[1;33mMikko[m>
+ [[1;32m2017-02-19[m] added back in documentation that was lost in the merge <[1;33mJarred Moyer[m>
+ [[1;32m2017-02-19[m] Worked on BallControl, DriveTrain, and ForkLift, CompTele needs to be converted to use BallControl and ForkLift <[1;33mMikko Neukirch[m>
+ [[1;32m2017-02-19[m] Merge branch 'working' <[1;33mJarred Moyer[m>
+ [[1;32m2017-02-18[m] Added a waitForStart to dummy opmodes, final change for day 1 of spring cleaning <[1;33mMikko Neukirch[m>
+ [[1;32m2017-02-18[m] Rest of last commit <[1;33mMikko Neukirch[m>
+ [[1;32m2017-02-18[m] Packaged, Deprecated, Disabled, Renamed Files, Organized OpModes <[1;33mMikko Neukirch[m>
+ [[1;32m2017-02-09[m] Made lift faster, commented AutonomousDriveTrain slightly <[1;33mMikko[m>
+ [[1;32m2017-02-08[m] Merge pull request #3 from emperorjoshua1/master <[1;33mChris Soper[m>
+ [[1;32m2017-02-08[m] Tues Red Changes <[1;33mMikko[m>
+ [[1;32m2017-02-07[m] I have documented some more of the methods within the AutonomousDriveTrain class. <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-02-07[m] flywheel can no go in reverse <[1;33mJarred Moyer[m>
+ [[1;32m2017-02-08[m] Tues Blue Changes <[1;33mMikko[m>
+ [[1;32m2017-02-07[m] Blue is pretty good as well <[1;33mMikko[m>
+ [[1;32m2017-02-07[m] Red Autonomous is pretty good <[1;33mMikko[m>
+ [[1;32m2017-02-05[m] Added BlueBeaconsShootModified <[1;33mMikko[m>
+ [[1;32m2017-02-05[m] Merge pull request #2 from emperorjoshua1/master <[1;33mChris Soper[m>
+ [[1;32m2017-02-05[m] I added documentation to about a quarter of the methods within the AutonomousDriveTrain class.  I was very descriptive about the method summaries, parameters, and any additional documentation.  For those of you not familiar with documentation, simply Ctrl + q while your cursor is on the method, and it will provide any information that I included about the method. <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-02-05[m] Autonomouses: Remove touch servo stuff, formatting <[1;33mMikko[m>
+ [[1;32m2017-02-04[m] Added BlueBeaconsShootModified <[1;33mMikko[m>
+ [[1;32m2017-02-03[m] fixed build errors in auto drivetrain <[1;33mJarred Moyer[m>
+ [[1;32m2017-02-04[m] Merge branch 'master' of http://github.com/gorillabots/ftc_app_2016-17 <[1;33mMikko[m>
+ [[1;32m2017-02-04[m] Debugging and tweaking autonomouses <[1;33mMikko[m>
+ [[1;32m2017-02-03[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-02-03[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-02-03[m] Red shooter works, blue does not <[1;33mMikko[m>
+ [[1;32m2017-02-02[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2017-02-02[m] removed touch sensor, uses range <[1;33mJarred Moyer[m>
+ [[1;32m2017-02-02[m] a <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-02-03[m] TurnToGyroAny works, turns clockwise <[1;33mMikko[m>
+ [[1;32m2017-02-02[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2017-02-02[m] changed the distance moved in disuptor and uped the turn power in the beacon line movement in blue beacons <[1;33mJarred Moyer[m>
+ [[1;32m2017-02-02[m] added fowards and backwards after pushing <[1;33mMichelle[m>
+ [[1;32m2017-02-02[m] added fowards and backwards after pushing beacon <[1;33mMichelle[m>
+ [[1;32m2017-02-01[m] Fixed a bug in TurnToGyroAny, updated test opmode <[1;33mMikko[m>
+ [[1;32m2017-01-31[m] updated movement distance <[1;33mMichelle[m>
+ [[1;32m2017-02-01[m] Renamed RedBeaconds, fixed duplicate opmode names <[1;33mMikko[m>
+ [[1;32m2017-01-31[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-31[m] changed shooting timings <[1;33mJarred Moyer[m>
+ [[1;32m2017-02-01[m] Deleted BlueBeaconsOp and RedBeaconsOp, Renamed AutoSlams to Beacons, added RedBeaconsShoot <[1;33mMikko[m>
+ [[1;32m2017-02-01[m] Merge branch 'master' of http://github.com/gorillabots/ftc_app_2016-17 <[1;33mMikko[m>
+ [[1;32m2017-02-01[m] Added rotation function and test opmode, changed names and groups of beacon autonomouses, changed beacon distance to 11 cm <[1;33mMikko[m>
+ [[1;32m2017-01-31[m] 10 to 11. <[1;33mMichelle[m>
+ [[1;32m2017-01-31[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mMichelle[m>
+ [[1;32m2017-01-31[m] ignore <[1;33mMichelle[m>
+ [[1;32m2017-02-01[m] Added Disruptive Autonomouses, Corning tournament changes <[1;33mMikko[m>
+ [[1;32m2017-01-29[m] no message <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-01-29[m] attempted fixing blue <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-28[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-28[m] fixing servo positions <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-28[m] More improvements on red autonomous, blue is better? <[1;33mMikko[m>
+ [[1;32m2017-01-28[m] Range sensor stuff, improved autonomous greatly <[1;33mMikko[m>
+ [[1;32m2017-01-27[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-01-27[m] Just a quick fix to the configuration <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-01-27[m] I have added a range function to the beacon response function <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-01-27[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mMichelle[m>
+ [[1;32m2017-01-28[m] Changed CenterGoalAuto to use new BallControl functions <[1;33mMikko[m>
+ [[1;32m2017-01-28[m] Updated BallControl and CenterGoalAuto <[1;33mMikko[m>
+ [[1;32m2017-01-27[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mMichelle[m>
+ [[1;32m2017-01-27[m] reverted redAuto slam to 90% version <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-26[m] developed second beacon auto <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-26[m] Red: Goes to 2nd beacon red line <[1;33mMikko[m>
+ [[1;32m2017-01-26[m] Red: One beacon works 90% <[1;33mMikko[m>
+ [[1;32m2017-01-24[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-24[m] lowered net distance of auto drift compensation. <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-24[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-01-24[m] no message <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-01-25[m] Added link about DC Motor Encoders <[1;33mMikko[m>
+ [[1;32m2017-01-24[m] Merge remote-tracking branch 'origin/mikko2' <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-25[m] Changes to red autonomous <[1;33mMikko[m>
+ [[1;32m2017-01-24[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-01-24[m] Attempt to sync motors, please test <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-01-25[m] Fixed beaconResponse on right, created pressLeft and pressRight functions <[1;33mMikko[m>
+ [[1;32m2017-01-24[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-24[m] removed servoSwing from autonomous <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-24[m] beacon color sensors turn off before beacon response <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-01-24[m] a <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-01-24[m] no message <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-01-22[m] correctly refrences the range sensor <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-22[m] Worked on RedAutoSlam, reliably gets to beacon and often presses it <[1;33mMikko Neukirch[m>
+ [[1;32m2017-01-22[m] correctly called the range sensor <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-22[m] converted rangeTest to a drivable opmode <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-22[m] Merge branch 'pre-cornign_teleop' <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-22[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-22[m] Created ColorEnumTest, fixed red / blue color detection <[1;33mMikko Neukirch[m>
+ [[1;32m2017-01-22[m] Tele Op test <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-20[m] took away I2C line <[1;33mMichelle[m>
+ [[1;32m2017-01-21[m] Converted beacon colors from strings to a new enum <[1;33mMikko Neukirch[m>
+ [[1;32m2017-01-20[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-01-20[m] Commented RangeTest <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-01-21[m] More formatting in AutoSlams, Removed passing AutonomousDriveTrain into itself in beaconResponse <[1;33mMikko Neukirch[m>
+ [[1;32m2017-01-20[m] I added the beacon response function to both redautoslam and blueautoslam.  I also corrected errors in zredautonomous and rangetest that occurred as a result of revisions that were made 2 meetings ago. <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-01-20[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mMichelle[m>
+ [[1;32m2017-01-20[m] un disabled <[1;33mMichelle[m>
+ [[1;32m2017-01-21[m] Commented and removed imports from lots of files, formatted DriveTrain <[1;33mMikko Neukirch[m>
+ [[1;32m2017-01-20[m] Comments on beacon response function <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-01-21[m] Formatting, removal of unused parts, and commenting in CenterGoalAuto and CenterGoalDelay <[1;33mMikko Neukirch[m>
+ [[1;32m2017-01-20[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-20[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-20[m] created to read color values <[1;33mMichelle[m>
+ [[1;32m2017-01-20[m] movement test <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-20[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-01-20[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-01-20[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mMichelle[m>
+ [[1;32m2017-01-20[m] added telemetry for floor reading <[1;33mMichelle[m>
+ [[1;32m2017-01-20[m] Beacon response function.  Works on both sides. <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-01-21[m] Commenting in both AutoSlams, added second beacon color in RedAutoSlam <[1;33mMikko Neukirch[m>
+ [[1;32m2017-01-20[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-01-20[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-01-21[m] Memory leak fixing, commenting, and formatting in AutonomousDriveTrain <[1;33mMikko Neukirch[m>
+ [[1;32m2017-01-21[m] Formatting changes, renaming of color sensors, and commenting in BlueAutoSlam <[1;33mMikko Neukirch[m>
+ [[1;32m2017-01-20[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-01-20[m] fixed a semi colon issuee <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-20[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-20[m] added testing telemetry <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-20[m] updated TeleOp to use the one motor flywheel <[1;33mjam941[m>
+ [[1;32m2017-01-17[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-18[m] Blue side autonomous changes, stuff <[1;33mMikko Neukirch[m>
+ [[1;32m2017-01-17[m] formatting changes <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-18[m] Code style / imports in RangeTest <[1;33mMikko Neukirch[m>
+ [[1;32m2017-01-17[m] movement is now straight <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-17[m] Converted RangeTest to TeleOp <[1;33mMikko Neukirch[m>
+ [[1;32m2017-01-16[m] tested gyro movement <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-15[m] Updated list of autonomous drive train functions <[1;33mMikko Neukirch[m>
+ [[1;32m2017-01-15[m] AutonomousDriveTrain: Fixed another potential memory leak, added more functions, reduced encoder calls twofold <[1;33mMikko Neukirch[m>
+ [[1;32m2017-01-15[m] Started coding encoder drive test <[1;33mMikko Neukirch[m>
+ [[1;32m2017-01-15[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mMichelle[m>
+ [[1;32m2017-01-15[m] took away button presser class <[1;33mMichelle[m>
+ [[1;32m2017-01-15[m] Fixed NullPointerException in forkNEw, worked on RedBeaconsOp <[1;33mMikko Neukirch[m>
+ [[1;32m2017-01-15[m] removed all implementations of beacon pressers <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-15[m] Removed more references to ButtonPresserClass, should now build without errors <[1;33mMikko Neukirch[m>
+ [[1;32m2017-01-15[m] Removed references to ButtonPresserClass, changed servoSwing to touchServo <[1;33mMikko Neukirch[m>
+ [[1;32m2017-01-15[m] Merge branch 'master' of http://github.com/gorillabots/ftc_app_2016-17 <[1;33mMikko Neukirch[m>
+ [[1;32m2017-01-15[m] Removed actuator stuff, removed unnecessary constants <[1;33mMikko Neukirch[m>
+ [[1;32m2017-01-15[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-15[m] fixed meter test <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-15[m] Worked on RedBeaconsOp, fixed Constants <[1;33mMikko Neukirch[m>
+ [[1;32m2017-01-15[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mMichelle[m>
+ [[1;32m2017-01-15[m] no message <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-01-15[m] Merge commit <[1;33mMikko Neukirch[m>
+ [[1;32m2017-01-15[m] Prevented possible memory leak, added leftGyro <[1;33mMikko Neukirch[m>
+ [[1;32m2017-01-15[m] Added Right colorsensor to Blueside <[1;33mMichelle[m>
+ [[1;32m2017-01-15[m] changed blue to red <[1;33mMichelle[m>
+ [[1;32m2017-01-15[m] switched left and right for drivetrain <[1;33mMichelle[m>
+ [[1;32m2017-01-15[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mMichelle[m>
+ [[1;32m2017-01-15[m] got rid of 33 <[1;33mMichelle[m>
+ [[1;32m2017-01-15[m] made Blue version of RedAutoSlam <[1;33mMichelle[m>
+ [[1;32m2017-01-15[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-01-15[m] Here's the updated AutonomousDriveTrain and the updated RangeTest <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-01-15[m] Allowed the app to build by removing calls to functions with new arguments <[1;33mMikko Neukirch[m>
+ [[1;32m2017-01-13[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-01-14[m] Got rid of 23 unnecessary files <[1;33mMikko Neukirch[m>
+ [[1;32m2017-01-13[m] no message <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-01-13[m] Merged mikko's and michelle's code <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-14[m] Worked on AutonomousDriveTrain.java <[1;33mMikko Neukirch[m>
+ [[1;32m2017-01-14[m] Realized I made a minor mistake, which would not have changed any increments <[1;33mMikko Neukirch[m>
+ [[1;32m2017-01-14[m] Fixed increments to use normal meters <[1;33mMikko Neukirch[m>
+ [[1;32m2017-01-13[m] fixed merge errors <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-13[m] changes for formatting in drivetrain auto <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-13[m] to power .5 <[1;33mMichelle[m>
+ [[1;32m2017-01-13[m] chnge to power <[1;33mMichelle[m>
+ [[1;32m2017-01-13[m] Fixed values to metres. <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-01-13[m] merge <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-13[m] comp work <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-13[m] Dated power control to 2/3 of classes <[1;33mjam941[m>
+ [[1;32m2017-01-06[m] more auto slam work, now sensing the beacon <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-05[m] creconfigured color helper <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-05[m] alogic for pressing the beacon if the color is incorrect <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-04[m] now 50% accuracy hitting the beacon <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-04[m] Made ForkNEw output color sensor data, floor color sensor now works in autonomous <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-04[m] Worked on autonomous, was reaching beacon, now does not see lien <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-04[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-04[m] robot now reaches beacon <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-04[m] updated movement distances <[1;33mjam941[m>
+ [[1;32m2017-01-04[m] Recalculated the distance to move <[1;33mjam941[m>
+ [[1;32m2017-01-03[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-04[m] Fixed gyro alignment in RedAutoSlam <[1;33mMikko Neukirch[m>
+ [[1;32m2017-01-03[m] waiting while analyzing how square we are from or inint position <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-03[m] testing circular correction <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-03[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-03[m] Coninued trouble shooting of missing the white line <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-03[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mMichelle[m>
+ [[1;32m2017-01-03[m] updated new address for RightBS. (62) <[1;33mMichelle[m>
+ [[1;32m2017-01-03[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-01-03[m] no message <[1;33mJoshua Kartzman[m>
+ [[1;32m2017-01-03[m] New color sensor for right side. Config is RightBS <[1;33mMichelle[m>
+ [[1;32m2017-01-03[m] Continued work on slam autonomous <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-01[m] brought the settings to the data collection page of the app <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-01[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2017-01-01[m] troubleshooting the 40 gearboxes forthe drivetrain. <[1;33mJarred Moyer[m>
+ [[1;32m2016-12-30[m] found out that the color beacon was not legal in the velocity vortex game, so will not be focusing on this <[1;33mMichelle[m>
+ [[1;32m2016-12-30[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2016-12-30[m] formatting changes <[1;33mJarred Moyer[m>
+ [[1;32m2016-12-30[m] More competition day changes I forgot to push <[1;33mMikko Neukirch[m>
+ [[1;32m2016-12-23[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mMichelle[m>
+ [[1;32m2016-12-23[m] new color beacon <[1;33mMichelle[m>
+ [[1;32m2016-12-23[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJoshua Kartzman[m>
+ [[1;32m2016-12-19[m] added a panic button to avoid penalty points <[1;33mjam941[m>
+ [[1;32m2016-12-19[m] added button to reverse elevator direction <[1;33mjam941[m>
+ [[1;32m2016-12-17[m] Competition day changes <[1;33mMikko Neukirch[m>
+ [[1;32m2016-12-15[m] Commented blue and red autonomouses <[1;33mMikko[m>
+ [[1;32m2016-12-14[m] Merge branch 'master' of http://github.com/gorillabots/ftc_app_2016-17 <[1;33mMikko[m>
+ [[1;32m2016-12-14[m] Improved Blue Side Autonomous <[1;33mMikko[m>
+ [[1;32m2016-12-14[m] cleaned up th register <[1;33mJarred Moyer[m>
+ [[1;32m2016-12-14[m] changes <[1;33mJarred Moyer[m>
+ [[1;32m2016-12-13[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2016-12-13[m] fixed hop auto <[1;33mJarred Moyer[m>
+ [[1;32m2016-12-13[m] Worked on blue autonomous, fixed missing function in drive train <[1;33mMikko Neukirch[m>
+ [[1;32m2016-12-13[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2016-12-13[m] working mirror start <[1;33mJarred Moyer[m>
+ [[1;32m2016-12-13[m] Commented AutonomousDriveTrain <[1;33mMikko Neukirch[m>
+ [[1;32m2016-12-13[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJoshua Kartzman[m>
+ [[1;32m2016-12-13[m] Friday changes <[1;33mJoshua Kartzman[m>
+ [[1;32m2016-12-13[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2016-12-13[m] improving elevator functioning in autonomous <[1;33mJarred Moyer[m>
+ [[1;32m2016-12-13[m] Many autonomous changes, new opmode for new beacon route <[1;33mMikko[m>
+ [[1;32m2016-12-11[m] Used gyro in autonomous <[1;33mMikko[m>
+ [[1;32m2016-12-11[m] Merge branch 'master' of http://github.com/gorillabots/ftc_app_2016-17 <[1;33mMikko Neukirch[m>
+ [[1;32m2016-12-11[m] Various changes to autonomous <[1;33mMikko Neukirch[m>
+ [[1;32m2016-12-11[m] fixed CompTele's key binds <[1;33mJarred Moyer[m>
+ [[1;32m2016-12-10[m] developed the Tele Op section, added fixes for the forkLLift not functioning properly <[1;33mJarred Moyer[m>
+ [[1;32m2016-12-10[m] troubleshooting grandle.build problems <[1;33mJarred Moyer[m>
+ [[1;32m2016-12-10[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2016-12-10[m] fixed movement in teleOP <[1;33mJarred Moyer[m>
+ [[1;32m2016-12-09[m] close to full release Tele op <[1;33mJarred Moyer[m>
+ [[1;32m2016-12-04[m] Added gyro test opmode, and implemented more constants from autonomous drive train to constants.java <[1;33mMikko Neukirch[m>
+ [[1;32m2016-12-02[m] took out unneeded things and added diffeent hsv values <[1;33mMichelle[m>
+ [[1;32m2016-12-02[m] Allowed Autonomous drive train to use constants file <[1;33mMikko Neukirch[m>
+ [[1;32m2016-12-02[m] Temp to prevent merge errors <[1;33mJoshua Kartzman[m>
+ [[1;32m2016-11-29[m] New Autonomous Red that goes 5 seconds faster <[1;33mJoshua Kartzman[m>
+ [[1;32m2016-11-29[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJoshua Kartzman[m>
+ [[1;32m2016-11-29[m] Prototype for final autonomous as well as constants list. <[1;33mJoshua Kartzman[m>
+ [[1;32m2016-11-29[m] I do not know what this commit did <[1;33mJarred Moyer[m>
+ [[1;32m2016-11-29[m] further developed the appendage classes and constructors <[1;33mJarred Moyer[m>
+ [[1;32m2016-11-25[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mMichelle[m>
+ [[1;32m2016-11-25[m] Merge branch 'beta' of https://github.com/ftctechnh/ftc_app into Tele_Op_beacon_integration <[1;33mJarred Moyer[m>
+ [[1;32m2016-11-23[m] added the logic and meathods to be tested <[1;33mJarred Moyer[m>
+ [[1;32m2016-11-22[m] added beacon autopilotto teleop <[1;33mJarred Moyer[m>
+ [[1;32m2016-11-22[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2016-11-22[m] integrated beacon pushes to compTele <[1;33mJarred Moyer[m>
+ [[1;32m2016-11-22[m] added variable for sat & tseting values <[1;33mMichelle[m>
+ [[1;32m2016-11-22[m] converted values to hsv <[1;33mMichelle[m>
+ [[1;32m2016-11-22[m] developed appendage classes <[1;33mJarred Moyer[m>
+ [[1;32m2016-11-20[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mMichelle[m>
+ [[1;32m2016-11-20[m] ignore this is from last year <[1;33mMichelle[m>
+ [[1;32m2016-11-20[m] Prototype for blue side autonomous <[1;33mJoshua Kartzman[m>
+ [[1;32m2016-11-18[m] Fixed color sensor in autonomous <[1;33mMikko Neukirch[m>
+ [[1;32m2016-11-18[m] added test opmodes for and encoded forklift <[1;33mJarred Moyer[m>
+ [[1;32m2016-11-18[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2016-11-15[m] Added autonomous white line functionality <[1;33mMikko Neukirch[m>
+ [[1;32m2016-11-15[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJoshua Kartzman[m>
+ [[1;32m2016-11-15[m] These are possibly the final changes to the Button Presser Class.  It includes methods to get beacon readings, floor readings, and pressing buttons. <[1;33mJoshua Kartzman[m>
+ [[1;32m2016-11-13[m] Started work on color sensor for autonomous <[1;33mMikko Neukirch[m>
+ [[1;32m2016-11-13[m] Merge branch 'color_sensor_integration' <[1;33mMichelle[m>
+ [[1;32m2016-11-13[m] no message <[1;33mMichelle[m>
+ [[1;32m2016-11-13[m] beacon color works <[1;33mMichelle[m>
+ [[1;32m2016-11-13[m] Made autonomous modular, added opmode for blue side, deleted unnecessary EncoderTestOp <[1;33mMikko Neukirch[m>
+ [[1;32m2016-11-13[m] Updated README with v2.4 info. <[1;33mFTCTechNH[m>
+ [[1;32m2016-11-13[m] Updated javadoc for v2.4. <[1;33mFTCTechNH[m>
+ [[1;32m2016-11-13[m] Changes for release v2.4. <[1;33mFTCTechNH[m>
+ [[1;32m2016-11-11[m] Autonomous now goes to wall, uses touch sensor <[1;33mMikko Neukirch[m>
+ [[1;32m2016-11-11[m] Added guidelines for contributing to the repository and issuing pull requests. <[1;33mFTCTechNH[m>
+ [[1;32m2016-11-11[m] both colors to omniwheel op <[1;33mMichelle[m>
+ [[1;32m2016-11-11[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2016-11-11[m] cleared up drivetrain and added testing telemetry to forkTest <[1;33mJarred Moyer[m>
+ [[1;32m2016-11-11[m] added color to Omni <[1;33mMichelle[m>
+ [[1;32m2016-11-08[m] Got autonomous to go near beacon, fixed arm speed bug in demo bot <[1;33mMikko Neukirch[m>
+ [[1;32m2016-11-08[m] added floorcolor sensing <[1;33mMichelle[m>
+ [[1;32m2016-11-08[m] Integrated Beacon Color in Omniwheel Op <[1;33mChris Soper[m>
+ [[1;32m2016-11-08[m] white line reading works <[1;33mMichelle[m>
+ [[1;32m2016-11-08[m] floor white line sensing <[1;33mMichelle[m>
+ [[1;32m2016-11-08[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mMichelle[m>
+ [[1;32m2016-11-06[m] 11/612016 Final Copy Actuator Program <[1;33mJoshua Kartzman[m>
+ [[1;32m2016-11-06[m] Last Working Linear Actuator Program <[1;33mJoshua Kartzman[m>
+ [[1;32m2016-11-06[m] Added GyroTest to diagnose gyro inaccuracy <[1;33mMikko Neukirch[m>
+ [[1;32m2016-11-06[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2016-11-05[m] demobot DOne <[1;33mJarred Moyer[m>
+ [[1;32m2016-11-04[m] Worked on reducing overshoot while turning in the autonomous drive train <[1;33mMikko Neukirch[m>
+ [[1;32m2016-11-04[m] improved the flywheel and demo bot <[1;33mJarred Moyer[m>
+ [[1;32m2016-11-04[m] floor color created <[1;33mMichelle[m>
+ [[1;32m2016-11-01[m] Worked on rotation for autonomous drive train <[1;33mMikko Neukirch[m>
+ [[1;32m2016-10-30[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2016-10-30[m] created the demo program as well as a test program for forklift <[1;33mJarred Moyer[m>
+ [[1;32m2016-10-30[m] Works reads accurately 1~2inches. <[1;33mMichelle[m>
+ [[1;32m2016-10-30[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mMichelle[m>
+ [[1;32m2016-10-30[m] reading color values <[1;33mMichelle[m>
+ [[1;32m2016-10-28[m] Created framework for autonomous program in AutonomousDriveTrain.java <[1;33mMikko Neukirch[m>
+ [[1;32m2016-10-25[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2016-10-25[m] created compTele <[1;33mJarred Moyer[m>
+ [[1;32m2016-10-23[m] update color value <[1;33mMichelle[m>
+ [[1;32m2016-10-23[m] Calibrated test opmode, deleted unnecessay files <[1;33mMikko Neukirch[m>
+ [[1;32m2016-10-23[m] no message <[1;33mJoshua Kartzman[m>
+ [[1;32m2016-10-21[m] Updated code for measured movement <[1;33mMikko Neukirch[m>
+ [[1;32m2016-10-18[m] Added telemetry and bug fixes to the autonomous test <[1;33mMikko[m>
+ [[1;32m2016-10-18[m] RGB <[1;33mMichelle[m>
+ [[1;32m2016-10-18[m] changed RGB for null <[1;33mMichelle[m>
+ [[1;32m2016-10-18[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mMichelle[m>
+ [[1;32m2016-10-18[m] created the official TeleOp File <[1;33mJarred Moyer[m>
+ [[1;32m2016-10-18[m] slowed the lift <[1;33mJarred Moyer[m>
+ [[1;32m2016-10-16[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mMichelle[m>
+ [[1;32m2016-10-16[m] added drivetrain use to tester <[1;33mJarred Moyer[m>
+ [[1;32m2016-10-16[m] led turns on <[1;33mMichelle[m>
+ [[1;32m2016-10-16[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2016-10-16[m] switched from ballCOntrol class to interface <[1;33mJarred Moyer[m>
+ [[1;32m2016-10-14[m] Merge branch 'master' of http://github.com/gorillabots/ftc_app_2016-17 <[1;33mMikko[m>
+ [[1;32m2016-10-14[m] Added OpMode for moving a specified distance <[1;33mMikko[m>
+ [[1;32m2016-10-14[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2016-10-14[m] Merge branch 'master' of https://github.com/ftctechnh/ftc_app into upstream-master <[1;33mJarred Moyer[m>
+ [[1;32m2016-10-11[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mMichelle[m>
+ [[1;32m2016-10-11[m] took out the beacon reading section <[1;33mMichelle[m>
+ [[1;32m2016-10-11[m] Merge branch 'master' of http://github.com/gorillabots/ftc_app_2016-17 <[1;33mMikko[m>
+ [[1;32m2016-10-11[m] A few minor tweaks to one stick drive train, added heading to telemetry <[1;33mMikko[m>
+ [[1;32m2016-10-11[m] took out "Color_sensor" <[1;33mMichelle[m>
+ [[1;32m2016-10-11[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mMichelle[m>
+ [[1;32m2016-10-11[m] added gamepad pushing for Led check <[1;33mMichelle[m>
+ [[1;32m2016-10-11[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2016-10-11[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mMichelle[m>
+ [[1;32m2016-10-11[m] Merge branch 'master' of https://github.com/ftctechnh/ftc_app into upstream-master <[1;33mJarred Moyer[m>
+ [[1;32m2016-10-11[m] files for the tank drive tele op as of 10/7 <[1;33mJarred Moyer[m>
+ [[1;32m2016-10-09[m] Added gyro test opmode, fixed a few bugs related to the omniwheel gyro system <[1;33mMikko[m>
+ [[1;32m2016-10-09[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mMichelle[m>
+ [[1;32m2016-10-09[m] MRcolor stuff <[1;33mMichelle[m>
+ [[1;32m2016-10-09[m] Removed unused imports, used ModernRoboticsI2cGyro.resetZAxisIntegrator() instead of my weird, potentially unreliable code <[1;33mMikko[m>
+ [[1;32m2016-10-09[m] Merge branch 'master' of http://github.com/gorillabots/ftc_app_2016-17 <[1;33mMikko[m>
+ [[1;32m2016-10-09[m] Added code to use gyro sensor for omniwheel opmode <[1;33mMikko[m>
+ [[1;32m2016-10-08[m] removed the PDF from the doc/tutorial...replaced with a README.txt.  The PDF files are now found on the Releases page of the GitHub repository. <[1;33mFTCTechNH[m>
+ [[1;32m2016-10-07[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2016-10-07[m] Today I removed Vuforia from the team files, this allowed us to sucessfully compile with ease. I also started wwork on a tank practice opmode that's sole purpose was to test the possibilities of tank drive on a holonomic drive train <[1;33mJarred Moyer[m>
+ [[1;32m2016-10-07[m] Changed one line of code to allow OmniwheelOp to work before rotation is implemented <[1;33mMikko[m>
+ [[1;32m2016-10-07[m] Merge branch 'master' of http://github.com/gorillabots/ftc_app_2016-17 <[1;33mMikko[m>
+ [[1;32m2016-10-07[m] Renamed testOpMode to OmniwheelOp, prepared to code support for gathering sensor data to allow for tracking rotation <[1;33mMikko[m>
+ [[1;32m2016-10-07[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2016-10-07[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mMichelle[m>
+ [[1;32m2016-10-07[m] Added Modern robotics test P from last year, new one for this RGB <[1;33mMichelle[m>
+ [[1;32m2016-10-07[m] Fixed various omniwheel code bugs, update .gitignore to ignore build.gradle files <[1;33mMikko[m>
+ [[1;32m2016-10-07[m] created the tank test opmode <[1;33mJarred Moyer[m>
+ [[1;32m2016-10-07[m] Merge branch 'master' of http://github.com/gorillabots/ftc_app_2016-17 <[1;33mMikko[m>
+ [[1;32m2016-10-07[m] Fixed omniwheel bug and added motor test loop to drivetrain.java <[1;33mMikko[m>
+ [[1;32m2016-10-07[m] l <[1;33mMichelle[m>
+ [[1;32m2016-10-07[m] added stuf to drive train <[1;33mMichelle[m>
+ [[1;32m2016-10-07[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJoshua Kartzman[m>
+ [[1;32m2016-10-07[m] no message <[1;33mJoshua Kartzman[m>
+ [[1;32m2016-10-07[m] fixed typo... "2.31" corrected to "2.35". <[1;33mFTCTechNH[m>
+ [[1;32m2016-10-06[m] v2.35 - Removed unnecesary idle() call from blocks for new project. <[1;33mFTCTechNH[m>
+ [[1;32m2016-10-05[m] V2.3 release <[1;33mFTCTechNH[m>
+ [[1;32m2016-10-04[m] Changes made by Mikko to Drivetrain on my computer <[1;33mChris Soper[m>
+ [[1;32m2016-10-04[m] Got TestOpMode to run an omniwheel drive train, allowed drive train to access motors <[1;33mMikko[m>
+ [[1;32m2016-10-02[m] Added links to Omniwheel related web pages left open after sunday's meeting on my computer by Jarred and Michelle <[1;33mChris Soper[m>
+ [[1;32m2016-10-02[m] Added script for copy-pasting git history into the Engineering Notebook <[1;33mChris Soper[m>
+ [[1;32m2016-10-02[m] Code added by Jarred and Michelle while designing the Holocentric Drivetrain <[1;33mChris Soper[m>
+ [[1;32m2016-10-02[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJoshua Kartzman[m>
+ [[1;32m2016-10-02[m] These are new and improved versions of the button presser class/interface. <[1;33mJoshua Kartzman[m>
+ [[1;32m2016-10-02[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mMichelle[m>
+ [[1;32m2016-10-02[m] added and changed vuforia to teleop. <[1;33mMichelle[m>
+ [[1;32m2016-10-01[m] Added various samples, and example OpModes using Interfaces and stateful type program flows <[1;33mChris Soper[m>
+ [[1;32m2016-09-30[m] Separated one stick and two stick control systems, added code for omniwheel drive <[1;33mMikko[m>
+ [[1;32m2016-09-30[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJoshua Kartzman[m>
+ [[1;32m2016-09-30[m] This is the interface and the implementation for the Button Presser. <[1;33mJoshua Kartzman[m>
+ [[1;32m2016-09-30[m] Test commit <[1;33mMikko[m>
+ [[1;32m2016-09-27[m] Merge branch 'upstream-master' <[1;33mChris Soper[m>
+ [[1;32m2016-09-27[m] Added large ball lifer interface and started implementation framework <[1;33mChris Soper[m>
+ [[1;32m2016-09-27[m] Merge branch 'master' of https://github.com/gorillabots/ftc_app_2016-17 <[1;33mJarred Moyer[m>
+ [[1;32m2016-09-27[m] Added driveTrain class. <[1;33mMichelle[m>
+ [[1;32m2016-09-27[m] TOday we started development on the drive train. <[1;33mJarred Moyer[m>
+ [[1;32m2016-09-27[m] Merge remote-tracking branch 'upstream/master' <[1;33mJarred Moyer[m>
+ [[1;32m2016-09-16[m] added the adb (android device bride) startup batch file to the docs folder. <[1;33mJarred Moyer[m>
+ [[1;32m2016-09-11[m] Test commit please ignore <[1;33mJarred Moyer[m>
+ [[1;32m2016-09-09[m] added javadoc <[1;33mFTCTechNH[m>
+ [[1;32m2016-09-09[m] added javadoc <[1;33mFTCTechNH[m>
+ [[1;32m2016-09-09[m] disabled debuggable mode for release version of the FTC Robot Controller app. <[1;33mFTCTechNH[m>
+ [[1;32m2016-09-09[m] disabled debuggable mode for release version of the FTC Robot Controller app. <[1;33mFTCTechNH[m>
+ [[1;32m2016-09-09[m] The apk files are now zipaligned. <[1;33mFTCTechNH[m>
+ [[1;32m2016-09-09[m] The apk files are now zipaligned. <[1;33mFTCTechNH[m>
+ [[1;32m2016-09-08[m] added gradlew files back (sorry about this again...). <[1;33mFTCTechNH[m>
+ [[1;32m2016-09-08[m] added gradlew files back (sorry about this again...). <[1;33mFTCTechNH[m>
+ [[1;32m2016-09-08[m] v2.2 (released on 20160908) <[1;33mFTCTechNH[m>
+ [[1;32m2016-09-08[m] v2.2 (released on 20160908) <[1;33mFTCTechNH[m>
+ [[1;32m2016-09-03[m] Release v2.1 (160903). <[1;33mFTCTechNH[m>
+ [[1;32m2016-09-03[m] Release v2.1 (160903). <[1;33mFTCTechNH[m>
+ [[1;32m2016-08-19[m] update gradlew and gradlew.bat <[1;33mFTCTechNH[m>
+ [[1;32m2016-08-19[m] update gradlew and gradlew.bat <[1;33mFTCTechNH[m>
+ [[1;32m2016-08-19[m] restored gradlew and gradlew.bat which were accidentally removed in the push of v 2.0 <[1;33mFTCTechNH[m>
+ [[1;32m2016-08-19[m] restored gradlew and gradlew.bat which were accidentally removed in the push of v 2.0 <[1;33mFTCTechNH[m>
+ [[1;32m2016-08-19[m] v 2.0 (released on 20160819). <[1;33mFTCTechNH[m>
+ [[1;32m2016-08-19[m] v 2.0 (released on 20160819). <[1;33mFTCTechNH[m>
+ [[1;32m2016-07-08[m] updated README file. <[1;33mFTCTechNH[m>
+ [[1;32m2016-07-08[m] updated README file. <[1;33mFTCTechNH[m>
+ [[1;32m2016-07-08[m] update the gradle files to support newer Android Studio 2.1.x environment. <[1;33mFTCTechNH[m>
+ [[1;32m2016-07-08[m] update the gradle files to support newer Android Studio 2.1.x environment. <[1;33mFTCTechNH[m>
+ [[1;32m2016-03-30[m] updated README.md file. <[1;33mFTCTechNH[m>
+ [[1;32m2016-03-30[m] updated README.md file. <[1;33mFTCTechNH[m>
+ [[1;32m2016-03-30[m] updated FtcCommon, Hardware and RobotCore AAR files with 16.03.30 versions. <[1;33mFTCTechNH[m>
+ [[1;32m2016-03-30[m] updated FtcCommon, Hardware and RobotCore AAR files with 16.03.30 versions. <[1;33mFTCTechNH[m>
+ [[1;32m2016-03-30[m] updated javadoc <[1;33mFTCTechNH[m>
+ [[1;32m2016-03-30[m] updated javadoc <[1;33mFTCTechNH[m>
+ [[1;32m2016-03-30[m] updated .apk files to v1.77 versions <[1;33mFTCTechNH[m>
+ [[1;32m2016-03-30[m] updated .apk files to v1.77 versions <[1;33mFTCTechNH[m>
+ [[1;32m2016-03-10[m] Updated README.md file to reflect 16.03.09 changes. <[1;33mFTCTechNH[m>
+ [[1;32m2016-03-10[m] Updated README.md file to reflect 16.03.09 changes. <[1;33mFTCTechNH[m>
+ [[1;32m2016-03-10[m] Update .aar files with new versions from 16.03.09. Update FtcRobotController/build.gradle to use compileSdkVersion 19. Added FtcRobotController/libs/ftc.debug.keystore so all user generated apps are signed by the same key. Update AndroidManifest.xml with current version number. <[1;33mFTCTechNH[m>
+ [[1;32m2016-03-10[m] Update .aar files with new versions from 16.03.09. Update FtcRobotController/build.gradle to use compileSdkVersion 19. Added FtcRobotController/libs/ftc.debug.keystore so all user generated apps are signed by the same key. Update AndroidManifest.xml with current version number. <[1;33mFTCTechNH[m>
+ [[1;32m2016-03-10[m] removed ftc_app.iml and FtcRobotController.iml files from repo. <[1;33mFTCTechNH[m>
+ [[1;32m2016-03-10[m] removed ftc_app.iml and FtcRobotController.iml files from repo. <[1;33mFTCTechNH[m>
+ [[1;32m2016-03-10[m] updated javadoc for library built on 16.03.09. <[1;33mFTCTechNH[m>
+ [[1;32m2016-03-10[m] updated javadoc for library built on 16.03.09. <[1;33mFTCTechNH[m>
+ [[1;32m2016-03-10[m] Added v1.7 (with library 16.03.09) driver station and robot controller APK files. <[1;33mFTCTechNH[m>
+ [[1;32m2016-03-10[m] Added v1.7 (with library 16.03.09) driver station and robot controller APK files. <[1;33mFTCTechNH[m>
+ [[1;32m2016-02-09[m] Release v 16.02.09 <[1;33mFTCTechNH[m>
+ [[1;32m2016-02-09[m] Release v 16.02.09 <[1;33mFTCTechNH[m>
+ [[1;32m2016-01-04[m] Updated README.md <[1;33mFTCTechNH[m>
+ [[1;32m2016-01-04[m] Updated README.md <[1;33mFTCTechNH[m>
+ [[1;32m2016-01-04[m] release 20160104 <[1;33mFTCTechNH[m>
+ [[1;32m2016-01-04[m] release 20160104 <[1;33mFTCTechNH[m>
+ [[1;32m2015-11-04[m] Release 15.11.04.001. <[1;33mFTC Engineer[m>
+ [[1;32m2015-11-04[m] Release 15.11.04.001. <[1;33mFTC Engineer[m>
+ [[1;32m2015-10-06[m] Release 15.10.06.002 - support for legacy Matrix motor servo controller. <[1;33mFTC Engineer[m>
+ [[1;32m2015-10-06[m] Release 15.10.06.002 - support for legacy Matrix motor servo controller. <[1;33mFTC Engineer[m>
+ [[1;32m2015-10-06[m] Release 15.10.06.002 - support for legacy Matrix motor servo controller. <[1;33mFTC Engineer[m>
+ [[1;32m2015-10-06[m] Release 15.10.06.002 - support for legacy Matrix motor servo controller. <[1;33mFTC Engineer[m>
+ [[1;32m2015-09-23[m] rel 20150918_001 <[1;33mThomas Eng[m>
+ [[1;32m2015-09-23[m] rel 20150918_001 <[1;33mThomas Eng[m>
+ [[1;32m2015-08-31[m] corrected .gitignore error. <[1;33mThomas Eng[m>
+ [[1;32m2015-08-31[m] corrected .gitignore error. <[1;33mThomas Eng[m>
+ [[1;32m2015-08-28[m] updated K9 bot disclaimer. also, removed non-generic .pdf file names. <[1;33mThomas Eng[m>
+ [[1;32m2015-08-28[m] updated K9 bot disclaimer. also, removed non-generic .pdf file names. <[1;33mThomas Eng[m>
+ [[1;32m2015-08-20[m] Added generic versions of the manual names (dropping the version number from the file name) at the request of the community.  This way the links to the documents do not need to change as the version number of the document changes. <[1;33mThomas Eng[m>
+ [[1;32m2015-08-14[m] added Telemetry class back to javadoc documents. <[1;33mThomas Eng[m>
+ [[1;32m2015-08-14[m] added Telemetry class back to javadoc documents. <[1;33mThomas Eng[m>
+ [[1;32m2015-08-03[m] Beta 20150803_001 (app version 1.05) <[1;33mThomas Eng[m>
+ [[1;32m2015-08-03[m] Beta 20150803_001 (app version 1.05) <[1;33mThomas Eng[m>
+ [[1;32m2015-06-05[m] Added an empty op mode that teams can use as a template for creating their own op mode. <[1;33mThomas Eng[m>
+ [[1;32m2015-06-05[m] Minor updates to .pdf files for tutorial. Added disclaimer for K9bot. <[1;33mThomas Eng[m>
+ [[1;32m2015-06-05[m] Merge branch 'JacobAMason-master' <[1;33mThomas Eng[m>
+ [[1;32m2015-06-04[m] Adds minimal .gitignore <[1;33mJacobAMason[m>
+ [[1;32m2015-06-03[m] corrected error in training manual <[1;33mThomas Eng[m>
+ [[1;32m2015-06-03[m] updated build guide - now with parts inventory. <[1;33mThomas Eng[m>
+ [[1;32m2015-06-03[m] Added team and mentor guide. <[1;33mThomas Eng[m>
+ [[1;32m2015-06-03[m] rearranged doc folder.  created javadoc subdirectory, added tutorial files, and also created subdirectory with the release .apk files. <[1;33mThomas Eng[m>
+ [[1;32m2015-05-29[m] added javadoc documentation.  note that the javadoc documentation has several entries that are out of date and need to be updated. <[1;33mThomas Eng[m>
+ [[1;32m2015-05-28[m] Merge branch 'master' of https://github.com/ftctechnh/ftc_app <[1;33mThomas Eng[m>
+ [[1;32m2015-05-28[m] cleaned up and some old files. <[1;33mThomas Eng[m>
+ [[1;32m2015-05-28[m] Create README.md <[1;33mFTC Engineering[m>
+ [[1;32m2015-05-28[m] removed .idea and .gradle <[1;33mThomas Eng[m>
+ [[1;32m2015-05-28[m] included changes to manifest file to use string literals rather than string resources.  Allows the APK to be scanned properly by Google Play during upload. <[1;33mThomas Eng[m>
+ [[1;32m2015-05-26[m] Merge branch 'master' of https://github.com/ftctechnh/ftc_app <[1;33mThomas Eng[m>
+ [[1;32m2015-05-26[m] removed .gitignore <[1;33mThomas Eng[m>
+ [[1;32m2015-05-26[m] Delete .gitignore <[1;33mFTC Engineering[m>
+ [[1;32m2015-05-26[m] Initial upload <[1;33mThomas Eng[m>
