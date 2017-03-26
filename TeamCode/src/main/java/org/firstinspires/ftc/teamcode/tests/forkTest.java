@@ -23,11 +23,10 @@ import org.firstinspires.ftc.teamcode.submodules.LedController;
 @TeleOp(name = "Fork Test", group = "Concept")
 public class forkTest extends OpMode {
     DcMotor raise;
-        LedController led;
+    //LedController led;
     DeviceInterfaceModule cdim;
     AnalogInput stop;
     ForkLift fork;
-    static final int LimitSwitchPin = 7;
     Drivetrain drivetrain;
     ModernRoboticsI2cGyro gyro;
     public void init(){
@@ -54,8 +53,8 @@ public class forkTest extends OpMode {
         gyro.resetZAxisIntegrator();
     }
     public void loop(){
-        led.setLedState(LedStates.ON);
-        led.LedFlash(10000, 1000);
+        //led.setLedState(LedStates.ON);
+        //led.LedFlash(10000, 1000);
         fork.lift(-gamepad2.left_stick_y);
         telemetry.addData("encoder at", raise.getCurrentPosition());
         telemetry.addData("Voltage", stop.getVoltage());

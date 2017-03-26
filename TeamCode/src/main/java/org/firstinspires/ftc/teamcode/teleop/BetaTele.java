@@ -27,8 +27,7 @@ public class BetaTele extends OpMode
 
     FlyState flyState;
     DoubleScale flyRamp;
-    ElapsedTime heartBeat;
-    LedHelp led;
+
     public void init()
     {
         drivetrain = new Drivetrain(hardwareMap, telemetry);
@@ -43,8 +42,8 @@ public class BetaTele extends OpMode
         beaconColor.setI2cAddress(I2cAddr.create8bit(58));
         beaconColor.enableLed(false);
         beaconColor.enableLed(true);
-        heartBeat = new ElapsedTime();
-        led = new LedHelp(hardwareMap,telemetry);
+        //heartBeat = new ElapsedTime();
+        //led = new LedHelp(hardwareMap,telemetry);
         flyState = FlyState.OFF;
         //flyRamp = new DoubleScale(1, 1, 1, 1);
     }
@@ -52,35 +51,9 @@ public class BetaTele extends OpMode
     boolean button;
     boolean buttonLast = false;
     boolean flyActive = false;
-    boolean firstCycle = true;
+
     public void loop()
     {
-        if(firstCycle)
-        {
-            firstCycle = false;
-            heartBeat.reset();
-        }
-
-        if(heartBeat.milliseconds() > 80000){
-           led.flash();
-        }
-        else{
-            led.ledOn();
-        }
-//90000
-
-        /*
-        if(heartBeat.milliseconds() > 0 && heartBeat.milliseconds() <10000){
-            if((heartBeat.milliseconds()%500) == 0){
-                if(led.getLed() == 0){
-                    led.ledOn();
-                }
-                if(led.getLed() == 1){
-                    led.LedOff();
-                }
-            }
-        }
-        */
         float stickX = (gamepad1.left_stick_x); // Stick position (Absolute heading)
         float stickY = (gamepad1.left_stick_y); // Each is in range -1 to 1
         float stickRot = (gamepad1.right_stick_x / 2f); //Used to rotate the robot;
@@ -93,7 +66,7 @@ public class BetaTele extends OpMode
         drivetrain.oneStickLoop(stickX, stickY, stickRot);
 
         //Flywheel ramping stuff
-        {
+        /*{
             button = gamepad2.right_bumper;
 
             if(button && !buttonLast)
@@ -140,7 +113,17 @@ public class BetaTele extends OpMode
             }
 
             buttonLast = button;
+        }*/
+
+        button = gamepad2.right_bumper;
+
+        if(button && !buttonLast)
+        {
+            flyActive = !flyActive;
+            ballControl.newRunFlywheel(flyActive);
         }
+
+        buttonLast = button;
 
         if(gamepad1.right_bumper)
         {
