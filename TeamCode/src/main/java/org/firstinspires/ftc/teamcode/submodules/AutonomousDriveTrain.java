@@ -13,7 +13,6 @@ import org.firstinspires.ftc.teamcode.submodules.ColorHelper;
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.TeamColors;
 
-
 //Created by Mikko on 10/14/16.
 
 /*
