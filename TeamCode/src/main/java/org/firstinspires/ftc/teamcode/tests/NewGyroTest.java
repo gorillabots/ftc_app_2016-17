@@ -41,8 +41,16 @@ public class NewGyroTest extends OpMode
     float head;
     float fusedHead;
 
+    boolean isMoving;
+    boolean isRotating;
+
     public void loop()
     {
+	if(gamepad1.x)
+	{
+            navx.zeroYaw();
+	}
+
         ax = navx.getWorldLinearAccelX();
         ay = navx.getWorldLinearAccelY();
         az = navx.getWorldLinearAccelZ();
@@ -51,6 +59,8 @@ public class NewGyroTest extends OpMode
         rz = navx.getYaw();
         head = navx.getCompassHeading();
         fusedHead = navx.getFusedHeading();
+        isMoving = navx.isMoving();
+        isRotating = navx.isRotating();
 
         telemetry.addData("Acceleration X", ax);
         telemetry.addData("Acceleration Y", ay);
@@ -60,5 +70,7 @@ public class NewGyroTest extends OpMode
         telemetry.addData("Rotation Z", rz);
         telemetry.addData("Compass Heading", head);
         telemetry.addData("Fused Heading", fusedHead);
+        telemetry.addData("Is Moving", isMoving);
+        telemetry.addData("Is Rotating", isRotating);
     }
 }
