@@ -46,10 +46,10 @@ public class NewGyroTest extends OpMode
 
     public void loop()
     {
-	if(gamepad1.x)
-	{
-            navx.zeroYaw();
-	}
+        if(gamepad1.x)
+        {
+                navx.zeroYaw();
+        }
 
         ax = navx.getWorldLinearAccelX();
         ay = navx.getWorldLinearAccelY();
@@ -72,5 +72,6 @@ public class NewGyroTest extends OpMode
         telemetry.addData("Fused Heading", fusedHead);
         telemetry.addData("Is Moving", isMoving);
         telemetry.addData("Is Rotating", isRotating);
+        telemetry.update();
     }
 }
