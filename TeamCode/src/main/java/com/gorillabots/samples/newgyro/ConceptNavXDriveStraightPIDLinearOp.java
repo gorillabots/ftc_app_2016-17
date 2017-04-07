@@ -78,7 +78,7 @@ public class ConceptNavXDriveStraightPIDLinearOp extends LinearOpMode {
     private final double MAX_MOTOR_OUTPUT_VALUE = 1.0;
     private final double YAW_PID_P = 0.005;
     private final double YAW_PID_I = 0.0;
-    private final double YAW_PID_D = 0.0;
+    private final double YAW_PID_D = 0.0;       
 
     private boolean calibration_complete = false;
 
