@@ -12,13 +12,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.DoubleScale;
 import org.firstinspires.ftc.teamcode.submodules.BallControl;
 import org.firstinspires.ftc.teamcode.submodules.Drivetrain;
+import org.firstinspires.ftc.teamcode.submodules.DrivetrainNewGyro;
 import org.firstinspires.ftc.teamcode.submodules.ForkLift;
 import org.firstinspires.ftc.teamcode.submodules.LedHelp;
 
 @TeleOp(name = "Beta TeleOp", group = "Final")
 public class BetaTele extends OpMode
 {
-    Drivetrain drivetrain;
+    DrivetrainNewGyro drivetrain;
     BallControl ballControl;
     ForkLift forkLift;
 
@@ -30,7 +31,7 @@ public class BetaTele extends OpMode
 
     public void init()
     {
-        drivetrain = new Drivetrain(hardwareMap, telemetry);
+        drivetrain = new DrivetrainNewGyro(hardwareMap, telemetry);
         ballControl = new BallControl(hardwareMap, telemetry);
         forkLift = new ForkLift(hardwareMap);
 

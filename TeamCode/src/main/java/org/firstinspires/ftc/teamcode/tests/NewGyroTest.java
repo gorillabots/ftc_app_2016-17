@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 @Autonomous(name="NewGyroTest", group="Test")
 public class NewGyroTest extends OpMode
 {
-    private final int NAVX_DIM_I2C_PORT = 0;
+    private final int NAVX_DIM_I2C_PORT = 5;
     private final byte NAVX_DEVICE_UPDATE_RATE_HZ = 50;
 
     AHRS navx;
