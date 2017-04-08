@@ -93,6 +93,18 @@ public class BallControl
 
     }
 
+    public void newRunFlywheelopp(boolean on)
+    {
+        if(on)
+        {
+            fly.setPower(1);
+        }
+        else
+        {
+            fly.setPower(0);
+        }
+
+    }
     public void newRunElevator(boolean direction)
     {
         if(direction)

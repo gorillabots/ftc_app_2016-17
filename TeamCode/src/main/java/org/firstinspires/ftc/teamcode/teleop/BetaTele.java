@@ -134,53 +134,48 @@ public class BetaTele extends OpMode
         {
             ballControl.newRunCollector(false);
         }
-        else
-        {
+        else {
             ballControl.newStopCollector();
         }
 
-        if(gamepad2.left_bumper)
-        {
+        if (gamepad2.right_trigger >= .6) {
+
+            flyActive = false;
+            ballControl.newRunFlywheelopp(true);
+        }
+        else {
+            ballControl.newRunFlywheelopp(false);
+        }
+
+        if (gamepad2.left_bumper) {
             ballControl.newRunElevator(true);
-        }
-        else if(gamepad2.left_trigger >= .6)
-        {
+        } else if (gamepad2.left_trigger >= .6) {
             ballControl.newRunElevator(false);
-        }
-        else
-        {
+        } else {
             ballControl.newStopElevator();
         }
 
         float stick2Y = -gamepad2.left_stick_y;
 
-        if(Math.abs(stick2Y) >= .2)
-        {
-            if(gamepad2.dpad_up && stick2Y > 0)
-            {
+        if (Math.abs(stick2Y) >= .2) {
+            if (gamepad2.dpad_up && stick2Y > 0) {
                 forkLift.liftOverride(stick2Y);
-            }
-            else
-            {
+            } else {
                 forkLift.lift(stick2Y);
             }
-        }
-        else
-        {
+        } else {
             forkLift.stop();
         }
     }
 
     @Override
-    public void stop()
-    {
+    public void stop() {
         super.stop();
         floorColor.enableLed(false);
     }
 
     //Graph: https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Logistic-curve.svg/320px-Logistic-curve.svg.png
-    public static double sigmoid(double x)
-    {
+    public static double sigmoid(double x) {
         return (1 / (1 + Math.pow(Math.E, -x)));
     }
 }
