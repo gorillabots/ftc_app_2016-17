@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.submodules;
 
+import com.kauailabs.navx.ftc.AHRS;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -49,6 +50,10 @@ public class AutonomousDriveTrain
     ModernRoboticsI2cGyro gyro;
     //Servo touchServo;
     Telemetry telemetry;
+    private final int NAVX_DIM_I2C_PORT = 5;
+    private final byte NAVX_DEVICE_UPDATE_RATE_HZ = 50;
+
+    AHRS navx;
     public void init(LinearOpMode opMode) //Get hardware from hardwareMap
     {
         telemetry = opMode.telemetry;
@@ -68,30 +73,27 @@ public class AutonomousDriveTrain
         backLeft.setMode(RunMode.RUN_USING_ENCODER);
         //touchServo = opMode.hardwareMap.servo.get("servoSwing");
         wallTouch = opMode.hardwareMap.touchSensor.get("wallTouch");
-        gyro = (ModernRoboticsI2cGyro) opMode.hardwareMap.gyroSensor.get("gyro");
+        navx = AHRS.getInstance(opMode.hardwareMap.deviceInterfaceModule.get("dim"),
+                NAVX_DIM_I2C_PORT,
+                AHRS.DeviceDataType.kProcessedData,
+                NAVX_DEVICE_UPDATE_RATE_HZ);
 
-        gyro.calibrate();
-
-        try //Wait for gyro to calibrate
+        while(navx.isCalibrating())
         {
-            while (gyro.isCalibrating())
+            try
             {
-                Thread.sleep(50);
-                telemetry.addData("Status", "Calibrating Gyro");
-                telemetry.update();
+                Thread.sleep(5);
+            }
+            catch(InterruptedException e)
+            {
+                e.printStackTrace();
             }
         }
-        catch(InterruptedException e)
-        {
-            e.printStackTrace();
-        }
-
-        gyro.resetZAxisIntegrator(); //Reset heading
     }
 
     public void resetGyro() //Define the current heading as 0 degrees
     {
-        gyro.resetZAxisIntegrator();
+        navx.zeroYaw();
     }
 
 
@@ -127,12 +129,12 @@ public class AutonomousDriveTrain
         double pos = getPosFB();
         double target = pos + meters * Constants.STRAIGHT_INCREMENTS;
 
-        int heading;
+        double heading;
         double turnpow;
 
         while(pos < target && opMode.opModeIsActive())
         {
-            heading = gyro.getHeading();
+            heading = navx.getYaw();
 
             if(heading <= accuracy || heading >= 360 - accuracy)
             {
@@ -199,12 +201,12 @@ public class AutonomousDriveTrain
      */
     public void forwardsGyroToLine(ColorSensor floorColor, double power, int accuracy, double turnpower) //Move forward to line using gyro
     {
-        int heading;
+        double heading;
         double turnpow;
 
         while(!ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive())
         {
-            heading = gyro.getHeading();
+            heading = navx.getYaw();
 
             if(heading <= accuracy || heading >= 360 - accuracy) //In range 1-359
             {
@@ -239,7 +241,7 @@ public class AutonomousDriveTrain
 
     public void forwardsGyroToLineTimeout(ColorSensor floorColor, double power, int accuracy, double turnpower, double timeout) //Move forward to line using gyro with timeout
     {
-        int heading;
+        double heading;
         double turnpow;
 
         long startTime = System.currentTimeMillis();
@@ -247,7 +249,7 @@ public class AutonomousDriveTrain
 
         while(!ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive() && System.currentTimeMillis() < endTime)
         {
-            heading = gyro.getHeading();
+            heading = navx.getYaw();
 
             if(heading <= accuracy || heading >= 360 - accuracy) //In range 1-359
             {
@@ -326,12 +328,12 @@ public class AutonomousDriveTrain
         double pos = getPosFB();
         double target = pos - meters * Constants.STRAIGHT_INCREMENTS;
 
-        int heading;
+        double heading;
         double turnpow;
 
         while(getPosFB() > target && opMode.opModeIsActive())
         {
-            heading = gyro.getHeading();
+            heading = navx.getYaw();
 
             if(heading <= accuracy || heading >= 360 - accuracy)
             {
@@ -398,12 +400,12 @@ public class AutonomousDriveTrain
      */
     public void backGyroToLine(ColorSensor floorColor, double power, int accuracy, double turnpower) //Move back to line using gyro
     {
-        int heading;
+        double heading;
         double turnpow;
 
         while(!ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive())
         {
-            heading = gyro.getHeading();
+            heading = navx.getYaw();
 
             if(heading <= accuracy || heading >= 360 - accuracy)
             {
@@ -439,7 +441,7 @@ public class AutonomousDriveTrain
 
     public void backGyroToLineTimeout(ColorSensor floorColor, double power, int accuracy, double turnpower, double timeout) //Move back to line using gyro with timeout
     {
-        int heading;
+        double heading;
         double turnpow;
 
         long startTime = System.currentTimeMillis();
@@ -447,7 +449,7 @@ public class AutonomousDriveTrain
 
         while(!ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive() && System.currentTimeMillis() < endTime)
         {
-            heading = gyro.getHeading();
+            heading = navx.getYaw();
 
             if(heading <= accuracy || heading >= 360 - accuracy)
             {
@@ -491,12 +493,12 @@ public class AutonomousDriveTrain
     @Deprecated
     public void backGyroToLineDelay(ColorSensor floorColor, double power, int accuracy, double turnpower) //Move back to line using gyro
     {
-        int heading;
+        double heading;
         double turnpow;
         back(.2, .4);
         while(!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive())
         {
-            heading = gyro.getHeading();
+            heading = navx.getYaw();
 
             if(heading <= accuracy || heading >= 360 - accuracy)
             {
@@ -575,12 +577,12 @@ public class AutonomousDriveTrain
         double pos = getPosRL();
         double target = pos + meters * Constants.STRAIGHT_INCREMENTS;
 
-        int heading;
+        double heading;
         double turnpow;
 
         while(pos < target && opMode.opModeIsActive())
         {
-            heading = gyro.getHeading();
+            heading = navx.getYaw();
 
             if(heading <= accuracy || heading >= 360 - accuracy)
             {
@@ -624,12 +626,12 @@ public class AutonomousDriveTrain
      */
     public void rightGyroToLine(ColorSensor floorColor, double power, int accuracy, double turnpower) //Move right to line using gyro
     {
-        int heading;
+        double heading;
         double turnpow;
 
         while(!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive())
         {
-            heading = gyro.getHeading();
+            heading = navx.getYaw();
 
             if(heading <= accuracy || heading >= 360 - accuracy)
             {
@@ -668,12 +670,12 @@ public class AutonomousDriveTrain
      */
     public void rightGyroToTouch(double power, int accuracy, double turnpower) //Move right to touch using gyro
     {
-        int heading;
+        double heading;
         double turnpow;
 
         while(!wallTouch.isPressed() && opMode.opModeIsActive())
         {
-            heading = gyro.getHeading();
+            heading = navx.getYaw();
 
             if(heading <= accuracy || heading >= 360 - accuracy)
             {
@@ -752,12 +754,12 @@ public class AutonomousDriveTrain
         double pos = getPosRL();
         double target = pos - meters * Constants.STRAIGHT_INCREMENTS;
 
-        int heading;
+        double heading;
         double turnpow;
 
         while(pos > target && opMode.opModeIsActive())
         {
-            heading = gyro.getHeading();
+            heading = navx.getYaw();
 
             if(heading <= accuracy || heading >= 360 - accuracy)
             {
@@ -821,12 +823,12 @@ public class AutonomousDriveTrain
         double pos = getPosBLFR();
         double target = pos + meters * Constants.DIAGONAL_INCREMENTS;
 
-        int heading;
+        double heading;
         double turnpow;
 
         while(pos < target && opMode.opModeIsActive())
         {
-            heading = gyro.getHeading();
+            heading = navx.getYaw();
 
             if(heading <= accuracy || heading >= 360 - accuracy)
             {
@@ -886,12 +888,12 @@ public class AutonomousDriveTrain
         double pos = getPosBRFL();
         double target = pos + meters * Constants.DIAGONAL_INCREMENTS;
 
-        int heading;
+        double heading;
         double turnpow;
 
         while (pos < target && opMode.opModeIsActive())
         {
-            heading = gyro.getHeading();
+            heading = navx.getYaw();
 
             if (heading <= accuracy || heading >= 360 - accuracy)
             {
@@ -951,12 +953,12 @@ public class AutonomousDriveTrain
         double pos = getPosBRFL();
         double target = pos - meters * Constants.DIAGONAL_INCREMENTS;
 
-        int heading;
+        double heading;
         double turnpow;
 
         while(pos > target && opMode.opModeIsActive())
         {
-            heading = gyro.getHeading();
+            heading = navx.getYaw();
 
             if (heading <= accuracy || heading >= 360 - accuracy)
             {
@@ -1016,12 +1018,12 @@ public class AutonomousDriveTrain
         double pos = getPosBLFR();
         double target = pos - meters * Constants.DIAGONAL_INCREMENTS;
 
-        int heading;
+        double heading;
         double turnpow;
 
         while(pos > target && opMode.opModeIsActive())
         {
-            heading = gyro.getHeading();
+            heading = navx.getYaw();
 
             if (heading <= accuracy || heading >= 360 - accuracy)
             {
@@ -1055,12 +1057,12 @@ public class AutonomousDriveTrain
 
     public void turnToGyro(int accuracy, double turnpower) //Turn until we are aligned
     {
-        int heading;
+        double heading;
         double turnpow;
 
         while(opMode.opModeIsActive())
         {
-            heading = gyro.getHeading();
+            heading = navx.getYaw();
 
             opMode.telemetry.addData("Action", "Turn to Gyro");
             opMode.telemetry.addData("Heading", heading);
@@ -1149,8 +1151,8 @@ public class AutonomousDriveTrain
 
         while(true)
         {
-            int initial_heading = gyro.getHeading(); //TODO: Potential memory leak!
-            int degree_rotation = target - initial_heading;
+            double initial_heading = navx.getYaw(); //TODO: Potential memory leak!
+            double degree_rotation = target - initial_heading;
             if(degree_rotation < 0)
             {
                 degree_rotation = degree_rotation + 360;
@@ -1181,7 +1183,7 @@ public class AutonomousDriveTrain
 
     public void turnToGyroAny(int target, double speed, int accuracy)
     {
-        int heading = gyro.getHeading();
+        double heading = navx.getYaw();
 
         int pivot;
 
@@ -1240,7 +1242,7 @@ public class AutonomousDriveTrain
 
             opMode.sleep(50);
 
-            heading = gyro.getHeading();
+            heading = navx.getYaw();
         }
 
         frontRight.setPower(0);
@@ -1307,12 +1309,12 @@ public class AutonomousDriveTrain
 
         double range = rangeSensor.cmUltrasonic();
 
-        int heading;
+        double heading;
         double turnpow;
 
         while((range < min || range > max) && opMode.opModeIsActive())
         {
-            heading = gyro.getHeading();
+            heading = navx.getYaw();
 
             if (heading <= accuracyRot || heading >= 360 - accuracyRot)
             {

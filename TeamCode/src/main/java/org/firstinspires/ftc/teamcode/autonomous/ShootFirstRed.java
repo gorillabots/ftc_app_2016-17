@@ -42,10 +42,10 @@ public class ShootFirstRed extends LinearOpMode {
         beaconColorR.enableLed(false);
 
         range = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
-
+        driveTrain.resetGyro();
         waitForStart();
 
-        driveTrain.resetGyro();
+
 
         shooter.newRunFlywheel(true);
 
@@ -64,7 +64,7 @@ public class ShootFirstRed extends LinearOpMode {
 
         driveTrain.goToDistance(range, 6, .5, .1);
         driveTrain.right(.09,.4);
-        driveTrain.resetGyro();
+//        driveTrain.resetGyro();
 
 
         driveTrain.left(.1198, .5);
