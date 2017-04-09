@@ -138,14 +138,14 @@ public class BetaTele extends OpMode
             ballControl.newStopCollector();
         }
 
-        if (gamepad2.right_trigger >= .6) {
+        /*if (gamepad2.right_trigger >= .6) {
 
             flyActive = false;
             ballControl.newRunFlywheelopp(true);
         }
         else {
             ballControl.newRunFlywheelopp(false);
-        }
+        }*/
 
         if (gamepad2.left_bumper) {
             ballControl.newRunElevator(true);
