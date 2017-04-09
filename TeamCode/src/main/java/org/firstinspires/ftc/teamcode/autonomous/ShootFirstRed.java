@@ -25,12 +25,17 @@ public class ShootFirstRed extends LinearOpMode {
     ModernRoboticsI2cRangeSensor range;
 
     public void runOpMode() {
+
+telemetry.addData("state","starting");
+            telemetry.update();
         //Initialize Submodules
         driveTrain = new AutonomousDriveTrain(); //Initialize hardware
         driveTrain.init(this);
-
+        telemetry.addData("state","driverain init");
+            telemetry.update();
         shooter = new BallControl(hardwareMap, telemetry);
-
+        telemetry.addData("state","ball init");
+            telemetry.update();
         //Initialize Sensors
         floorColor = hardwareMap.colorSensor.get("floorColor");
         beaconColorL = hardwareMap.colorSensor.get("beaconColor");
@@ -43,9 +48,11 @@ public class ShootFirstRed extends LinearOpMode {
 
         range = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
         driveTrain.resetGyro();
+        telemetry.addData("state","waiting for start");
+            telemetry.update();
         waitForStart();
-
-
+        telemetry.addData("state","start");
+            telemetry.update();
 
         shooter.newRunFlywheel(true);
 
@@ -60,7 +67,9 @@ public class ShootFirstRed extends LinearOpMode {
         driveTrain.left(.1, .4);
         driveTrain.frontRight(1.55, .5);
 
-        driveTrain.turnToGyroAny(270, .2 , 5);
+        driveTrain.turnToGyroAny(270, .1 , 5);
+//.2 to .1,
+
 
         driveTrain.goToDistance(range, 6, .5, .1);
         driveTrain.right(.09,.4);

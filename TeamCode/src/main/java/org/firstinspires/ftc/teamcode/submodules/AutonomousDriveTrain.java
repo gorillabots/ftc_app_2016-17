@@ -58,19 +58,25 @@ public class AutonomousDriveTrain
     {
         telemetry = opMode.telemetry;
         this.opMode = opMode;
-
+        telemetry.addData("state", "drive init");
+        telemetry.update();
         //Motors
         frontRight = opMode.hardwareMap.dcMotor.get("frontLeft"); //frontRight
         backRight = opMode.hardwareMap.dcMotor.get("frontRight"); //backRight
         frontLeft = opMode.hardwareMap.dcMotor.get("backLeft"); //frontLeft
         backLeft = opMode.hardwareMap.dcMotor.get("backRight"); //backLeft
 
+        telemetry.addData("state", "motors init");
+        telemetry.update();
         //Link about DC Motors / Encoders: https://ftc-tricks.com/dc-motors/
 
         frontRight.setMode(RunMode.RUN_USING_ENCODER);
         frontLeft.setMode(RunMode.RUN_USING_ENCODER);
         backRight.setMode(RunMode.RUN_USING_ENCODER);
         backLeft.setMode(RunMode.RUN_USING_ENCODER);
+
+        telemetry.addData("state", "encoders init");
+        telemetry.update();
         //touchServo = opMode.hardwareMap.servo.get("servoSwing");
         wallTouch = opMode.hardwareMap.touchSensor.get("wallTouch");
         navx = AHRS.getInstance(opMode.hardwareMap.deviceInterfaceModule.get("dim"),
@@ -78,6 +84,8 @@ public class AutonomousDriveTrain
                 AHRS.DeviceDataType.kProcessedData,
                 NAVX_DEVICE_UPDATE_RATE_HZ);
 
+        telemetry.addData("state", "gyro init");
+        telemetry.update();
         while(navx.isCalibrating())
         {
             try
@@ -1183,7 +1191,7 @@ public class AutonomousDriveTrain
 
     public void turnToGyroAny(int target, double speed, int accuracy)
     {
-        double heading = navx.getYaw();
+        double heading = Math.abs(navx.getYaw());
 
         int pivot;
 
@@ -1206,9 +1214,11 @@ public class AutonomousDriveTrain
             opMode.telemetry.addData("Action", "Turn to Gyro Any");
             opMode.telemetry.addData("Heading", heading);
 
+            telemetry.addData("compass",navx.getCompassHeading() );
+
             if(target < 180)
             {
-                if(heading > target && heading < pivot) //Inside of range to subtract
+                if(heading > target && heading <= pivot) //Inside of range to subtract
                 {
                     opMode.telemetry.addData("Condition", "A- : Clockwise");
                     power = -speed;
@@ -1242,7 +1252,7 @@ public class AutonomousDriveTrain
 
             opMode.sleep(50);
 
-            heading = navx.getYaw();
+            heading = Math.abs(navx.getYaw());
         }
 
         frontRight.setPower(0);
