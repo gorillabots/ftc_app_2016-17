@@ -1,0 +1,21 @@
+diff a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/autonomous/ShootFirstRed.java b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/autonomous/ShootFirstRed.java	(rejected hunks)
+@@ -25,12 +25,17 @@
+     ModernRoboticsI2cRangeSensor range;
+ 
+     public void runOpMode() {
++
++telemetry.addData("state","starting");
++            telemetry.update();
+         //Initialize Submodules
+         driveTrain = new AutonomousDriveTrain(); //Initialize hardware
+         driveTrain.init(this);
+-
++        telemetry.addData("state","driverain init");
++            telemetry.update();
+         shooter = new BallControl(hardwareMap, telemetry);
+-
++        telemetry.addData("state","ball init");
++            telemetry.update();
+         //Initialize Sensors
+         floorColor = hardwareMap.colorSensor.get("floorColor");
+         beaconColorL = hardwareMap.colorSensor.get("beaconColor");

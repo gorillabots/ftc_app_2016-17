@@ -140,7 +140,12 @@ public class BallControl
         vac.setPower(0);
     }
 
+public void addTelemetry(){
+    telemetry.addData("FlyWheelPower",fly.getPower());
+    telemetry.addData("ElevatorPower", elevator.getPower());
+    telemetry.addData("CollectorPower", vac.getPower());
 
+}
 
     }
 

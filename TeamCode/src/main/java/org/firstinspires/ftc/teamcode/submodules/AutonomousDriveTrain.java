@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.submodules;
 
 import com.kauailabs.navx.ftc.AHRS;
+import com.kauailabs.navx.ftc.navXPIDController;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -58,19 +59,25 @@ public class AutonomousDriveTrain
     {
         telemetry = opMode.telemetry;
         this.opMode = opMode;
-
+        telemetry.addData("state", "drive init");
+        telemetry.update();
         //Motors
         frontRight = opMode.hardwareMap.dcMotor.get("frontLeft"); //frontRight
         backRight = opMode.hardwareMap.dcMotor.get("frontRight"); //backRight
         frontLeft = opMode.hardwareMap.dcMotor.get("backLeft"); //frontLeft
         backLeft = opMode.hardwareMap.dcMotor.get("backRight"); //backLeft
 
+        telemetry.addData("state", "motors init");
+        telemetry.update();
         //Link about DC Motors / Encoders: https://ftc-tricks.com/dc-motors/
 
         frontRight.setMode(RunMode.RUN_USING_ENCODER);
         frontLeft.setMode(RunMode.RUN_USING_ENCODER);
         backRight.setMode(RunMode.RUN_USING_ENCODER);
         backLeft.setMode(RunMode.RUN_USING_ENCODER);
+
+        telemetry.addData("state", "encoders init");
+        telemetry.update();
         //touchServo = opMode.hardwareMap.servo.get("servoSwing");
         wallTouch = opMode.hardwareMap.touchSensor.get("wallTouch");
         navx = AHRS.getInstance(opMode.hardwareMap.deviceInterfaceModule.get("dim"),
@@ -78,6 +85,8 @@ public class AutonomousDriveTrain
                 AHRS.DeviceDataType.kProcessedData,
                 NAVX_DEVICE_UPDATE_RATE_HZ);
 
+        telemetry.addData("state", "gyro init");
+        telemetry.update();
         while(navx.isCalibrating())
         {
             try
@@ -1183,7 +1192,7 @@ public class AutonomousDriveTrain
 
     public void turnToGyroAny(int target, double speed, int accuracy)
     {
-        double heading = navx.getYaw();
+        double heading = Math.abs(navx.getYaw());
 
         int pivot;
 
@@ -1206,9 +1215,11 @@ public class AutonomousDriveTrain
             opMode.telemetry.addData("Action", "Turn to Gyro Any");
             opMode.telemetry.addData("Heading", heading);
 
+            telemetry.addData("compass",navx.getCompassHeading() );
+
             if(target < 180)
             {
-                if(heading > target && heading < pivot) //Inside of range to subtract
+                if(heading > target && heading <= pivot) //Inside of range to subtract
                 {
                     opMode.telemetry.addData("Condition", "A- : Clockwise");
                     power = -speed;
@@ -1242,7 +1253,7 @@ public class AutonomousDriveTrain
 
             opMode.sleep(50);
 
-            heading = navx.getYaw();
+            heading = Math.abs(navx.getYaw());
         }
 
         frontRight.setPower(0);
@@ -1251,6 +1262,44 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
+    final double MIN_MOTOR_OUTPUT_VALUE = -1.0;
+    final double MAX_MOTOR_OUTPUT_VALUE = 1.0;
+    final double YAW_PID_P = 0.005;
+    final double YAW_PID_I = 0.0;
+    final double YAW_PID_D = 0.0;
+    
+    public void turnNewGyro(double target, double accuracy, double speed)
+    {
+        navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
+
+        pidController.setSetpoint(target);
+        pidController.setContinuous(true);
+        pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
+        pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, accuracy);
+        pidController.setPID(YAW_PID_P, YAW_PID_I, YAW_PID_D);
+
+        pidController.enable(true);
+
+        navXPIDController.PIDResult pidResult = new navXPIDController.PIDResult();
+
+        while(!pidResult.isOnTarget() && opMode.opModeIsActive())
+        {
+            double power = pidResult.getOutput();
+
+            frontRight.setPower(power * speed);
+            backRight.setPower(power * speed);
+            frontLeft.setPower(power * speed);
+            backLeft.setPower(power * speed);
+
+            opMode.sleep(5);
+            pidResult = new navXPIDController.PIDResult();
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
 
     /*public void ExtendTouchServo()
     {

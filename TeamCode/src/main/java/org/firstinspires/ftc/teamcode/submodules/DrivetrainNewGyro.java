@@ -112,5 +112,16 @@ public class DrivetrainNewGyro
     {
         navx.zeroYaw();
     }
+
+    public void addTelemetry(){
+
+    telemetry.addData("FR power",frontRight.getPower());
+    telemetry.addData("FL power",frontLeft.getPower());
+    telemetry.addData("BR power",backRight.getPower());
+    telemetry.addData("BL power",backLeft.getPower());
+    telemetry.addData("Yaw",navx.getYaw());
+
+
+    }
 }
 

@@ -15,14 +15,16 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 public class ForkLift {
 
     HardwareMap hardwareMap;
+    Telemetry telemetry;
     DcMotor lift;
     AnalogInput magnetSense;
     double liftMaxAdder;
     double liftZero;
 
-    public ForkLift(HardwareMap hardwareMap)
+    public ForkLift(HardwareMap hardwareMap, Telemetry telemetry)
     {
         this.hardwareMap = hardwareMap;
+        this.telemetry = telemetry;
         lift = hardwareMap.dcMotor.get("raise");
         magnetSense = hardwareMap.analogInput.get("stop");
         liftMaxAdder = 12000;
@@ -70,9 +72,16 @@ public class ForkLift {
         lift.setPower(0);
     }
 
+    public void addTelemetry(){
+        telemetry.addData("Lift Power",lift.getPower());
+        telemetry.addData("Lift Position", lift.getCurrentPosition());
+
+    }
+
     public double getBottomState(){
         return magnetSense.getVoltage();
     }
+
 
 }
 
