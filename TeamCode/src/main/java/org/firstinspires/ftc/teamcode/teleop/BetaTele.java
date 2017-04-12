@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.DoubleScale;
 import org.firstinspires.ftc.teamcode.submodules.BallControl;
 import org.firstinspires.ftc.teamcode.submodules.Drivetrain;
@@ -33,7 +34,7 @@ public class BetaTele extends OpMode
     {
         drivetrain = new DrivetrainNewGyro(hardwareMap, telemetry);
         ballControl = new BallControl(hardwareMap, telemetry);
-        forkLift = new ForkLift(hardwareMap);
+        forkLift = new ForkLift(hardwareMap, telemetry);
 
         floorColor = hardwareMap.colorSensor.get("floorColor");
         floorColor.enableLed(false);
@@ -166,6 +167,11 @@ public class BetaTele extends OpMode
         } else {
             forkLift.stop();
         }
+        ballControl.addTelemetry();
+        drivetrain.addTelemetry();
+        forkLift.addTelemetry();
+        telemetry.update();
+
     }
 
     @Override
@@ -173,6 +179,7 @@ public class BetaTele extends OpMode
         super.stop();
         floorColor.enableLed(false);
     }
+
 
     //Graph: https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Logistic-curve.svg/320px-Logistic-curve.svg.png
     public static double sigmoid(double x) {
