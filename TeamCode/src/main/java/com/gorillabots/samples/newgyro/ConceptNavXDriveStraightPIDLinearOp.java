@@ -59,13 +59,12 @@ import java.text.DecimalFormat;
 @TeleOp(name = "Concept: navX Drive Straight PID - Linear", group = "Concept")
 // @Disabled Comment this in to remove this from the Driver Station OpMode List
 public class ConceptNavXDriveStraightPIDLinearOp extends LinearOpMode {
-    DcMotor leftMotor;
-    DcMotor rightMotor;
+
 
     /* This is the port on the Core Device Interface Module        */
     /* in which the navX-Model Device is connected.  Modify this  */
     /* depending upon which I2C port you are using.               */
-    private final int NAVX_DIM_I2C_PORT = 0;
+    private final int NAVX_DIM_I2C_PORT = 5;
     private AHRS navx_device;
     private navXPIDController yawPIDController;
     private ElapsedTime runtime = new ElapsedTime();
@@ -81,22 +80,28 @@ public class ConceptNavXDriveStraightPIDLinearOp extends LinearOpMode {
     private final double YAW_PID_D = 0.0;       
 
     private boolean calibration_complete = false;
-
+    DcMotor frontRight;
+    DcMotor frontLeft;
+    DcMotor backLeft;
+    DcMotor backRight;
     public double limit(double a) {
         return Math.min(Math.max(a, MIN_MOTOR_OUTPUT_VALUE), MAX_MOTOR_OUTPUT_VALUE);
     }
 
     @Override
     public void runOpMode() throws InterruptedException {
-        leftMotor = hardwareMap.dcMotor.get("left motor");
-        rightMotor = hardwareMap.dcMotor.get("right motor");
+        frontRight = hardwareMap.dcMotor.get("frontRight");
+        frontLeft = hardwareMap.dcMotor.get("frontLeft");
+        backLeft = hardwareMap.dcMotor.get("backLeft");
+        backRight = hardwareMap.dcMotor.get("backRight");
+
 
         navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get("dim"),
                 NAVX_DIM_I2C_PORT,
                 AHRS.DeviceDataType.kProcessedData,
                 NAVX_DEVICE_UPDATE_RATE_HZ);
 
-        rightMotor.setDirection(DcMotor.Direction.REVERSE);
+
 
         /* If possible, use encoders when driving, as it results in more */
         /* predictable drive system response.                           */
@@ -134,8 +139,8 @@ public class ConceptNavXDriveStraightPIDLinearOp extends LinearOpMode {
            with the new PID value with each new output value.
          */
 
-        final double TOTAL_RUN_TIME_SECONDS = 10.0;
-        int DEVICE_TIMEOUT_MS = 500;
+        final double TOTAL_RUN_TIME_SECONDS = 600;
+        int DEVICE_TIMEOUT_MS = 5000;
         navXPIDController.PIDResult yawPIDResult = new navXPIDController.PIDResult();
 
         /* Drive straight forward at 1/2 of full drive speed */
@@ -148,14 +153,18 @@ public class ConceptNavXDriveStraightPIDLinearOp extends LinearOpMode {
                     !Thread.currentThread().isInterrupted()) {
                 if (yawPIDController.waitForNewUpdate(yawPIDResult, DEVICE_TIMEOUT_MS)) {
                     if (yawPIDResult.isOnTarget()) {
-                        leftMotor.setPower(drive_speed);
-                        rightMotor.setPower(drive_speed);
+                        backLeft.setPower(-drive_speed);
+                        backRight.setPower(drive_speed);
+                        frontLeft.setPower(-drive_speed);
+                        frontRight.setPower(drive_speed);
                         telemetry.addData("PIDOutput", df.format(drive_speed) + ", " +
                                 df.format(drive_speed));
                     } else {
                         double output = yawPIDResult.getOutput();
-                        leftMotor.setPower(drive_speed + output);
-                        rightMotor.setPower(drive_speed - output);
+                        backLeft.setPower(-drive_speed+output);
+                        backRight.setPower(drive_speed+output);
+                        frontLeft.setPower(-drive_speed+output);
+                        frontRight.setPower(drive_speed+output);
                         telemetry.addData("PIDOutput", df.format(limit(drive_speed + output)) + ", " +
                                 df.format(limit(drive_speed - output)));
                     }
