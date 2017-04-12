@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.submodules;
 
 import com.kauailabs.navx.ftc.AHRS;
+import com.kauailabs.navx.ftc.navXPIDController;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -1261,6 +1262,44 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
+    final double MIN_MOTOR_OUTPUT_VALUE = -1.0;
+    final double MAX_MOTOR_OUTPUT_VALUE = 1.0;
+    final double YAW_PID_P = 0.005;
+    final double YAW_PID_I = 0.0;
+    final double YAW_PID_D = 0.0;
+    
+    public void turnNewGyro(double target, double accuracy, double speed)
+    {
+        navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
+
+        pidController.setSetpoint(target);
+        pidController.setContinuous(true);
+        pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
+        pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, accuracy);
+        pidController.setPID(YAW_PID_P, YAW_PID_I, YAW_PID_D);
+
+        pidController.enable(true);
+
+        navXPIDController.PIDResult pidResult = new navXPIDController.PIDResult();
+
+        while(!pidResult.isOnTarget() && opMode.opModeIsActive())
+        {
+            double power = pidResult.getOutput();
+
+            frontRight.setPower(power * speed);
+            backRight.setPower(power * speed);
+            frontLeft.setPower(power * speed);
+            backLeft.setPower(power * speed);
+
+            opMode.sleep(5);
+            pidResult = new navXPIDController.PIDResult();
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+    }
 
     /*public void ExtendTouchServo()
     {
