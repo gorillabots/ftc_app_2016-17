@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.DcMotor.RunMode;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.submodules.ColorHelper;
 import org.firstinspires.ftc.teamcode.Constants;
@@ -39,9 +40,8 @@ import org.firstinspires.ftc.teamcode.TeamColors;
  *
  */
 
-@Autonomous(name="Autonomous Drive Train", group="concept")
-public class AutonomousDriveTrain
-{
+@Autonomous(name = "Autonomous Drive Train", group = "concept")
+public class AutonomousDriveTrain {
     LinearOpMode opMode; //Declare hardware
 
     DcMotor frontRight, backRight, frontLeft, backLeft;
@@ -55,6 +55,7 @@ public class AutonomousDriveTrain
     private final byte NAVX_DEVICE_UPDATE_RATE_HZ = 50;
 
     AHRS navx;
+
     public void init(LinearOpMode opMode) //Get hardware from hardwareMap
     {
         telemetry = opMode.telemetry;
@@ -87,17 +88,15 @@ public class AutonomousDriveTrain
 
         telemetry.addData("state", "gyro init");
         telemetry.update();
-        while(navx.isCalibrating())
-        {
-            try
-            {
+        while (navx.isCalibrating()) {
+            try {
                 Thread.sleep(5);
-            }
-            catch(InterruptedException e)
-            {
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+        telemetry.addData("init", "done");
+        telemetry.update();
     }
 
     public void resetGyro() //Define the current heading as 0 degrees
@@ -116,8 +115,7 @@ public class AutonomousDriveTrain
         frontLeft.setPower(-power);
         backLeft.setPower(-power);
 
-        while(pos < target && opMode.opModeIsActive())
-        {
+        while (pos < target && opMode.opModeIsActive()) {
             opMode.telemetry.addData("Action", "Forwards");
             opMode.telemetry.addData("Currently", pos);
             opMode.telemetry.addData("Target", target);
@@ -141,20 +139,14 @@ public class AutonomousDriveTrain
         double heading;
         double turnpow;
 
-        while(pos < target && opMode.opModeIsActive())
-        {
+        while (pos < target && opMode.opModeIsActive()) {
             heading = navx.getYaw();
 
-            if(heading <= accuracy || heading >= 360 - accuracy)
-            {
+            if (heading <= accuracy || heading >= 360 - accuracy) {
                 turnpow = 0;
-            }
-            else if(heading <= 180)
-            {
+            } else if (heading <= 180) {
                 turnpow = -turnpower;
-            }
-            else
-            {
+            } else {
                 turnpow = turnpower;
             }
 
@@ -187,8 +179,7 @@ public class AutonomousDriveTrain
         frontLeft.setPower(-power);
         backLeft.setPower(-power);
 
-        while(!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive())
-        {
+        while (!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive()) {
             opMode.telemetry.addData("Action", "Forwards To Line");
             opMode.telemetry.update();
             opMode.sleep(5);
@@ -213,20 +204,15 @@ public class AutonomousDriveTrain
         double heading;
         double turnpow;
 
-        while(!ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive())
-        {
+        while (!ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive()) {
             heading = navx.getYaw();
 
-            if(heading <= accuracy || heading >= 360 - accuracy) //In range 1-359
+            if (heading <= accuracy || heading >= 360 - accuracy) //In range 1-359
             {
                 turnpow = 0;
-            }
-            else if(heading <= 180)
-            {
+            } else if (heading <= 180) {
                 turnpow = -turnpower;
-            }
-            else
-            {
+            } else {
                 turnpow = turnpower;
             }
 
@@ -254,22 +240,17 @@ public class AutonomousDriveTrain
         double turnpow;
 
         long startTime = System.currentTimeMillis();
-        long endTime = startTime + (int)(timeout * 1000);
+        long endTime = startTime + (int) (timeout * 1000);
 
-        while(!ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive() && System.currentTimeMillis() < endTime)
-        {
+        while (!ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive() && System.currentTimeMillis() < endTime) {
             heading = navx.getYaw();
 
-            if(heading <= accuracy || heading >= 360 - accuracy) //In range 1-359
+            if (heading <= accuracy || heading >= 360 - accuracy) //In range 1-359
             {
                 turnpow = 0;
-            }
-            else if(heading <= 180)
-            {
+            } else if (heading <= 180) {
                 turnpow = -turnpower;
-            }
-            else
-            {
+            } else {
                 turnpow = turnpower;
             }
 
@@ -293,8 +274,9 @@ public class AutonomousDriveTrain
 
     /**
      * Move robot backwards(relative to sensors on front of robot, it is moving right)
+     *
      * @param meters distance that the robot moves using encoders
-     * @param power relative speed of robot in this direction
+     * @param power  relative speed of robot in this direction
      */
     public void back(double meters, double power) //Move back by distance
     {
@@ -307,8 +289,7 @@ public class AutonomousDriveTrain
         backLeft.setPower(power);
 
 
-        while(pos > target && opMode.opModeIsActive())
-        {
+        while (pos > target && opMode.opModeIsActive()) {
             opMode.telemetry.addData("Action", "Backwards");
             opMode.telemetry.addData("Currently", pos);
             opMode.telemetry.addData("Target", target);
@@ -326,9 +307,10 @@ public class AutonomousDriveTrain
 
     /**
      * Moves "back" using gyro sensor to compensate for motor inaccuracies
-     * @param meters How far the robot moves
-     * @param power Relative speed of movement
-     * @param accuracy Margin of error allowed with regard to gyro sensor heading
+     *
+     * @param meters    How far the robot moves
+     * @param power     Relative speed of movement
+     * @param accuracy  Margin of error allowed with regard to gyro sensor heading
      * @param turnpower Speed change applied to motors when compensating inaccurate movement
      * @see #back(double, double)
      */
@@ -340,20 +322,14 @@ public class AutonomousDriveTrain
         double heading;
         double turnpow;
 
-        while(getPosFB() > target && opMode.opModeIsActive())
-        {
+        while (getPosFB() > target && opMode.opModeIsActive()) {
             heading = navx.getYaw();
 
-            if(heading <= accuracy || heading >= 360 - accuracy)
-            {
+            if (heading <= accuracy || heading >= 360 - accuracy) {
                 turnpow = 0;
-            }
-            else if(heading <= 180)
-            {
+            } else if (heading <= 180) {
                 turnpow = -turnpower;
-            }
-            else
-            {
+            } else {
                 turnpow = turnpower;
             }
 
@@ -385,8 +361,7 @@ public class AutonomousDriveTrain
         frontLeft.setPower(power);
         backLeft.setPower(power);
 
-        while(!ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive())
-        {
+        while (!ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive()) {
             opMode.telemetry.addData("Action", "Back To Line");
             opMode.telemetry.addData("Color", ColorHelper.getFloorColor(floorColor));
             opMode.telemetry.addData("Line", ColorHelper.isFloorWhite(floorColor));
@@ -402,30 +377,25 @@ public class AutonomousDriveTrain
 
     /**
      * This method moves the robot "back," utilizing the gyro sensor for motor inaccuracy compensation while approaching the line, similar to backGyro(double, double, int, double)
+     *
      * @param floorColor color sensor to be used to detect white line
-     * @param power relative speed of movement of robot
-     * @param accuracy gyro sensor heading margin of error that is allowed
-     * @param turnpower speed change applied to motors when compensating
+     * @param power      relative speed of movement of robot
+     * @param accuracy   gyro sensor heading margin of error that is allowed
+     * @param turnpower  speed change applied to motors when compensating
      */
     public void backGyroToLine(ColorSensor floorColor, double power, int accuracy, double turnpower) //Move back to line using gyro
     {
         double heading;
         double turnpow;
 
-        while(!ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive())
-        {
+        while (!ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive()) {
             heading = navx.getYaw();
 
-            if(heading <= accuracy || heading >= 360 - accuracy)
-            {
+            if (heading <= accuracy || heading >= 360 - accuracy) {
                 turnpow = 0;
-            }
-            else if(heading <= 180)
-            {
+            } else if (heading <= 180) {
                 turnpow = -turnpower;
-            }
-            else
-            {
+            } else {
                 turnpow = turnpower;
             }
 
@@ -454,22 +424,16 @@ public class AutonomousDriveTrain
         double turnpow;
 
         long startTime = System.currentTimeMillis();
-        long endTime = startTime + (int)(timeout * 1000);
+        long endTime = startTime + (int) (timeout * 1000);
 
-        while(!ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive() && System.currentTimeMillis() < endTime)
-        {
+        while (!ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive() && System.currentTimeMillis() < endTime) {
             heading = navx.getYaw();
 
-            if(heading <= accuracy || heading >= 360 - accuracy)
-            {
+            if (heading <= accuracy || heading >= 360 - accuracy) {
                 turnpow = 0;
-            }
-            else if(heading <= 180)
-            {
+            } else if (heading <= 180) {
                 turnpow = -turnpower;
-            }
-            else
-            {
+            } else {
                 turnpow = turnpower;
             }
 
@@ -492,11 +456,13 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
-    /**This method does the exact same thing as backGyroToLine(ColorSensor, double, int, double), although this one will give an initial headstart going backwards
+    /**
+     * This method does the exact same thing as backGyroToLine(ColorSensor, double, int, double), although this one will give an initial headstart going backwards
+     *
      * @param floorColor color sensor to be used to detect white line
-     * @param power relative speed of movement of robot
-     * @param accuracy gyro sensor heading margin of error that is allowed
-     * @param turnpower speed change applied to motors when compensating
+     * @param power      relative speed of movement of robot
+     * @param accuracy   gyro sensor heading margin of error that is allowed
+     * @param turnpower  speed change applied to motors when compensating
      * @see #backGyroToLine(ColorSensor, double, int, double)
      */
     @Deprecated
@@ -505,20 +471,14 @@ public class AutonomousDriveTrain
         double heading;
         double turnpow;
         back(.2, .4);
-        while(!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive())
-        {
+        while (!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive()) {
             heading = navx.getYaw();
 
-            if(heading <= accuracy || heading >= 360 - accuracy)
-            {
+            if (heading <= accuracy || heading >= 360 - accuracy) {
                 turnpow = 0;
-            }
-            else if(heading <= 180)
-            {
+            } else if (heading <= 180) {
                 turnpow = -turnpower;
-            }
-            else
-            {
+            } else {
                 turnpow = turnpower;
             }
 
@@ -540,10 +500,12 @@ public class AutonomousDriveTrain
         frontLeft.setPower(0);
         backLeft.setPower(0);
     }
+
     /**
      * Move robot right(relative to sensors on front of robot, it is moving forwards)
+     *
      * @param meters distance that the robot moves using encoders
-     * @param power relative speed of robot in this direction
+     * @param power  relative speed of robot in this direction
      */
     public void right(double meters, double power) //Move right by distance
     {
@@ -557,8 +519,7 @@ public class AutonomousDriveTrain
         backLeft.setPower(power);
 
 
-        while(pos < target && opMode.opModeIsActive())
-        {
+        while (pos < target && opMode.opModeIsActive()) {
             opMode.telemetry.addData("Action", "Right");
             opMode.telemetry.addData("Currently", pos);
             opMode.telemetry.addData("Target", target);
@@ -573,11 +534,13 @@ public class AutonomousDriveTrain
         frontLeft.setPower(0);
         backLeft.setPower(0);
     }
+
     /**
      * Moves "right" using gyro sensor to compensate for motor inaccuracies
-     * @param meters How far the robot moves
-     * @param power Relative speed of movement
-     * @param accuracy Margin of error allowed with regard to gyro sensor heading
+     *
+     * @param meters    How far the robot moves
+     * @param power     Relative speed of movement
+     * @param accuracy  Margin of error allowed with regard to gyro sensor heading
      * @param turnpower Speed change applied to motors when compensating inaccurate movement
      * @see #right(double, double)
      */
@@ -589,20 +552,14 @@ public class AutonomousDriveTrain
         double heading;
         double turnpow;
 
-        while(pos < target && opMode.opModeIsActive())
-        {
+        while (pos < target && opMode.opModeIsActive()) {
             heading = navx.getYaw();
 
-            if(heading <= accuracy || heading >= 360 - accuracy)
-            {
+            if (heading <= accuracy || heading >= 360 - accuracy) {
                 turnpow = 0;
-            }
-            else if(heading <= 180)
-            {
+            } else if (heading <= 180) {
                 turnpow = -turnpower;
-            }
-            else
-            {
+            } else {
                 turnpow = turnpower;
             }
 
@@ -626,32 +583,28 @@ public class AutonomousDriveTrain
         frontLeft.setPower(0);
         backLeft.setPower(0);
     }
+
     /**
      * This method moves the robot "right" in approaching the white line, utilizing the gyro sensor for motor inaccuracy compensation, similar to rightGyro(double, double, int, double)
+     *
      * @param floorColor color sensor to be used to detect white line
-     * @param power relative speed of movement of robot
-     * @param accuracy gyro sensor heading margin of error that is allowed
-     * @param turnpower speed change applied to motors when compensating
+     * @param power      relative speed of movement of robot
+     * @param accuracy   gyro sensor heading margin of error that is allowed
+     * @param turnpower  speed change applied to motors when compensating
      */
     public void rightGyroToLine(ColorSensor floorColor, double power, int accuracy, double turnpower) //Move right to line using gyro
     {
         double heading;
         double turnpow;
 
-        while(!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive())
-        {
+        while (!ColorHelper.isFloorWhite(floorColor) && opMode.opModeIsActive()) {
             heading = navx.getYaw();
 
-            if(heading <= accuracy || heading >= 360 - accuracy)
-            {
+            if (heading <= accuracy || heading >= 360 - accuracy) {
                 turnpow = 0;
-            }
-            else if(heading <= 180)
-            {
+            } else if (heading <= 180) {
                 turnpow = -turnpower;
-            }
-            else
-            {
+            } else {
                 turnpow = turnpower;
             }
 
@@ -672,9 +625,11 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
-    /**This method moves "right" continuously until the touch sensor is activated
-     * @param power relative speed at which the robot moves
-     * @param accuracy gyro sensor margin of error allowed without compensation
+    /**
+     * This method moves "right" continuously until the touch sensor is activated
+     *
+     * @param power     relative speed at which the robot moves
+     * @param accuracy  gyro sensor margin of error allowed without compensation
      * @param turnpower speed change applied to motors while compensating
      */
     public void rightGyroToTouch(double power, int accuracy, double turnpower) //Move right to touch using gyro
@@ -682,20 +637,14 @@ public class AutonomousDriveTrain
         double heading;
         double turnpow;
 
-        while(!wallTouch.isPressed() && opMode.opModeIsActive())
-        {
+        while (!wallTouch.isPressed() && opMode.opModeIsActive()) {
             heading = navx.getYaw();
 
-            if(heading <= accuracy || heading >= 360 - accuracy)
-            {
+            if (heading <= accuracy || heading >= 360 - accuracy) {
                 turnpow = 0;
-            }
-            else if(heading <= 180)
-            {
+            } else if (heading <= 180) {
                 turnpow = -turnpower;
-            }
-            else
-            {
+            } else {
                 turnpow = turnpower;
             }
 
@@ -715,10 +664,12 @@ public class AutonomousDriveTrain
         frontLeft.setPower(0);
         backLeft.setPower(0);
     }
+
     /**
      * Move robot left(relative to sensors on front of robot, it is moving backwards)
+     *
      * @param meters distance that the robot moves using encoders
-     * @param power relative speed of robot in this direction
+     * @param power  relative speed of robot in this direction
      */
     public void left(double meters, double power) //Move left by distance
     {
@@ -733,8 +684,7 @@ public class AutonomousDriveTrain
         frontLeft.setPower(power);
         backLeft.setPower(-power);
 
-        while(pos > target && opMode.opModeIsActive())
-        {
+        while (pos > target && opMode.opModeIsActive()) {
             opMode.telemetry.addData("Action", "Left");
             opMode.telemetry.addData("Currently", pos);
             opMode.telemetry.addData("Target", target);
@@ -750,11 +700,13 @@ public class AutonomousDriveTrain
         frontLeft.setPower(0);
         backLeft.setPower(0);
     }
+
     /**
      * Moves "left" using gyro sensor to compensate for motor inaccuracies
-     * @param meters How far the robot moves
-     * @param power Relative speed of movement
-     * @param accuracy Margin of error allowed with regard to gyro sensor heading
+     *
+     * @param meters    How far the robot moves
+     * @param power     Relative speed of movement
+     * @param accuracy  Margin of error allowed with regard to gyro sensor heading
      * @param turnpower Speed change applied to motors when compensating inaccurate movement
      * @see #left(double, double)
      */
@@ -766,20 +718,14 @@ public class AutonomousDriveTrain
         double heading;
         double turnpow;
 
-        while(pos > target && opMode.opModeIsActive())
-        {
+        while (pos > target && opMode.opModeIsActive()) {
             heading = navx.getYaw();
 
-            if(heading <= accuracy || heading >= 360 - accuracy)
-            {
+            if (heading <= accuracy || heading >= 360 - accuracy) {
                 turnpow = 0;
-            }
-            else if(heading <= 180)
-            {
+            } else if (heading <= 180) {
                 turnpow = -turnpower;
-            }
-            else
-            {
+            } else {
                 turnpow = turnpower;
             }
 
@@ -812,8 +758,7 @@ public class AutonomousDriveTrain
         backRight.setPower(power);
         frontLeft.setPower(-power);
 
-        while(pos < target && opMode.opModeIsActive())
-        {
+        while (pos < target && opMode.opModeIsActive()) {
             opMode.telemetry.addData("Action", "FrontRight");
             opMode.telemetry.addData("Currently", pos);
             opMode.telemetry.addData("Target", target);
@@ -835,20 +780,14 @@ public class AutonomousDriveTrain
         double heading;
         double turnpow;
 
-        while(pos < target && opMode.opModeIsActive())
-        {
+        while (pos < target && opMode.opModeIsActive()) {
             heading = navx.getYaw();
 
-            if(heading <= accuracy || heading >= 360 - accuracy)
-            {
+            if (heading <= accuracy || heading >= 360 - accuracy) {
                 turnpow = 0;
-            }
-            else if(heading <= 180)
-            {
+            } else if (heading <= 180) {
                 turnpow = -turnpower;
-            }
-            else
-            {
+            } else {
                 turnpow = turnpower;
             }
 
@@ -877,8 +816,7 @@ public class AutonomousDriveTrain
         backLeft.setPower(power);
         frontRight.setPower(-power);
 
-        while(pos < target && opMode.opModeIsActive())
-        {
+        while (pos < target && opMode.opModeIsActive()) {
             opMode.telemetry.addData("Action", "BackRight");
             opMode.telemetry.addData("Currently", pos);
             opMode.telemetry.addData("Target", target);
@@ -900,20 +838,14 @@ public class AutonomousDriveTrain
         double heading;
         double turnpow;
 
-        while (pos < target && opMode.opModeIsActive())
-        {
+        while (pos < target && opMode.opModeIsActive()) {
             heading = navx.getYaw();
 
-            if (heading <= accuracy || heading >= 360 - accuracy)
-            {
+            if (heading <= accuracy || heading >= 360 - accuracy) {
                 turnpow = 0;
-            }
-            else if (heading <= 180)
-            {
+            } else if (heading <= 180) {
                 turnpow = -turnpower;
-            }
-            else
-            {
+            } else {
                 turnpow = turnpower;
             }
 
@@ -942,8 +874,7 @@ public class AutonomousDriveTrain
         backLeft.setPower(-power);
         frontRight.setPower(power);
 
-        while(pos > target && opMode.opModeIsActive())
-        {
+        while (pos > target && opMode.opModeIsActive()) {
             opMode.telemetry.addData("Action", "FrontLeft");
             opMode.telemetry.addData("Currently", pos);
             opMode.telemetry.addData("Target", target);
@@ -965,20 +896,14 @@ public class AutonomousDriveTrain
         double heading;
         double turnpow;
 
-        while(pos > target && opMode.opModeIsActive())
-        {
+        while (pos > target && opMode.opModeIsActive()) {
             heading = navx.getYaw();
 
-            if (heading <= accuracy || heading >= 360 - accuracy)
-            {
+            if (heading <= accuracy || heading >= 360 - accuracy) {
                 turnpow = 0;
-            }
-            else if (heading <= 180)
-            {
+            } else if (heading <= 180) {
                 turnpow = -turnpower;
-            }
-            else
-            {
+            } else {
                 turnpow = turnpower;
             }
 
@@ -1007,8 +932,7 @@ public class AutonomousDriveTrain
         backRight.setPower(-power);
         frontLeft.setPower(power);
 
-        while(pos > target && opMode.opModeIsActive())
-        {
+        while (pos > target && opMode.opModeIsActive()) {
             opMode.telemetry.addData("Action", "BackLeft");
             opMode.telemetry.addData("Currently", pos);
             opMode.telemetry.addData("Target", target);
@@ -1030,20 +954,14 @@ public class AutonomousDriveTrain
         double heading;
         double turnpow;
 
-        while(pos > target && opMode.opModeIsActive())
-        {
+        while (pos > target && opMode.opModeIsActive()) {
             heading = navx.getYaw();
 
-            if (heading <= accuracy || heading >= 360 - accuracy)
-            {
+            if (heading <= accuracy || heading >= 360 - accuracy) {
                 turnpow = 0;
-            }
-            else if (heading <= 180)
-            {
+            } else if (heading <= 180) {
                 turnpow = -turnpower;
-            }
-            else
-            {
+            } else {
                 turnpow = turnpower;
             }
 
@@ -1069,23 +987,17 @@ public class AutonomousDriveTrain
         double heading;
         double turnpow;
 
-        while(opMode.opModeIsActive())
-        {
+        while (opMode.opModeIsActive()) {
             heading = navx.getYaw();
 
             opMode.telemetry.addData("Action", "Turn to Gyro");
             opMode.telemetry.addData("Heading", heading);
 
-            if(heading <= accuracy || heading >= 360 - accuracy)
-            {
+            if (heading <= accuracy || heading >= 360 - accuracy) {
                 turnpow = 0;
-            }
-            else if(heading <= 180)
-            {
+            } else if (heading <= 180) {
                 turnpow = -turnpower;
-            }
-            else
-            {
+            } else {
                 turnpow = turnpower;
             }
 
@@ -1099,8 +1011,7 @@ public class AutonomousDriveTrain
     }
 
     @Deprecated //Unused
-    public void right_continuous(double power)
-    {
+    public void right_continuous(double power) {
         frontRight.setPower(-power);
         backRight.setPower(power);
         frontLeft.setPower(-power);
@@ -1134,16 +1045,15 @@ public class AutonomousDriveTrain
         return (frontRight.getCurrentPosition() + backRight.getCurrentPosition() +
                 frontLeft.getCurrentPosition() + backLeft.getCurrentPosition()) / 4;
     }
-    private void turnleft(double power)
-    {
+
+    private void turnleft(double power) {
         frontRight.setPower(power);
         backRight.setPower(power);
         frontLeft.setPower(power);
         backLeft.setPower(power);
     }
 
-    private void turnright(double power)
-    {
+    private void turnright(double power) {
         frontRight.setPower(-power);
         backRight.setPower(-power);
         frontLeft.setPower(-power);
@@ -1151,56 +1061,45 @@ public class AutonomousDriveTrain
     }
 
     @Deprecated //Unused and non-functional
-    public void GyroRotation(int target, double power)
-    {
-        if(target > 360 || target < 0 || power < 0 || power > 1)
-        {
+    public void GyroRotation(int target, double power) {
+        if (target > 360 || target < 0 || power < 0 || power > 1) {
             throw new IllegalArgumentException();
         }
 
-        while(true)
-        {
+        while (true) {
             double initial_heading = navx.getYaw(); //TODO: Potential memory leak!
             double degree_rotation = target - initial_heading;
-            if(degree_rotation < 0)
-            {
+            if (degree_rotation < 0) {
                 degree_rotation = degree_rotation + 360;
             }
 
-            if (degree_rotation < 180 && degree_rotation > 0)
-            {
-                while (initial_heading < target)
-                {
+            if (degree_rotation < 180 && degree_rotation > 0) {
+                while (initial_heading < target) {
                     turnright(power);
                 }
             }
 
-            if(degree_rotation > 180 && degree_rotation < 360)
-            {
-                while(initial_heading > target)
-                {
+            if (degree_rotation > 180 && degree_rotation < 360) {
+                while (initial_heading > target) {
                     turnleft(power);
                 }
             }
 
-            if(degree_rotation == 0 || degree_rotation == 360)
-            {
+            if (degree_rotation == 0 || degree_rotation == 360) {
                 break;
             }
         }
     }
 
-    public void turnToGyroAny(int target, double speed, int accuracy)
-    {
+    public void turnToGyroAny(int target, double speed, int accuracy) {
         double heading = Math.abs(navx.getYaw());
 
         int pivot;
 
-        if(target < 180) //0 - 179
+        if (target < 180) //0 - 179
         {
             pivot = target + 180;
-        }
-        else //180 - 359
+        } else //180 - 359
         {
             pivot = target - 180;
         }
@@ -1208,36 +1107,32 @@ public class AutonomousDriveTrain
         double power;
 
         //     Less than minimum           or More than maximum            and is running
-        while((heading < target - accuracy || heading > target + accuracy) && opMode.opModeIsActive()) //Not acceptable
+        while ((heading < target - accuracy || heading > target + accuracy) && opMode.opModeIsActive()) //Not acceptable
         {
             //PSA: Clockwise: -, Counter: +
 
             opMode.telemetry.addData("Action", "Turn to Gyro Any");
             opMode.telemetry.addData("Heading", heading);
 
-            telemetry.addData("compass",navx.getCompassHeading() );
+            telemetry.addData("compass", navx.getCompassHeading());
 
-            if(target < 180)
-            {
-                if(heading > target && heading <= pivot) //Inside of range to subtract
+            if (target < 180) {
+                if (heading > target && heading <= pivot) //Inside of range to subtract
                 {
                     opMode.telemetry.addData("Condition", "A- : Clockwise");
                     power = -speed;
-                }
-                else //Inside of range to add
+                } else //Inside of range to add
                 {
                     opMode.telemetry.addData("Condition", "A+ : Counter");
                     power = speed;
                 }
-            }
-            else //target >= 180
+            } else //target >= 180
             {
-                if(heading > pivot && heading < target) //Inside of range to add
+                if (heading > pivot && heading < target) //Inside of range to add
                 {
                     opMode.telemetry.addData("Condition", "B+ : Counter");
                     power = speed;
-                }
-                else //Inside of range to subtract
+                } else //Inside of range to subtract
                 {
                     opMode.telemetry.addData("Condition", "B- : Clockwise");
                     power = -speed;
@@ -1267,9 +1162,8 @@ public class AutonomousDriveTrain
     final double YAW_PID_P = 0.005;
     final double YAW_PID_I = 0.0;
     final double YAW_PID_D = 0.0;
-    
-    public void turnNewGyro(double target, double accuracy, double speed)
-    {
+
+    public void turnNewGyro(double target, double accuracy, double speed) {
         navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
 
         pidController.setSetpoint(target);
@@ -1281,24 +1175,47 @@ public class AutonomousDriveTrain
         pidController.enable(true);
 
         navXPIDController.PIDResult pidResult = new navXPIDController.PIDResult();
+        telemetry.addData("spot", 1);
+        telemetry.update();
+        try {
+            while (!pidResult.isOnTarget() && opMode.opModeIsActive()) {
 
-        while(!pidResult.isOnTarget() && opMode.opModeIsActive())
-        {
-            double power = pidResult.getOutput();
+                if (pidController.waitForNewUpdate(pidResult, 500)) {
+                    double power = pidResult.getOutput();
+                    if (power > -.15 && power < .15) {
+                        if (Math.abs(power) < .05) {
+                            break;
+                        }
+                        if (power > 0 && power < .15) {
+                            power = .17;
+                        }
+                        if (power < 0 && power > -.15) {
+                            power = -.17;
+                        }
+                    }
+                    frontRight.setPower(power * speed);
+                    backRight.setPower(power * speed);
+                    frontLeft.setPower(power * speed);
+                    backLeft.setPower(power * speed);
 
-            frontRight.setPower(power * speed);
-            backRight.setPower(power * speed);
-            frontLeft.setPower(power * speed);
-            backLeft.setPower(power * speed);
+                    opMode.sleep(5);
+                    pidResult = new navXPIDController.PIDResult();
+                    telemetry.addData("spot", 2);
+                    telemetry.addData("power", power);
+                    telemetry.addData("speed", speed);
+                    telemetry.update();
+                }
+            }
+        } catch (InterruptedException ex) {
 
-            opMode.sleep(5);
-            pidResult = new navXPIDController.PIDResult();
         }
 
         frontRight.setPower(0);
         backRight.setPower(0);
         frontLeft.setPower(0);
         backLeft.setPower(0);
+        telemetry.addData("spot", 3);
+        telemetry.update();
     }
 
     /*public void ExtendTouchServo()
@@ -1311,24 +1228,19 @@ public class AutonomousDriveTrain
         touchServo.setPosition(255);
     }
     */
-    public void goToDistance(ModernRoboticsI2cRangeSensor rangeSensor, double target, double accuracy, double power)
-    {
+    public void goToDistance(ModernRoboticsI2cRangeSensor rangeSensor, double target, double accuracy, double power) {
         double min = target - accuracy;
         double max = target + accuracy;
 
         double range = rangeSensor.cmUltrasonic();
 
-        while((range < min || range > max) && opMode.opModeIsActive())
-        {
-            if(range > target)
-            {
+        while ((range < min || range > max) && opMode.opModeIsActive()) {
+            if (range > target) {
                 frontRight.setPower(-power);
                 backRight.setPower(power);
                 frontLeft.setPower(-power);
                 backLeft.setPower(power);
-            }
-            else
-            {
+            } else {
                 frontRight.setPower(power);
                 backRight.setPower(-power);
                 frontLeft.setPower(power);
@@ -1351,8 +1263,7 @@ public class AutonomousDriveTrain
         backLeft.setPower(0);
     }
 
-    public void goToDistanceGyro(ModernRoboticsI2cRangeSensor rangeSensor, double target, double accuracyLin, double powerLin, double accuracyRot, double powerRot)
-    {
+    public void goToDistanceGyro(ModernRoboticsI2cRangeSensor rangeSensor, double target, double accuracyLin, double powerLin, double accuracyRot, double powerRot) {
         double min = target - accuracyLin;
         double max = target + accuracyLin;
 
@@ -1361,32 +1272,23 @@ public class AutonomousDriveTrain
         double heading;
         double turnpow;
 
-        while((range < min || range > max) && opMode.opModeIsActive())
-        {
+        while ((range < min || range > max) && opMode.opModeIsActive()) {
             heading = navx.getYaw();
 
-            if (heading <= accuracyRot || heading >= 360 - accuracyRot)
-            {
+            if (heading <= accuracyRot || heading >= 360 - accuracyRot) {
                 turnpow = 0;
-            }
-            else if (heading <= 180)
-            {
+            } else if (heading <= 180) {
                 turnpow = -powerRot;
-            }
-            else
-            {
+            } else {
                 turnpow = powerRot;
             }
 
-            if(range > target)
-            {
+            if (range > target) {
                 frontRight.setPower(-powerLin + turnpow);
                 backRight.setPower(powerLin + turnpow);
                 frontLeft.setPower(-powerLin + turnpow);
                 backLeft.setPower(powerLin + turnpow);
-            }
-            else
-            {
+            } else {
                 frontRight.setPower(powerLin + turnpow);
                 backRight.setPower(-powerLin + turnpow);
                 frontLeft.setPower(powerLin + turnpow);
@@ -1411,14 +1313,13 @@ public class AutonomousDriveTrain
 
     public boolean lastPressLeft;
 
-    public void beaconResponse(TeamColors desiredColor, ColorSensor sensorL, ColorSensor sensorR)
-    {
+    public void beaconResponse(TeamColors desiredColor, ColorSensor sensorL, ColorSensor sensorR) {
         //sensorL is left color sensor
         //sensorR is right color sensor
 
         sensorL.enableLed(false);
         sensorR.enableLed(false);
-        
+
         TeamColors colorL = ColorHelper.getBeaconColorTest(sensorL);
         TeamColors colorR = ColorHelper.getBeaconColorTest(sensorR);
 
@@ -1433,60 +1334,46 @@ public class AutonomousDriveTrain
 
         lastPressLeft = false;
 
-        if(desiredColor == TeamColors.RED)
-        {
+        if (desiredColor == TeamColors.RED) {
             //On TeamColors.RED side
-            if(colorL == TeamColors.RED && colorR == TeamColors.BLUE) //If pressing left is necessary
+            if (colorL == TeamColors.RED && colorR == TeamColors.BLUE) //If pressing left is necessary
             {
                 pressLeft();
-            }
-            else if(colorL == TeamColors.BLUE && colorR == TeamColors.RED) //If pressing right is necessary
+            } else if (colorL == TeamColors.BLUE && colorR == TeamColors.RED) //If pressing right is necessary
             {
                 pressRight();
-            }
-            else if(colorL == TeamColors.RED && colorR == TeamColors.RED) //If both are TeamColors.RED, do nothing
+            } else if (colorL == TeamColors.RED && colorR == TeamColors.RED) //If both are TeamColors.RED, do nothing
             {
                 //See, nothing!
-            }
-            else if(colorL == TeamColors.BLUE && colorR == TeamColors.BLUE) //If both are blue, hit any (right is closest)
+            } else if (colorL == TeamColors.BLUE && colorR == TeamColors.BLUE) //If both are blue, hit any (right is closest)
             {
                 pressRight();
-            }
-            else
-            {
+            } else {
                 //If any are indecisive, do nothing to be safe
             }
         }
 
-        if(desiredColor == TeamColors.BLUE)
-        {
-            if(colorL == TeamColors.BLUE && colorR == TeamColors.RED) //If pressing left is necessary
+        if (desiredColor == TeamColors.BLUE) {
+            if (colorL == TeamColors.BLUE && colorR == TeamColors.RED) //If pressing left is necessary
             {
                 pressLeft();
-            }
-            else if(colorL == TeamColors.RED && colorR == TeamColors.BLUE) //If pressing right is necessary
+            } else if (colorL == TeamColors.RED && colorR == TeamColors.BLUE) //If pressing right is necessary
             {
                 pressRight();
-            }
-            else if(colorL == TeamColors.BLUE && colorR == TeamColors.BLUE) //If both are blue, do nothing
+            } else if (colorL == TeamColors.BLUE && colorR == TeamColors.BLUE) //If both are blue, do nothing
             {
                 //See, nothing!
-            }
-            else if(colorL == TeamColors.RED && colorR == TeamColors.RED) //If both are TeamColors.RED, hit any (right is closest)
+            } else if (colorL == TeamColors.RED && colorR == TeamColors.RED) //If both are TeamColors.RED, hit any (right is closest)
             {
                 pressRight();
-            }
-            else
-            {
+            } else {
                 //If any are indecisive, do nothing to be safe
             }
         }
     }
 
-    private String enumToString(TeamColors color)
-    {
-        switch(color)
-        {
+    private String enumToString(TeamColors color) {
+        switch (color) {
             case RED:
                 return "RED";
             case BLUE:
@@ -1499,11 +1386,10 @@ public class AutonomousDriveTrain
         return "???";
     }
 
-    private void pressLeft()
-    {
+    private void pressLeft() {
         forwards(0.15, 0.3); //Align mashy spike plate
         right(0.2, 0.5);
-        forwards (0.02, 0.2);
+        forwards(0.02, 0.2);
         back(0.02, 0.2);
         //Mash mashy spike plate into left button
         left(0.2, 0.5); //Back away
@@ -1511,8 +1397,7 @@ public class AutonomousDriveTrain
         lastPressLeft = true;
     }
 
-    private void pressRight()
-    {
+    private void pressRight() {
         right(0.2, 0.5); //Mash mashy spike plate into left button
         forwards(0.02, 0.2);
         back(0.02, 0.2);

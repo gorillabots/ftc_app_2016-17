@@ -16,10 +16,10 @@ public class NewGyroTurningTest extends LinearOpMode
     {
         driveTrain.init(this);
 
-        driveTrain.resetGyro();
-
         waitForStart();
 
-        driveTrain.turnNewGyro(90, 1, .5);
+        driveTrain.turnNewGyro(90, 1, 1);
+        telemetry.addData("done", "with op");
+        telemetry.update();
     }
 }
