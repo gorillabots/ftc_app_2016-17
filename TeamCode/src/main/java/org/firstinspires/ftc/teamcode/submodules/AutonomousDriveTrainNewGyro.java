@@ -73,8 +73,8 @@ public class AutonomousDriveTrainNewGyro
 
         wallTouch = opMode.hardwareMap.touchSensor.get("wallTouch");
 
-        offset = startOffset;
-        offsetConverted = convertHeading(startOffset);
+        offset = -startOffset;
+        offsetConverted = -convertHeading(startOffset);
     }
 
     public void stop()
