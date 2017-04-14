@@ -139,6 +139,8 @@ public class AutonomousDriveTrainNewGyro
         {
             e.printStackTrace();
         }
+
+        pidController.close();
     }
 
     public void backwards(double distance, double power) //Move backwards by distance
@@ -198,6 +200,8 @@ public class AutonomousDriveTrainNewGyro
         {
             e.printStackTrace();
         }
+
+        pidController.close();
     }
 
     public void right(double distance, double power) //Move right by distance
@@ -257,11 +261,15 @@ public class AutonomousDriveTrainNewGyro
         {
             e.printStackTrace();
         }
+
+        pidController.close();
     }
 
     public void left(double distance, double power) //Move left by distance
     {
         navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
+
+
 
         pidController.setSetpoint(TARGET_ANGLE_DEGREES);
         pidController.setContinuous(true);
@@ -278,23 +286,35 @@ public class AutonomousDriveTrainNewGyro
 
         double pidOutput;
 
+        telemetry.addData("Status", "Trying");
+        telemetry.update();
+
         try
         {
+            telemetry.addData("Status", "Whiling");
+            telemetry.update();
+
             while(pos > target && opMode.opModeIsActive())
             {
+                telemetry.addData("Status", "Iffing");
+                telemetry.update();
+
                 if(pidController.waitForNewUpdate(pidResult, NAVX_TIMEOUT_MS))
                 {
                     pidOutput = 0;
+
+                    telemetry.addData("Status", "Iffing 2");
+                    telemetry.update();
 
                     if(!pidController.isOnTarget())
                     {
                         pidOutput = pidResult.getOutput();
                     }
 
-                    frontRight.setPower(+pidOutput);
+                    frontRight.setPower(+power + pidOutput);
                     backRight.setPower(-power + pidOutput);
                     frontLeft.setPower(+power + pidOutput);
-                    backLeft.setPower(-pidOutput);
+                    backLeft.setPower(-power + pidOutput);
 
                     telemetry.addData("Status", "Left");
                     telemetry.addData("Position", pos);
@@ -316,6 +336,8 @@ public class AutonomousDriveTrainNewGyro
         {
             e.printStackTrace();
         }
+
+        pidController.close();
     }
 
     public void frontRight(double distance, double power) //Move forwards-right by distance
@@ -375,6 +397,8 @@ public class AutonomousDriveTrainNewGyro
         {
             e.printStackTrace();
         }
+
+        pidController.close();
     }
 
     public void backRight(double distance, double power) //Move forwards by distance
@@ -434,6 +458,8 @@ public class AutonomousDriveTrainNewGyro
         {
             e.printStackTrace();
         }
+
+        pidController.close();
     }
 
     public void frontLeft(double distance, double power) //Move forwards by distance
@@ -468,10 +494,10 @@ public class AutonomousDriveTrainNewGyro
                         pidOutput = pidResult.getOutput();
                     }
 
-                    frontRight.setPower(pidOutput);
-                    backRight.setPower(-power + pidOutput);
-                    frontLeft.setPower(+power + pidOutput);
-                    backLeft.setPower(pidOutput);
+                    frontRight.setPower(+power + pidOutput);
+                    backRight.setPower(pidOutput);
+                    frontLeft.setPower(pidOutput);
+                    backLeft.setPower(-power + pidOutput);
 
                     telemetry.addData("Status", "FrontLeft");
                     telemetry.addData("Position", pos);
@@ -493,6 +519,8 @@ public class AutonomousDriveTrainNewGyro
         {
             e.printStackTrace();
         }
+
+        pidController.close();
     }
 
     public void backLeft(double distance, double power) //Move forwards by distance
@@ -527,10 +555,10 @@ public class AutonomousDriveTrainNewGyro
                         pidOutput = pidResult.getOutput();
                     }
 
-                    frontRight.setPower(+power + pidOutput);
-                    backRight.setPower(pidOutput);
-                    frontLeft.setPower(pidOutput);
-                    backLeft.setPower(-power + pidOutput);
+                    frontRight.setPower(pidOutput);
+                    backRight.setPower(-power + pidOutput);
+                    frontLeft.setPower(+power + pidOutput);
+                    backLeft.setPower(pidOutput);
 
                     telemetry.addData("Status", "BackLeft");
                     telemetry.addData("Position", pos);
@@ -552,6 +580,8 @@ public class AutonomousDriveTrainNewGyro
         {
             e.printStackTrace();
         }
+
+        pidController.close();
     }
 
     private double getPosFB() //Get position for use in forwards and backwards movements

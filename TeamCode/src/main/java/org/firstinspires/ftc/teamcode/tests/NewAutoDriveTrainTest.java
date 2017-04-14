@@ -20,15 +20,15 @@ public class NewAutoDriveTrainTest extends LinearOpMode
 
         waitForStart();
 
-        driveTrain.forwards(1.0, .5);
-        driveTrain.right(1.0, .5);
-        driveTrain.backwards(1.0, .5);
-        driveTrain.left(1.0, .5);
+        //driveTrain.forwards(.5, .5);
+        //driveTrain.right(.5, .5);
+        //driveTrain.backwards(.5, .5);
+        //driveTrain.left(.5, .5);
 
-        driveTrain.frontRight(1.0, .5);
-        driveTrain.frontLeft(1.0, .5);
-        driveTrain.backLeft(1.0, .5);
-        driveTrain.backRight(1.0, .5);
+        driveTrain.frontRight(.5, .5);
+        driveTrain.frontLeft(.5, .5);
+        driveTrain.backLeft(.5, .5);
+        driveTrain.backRight(.5, .5);
 
         driveTrain.stop();
     }
