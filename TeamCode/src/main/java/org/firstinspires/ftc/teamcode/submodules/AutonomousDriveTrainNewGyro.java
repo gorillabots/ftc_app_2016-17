@@ -78,12 +78,6 @@ public class AutonomousDriveTrainNewGyro
         offsetConverted = convertHeading(offset);
     }
 
-    public void updateOffset(double offset)
-    {
-        this.offset = offset;
-        offsetConverted = convertHeading(offset);
-    }
-
     public void stop()
     {
         navx.close();
@@ -691,6 +685,9 @@ public class AutonomousDriveTrainNewGyro
 
     public void turn(double target, double accuracy, double speed)
     {
+        offset += target;
+        offsetConverted = convertHeading(offset);
+
         navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
 
         pidController.setSetpoint(convertHeading(offset + target));
