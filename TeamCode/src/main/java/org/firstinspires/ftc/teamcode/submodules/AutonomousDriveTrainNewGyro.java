@@ -39,7 +39,7 @@ public class AutonomousDriveTrainNewGyro
     AHRS navx;
 
     //Navx Constants
-    private final double TARGET_ANGLE_DEGREES = 0.0;
+    private final double TARGET_ANGLE_DEGREES_ZERO = 0.0;
     private final double TOLERANCE_DEGREES = 2.0;
     private final double MIN_MOTOR_OUTPUT_VALUE = -1.0;
     private final double MAX_MOTOR_OUTPUT_VALUE = 1.0;
@@ -86,7 +86,7 @@ public class AutonomousDriveTrainNewGyro
     {
         navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
 
-        pidController.setSetpoint(TARGET_ANGLE_DEGREES);
+        pidController.setSetpoint(TARGET_ANGLE_DEGREES_ZERO);
         pidController.setContinuous(true);
         pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
         pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
@@ -147,7 +147,7 @@ public class AutonomousDriveTrainNewGyro
     {
         navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
 
-        pidController.setSetpoint(TARGET_ANGLE_DEGREES);
+        pidController.setSetpoint(TARGET_ANGLE_DEGREES_ZERO);
         pidController.setContinuous(true);
         pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
         pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
@@ -208,7 +208,7 @@ public class AutonomousDriveTrainNewGyro
     {
         navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
 
-        pidController.setSetpoint(TARGET_ANGLE_DEGREES);
+        pidController.setSetpoint(TARGET_ANGLE_DEGREES_ZERO);
         pidController.setContinuous(true);
         pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
         pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
@@ -269,9 +269,7 @@ public class AutonomousDriveTrainNewGyro
     {
         navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
 
-
-
-        pidController.setSetpoint(TARGET_ANGLE_DEGREES);
+        pidController.setSetpoint(TARGET_ANGLE_DEGREES_ZERO);
         pidController.setContinuous(true);
         pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
         pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
@@ -344,7 +342,7 @@ public class AutonomousDriveTrainNewGyro
     {
         navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
 
-        pidController.setSetpoint(TARGET_ANGLE_DEGREES);
+        pidController.setSetpoint(TARGET_ANGLE_DEGREES_ZERO);
         pidController.setContinuous(true);
         pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
         pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
@@ -405,7 +403,7 @@ public class AutonomousDriveTrainNewGyro
     {
         navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
 
-        pidController.setSetpoint(TARGET_ANGLE_DEGREES);
+        pidController.setSetpoint(TARGET_ANGLE_DEGREES_ZERO);
         pidController.setContinuous(true);
         pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
         pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
@@ -466,7 +464,7 @@ public class AutonomousDriveTrainNewGyro
     {
         navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
 
-        pidController.setSetpoint(TARGET_ANGLE_DEGREES);
+        pidController.setSetpoint(TARGET_ANGLE_DEGREES_ZERO);
         pidController.setContinuous(true);
         pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
         pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
@@ -527,7 +525,7 @@ public class AutonomousDriveTrainNewGyro
     {
         navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
 
-        pidController.setSetpoint(TARGET_ANGLE_DEGREES);
+        pidController.setSetpoint(TARGET_ANGLE_DEGREES_ZERO);
         pidController.setContinuous(true);
         pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
         pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
@@ -582,6 +580,74 @@ public class AutonomousDriveTrainNewGyro
         }
 
         pidController.close();
+    }
+
+    public void turn(double target, double accuracy, double speed)
+    {
+        navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
+
+        pidController.setSetpoint(target);
+        pidController.setContinuous(true);
+        pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
+        pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, accuracy);
+        pidController.setPID(YAW_PID_P, YAW_PID_I, YAW_PID_D);
+
+        pidController.enable(true);
+
+        navXPIDController.PIDResult pidResult = new navXPIDController.PIDResult();
+        telemetry.addData("spot", 1);
+        telemetry.update();
+
+        try
+        {
+            while (!pidResult.isOnTarget() && opMode.opModeIsActive())
+            {
+                if (pidController.waitForNewUpdate(pidResult, 500))
+                {
+                    double power = pidResult.getOutput();
+
+                    telemetry.addData("Status", "Turn");
+                    telemetry.addData("Heading", navx.getYaw());
+                    telemetry.addData("Defined Speed", speed);
+                    telemetry.addData("PID Speed", power);
+                    telemetry.update();
+
+                    if (power > -.15 && power < .15)
+                    {
+                        if (Math.abs(power) < .05)
+                        {
+                            break;
+                        }
+                        if (power > 0 && power < .15)
+                        {
+                            power = .17;
+                        }
+                        if (power < 0 && power > -.15)
+                        {
+                            power = -.17;
+                        }
+                    }
+
+                    frontRight.setPower(power * speed);
+                    backRight.setPower(power * speed);
+                    frontLeft.setPower(power * speed);
+                    backLeft.setPower(power * speed);
+
+                    opMode.sleep(5);
+                }
+            }
+        }
+        catch (InterruptedException ex)
+        {
+
+        }
+
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        backLeft.setPower(0);
+        telemetry.addData("spot", 3);
+        telemetry.update();
     }
 
     private double getPosFB() //Get position for use in forwards and backwards movements
