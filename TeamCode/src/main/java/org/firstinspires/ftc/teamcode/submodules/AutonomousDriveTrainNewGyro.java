@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Constants;
+import org.firstinspires.ftc.teamcode.Floorcolor;
 import org.firstinspires.ftc.teamcode.TeamColors;
 
 import java.util.concurrent.Callable;
@@ -73,8 +74,8 @@ public class AutonomousDriveTrainNewGyro
 
         wallTouch = opMode.hardwareMap.touchSensor.get("wallTouch");
 
-        offset = -startOffset;
-        offsetConverted = -convertHeading(startOffset);
+        offset = startOffset;
+        offsetConverted = convertHeading(startOffset);
     }
 
     public void stop()
@@ -148,6 +149,59 @@ public class AutonomousDriveTrainNewGyro
         pidController.close();
     }
 
+    public void forwardsToLine(ColorSensor floorColor, double power) //Move forwards to white line
+    {
+        navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
+
+        pidController.setSetpoint(offsetConverted);
+        pidController.setContinuous(true);
+        pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
+        pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
+        pidController.setPID(YAW_PID_P, YAW_PID_I, YAW_PID_D);
+        pidController.enable(true);
+
+        navXPIDController.PIDResult pidResult = new navXPIDController.PIDResult();
+
+        double pidOutput;
+
+        try
+        {
+            while(ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive())
+            {
+                if(pidController.waitForNewUpdate(pidResult, NAVX_TIMEOUT_MS))
+                {
+                    pidOutput = 0;
+
+                    if(!pidController.isOnTarget())
+                    {
+                        pidOutput = pidResult.getOutput();
+                    }
+
+                    frontRight.setPower(+power + pidOutput);
+                    backRight.setPower(+power + pidOutput);
+                    frontLeft.setPower(-power + pidOutput);
+                    backLeft.setPower(-power + pidOutput);
+
+                    telemetry.addData("Status", "ForwardsToLine");
+                    telemetry.update();
+
+                    opMode.sleep(5);
+                }
+            }
+
+            frontRight.setPower(0);
+            backRight.setPower(0);
+            frontLeft.setPower(0);
+            backLeft.setPower(0);
+        }
+        catch(InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+
+        pidController.close();
+    }
+
     public void backwards(double distance, double power) //Move backwards by distance
     {
         navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
@@ -193,6 +247,60 @@ public class AutonomousDriveTrainNewGyro
                     opMode.sleep(5);
 
                     pos = getPosFB();
+                }
+            }
+
+            frontRight.setPower(0);
+            backRight.setPower(0);
+            frontLeft.setPower(0);
+            backLeft.setPower(0);
+        }
+        catch(InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+
+        pidController.close();
+    }
+
+    public void backToLine(ColorSensor floorColor, double power) //Move backwards by distance
+    {
+        navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
+
+        pidController.setSetpoint(offsetConverted);
+        pidController.setContinuous(true);
+        pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
+        pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
+        pidController.setPID(YAW_PID_P, YAW_PID_I, YAW_PID_D);
+        pidController.enable(true);
+
+        navXPIDController.PIDResult pidResult = new navXPIDController.PIDResult();
+
+        double pidOutput;
+
+        try
+        {
+            while(!ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive())
+            {
+                if(pidController.waitForNewUpdate(pidResult, NAVX_TIMEOUT_MS))
+                {
+                    pidOutput = 0;
+
+                    if(!pidController.isOnTarget())
+                    {
+                        pidOutput = pidResult.getOutput();
+                    }
+
+                    frontRight.setPower(-power + pidOutput);
+                    backRight.setPower(-power + pidOutput);
+                    frontLeft.setPower(+power + pidOutput);
+                    backLeft.setPower(+power + pidOutput);
+
+                    telemetry.addData("Status", "BackwardsToLine");
+
+                    telemetry.update();
+
+                    opMode.sleep(5);
                 }
             }
 
