@@ -39,7 +39,6 @@ public class AutonomousDriveTrainNewGyro
     AHRS navx;
 
     //Navx Constants
-    private final double TARGET_ANGLE_DEGREES_ZERO = 0.0;
     private final double TOLERANCE_DEGREES = 2.0;
     private final double MIN_MOTOR_OUTPUT_VALUE = -1.0;
     private final double MAX_MOTOR_OUTPUT_VALUE = 1.0;
@@ -47,7 +46,10 @@ public class AutonomousDriveTrainNewGyro
     private final double YAW_PID_I = 0.0;
     private final double YAW_PID_D = 0.0;
 
-    public void init(LinearOpMode opMode) //Get hardware from hardwareMap
+    double offset;
+    double offsetConverted;
+
+    public void init(LinearOpMode opMode, double startOffset) //Get hardware from hardwareMap
     {
         this.opMode = opMode;
         telemetry = opMode.telemetry;
@@ -70,6 +72,9 @@ public class AutonomousDriveTrainNewGyro
         }
 
         wallTouch = opMode.hardwareMap.touchSensor.get("wallTouch");
+
+        offset = startOffset;
+        offsetConverted = convertHeading(startOffset);
     }
 
     public void stop()
@@ -86,7 +91,7 @@ public class AutonomousDriveTrainNewGyro
     {
         navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
 
-        pidController.setSetpoint(TARGET_ANGLE_DEGREES_ZERO);
+        pidController.setSetpoint(offsetConverted);
         pidController.setContinuous(true);
         pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
         pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
@@ -147,7 +152,7 @@ public class AutonomousDriveTrainNewGyro
     {
         navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
 
-        pidController.setSetpoint(TARGET_ANGLE_DEGREES_ZERO);
+        pidController.setSetpoint(offsetConverted);
         pidController.setContinuous(true);
         pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
         pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
@@ -208,7 +213,7 @@ public class AutonomousDriveTrainNewGyro
     {
         navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
 
-        pidController.setSetpoint(TARGET_ANGLE_DEGREES_ZERO);
+        pidController.setSetpoint(offsetConverted);
         pidController.setContinuous(true);
         pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
         pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
@@ -269,7 +274,7 @@ public class AutonomousDriveTrainNewGyro
     {
         navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
 
-        pidController.setSetpoint(TARGET_ANGLE_DEGREES_ZERO);
+        pidController.setSetpoint(offsetConverted);
         pidController.setContinuous(true);
         pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
         pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
@@ -330,7 +335,7 @@ public class AutonomousDriveTrainNewGyro
     {
         navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
 
-        pidController.setSetpoint(TARGET_ANGLE_DEGREES_ZERO);
+        pidController.setSetpoint(offsetConverted);
         pidController.setContinuous(true);
         pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
         pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
@@ -391,7 +396,7 @@ public class AutonomousDriveTrainNewGyro
     {
         navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
 
-        pidController.setSetpoint(TARGET_ANGLE_DEGREES_ZERO);
+        pidController.setSetpoint(offsetConverted);
         pidController.setContinuous(true);
         pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
         pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
@@ -452,7 +457,7 @@ public class AutonomousDriveTrainNewGyro
     {
         navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
 
-        pidController.setSetpoint(TARGET_ANGLE_DEGREES_ZERO);
+        pidController.setSetpoint(offsetConverted);
         pidController.setContinuous(true);
         pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
         pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
@@ -513,7 +518,7 @@ public class AutonomousDriveTrainNewGyro
     {
         navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
 
-        pidController.setSetpoint(TARGET_ANGLE_DEGREES_ZERO);
+        pidController.setSetpoint(offsetConverted);
         pidController.setContinuous(true);
         pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
         pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
@@ -574,7 +579,7 @@ public class AutonomousDriveTrainNewGyro
     {
         navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
 
-        pidController.setSetpoint(target);
+        pidController.setSetpoint(convertHeading(offset + target));
         pidController.setContinuous(true);
         pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
         pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, accuracy);
@@ -664,5 +669,24 @@ public class AutonomousDriveTrainNewGyro
     {
         return (frontRight.getCurrentPosition() + backRight.getCurrentPosition() +
                 frontLeft.getCurrentPosition() + backLeft.getCurrentPosition()) / 4;
+    }
+
+    double convertHeading(double in) //0-360
+    {
+        if(in < 0) //If it is negative
+        {
+            in += 720; //Add 720 to make sure it is positive, which will be mostly removed by the mod
+        }
+
+        in %= 360; //Modulus
+
+        if(in > 180)
+        {
+            return in - 180;
+        }
+        else
+        {
+            return in;
+        }
     }
 }
