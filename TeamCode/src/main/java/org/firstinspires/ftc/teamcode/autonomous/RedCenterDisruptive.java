@@ -5,27 +5,30 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.submodules.AutonomousDriveTrain;
+import org.firstinspires.ftc.teamcode.submodules.AutonomousDriveTrainNewGyro;
 import org.firstinspires.ftc.teamcode.submodules.BallControl;
 
 //Created by Mikko on 1/29/17
-
+//turn to +135
 @Autonomous(name="Red Center Disruptive", group="Final")
 public class RedCenterDisruptive extends LinearOpMode
 {
-    AutonomousDriveTrain driveTrain;
+    AutonomousDriveTrainNewGyro driveTrain;
     BallControl shooter;
 
     ElapsedTime timer1 = new ElapsedTime();
 
     public void runOpMode()
     {
-        driveTrain = new AutonomousDriveTrain();
+        driveTrain = new AutonomousDriveTrainNewGyro();
         driveTrain.init(this);
         shooter = new BallControl(hardwareMap, telemetry);
 
         waitForStart();
-
+        driveTrain.backwards(.05,.7);
+        driveTrain.turn(135,2,1);
         driveTrain.right(1.3, .5);
+        driveTrain.backRight(.5, .7);
 
         timer1.reset();
         timer1.startTime();
@@ -39,12 +42,6 @@ public class RedCenterDisruptive extends LinearOpMode
         shooter.newRunFlywheel(false);
         shooter.newStopElevator();
 
-        sleep(3000);
-
-        driveTrain.left(.2, .5);
-        driveTrain.right(1.4, .5);
-        driveTrain.backRight(.9, .7);
-        //driveTrain.backRight(.7, .5);
-        //driveTrain.forwards(.3,.5);
+       
     }
 }
