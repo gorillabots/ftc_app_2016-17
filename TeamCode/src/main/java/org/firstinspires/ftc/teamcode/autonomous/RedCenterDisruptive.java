@@ -26,9 +26,8 @@ public class RedCenterDisruptive extends LinearOpMode
 
         waitForStart();
         driveTrain.backwards(.05,.7);
-        driveTrain.turn(45,2,1);
-        driveTrain.right(1.3, .5);
-        driveTrain.backRight(.5, .7);
+        driveTrain.turn(-45,2,1);
+        driveTrain.right(.5, .7);
 
         timer1.reset();
         timer1.startTime();
