@@ -50,7 +50,7 @@ public class AutonomousDriveTrainNewGyro
     double offset;
     double offsetConverted;
 
-    public void init(LinearOpMode opMode, double startOffset) //Get hardware from hardwareMap
+    public void init(LinearOpMode opMode, double offset) //Get hardware from hardwareMap
     {
         this.opMode = opMode;
         telemetry = opMode.telemetry;
@@ -74,8 +74,14 @@ public class AutonomousDriveTrainNewGyro
 
         wallTouch = opMode.hardwareMap.touchSensor.get("wallTouch");
 
-        offset = startOffset;
-        offsetConverted = convertHeading(startOffset);
+        this.offset = offset;
+        offsetConverted = convertHeading(offset);
+    }
+
+    public void updateOffset(double offset)
+    {
+        this.offset = offset;
+        offsetConverted = convertHeading(offset);
     }
 
     public void stop()
