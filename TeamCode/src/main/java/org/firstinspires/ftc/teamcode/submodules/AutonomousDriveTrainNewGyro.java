@@ -284,25 +284,13 @@ public class AutonomousDriveTrainNewGyro
 
         double pidOutput;
 
-        telemetry.addData("Status", "Trying");
-        telemetry.update();
-
         try
         {
-            telemetry.addData("Status", "Whiling");
-            telemetry.update();
-
             while(pos > target && opMode.opModeIsActive())
             {
-                telemetry.addData("Status", "Iffing");
-                telemetry.update();
-
                 if(pidController.waitForNewUpdate(pidResult, NAVX_TIMEOUT_MS))
                 {
                     pidOutput = 0;
-
-                    telemetry.addData("Status", "Iffing 2");
-                    telemetry.update();
 
                     if(!pidController.isOnTarget())
                     {
