@@ -16,7 +16,7 @@ public class NewAutoDriveTrainTest extends LinearOpMode
     public void runOpMode()
     {
         driveTrain = new AutonomousDriveTrainNewGyro();
-        driveTrain.init(this);
+        driveTrain.init(this, 902);
 
         waitForStart();
 
