@@ -25,9 +25,10 @@ public class RedCenterDisruptive extends LinearOpMode
         shooter = new BallControl(hardwareMap, telemetry);
 
         waitForStart();
-        driveTrain.backwards(.05,.7);
-        driveTrain.turn(-45,2,1);
-        driveTrain.right(.5, .7);
+        driveTrain.backwards(.1,.3);
+        driveTrain.turn(22.5,2,.7);
+       // driveTrain.updateOffset(135);
+        driveTrain.right(.74, .8);
 
         timer1.reset();
         timer1.startTime();
@@ -41,6 +42,9 @@ public class RedCenterDisruptive extends LinearOpMode
         shooter.newRunFlywheel(false);
         shooter.newStopElevator();
 
+        driveTrain.frontRight(.9,.8);
+        driveTrain.backRight(1.5,.8);
 
+        driveTrain.stop();
     }
 }
