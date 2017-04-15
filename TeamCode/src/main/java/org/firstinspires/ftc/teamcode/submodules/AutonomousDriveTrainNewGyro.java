@@ -33,7 +33,7 @@ public class AutonomousDriveTrainNewGyro
     TouchSensor wallTouch;
 
     //Navx gyro constants
-    private final int NAVX_DIM_I2C_PORT = 5;
+    private final int NAVX_DIM_I2C_PORT = 0;
     private final byte NAVX_DEVICE_UPDATE_RATE_HZ = 50;
     int NAVX_TIMEOUT_MS = 5000;
 
@@ -64,7 +64,7 @@ public class AutonomousDriveTrainNewGyro
         backLeft = opMode.hardwareMap.dcMotor.get("backRight"); //backLeft
 
         //Sensors
-        navx = AHRS.getInstance(opMode.hardwareMap.deviceInterfaceModule.get("dim"),
+        navx = AHRS.getInstance(opMode.hardwareMap.deviceInterfaceModule.get("gyrobox"),
                 NAVX_DIM_I2C_PORT,
                 AHRS.DeviceDataType.kProcessedData,
                 NAVX_DEVICE_UPDATE_RATE_HZ);

@@ -11,14 +11,14 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 @Autonomous(name="GyroResetOp", group="Test")
 public class ResetGyroOp extends LinearOpMode
 {
-    private final int NAVX_DIM_I2C_PORT = 5;
+    private final int NAVX_DIM_I2C_PORT = 0;
     private final byte NAVX_DEVICE_UPDATE_RATE_HZ = 50;
 
     AHRS navx;
 
     public void runOpMode()
     {
-        navx = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get("dim"),
+        navx = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get("gyrobox"),
                 NAVX_DIM_I2C_PORT,
                 AHRS.DeviceDataType.kProcessedData,
                 NAVX_DEVICE_UPDATE_RATE_HZ);

@@ -42,7 +42,7 @@ telemetry.addData("state","starting");
         floorColor = hardwareMap.colorSensor.get("floorColor");
         beaconColorL = hardwareMap.colorSensor.get("beaconColor");
         beaconColorR = hardwareMap.colorSensor.get("beaconColor2");
-        //floorColor.setI2cAddress(I2cAddr.create8bit(0x44)); //68 in decimal
+        floorColor.setI2cAddress(I2cAddr.create8bit(0x44)); //68 in decimal
         beaconColorL.setI2cAddress(I2cAddr.create8bit(0x3A)); //58 in decimal
         beaconColorR.setI2cAddress(I2cAddr.create8bit(0x3E)); //62 in decimal
         floorColor.enableLed(false);
@@ -75,16 +75,16 @@ telemetry.addData("state","starting");
             sleep(50);
         }*/
 
-        driveTrain.turn(270, 2, 1);
+        //driveTrain.turn(270, 2, 1);
 
 
 
-        driveTrain.goToDistance(range, 6, .5, .5);
+        //driveTrain.goToDistance(range, 6, .5, .5);
         //driveTrain.right(.09,.4);
         //driveTrain.resetGyro();
 
 
-        driveTrain.left(.1198, .5);
+        //driveTrain.left(.1198, .5);
 
 
         /*for(int i = 0; i < 1; i++)
@@ -102,10 +102,10 @@ telemetry.addData("state","starting");
 
 
 
-        //driveTrain.updateOffset(90);
+        driveTrain.updateOffset(90);
 
         floorColor.enableLed(true);
-        driveTrain.forwardsToLine(beaconColorL, .4); //Go to white line 1
+        driveTrain.forwardsToLine(floorColor, .4); //Go to white line 1
         floorColor.enableLed(false);
 
         telemetry.addData("Status", "Found line!");
