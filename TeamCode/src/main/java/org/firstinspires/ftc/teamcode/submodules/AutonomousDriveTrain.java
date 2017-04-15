@@ -1403,4 +1403,9 @@ public class AutonomousDriveTrain {
         back(0.02, 0.2);
         left(0.2, 0.5); //Back away
     }
+
+    public void stop()
+    {
+        navx.close();
+    }
 }

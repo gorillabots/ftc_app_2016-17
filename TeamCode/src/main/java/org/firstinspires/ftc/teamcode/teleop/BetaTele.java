@@ -178,6 +178,7 @@ public class BetaTele extends OpMode
     public void stop() {
         super.stop();
         floorColor.enableLed(false);
+        drivetrain.stop();
     }
 
 

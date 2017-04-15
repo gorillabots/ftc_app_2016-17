@@ -357,6 +357,8 @@ public class AutonomousDriveTrainNewGyro
                     telemetry.addData("Status", "Right");
                     telemetry.addData("Position", pos);
                     telemetry.addData("Target", target);
+                    //telemetry.addData("Heading", navx.getYaw());
+                    //telemetry.addData("Target", offsetConverted);
                     telemetry.update();
 
                     opMode.sleep(5);
@@ -702,6 +704,8 @@ public class AutonomousDriveTrainNewGyro
         telemetry.addData("spot", 1);
         telemetry.update();
 
+        double absoluteTarget = convertHeading(offset + target);
+
         try
         {
             while (!pidResult.isOnTarget() && opMode.opModeIsActive())
@@ -711,9 +715,13 @@ public class AutonomousDriveTrainNewGyro
                     double power = pidResult.getOutput();
 
                     telemetry.addData("Status", "Turn");
+                    telemetry.addData("Offset", offset);
                     telemetry.addData("Heading", navx.getYaw());
+                    telemetry.addData("Target", target);
+                    telemetry.addData("Absolute target", absoluteTarget);
                     telemetry.addData("Defined Speed", speed);
                     telemetry.addData("PID Speed", power);
+
                     telemetry.update();
 
                     if (power > -.15 && power < .15)
@@ -752,6 +760,173 @@ public class AutonomousDriveTrainNewGyro
         backLeft.setPower(0);
         telemetry.addData("spot", 3);
         telemetry.update();
+    }
+
+    public void goToDistance(ModernRoboticsI2cRangeSensor range, double target, double accuracy, double power) //Go to distance using range sensor
+    {
+        navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
+
+        pidController.setSetpoint(offsetConverted);
+        pidController.setContinuous(true);
+        pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
+        pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
+        pidController.setPID(YAW_PID_P, YAW_PID_I, YAW_PID_D);
+        pidController.enable(true);
+
+        navXPIDController.PIDResult pidResult = new navXPIDController.PIDResult();
+
+        double distance = range.cmUltrasonic();
+
+        double pidOutput;
+
+        try
+        {
+            while(!inRange(target, accuracy, distance) && opMode.opModeIsActive())
+            {
+                if(pidController.waitForNewUpdate(pidResult, NAVX_TIMEOUT_MS))
+                {
+                    pidOutput = 0;
+
+                    if(!pidController.isOnTarget())
+                    {
+                        pidOutput = pidResult.getOutput();
+                    }
+
+                    telemetry.addData("Status", "GoToDistance");
+                    telemetry.addData("Distance", distance);
+                    telemetry.addData("Target", target);
+
+                    if(distance > target) //Too far, move right
+                    {
+                        frontRight.setPower(-power + pidOutput);
+                        backRight.setPower(+power + pidOutput);
+                        frontLeft.setPower(-power + pidOutput);
+                        backLeft.setPower(+power + pidOutput);
+
+                        telemetry.addData("Going", "Right");
+                    }
+                    else //Too close, move left
+                    {
+                        frontRight.setPower(+power + pidOutput);
+                        backRight.setPower(-power + pidOutput);
+                        frontLeft.setPower(+power + pidOutput);
+                        backLeft.setPower(-power + pidOutput);
+
+                        telemetry.addData("Going", "Left");
+                    }
+
+                    telemetry.update();
+
+                    opMode.sleep(5);
+
+                    distance = range.cmUltrasonic();
+                }
+            }
+
+            frontRight.setPower(0);
+            backRight.setPower(0);
+            frontLeft.setPower(0);
+            backLeft.setPower(0);
+        }
+        catch(InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+
+        pidController.close();
+    }
+
+    boolean lastPressLeft;
+
+    public void beaconResponse(TeamColors desiredColor, ColorSensor sensorL, ColorSensor sensorR) {
+        //sensorL is left color sensor
+        //sensorR is right color sensor
+
+        sensorL.enableLed(false);
+        sensorR.enableLed(false);
+
+        TeamColors colorL = ColorHelper.getBeaconColorTest(sensorL);
+        TeamColors colorR = ColorHelper.getBeaconColorTest(sensorR);
+
+        telemetry.addData("l-r", sensorL.red());
+        telemetry.addData("l-b", sensorL.blue());
+        telemetry.addData("l-c", enumToString(colorL));
+        telemetry.addData("r-r", sensorR.red());
+        telemetry.addData("r-b", sensorR.blue());
+        telemetry.addData("r-c", enumToString(colorR));
+        telemetry.update();
+        //opMode.sleep(1000);
+
+        lastPressLeft = false;
+
+        if (desiredColor == TeamColors.RED) {
+            //On TeamColors.RED side
+            if (colorL == TeamColors.RED && colorR == TeamColors.BLUE) //If pressing left is necessary
+            {
+                pressLeft();
+            } else if (colorL == TeamColors.BLUE && colorR == TeamColors.RED) //If pressing right is necessary
+            {
+                pressRight();
+            } else if (colorL == TeamColors.RED && colorR == TeamColors.RED) //If both are TeamColors.RED, do nothing
+            {
+                //See, nothing!
+            } else if (colorL == TeamColors.BLUE && colorR == TeamColors.BLUE) //If both are blue, hit any (right is closest)
+            {
+                pressRight();
+            } else {
+                //If any are indecisive, do nothing to be safe
+            }
+        }
+
+        if (desiredColor == TeamColors.BLUE) {
+            if (colorL == TeamColors.BLUE && colorR == TeamColors.RED) //If pressing left is necessary
+            {
+                pressLeft();
+            } else if (colorL == TeamColors.RED && colorR == TeamColors.BLUE) //If pressing right is necessary
+            {
+                pressRight();
+            } else if (colorL == TeamColors.BLUE && colorR == TeamColors.BLUE) //If both are blue, do nothing
+            {
+                //See, nothing!
+            } else if (colorL == TeamColors.RED && colorR == TeamColors.RED) //If both are TeamColors.RED, hit any (right is closest)
+            {
+                pressRight();
+            } else {
+                //If any are indecisive, do nothing to be safe
+            }
+        }
+    }
+
+    private String enumToString(TeamColors color) {
+        switch (color) {
+            case RED:
+                return "RED";
+            case BLUE:
+                return "BLUE";
+            case INDECISIVE:
+                return "INDECISIVE";
+
+        }
+
+        return "???";
+    }
+
+    private void pressLeft() {
+        forwards(0.15, 0.3); //Align mashy spike plate
+        right(0.2, 0.5);
+        forwards(0.02, 0.2);
+        backwards(0.02, 0.2);
+        //Mash mashy spike plate into left button
+        left(0.2, 0.5); //Back away
+
+        lastPressLeft = true;
+    }
+
+    private void pressRight() {
+        right(0.2, 0.5); //Mash mashy spike plate into left button
+        forwards(0.02, 0.2);
+        backwards(0.02, 0.2);
+        left(0.2, 0.5); //Back away
     }
 
     private double getPosFB() //Get position for use in forwards and backwards movements
@@ -799,5 +974,10 @@ public class AutonomousDriveTrainNewGyro
         {
             return in;
         }
+    }
+
+    boolean inRange(double target, double accuracy, double reading)
+    {
+        return (Math.abs(target - reading) < accuracy); //If abs of difference is less than accuracy, we are in range
     }
 }
