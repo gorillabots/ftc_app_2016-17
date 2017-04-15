@@ -123,5 +123,10 @@ public class DrivetrainNewGyro
 
 
     }
+
+    public void stop()
+    {
+        navx.close();
+    }
 }
 
