@@ -45,6 +45,7 @@ telemetry.addData("state","starting");
         floorColor.setI2cAddress(I2cAddr.create8bit(60)); //0x3C
         beaconColorL.setI2cAddress(I2cAddr.create8bit(58)); //0x3A
         beaconColorR.setI2cAddress(I2cAddr.create8bit(62)); //0x3E
+
         floorColor.enableLed(false);
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
