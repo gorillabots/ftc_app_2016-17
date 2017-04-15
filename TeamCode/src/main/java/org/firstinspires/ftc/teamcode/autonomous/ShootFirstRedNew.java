@@ -42,9 +42,9 @@ telemetry.addData("state","starting");
         floorColor = hardwareMap.colorSensor.get("floorColor");
         beaconColorL = hardwareMap.colorSensor.get("beaconColor");
         beaconColorR = hardwareMap.colorSensor.get("beaconColor2");
-        floorColor.setI2cAddress(I2cAddr.create8bit(60)); //0x3C
-        beaconColorL.setI2cAddress(I2cAddr.create8bit(58)); //0x3A
-        beaconColorR.setI2cAddress(I2cAddr.create8bit(62)); //0x3E
+        //floorColor.setI2cAddress(I2cAddr.create8bit(0x44)); //68 in decimal
+        beaconColorL.setI2cAddress(I2cAddr.create8bit(0x3A)); //58 in decimal
+        beaconColorR.setI2cAddress(I2cAddr.create8bit(0x3E)); //62 in decimal
         floorColor.enableLed(false);
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
@@ -70,11 +70,11 @@ telemetry.addData("state","starting");
         driveTrain.left(.1, .4);
         driveTrain.frontRight(1.55, .6);*/
 
-        while(gamepad1.a)
+        /*while(gamepad1.a)
         {
             sleep(50);
-        }
-/*
+        }*/
+
         driveTrain.turn(270, 2, 1);
 
 
@@ -84,10 +84,10 @@ telemetry.addData("state","starting");
         //driveTrain.resetGyro();
 
 
-        driveTrain.left(.1198, .5);*/
+        driveTrain.left(.1198, .5);
 
 
-        for(int i = 0; i < 3; i++)
+        /*for(int i = 0; i < 1; i++)
         {
             sleep(1000);
             floorColor.enableLed(false);
@@ -98,11 +98,18 @@ telemetry.addData("state","starting");
             sleep(1000);
             beaconColorR.enableLed(false);
             floorColor.enableLed(true);
-        }
+        }*/
+
+
+
+        //driveTrain.updateOffset(90);
 
         floorColor.enableLed(true);
-        driveTrain.forwardsToLine(floorColor, .4); //Go to white line 1
+        driveTrain.forwardsToLine(beaconColorL, .4); //Go to white line 1
         floorColor.enableLed(false);
+
+        telemetry.addData("Status", "Found line!");
+        telemetry.update();
         /*
         driveTrain.backwards(.02 , .5); //Align color sensors
 

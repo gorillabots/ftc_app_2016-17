@@ -38,6 +38,8 @@ public class AutonomousDriveTrainNewGyro
     int NAVX_TIMEOUT_MS = 5000;
 
     AHRS navx;
+    navXPIDController pidController;
+    navXPIDController.PIDResult pidResult;
 
     //Navx Constants
     private final double TOLERANCE_DEGREES = 2.0;
@@ -72,6 +74,15 @@ public class AutonomousDriveTrainNewGyro
             opMode.sleep(5);
         }
 
+        pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
+        pidController.setContinuous(true);
+        pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
+        pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
+        pidController.setPID(YAW_PID_P, YAW_PID_I, YAW_PID_D);
+        pidController.enable(true);
+
+        pidResult = new navXPIDController.PIDResult();
+
         wallTouch = opMode.hardwareMap.touchSensor.get("wallTouch");
 
         this.offset = offset;
@@ -80,7 +91,9 @@ public class AutonomousDriveTrainNewGyro
 
     public void stop()
     {
+        pidController.close();
         navx.close();
+
     }
 
     public void resetGyro() //Define the current heading as 0 degrees
@@ -88,18 +101,15 @@ public class AutonomousDriveTrainNewGyro
         navx.zeroYaw();
     }
 
+    public void updateOffset(double offset)
+    {
+        this.offset = offset;
+        offsetConverted = convertHeading(offset);
+    }
+
     public void forwards(double distance, double power) //Move forwards by distance
     {
-        navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
-
         pidController.setSetpoint(offsetConverted);
-        pidController.setContinuous(true);
-        pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
-        pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
-        pidController.setPID(YAW_PID_P, YAW_PID_I, YAW_PID_D);
-        pidController.enable(true);
-
-        navXPIDController.PIDResult pidResult = new navXPIDController.PIDResult();
 
         double pos = getPosFB();
 
@@ -145,30 +155,27 @@ public class AutonomousDriveTrainNewGyro
         {
             e.printStackTrace();
         }
-
-        pidController.close();
     }
 
     public void forwardsToLine(ColorSensor floorColor, double power) //Move forwards to white line
     {
-        navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
-
         pidController.setSetpoint(offsetConverted);
-        pidController.setContinuous(true);
-        pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
-        pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
-        pidController.setPID(YAW_PID_P, YAW_PID_I, YAW_PID_D);
-        pidController.enable(true);
-
-        navXPIDController.PIDResult pidResult = new navXPIDController.PIDResult();
 
         double pidOutput;
+
+        telemetry.addData("Status", "Moving to line");
+        telemetry.update();
 
         try
         {
             while(!ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive())
             {
-                if(pidController.waitForNewUpdate(pidResult, NAVX_TIMEOUT_MS))
+                boolean pidUpdated = pidController.waitForNewUpdate(pidResult, NAVX_TIMEOUT_MS);
+
+                telemetry.addData("PID Updated", pidUpdated);
+                telemetry.update();
+
+                if(pidUpdated)
                 {
                     pidOutput = 0;
 
@@ -202,22 +209,11 @@ public class AutonomousDriveTrainNewGyro
         {
             e.printStackTrace();
         }
-
-        pidController.close();
     }
 
     public void backwards(double distance, double power) //Move backwards by distance
     {
-        navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
-
         pidController.setSetpoint(offsetConverted);
-        pidController.setContinuous(true);
-        pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
-        pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
-        pidController.setPID(YAW_PID_P, YAW_PID_I, YAW_PID_D);
-        pidController.enable(true);
-
-        navXPIDController.PIDResult pidResult = new navXPIDController.PIDResult();
 
         double pos = getPosFB();
 
@@ -263,22 +259,11 @@ public class AutonomousDriveTrainNewGyro
         {
             e.printStackTrace();
         }
-
-        pidController.close();
     }
 
     public void backToLine(ColorSensor floorColor, double power) //Move backwards by distance
     {
-        navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
-
         pidController.setSetpoint(offsetConverted);
-        pidController.setContinuous(true);
-        pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
-        pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
-        pidController.setPID(YAW_PID_P, YAW_PID_I, YAW_PID_D);
-        pidController.enable(true);
-
-        navXPIDController.PIDResult pidResult = new navXPIDController.PIDResult();
 
         double pidOutput;
 
@@ -317,22 +302,11 @@ public class AutonomousDriveTrainNewGyro
         {
             e.printStackTrace();
         }
-
-        pidController.close();
     }
 
     public void right(double distance, double power) //Move right by distance
     {
-        navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
-
         pidController.setSetpoint(offsetConverted);
-        pidController.setContinuous(true);
-        pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
-        pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
-        pidController.setPID(YAW_PID_P, YAW_PID_I, YAW_PID_D);
-        pidController.enable(true);
-
-        navXPIDController.PIDResult pidResult = new navXPIDController.PIDResult();
 
         double pos = getPosRL();
 
@@ -384,22 +358,11 @@ public class AutonomousDriveTrainNewGyro
         {
             e.printStackTrace();
         }
-
-        pidController.close();
     }
 
     public void left(double distance, double power) //Move left by distance
     {
-        navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
-
         pidController.setSetpoint(offsetConverted);
-        pidController.setContinuous(true);
-        pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
-        pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
-        pidController.setPID(YAW_PID_P, YAW_PID_I, YAW_PID_D);
-        pidController.enable(true);
-
-        navXPIDController.PIDResult pidResult = new navXPIDController.PIDResult();
 
         double pos = getPosRL();
 
@@ -451,16 +414,7 @@ public class AutonomousDriveTrainNewGyro
 
     public void frontRight(double distance, double power) //Move forwards-right by distance
     {
-        navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
-
         pidController.setSetpoint(offsetConverted);
-        pidController.setContinuous(true);
-        pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
-        pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
-        pidController.setPID(YAW_PID_P, YAW_PID_I, YAW_PID_D);
-        pidController.enable(true);
-
-        navXPIDController.PIDResult pidResult = new navXPIDController.PIDResult();
 
         double pos = getPosBLFR();
 
@@ -506,22 +460,11 @@ public class AutonomousDriveTrainNewGyro
         {
             e.printStackTrace();
         }
-
-        pidController.close();
     }
 
     public void backRight(double distance, double power) //Move forwards by distance
     {
-        navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
-
         pidController.setSetpoint(offsetConverted);
-        pidController.setContinuous(true);
-        pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
-        pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
-        pidController.setPID(YAW_PID_P, YAW_PID_I, YAW_PID_D);
-        pidController.enable(true);
-
-        navXPIDController.PIDResult pidResult = new navXPIDController.PIDResult();
 
         double pos = getPosBRFL();
 
@@ -567,22 +510,11 @@ public class AutonomousDriveTrainNewGyro
         {
             e.printStackTrace();
         }
-
-        pidController.close();
     }
 
     public void frontLeft(double distance, double power) //Move forwards by distance
     {
-        navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
-
         pidController.setSetpoint(offsetConverted);
-        pidController.setContinuous(true);
-        pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
-        pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
-        pidController.setPID(YAW_PID_P, YAW_PID_I, YAW_PID_D);
-        pidController.enable(true);
-
-        navXPIDController.PIDResult pidResult = new navXPIDController.PIDResult();
 
         double pos = getPosBRFL();
 
@@ -628,22 +560,11 @@ public class AutonomousDriveTrainNewGyro
         {
             e.printStackTrace();
         }
-
-        pidController.close();
     }
 
     public void backLeft(double distance, double power) //Move forwards by distance
     {
-        navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
-
         pidController.setSetpoint(offsetConverted);
-        pidController.setContinuous(true);
-        pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
-        pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
-        pidController.setPID(YAW_PID_P, YAW_PID_I, YAW_PID_D);
-        pidController.enable(true);
-
-        navXPIDController.PIDResult pidResult = new navXPIDController.PIDResult();
 
         double pos = getPosBLFR();
 
@@ -689,23 +610,12 @@ public class AutonomousDriveTrainNewGyro
         {
             e.printStackTrace();
         }
-
-        pidController.close();
     }
 
     public void turn(double target, double accuracy, double speed)
     {
-        navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
-
         pidController.setSetpoint(convertHeading(offset + target));
-        pidController.setContinuous(true);
-        pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
-        pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, accuracy);
-        pidController.setPID(YAW_PID_P, YAW_PID_I, YAW_PID_D);
 
-        pidController.enable(true);
-
-        navXPIDController.PIDResult pidResult = new navXPIDController.PIDResult();
         telemetry.addData("spot", 1);
         telemetry.update();
 
@@ -770,16 +680,7 @@ public class AutonomousDriveTrainNewGyro
 
     public void goToDistance(ModernRoboticsI2cRangeSensor range, double target, double accuracy, double power) //Go to distance using range sensor
     {
-        navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
-
         pidController.setSetpoint(offsetConverted);
-        pidController.setContinuous(true);
-        pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
-        pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
-        pidController.setPID(YAW_PID_P, YAW_PID_I, YAW_PID_D);
-        pidController.enable(true);
-
-        navXPIDController.PIDResult pidResult = new navXPIDController.PIDResult();
 
         double distance = range.cmUltrasonic();
 
@@ -838,8 +739,6 @@ public class AutonomousDriveTrainNewGyro
         {
             e.printStackTrace();
         }
-
-        pidController.close();
     }
 
     boolean lastPressLeft;
