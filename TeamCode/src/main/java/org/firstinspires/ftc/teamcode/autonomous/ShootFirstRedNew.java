@@ -42,8 +42,9 @@ telemetry.addData("state","starting");
         floorColor = hardwareMap.colorSensor.get("floorColor");
         beaconColorL = hardwareMap.colorSensor.get("beaconColor");
         beaconColorR = hardwareMap.colorSensor.get("beaconColor2");
-        beaconColorL.setI2cAddress(I2cAddr.create8bit(58));
-        beaconColorR.setI2cAddress(I2cAddr.create8bit(62));
+        floorColor.setI2cAddress(I2cAddr.create8bit(60)); //0x3C
+        beaconColorL.setI2cAddress(I2cAddr.create8bit(58)); //0x3A
+        beaconColorR.setI2cAddress(I2cAddr.create8bit(62)); //0x3E
         floorColor.enableLed(false);
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
@@ -56,7 +57,7 @@ telemetry.addData("state","starting");
         telemetry.addData("state","start");
             telemetry.update();
 
-        shooter.newRunFlywheel(true);
+        /*shooter.newRunFlywheel(true);
 
         driveTrain.right(.68, .4);
         sleep(1000);
@@ -67,24 +68,42 @@ telemetry.addData("state","starting");
         shooter.newStopElevator();
 
         driveTrain.left(.1, .4);
-        driveTrain.frontRight(1.55, .6);
+        driveTrain.frontRight(1.55, .6);*/
 
-        driveTrain.turn(270, 2, .5);
+        while(gamepad1.a)
+        {
+            sleep(50);
+        }
+/*
+        driveTrain.turn(270, 2, 1);
 
-        /*
+
 
         driveTrain.goToDistance(range, 6, .5, .5);
-        driveTrain.right(.09,.4);
-//        driveTrain.resetGyro();
+        //driveTrain.right(.09,.4);
+        //driveTrain.resetGyro();
 
 
-        driveTrain.left(.1198, .5);
+        driveTrain.left(.1198, .5);*/
 
+
+        for(int i = 0; i < 3; i++)
+        {
+            sleep(1000);
+            floorColor.enableLed(false);
+            beaconColorL.enableLed(true);
+            sleep(1000);
+            beaconColorL.enableLed(false);
+            beaconColorR.enableLed(true);
+            sleep(1000);
+            beaconColorR.enableLed(false);
+            floorColor.enableLed(true);
+        }
 
         floorColor.enableLed(true);
-        driveTrain.forwardsToLine(floorColor, .22); //Go to white line 1
+        driveTrain.forwardsToLine(floorColor, .4); //Go to white line 1
         floorColor.enableLed(false);
-
+        /*
         driveTrain.backwards(.02 , .5); //Align color sensors
 
         driveTrain.goToDistance(range, 13, 1, .5); //Approach beacon

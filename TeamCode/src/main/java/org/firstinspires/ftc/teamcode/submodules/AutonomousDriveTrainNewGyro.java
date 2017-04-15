@@ -166,7 +166,7 @@ public class AutonomousDriveTrainNewGyro
 
         try
         {
-            while(ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive())
+            while(!ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive())
             {
                 if(pidController.waitForNewUpdate(pidResult, NAVX_TIMEOUT_MS))
                 {
@@ -183,6 +183,10 @@ public class AutonomousDriveTrainNewGyro
                     backLeft.setPower(-power + pidOutput);
 
                     telemetry.addData("Status", "ForwardsToLine");
+                    telemetry.addData("ARGB", floorColor.argb());
+                    telemetry.addData("R", floorColor.red());
+                    telemetry.addData("G", floorColor.green());
+                    telemetry.addData("B", floorColor.blue());
                     telemetry.update();
 
                     opMode.sleep(5);
@@ -356,7 +360,11 @@ public class AutonomousDriveTrainNewGyro
 
                     telemetry.addData("Status", "Right");
                     telemetry.addData("Position", pos);
+                    telemetry.addData("Speed", power);
                     telemetry.addData("Target", target);
+                    telemetry.addData("Gyro yaw", navx.getYaw());
+                    telemetry.addData("PID Output", pidOutput);
+                    telemetry.addData("Offset", offsetConverted);
                     //telemetry.addData("Heading", navx.getYaw());
                     //telemetry.addData("Target", offsetConverted);
                     telemetry.update();
@@ -687,9 +695,6 @@ public class AutonomousDriveTrainNewGyro
 
     public void turn(double target, double accuracy, double speed)
     {
-        offset += target;
-        offsetConverted = convertHeading(offset);
-
         navXPIDController pidController = new navXPIDController(navx, navXPIDController.navXTimestampedDataSource.YAW);
 
         pidController.setSetpoint(convertHeading(offset + target));
@@ -758,8 +763,9 @@ public class AutonomousDriveTrainNewGyro
         backRight.setPower(0);
         frontLeft.setPower(0);
         backLeft.setPower(0);
-        telemetry.addData("spot", 3);
-        telemetry.update();
+
+        offset += target;
+        offsetConverted = convertHeading(offset);
     }
 
     public void goToDistance(ModernRoboticsI2cRangeSensor range, double target, double accuracy, double power) //Go to distance using range sensor
