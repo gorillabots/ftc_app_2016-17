@@ -10,15 +10,15 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 @Autonomous(name="New Gyro Turning", group="Test")
 public class NewGyroTurningTest extends LinearOpMode
 {
-    AutonomousDriveTrain driveTrain = new AutonomousDriveTrain();
+    AutonomousDriveTrainNewGyro driveTrain = new AutonomousDriveTrainNewGyro();
 
     public void runOpMode()
     {
-        driveTrain.init(this);
+        driveTrain.init(this, 0);
 
         waitForStart();
 
-        driveTrain.turnNewGyro(90, 1, 1);
+        driveTrain.turn(90, 1, 1);
         telemetry.addData("done", "with op");
         telemetry.update();
     }
