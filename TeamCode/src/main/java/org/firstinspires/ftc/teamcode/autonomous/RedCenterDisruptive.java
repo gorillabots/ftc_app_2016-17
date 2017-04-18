@@ -22,11 +22,13 @@ public class RedCenterDisruptive extends LinearOpMode
     {
         driveTrain = new AutonomousDriveTrainNewGyro();
         driveTrain.init(this, 90);
+        // drivetrain.offset = 90
         shooter = new BallControl(hardwareMap, telemetry);
 
         waitForStart();
         driveTrain.backwards(.1,.3);
         driveTrain.turn(45,2,.7);
+        // drivetrain.offset = 135
        // driveTrain.updateOffset(135);
         driveTrain.right(.81, .8);
 
@@ -43,6 +45,7 @@ public class RedCenterDisruptive extends LinearOpMode
         shooter.newStopElevator();
 
         driveTrain.turn(-45,2,.7);
+        // drivetrain.offset = 90
         driveTrain.right(.9,.8);
         driveTrain.backwards(.95,.8);
         driveTrain.left(.9,.8);

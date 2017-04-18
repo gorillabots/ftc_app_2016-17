@@ -10,28 +10,32 @@ import org.firstinspires.ftc.teamcode.submodules.BallControl;
 
 //Created by Mikko on 1/29/17
 //turn to +135'
-@Autonomous(name="Blue Center Disruptive", group="Final")
-public class BlueCenterDisruptive extends LinearOpMode
-{
+@Autonomous(name = "Blue Center Disruptive", group = "Final")
+public class BlueCenterDisruptive extends LinearOpMode {
     AutonomousDriveTrainNewGyro driveTrain;
     BallControl shooter;
 
     ElapsedTime timer1 = new ElapsedTime();
 
-    public void runOpMode()
-    {
+    public void runOpMode() {
         driveTrain = new AutonomousDriveTrainNewGyro();
         driveTrain.init(this, 0);
+        // drivetrain.offset = 0
+
         shooter = new BallControl(hardwareMap, telemetry);
 
         waitForStart();
-        driveTrain.left(1,.6);
+        driveTrain.left(1, .6);
         sleep(500);
-        driveTrain.turn(-135,2,.7);
-        telemetry.addData("done"," done");
+        driveTrain.turn(-135, 2, .7);
+        // drivetrain.offset = -135
+        // TODO: Look at this!
+        telemetry.addData("done", " done");
         telemetry.update();
         /*
         driveTrain.turn(90,2,.7);
+        // drivetrain.offset = 45
+
         // driveTrain.updateOffset(135);
         driveTrain.right(.81, .8);
 
@@ -48,13 +52,14 @@ public class BlueCenterDisruptive extends LinearOpMode
         shooter.newStopElevator();
 
         driveTrain.turn(-45,2,.7);
+        // drivetrain.offset = 0
         driveTrain.right(.9,.8);
         driveTrain.backwards(.95,.8);
         driveTrain.left(.9,.8);
 */
     }
 
-    public void Stop(){
+    public void Stop() {
         driveTrain.stop();
     }
 

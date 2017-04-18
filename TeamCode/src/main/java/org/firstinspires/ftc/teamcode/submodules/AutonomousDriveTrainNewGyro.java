@@ -632,15 +632,18 @@ public class AutonomousDriveTrainNewGyro
 
     public void turn(double target, double accuracy, double speed)
     {
+        // With target = -135....
+
+        double absoluteTarget = convertHeading(offset + target);
+        // absoluteTarget = 45 | Should be -135
+
         pidController.reset();
-        pidController.setSetpoint(convertHeading(offset + target));
+        pidController.setSetpoint(absoluteTarget);
         pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, accuracy);
         pidController.enable(true);
 
         telemetry.addData("spot", 1);
         telemetry.update();
-
-        double absoluteTarget = convertHeading(offset + target);
 
         try
         {
@@ -885,6 +888,10 @@ public class AutonomousDriveTrainNewGyro
                 frontLeft.getCurrentPosition() + backLeft.getCurrentPosition()) / 4;
     }
 
+    /*
+     * TODO: This is the problem with BlueCenterDisruptive
+     * When input value = -135 this returns 45, should actually return -135
+     */
     private double convertHeading(double in) //0-360
     {
         if(in < 0) //If it is negative
