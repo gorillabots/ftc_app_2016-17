@@ -25,34 +25,28 @@ public class ShootFirstRed extends LinearOpMode {
     ModernRoboticsI2cRangeSensor range;
 
     public void runOpMode() {
-
-telemetry.addData("state","starting");
-            telemetry.update();
         //Initialize Submodules
         driveTrain = new AutonomousDriveTrain(); //Initialize hardware
         driveTrain.init(this);
-        telemetry.addData("state","driverain init");
-            telemetry.update();
+
         shooter = new BallControl(hardwareMap, telemetry);
-        telemetry.addData("state","ball init");
-            telemetry.update();
+
         //Initialize Sensors
         floorColor = hardwareMap.colorSensor.get("floorColor");
         beaconColorL = hardwareMap.colorSensor.get("beaconColor");
         beaconColorR = hardwareMap.colorSensor.get("beaconColor2");
-        beaconColorL.setI2cAddress(I2cAddr.create8bit(58));
-        beaconColorR.setI2cAddress(I2cAddr.create8bit(62));
+        floorColor.setI2cAddress(I2cAddr.create8bit(0x44)); //68 in decimal
+        beaconColorL.setI2cAddress(I2cAddr.create8bit(0x3A)); //58 in decimal
+        beaconColorR.setI2cAddress(I2cAddr.create8bit(0x3E)); //62 in decimal
         floorColor.enableLed(false);
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
 
         range = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
-        driveTrain.resetGyro();
-        telemetry.addData("state","waiting for start");
-            telemetry.update();
+
         waitForStart();
-        telemetry.addData("state","start");
-            telemetry.update();
+
+        driveTrain.resetGyro();
 
         shooter.newRunFlywheel(true);
 
@@ -67,12 +61,11 @@ telemetry.addData("state","starting");
         driveTrain.left(.1, .4);
         driveTrain.frontRight(1.55, .5);
 
-        driveTrain.turnToGyroAny(270, .1 , 5);
-
+        driveTrain.turnToGyroAny(270, .2 , 5);
 
         driveTrain.goToDistance(range, 6, .5, .1);
         driveTrain.right(.09,.4);
-//        driveTrain.resetGyro();
+        driveTrain.resetGyro();
 
 
         driveTrain.left(.1198, .5);
