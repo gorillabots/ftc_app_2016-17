@@ -666,7 +666,8 @@ public class AutonomousDriveTrainNewGyro
         }
         catch (InterruptedException ex)
         {
-
+            telemetry.addData("error:", ex.getMessage());
+            telemetry.update();
         }
 
         frontRight.setPower(0);

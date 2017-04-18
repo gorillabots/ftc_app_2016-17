@@ -42,9 +42,11 @@ public class RedCenterDisruptive extends LinearOpMode
         shooter.newRunFlywheel(false);
         shooter.newStopElevator();
 
-        driveTrain.turn(0,2,.7);
-        driveTrain.frontRight(.9,.8);
-        driveTrain.backRight(.95   ,.8);
+        driveTrain.turn(-45,2,.7);
+        driveTrain.right(.9,.8);
+        driveTrain.backwards(.95,.8);
+        driveTrain.left(.9,.8);
+        driveTrain.forwards(.1, 1);
 
         driveTrain.stop();
     }
