@@ -57,7 +57,7 @@ telemetry.addData("state","starting");
         telemetry.addData("state","start");
             telemetry.update();
 
-        /*shooter.newRunFlywheel(true);
+        shooter.newRunFlywheel(true);
 
         driveTrain.right(.68, .4);
         sleep(1000);
@@ -67,55 +67,36 @@ telemetry.addData("state","starting");
         shooter.newRunFlywheel(false);
         shooter.newStopElevator();
 
-        driveTrain.left(.1, .4);
-        driveTrain.frontRight(1.55, .6);*/
+        //driveTrain.left(.1, .4);
+        driveTrain.frontRight(1.55, .6);
 
         /*while(gamepad1.a)
         {
             sleep(50);
         }*/
 
-        //driveTrain.turn(270, 2, 1);
+        driveTrain.turn(270, 2, 1);
 
+        driveTrain.goToDistance(range, 6, .5, .5);
 
+        driveTrain.left(.3, .5);
 
-        //driveTrain.goToDistance(range, 6, .5, .5);
-        //driveTrain.right(.09,.4);
-        //driveTrain.resetGyro();
+        //driveTrain.updateOffset(90);
 
-
-        //driveTrain.left(.1198, .5);
-
-
-        /*for(int i = 0; i < 1; i++)
-        {
-            sleep(1000);
-            floorColor.enableLed(false);
-            beaconColorL.enableLed(true);
-            sleep(1000);
-            beaconColorL.enableLed(false);
-            beaconColorR.enableLed(true);
-            sleep(1000);
-            beaconColorR.enableLed(false);
-            floorColor.enableLed(true);
-        }*/
-
-
-
-        driveTrain.updateOffset(90);
+        sleep(500);
 
         floorColor.enableLed(true);
         driveTrain.forwardsToLine(floorColor, .4); //Go to white line 1
         floorColor.enableLed(false);
 
-        telemetry.addData("Status", "Found line!");
-        telemetry.update();
-        /*
+        //telemetry.addData("Status", "Found line!");
+        //telemetry.update();
+
         driveTrain.backwards(.02 , .5); //Align color sensors
 
         driveTrain.goToDistance(range, 13, 1, .5); //Approach beacon
 
-        sleep(100);
+        /*sleep(100);
 
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);

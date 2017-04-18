@@ -4,16 +4,13 @@ import com.kauailabs.navx.ftc.AHRS;
 import com.kauailabs.navx.ftc.navXPIDController;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotor.RunMode;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Constants;
-import org.firstinspires.ftc.teamcode.Floorcolor;
 import org.firstinspires.ftc.teamcode.TeamColors;
 
 import java.util.concurrent.Callable;
@@ -22,24 +19,25 @@ import java.util.concurrent.Callable;
 
 public class AutonomousDriveTrainNewGyro
 {
-    LinearOpMode opMode;
-    Telemetry telemetry;
+    private LinearOpMode opMode;
+    private Telemetry telemetry;
 
     //Motors
-    DcMotor frontRight, backRight, frontLeft, backLeft;
+    private DcMotor frontRight, backRight, frontLeft, backLeft;
 
     //Sensors
-    ModernRoboticsI2cGyro gyro;
-    TouchSensor wallTouch;
+    //private ModernRoboticsI2cGyro gyro;
+    private TouchSensor wallTouch;
 
     //Navx gyro constants
     private final int NAVX_DIM_I2C_PORT = 0;
     private final byte NAVX_DEVICE_UPDATE_RATE_HZ = 50;
-    int NAVX_TIMEOUT_MS = 5000;
+    private int NAVX_TIMEOUT_MS = 5000;
 
-    AHRS navx;
-    navXPIDController pidController;
-    navXPIDController.PIDResult pidResult;
+    //Navx stuff
+    private AHRS navx;
+    private navXPIDController pidController;
+    private navXPIDController.PIDResult pidResult;
 
     //Navx Constants
     private final double TOLERANCE_DEGREES = 2.0;
@@ -49,8 +47,8 @@ public class AutonomousDriveTrainNewGyro
     private final double YAW_PID_I = 0.0;
     private final double YAW_PID_D = 0.0;
 
-    double offset;
-    double offsetConverted;
+    private double offset;
+    private double offsetConverted;
 
     public void init(LinearOpMode opMode, double offset) //Get hardware from hardwareMap
     {
@@ -79,7 +77,7 @@ public class AutonomousDriveTrainNewGyro
         pidController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
         pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
         pidController.setPID(YAW_PID_P, YAW_PID_I, YAW_PID_D);
-        pidController.enable(true);
+        //pidController.enable(true);
 
         pidResult = new navXPIDController.PIDResult();
 
@@ -109,7 +107,9 @@ public class AutonomousDriveTrainNewGyro
 
     public void forwards(double distance, double power) //Move forwards by distance
     {
+        pidController.reset();
         pidController.setSetpoint(offsetConverted);
+        pidController.enable(true);
 
         double pos = getPosFB();
 
@@ -159,61 +159,65 @@ public class AutonomousDriveTrainNewGyro
 
     public void forwardsToLine(ColorSensor floorColor, double power) //Move forwards to white line
     {
-        pidController.setSetpoint(offsetConverted);
+        //pidController.reset();
+        //pidController.setSetpoint(offsetConverted);
+        //pidController.enable(true);
 
         double pidOutput;
 
         telemetry.addData("Status", "Moving to line");
         telemetry.update();
 
-        try
-        {
+        //try
+        //{
             while(!ColorHelper.isFloorWhiteTest(floorColor) && opMode.opModeIsActive())
             {
-                boolean pidUpdated = pidController.waitForNewUpdate(pidResult, NAVX_TIMEOUT_MS);
+                //boolean pidUpdated = pidController.waitForNewUpdate(pidResult, NAVX_TIMEOUT_MS);
 
-                telemetry.addData("PID Updated", pidUpdated);
+                //telemetry.addData("PID Updated", pidUpdated);
+                //telemetry.update();
+
+                pidOutput = 0;
+
+                //if(pidUpdated && !pidController.isOnTarget())
+                //{
+                //    pidOutput = pidResult.getOutput();
+                //}
+
+                frontRight.setPower(+power + pidOutput);
+                backRight.setPower(+power + pidOutput);
+                frontLeft.setPower(-power + pidOutput);
+                backLeft.setPower(-power + pidOutput);
+
+                telemetry.addData("Status", "ForwardsToLine");
+                telemetry.addData("Heading", navx.getYaw());
+                telemetry.addData("Target", offsetConverted);
+                //telemetry.addData("PID Output", pidOutput);
+                //telemetry.addData("PID Updated", pidUpdated);
+                telemetry.addData("R", floorColor.red());
+                telemetry.addData("G", floorColor.green());
+                telemetry.addData("B", floorColor.blue());
                 telemetry.update();
 
-                if(pidUpdated)
-                {
-                    pidOutput = 0;
-
-                    if(!pidController.isOnTarget())
-                    {
-                        pidOutput = pidResult.getOutput();
-                    }
-
-                    frontRight.setPower(+power + pidOutput);
-                    backRight.setPower(+power + pidOutput);
-                    frontLeft.setPower(-power + pidOutput);
-                    backLeft.setPower(-power + pidOutput);
-
-                    telemetry.addData("Status", "ForwardsToLine");
-                    telemetry.addData("ARGB", floorColor.argb());
-                    telemetry.addData("R", floorColor.red());
-                    telemetry.addData("G", floorColor.green());
-                    telemetry.addData("B", floorColor.blue());
-                    telemetry.update();
-
-                    opMode.sleep(5);
-                }
+                opMode.sleep(5);
             }
 
             frontRight.setPower(0);
             backRight.setPower(0);
             frontLeft.setPower(0);
             backLeft.setPower(0);
-        }
-        catch(InterruptedException e)
-        {
-            e.printStackTrace();
-        }
+        //}
+        //catch(InterruptedException e)
+        //{
+        //    e.printStackTrace();
+        //}
     }
 
     public void backwards(double distance, double power) //Move backwards by distance
     {
+        pidController.reset();
         pidController.setSetpoint(offsetConverted);
+        pidController.enable(true);
 
         double pos = getPosFB();
 
@@ -263,7 +267,9 @@ public class AutonomousDriveTrainNewGyro
 
     public void backToLine(ColorSensor floorColor, double power) //Move backwards by distance
     {
+        pidController.reset();
         pidController.setSetpoint(offsetConverted);
+        pidController.enable(true);
 
         double pidOutput;
 
@@ -306,7 +312,9 @@ public class AutonomousDriveTrainNewGyro
 
     public void right(double distance, double power) //Move right by distance
     {
+        pidController.reset();
         pidController.setSetpoint(offsetConverted);
+        pidController.enable(true);
 
         double pos = getPosRL();
 
@@ -362,7 +370,9 @@ public class AutonomousDriveTrainNewGyro
 
     public void left(double distance, double power) //Move left by distance
     {
+        pidController.reset();
         pidController.setSetpoint(offsetConverted);
+        pidController.enable(true);
 
         double pos = getPosRL();
 
@@ -414,7 +424,9 @@ public class AutonomousDriveTrainNewGyro
 
     public void frontRight(double distance, double power) //Move forwards-right by distance
     {
+        pidController.reset();
         pidController.setSetpoint(offsetConverted);
+        pidController.enable(true);
 
         double pos = getPosBLFR();
 
@@ -464,7 +476,9 @@ public class AutonomousDriveTrainNewGyro
 
     public void backRight(double distance, double power) //Move forwards by distance
     {
+        pidController.reset();
         pidController.setSetpoint(offsetConverted);
+        pidController.enable(true);
 
         double pos = getPosBRFL();
 
@@ -514,7 +528,9 @@ public class AutonomousDriveTrainNewGyro
 
     public void frontLeft(double distance, double power) //Move forwards by distance
     {
+        pidController.reset();
         pidController.setSetpoint(offsetConverted);
+        pidController.enable(true);
 
         double pos = getPosBRFL();
 
@@ -564,7 +580,9 @@ public class AutonomousDriveTrainNewGyro
 
     public void backLeft(double distance, double power) //Move forwards by distance
     {
+        pidController.reset();
         pidController.setSetpoint(offsetConverted);
+        pidController.enable(true);
 
         double pos = getPosBLFR();
 
@@ -614,7 +632,10 @@ public class AutonomousDriveTrainNewGyro
 
     public void turn(double target, double accuracy, double speed)
     {
+        pidController.reset();
         pidController.setSetpoint(convertHeading(offset + target));
+        pidController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, accuracy);
+        pidController.enable(true);
 
         telemetry.addData("spot", 1);
         telemetry.update();
@@ -664,10 +685,9 @@ public class AutonomousDriveTrainNewGyro
                 }
             }
         }
-        catch (InterruptedException ex)
+        catch (InterruptedException e)
         {
-            telemetry.addData("error:", ex.getMessage());
-            telemetry.update();
+            e.printStackTrace();
         }
 
         frontRight.setPower(0);
@@ -681,7 +701,9 @@ public class AutonomousDriveTrainNewGyro
 
     public void goToDistance(ModernRoboticsI2cRangeSensor range, double target, double accuracy, double power) //Go to distance using range sensor
     {
+        pidController.reset();
         pidController.setSetpoint(offsetConverted);
+        pidController.enable(true);
 
         double distance = range.cmUltrasonic();
 
@@ -857,13 +879,13 @@ public class AutonomousDriveTrainNewGyro
         return (backRight.getCurrentPosition() - frontLeft.getCurrentPosition()) / 2;
     }
 
-    double getRotation() //Get rotation
+    private double getRotation() //Get rotation
     {
         return (frontRight.getCurrentPosition() + backRight.getCurrentPosition() +
                 frontLeft.getCurrentPosition() + backLeft.getCurrentPosition()) / 4;
     }
 
-    double convertHeading(double in) //0-360
+    private double convertHeading(double in) //0-360
     {
         if(in < 0) //If it is negative
         {
@@ -882,7 +904,7 @@ public class AutonomousDriveTrainNewGyro
         }
     }
 
-    boolean inRange(double target, double accuracy, double reading)
+    private boolean inRange(double target, double accuracy, double reading)
     {
         return (Math.abs(target - reading) < accuracy); //If abs of difference is less than accuracy, we are in range
     }
