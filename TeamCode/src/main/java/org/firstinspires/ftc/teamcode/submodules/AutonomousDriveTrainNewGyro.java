@@ -894,16 +894,16 @@ public class AutonomousDriveTrainNewGyro
      */
     private double convertHeading(double in) //0-360
     {
-        if(in < 0) //If it is negative
+        while(in < 0) //Make sure in is positive
         {
-            in += 720; //Add 720 to make sure it is positive, which will be mostly removed by the mod
+            in += 360;
         }
 
         in %= 360; //Modulus
 
         if(in > 180)
         {
-            return in - 180;
+            return in - 360;
         }
         else
         {
