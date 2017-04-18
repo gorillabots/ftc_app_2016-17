@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.submodules.AutonomousDriveTrain;
 import org.firstinspires.ftc.teamcode.submodules.AutonomousDriveTrainNewGyro;
 import org.firstinspires.ftc.teamcode.submodules.BallControl;
+import org.firstinspires.ftc.teamcode.submodules.Drivetrain;
 
 //Created by Mikko on 1/29/17
 //turn to +135'
@@ -15,25 +16,28 @@ public class BlueCenterDisruptive extends LinearOpMode
 {
     AutonomousDriveTrainNewGyro driveTrain;
     BallControl shooter;
+    AutonomousDriveTrain oldDrive;
 
     ElapsedTime timer1 = new ElapsedTime();
 
     public void runOpMode()
     {
+        oldDrive = new AutonomousDriveTrain();
         driveTrain = new AutonomousDriveTrainNewGyro();
+        oldDrive.init(this);
         driveTrain.init(this, 0);
         shooter = new BallControl(hardwareMap, telemetry);
 
         waitForStart();
-        driveTrain.left(1,.6);
+        oldDrive.left(.1,.6);
         sleep(500);
-        driveTrain.turn(-135,2,.7);
+        driveTrain.turn(-225,2,.7);
         telemetry.addData("done"," done");
         telemetry.update();
-        /*
+
         driveTrain.turn(90,2,.7);
         // driveTrain.updateOffset(135);
-        driveTrain.right(.81, .8);
+        oldDrive.right(.81, .8);
 
         timer1.reset();
         timer1.startTime();
@@ -48,10 +52,9 @@ public class BlueCenterDisruptive extends LinearOpMode
         shooter.newStopElevator();
 
         driveTrain.turn(-45,2,.7);
-        driveTrain.right(.9,.8);
-        driveTrain.backwards(.95,.8);
-        driveTrain.left(.9,.8);
-*/
+        oldDrive.right(.1,.8);
+        oldDrive.back(.6,.8);
+        oldDrive.right(.8,.8);
     }
 
     public void Stop(){

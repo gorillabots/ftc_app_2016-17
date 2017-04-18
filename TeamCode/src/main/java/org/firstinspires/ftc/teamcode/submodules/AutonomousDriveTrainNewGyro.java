@@ -896,7 +896,7 @@ public class AutonomousDriveTrainNewGyro
 
         if(in > 180)
         {
-            return in - 180;
+            return in - 360;
         }
         else
         {
