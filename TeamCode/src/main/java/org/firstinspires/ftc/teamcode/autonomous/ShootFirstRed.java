@@ -90,15 +90,17 @@ public class ShootFirstRed extends LinearOpMode {
 
         driveTrain.back(.75, .8);
 
+        sleep(500);
+
         driveTrain.goToDistanceGyro(range, 20, 1, .2,5,.2);
+
+        sleep(500);
 
         floorColor.enableLed(true);
         driveTrain.backGyroToLine(floorColor, .22,1, .05); //Go white line 2
         floorColor.enableLed(false);
 
-        driveTrain.goToDistanceGyro(range, 13, 1, .6, 5,.2); //Approach beacon
-
-        sleep(100);
+        driveTrain.goToDistanceGyro(range, 13, 1, .4, 5,.2); //Approach beacon
 
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);

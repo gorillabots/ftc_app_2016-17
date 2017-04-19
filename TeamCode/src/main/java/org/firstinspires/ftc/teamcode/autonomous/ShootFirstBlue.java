@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.submodules.BallControl;
 /**
  * Created by Jarred on 3/2/2017.
  */
-@Autonomous(name="ShootFirstBlue", group="Beta")
+@Autonomous(name="ShootFirstBlue", group="Beta") //Observed to be too far right before looking at beacons
 public class ShootFirstBlue extends LinearOpMode {
     AutonomousDriveTrain driveTrain;
     BallControl shooter;
@@ -35,8 +35,9 @@ public class ShootFirstBlue extends LinearOpMode {
         floorColor = hardwareMap.colorSensor.get("floorColor");
         beaconColorL = hardwareMap.colorSensor.get("beaconColor");
         beaconColorR = hardwareMap.colorSensor.get("beaconColor2");
-        beaconColorL.setI2cAddress(I2cAddr.create8bit(58));
-        beaconColorR.setI2cAddress(I2cAddr.create8bit(62));
+        floorColor.setI2cAddress(I2cAddr.create8bit(0x44)); //68 in decimal
+        beaconColorL.setI2cAddress(I2cAddr.create8bit(0x3A)); //58 in decimal
+        beaconColorR.setI2cAddress(I2cAddr.create8bit(0x3E)); //62 in decimal
         floorColor.enableLed(false);
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
@@ -44,8 +45,6 @@ public class ShootFirstBlue extends LinearOpMode {
         range = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
         driveTrain.resetGyro();
         waitForStart();
-
-
 
         driveTrain.right(.68, .4);
 
@@ -64,9 +63,11 @@ public class ShootFirstBlue extends LinearOpMode {
         driveTrain.turnToGyroAny(90, .2 , 5);
 
         driveTrain.forwards(.05,.8);
+        sleep(500);
         driveTrain.goToDistance(range, 6, .5, .1);
+        sleep(500);
         driveTrain.right(.09,.4);
-        //driveTrain.resetGyro();
+        driveTrain.resetGyro();
 
 
         driveTrain.left(.1988, .5);
