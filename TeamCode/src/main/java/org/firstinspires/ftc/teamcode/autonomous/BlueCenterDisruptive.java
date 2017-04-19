@@ -51,10 +51,11 @@ public class BlueCenterDisruptive extends LinearOpMode
         shooter.newRunFlywheel(false);
         shooter.newStopElevator();
 
-        driveTrain.turn(-45,2,.7);
-        oldDrive.right(.1,.8);
-        oldDrive.back(.6,.8);
-        oldDrive.right(.8,.8);
+        driveTrain.turn(45,2,.7);
+        driveTrain.forwards(.08,.4);
+        driveTrain.right(.9,.6);
+        driveTrain.forwards(.87,.8);
+        driveTrain.left(.9,.8);
     }
 
     public void Stop(){
