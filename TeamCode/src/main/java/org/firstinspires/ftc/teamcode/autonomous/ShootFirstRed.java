@@ -75,7 +75,7 @@ public class ShootFirstRed extends LinearOpMode {
         driveTrain.forwardsGyroToLineTimeout(floorColor, .22, 1, .05, 3); //Go to white line 1
         floorColor.enableLed(false);
 
-        driveTrain.back(.02 , .3); //Align color sensors
+        driveTrain.back(.017 , .3); //Align color sensors
 
         driveTrain.goToDistanceGyro(range, 13, 1, .2,5,.2); //Approach beacon
 
@@ -100,7 +100,7 @@ public class ShootFirstRed extends LinearOpMode {
         driveTrain.backGyroToLine(floorColor, .22,1, .05); //Go white line 2
         floorColor.enableLed(false);
 
-        driveTrain.goToDistanceGyro(range, 13, 1, .4, 5,.2); //Approach beacon
+        driveTrain.goToDistanceGyro(range, 13, 1, .35, 5,.2); //Approach beacon
 
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);

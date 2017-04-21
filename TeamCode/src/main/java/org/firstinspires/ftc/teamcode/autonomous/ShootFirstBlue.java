@@ -51,7 +51,7 @@ public class ShootFirstBlue extends LinearOpMode {
         shooter.newRunFlywheel(true);
         sleep(1000);
         shooter.newRunElevator(true);
-        sleep(2500);
+        sleep(2000); //2 seconds
 
         shooter.newRunFlywheel(false);
         shooter.newStopElevator();
@@ -82,6 +82,8 @@ public class ShootFirstBlue extends LinearOpMode {
 
         sleep(100);
 
+        driveTrain.forwards(.04, .4);
+
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
         driveTrain.beaconResponse(TeamColors.BLUE, beaconColorL, beaconColorR);
@@ -96,9 +98,11 @@ public class ShootFirstBlue extends LinearOpMode {
 
         driveTrain.back(.05, .2);
 
-        driveTrain.goToDistanceGyro(range,13,1,.6, 5, 0.2);
+        driveTrain.goToDistanceGyro(range,14,1,.35, 5, 0.2);
 
         sleep(100);
+
+        driveTrain.forwards(.04, .4);
 
         beaconColorL.enableLed(false);
         beaconColorR.enableLed(false);
