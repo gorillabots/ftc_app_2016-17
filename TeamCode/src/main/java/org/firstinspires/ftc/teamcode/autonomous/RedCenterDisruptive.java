@@ -27,7 +27,7 @@ public class RedCenterDisruptive extends LinearOpMode
 
         waitForStart();
         driveTrain.left(.1,.3);
-        driveTrain.turn(225,2,.7);
+        driveTrain.turn(-135,2,.7);
         // drivetrain.offset = 135
        // driveTrain.updateOffset(135);
         driveTrain.right(.81, .8);
@@ -53,4 +53,6 @@ public class RedCenterDisruptive extends LinearOpMode
 
         driveTrain.stop();
     }
+
+    public void Stop(){driveTrain.stop();}
 }
