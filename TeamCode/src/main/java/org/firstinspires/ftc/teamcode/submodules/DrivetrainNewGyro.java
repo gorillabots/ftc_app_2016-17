@@ -23,7 +23,7 @@ public class DrivetrainNewGyro
     HardwareMap hardwareMap;
     Telemetry telemetry;
 
-    private final int NAVX_DIM_I2C_PORT = 5;
+    private final int NAVX_DIM_I2C_PORT = 0;
     private final byte NAVX_DEVICE_UPDATE_RATE_HZ = 50;
 
     AHRS navx;
@@ -38,7 +38,7 @@ public class DrivetrainNewGyro
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
 
-        navx = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get("dim"),
+        navx = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get("gyrobox"),
                 NAVX_DIM_I2C_PORT,
                 AHRS.DeviceDataType.kProcessedData,
                 NAVX_DEVICE_UPDATE_RATE_HZ);
