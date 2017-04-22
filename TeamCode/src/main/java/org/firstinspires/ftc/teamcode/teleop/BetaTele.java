@@ -175,7 +175,7 @@ public class BetaTele extends OpMode
         float stick2Y = -gamepad2.left_stick_y;
 
         if (Math.abs(stick2Y) >= .2) {
-            if (gamepad2.dpad_up && stick2Y > 0) {
+            if (gamepad2.a && stick2Y > 0) {
                 forkLift.liftOverride(stick2Y);
             } else {
                 forkLift.lift(stick2Y);
