@@ -15,22 +15,25 @@ public class RedCenterDisruptive extends LinearOpMode
 {
     AutonomousDriveTrainNewGyro driveTrain;
     BallControl shooter;
-
+    AutonomousDriveTrain oldDrive;
     ElapsedTime timer1 = new ElapsedTime();
 
     public void runOpMode()
     {
+
+        oldDrive= new AutonomousDriveTrain();
         driveTrain = new AutonomousDriveTrainNewGyro();
         driveTrain.init(this, 90);
+        oldDrive.init(this);
         // drivetrain.offset = 90
         shooter = new BallControl(hardwareMap, telemetry);
 
         waitForStart();
-        driveTrain.left(.1,.3);
-        driveTrain.turn(-135,2,.7);
+        oldDrive.left(.1,.3);
+        driveTrain.turn(45,2,.55);
         // drivetrain.offset = 135
        // driveTrain.updateOffset(135);
-        driveTrain.right(.81, .8);
+        oldDrive.right(.81, .8);
 
         timer1.reset();
         timer1.startTime();
