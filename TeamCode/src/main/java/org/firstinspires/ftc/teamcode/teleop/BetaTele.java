@@ -32,22 +32,38 @@ public class BetaTele extends OpMode
 
     public void init()
     {
+        telemetry.addData("Status", "Initialization Started");
+        telemetry.update();
+
         drivetrain = new DrivetrainNewGyro(hardwareMap, telemetry);
         ballControl = new BallControl(hardwareMap, telemetry);
         forkLift = new ForkLift(hardwareMap, telemetry);
+
+        telemetry.addData("Status", "Initialized Submodules");
+        telemetry.update();
 
         floorColor = hardwareMap.colorSensor.get("floorColor");
         floorColor.enableLed(false);
         floorColor.enableLed(true);
 
+        telemetry.addData("Status", "Initialized FloorColor");
+        telemetry.update();
+
         beaconColor = hardwareMap.colorSensor.get("beaconColor");
         beaconColor.setI2cAddress(I2cAddr.create8bit(58));
         beaconColor.enableLed(false);
         beaconColor.enableLed(true);
+
+        telemetry.addData("Status", "Initialized BeaconColor");
+        telemetry.update();
+
         //heartBeat = new ElapsedTime();
         //led = new LedHelp(hardwareMap,telemetry);
         flyState = FlyState.OFF;
         //flyRamp = new DoubleScale(1, 1, 1, 1);
+
+        telemetry.addData("Status", "Initialized Fully");
+        telemetry.update();
     }
 
     boolean button;
@@ -159,7 +175,7 @@ public class BetaTele extends OpMode
         float stick2Y = -gamepad2.left_stick_y;
 
         if (Math.abs(stick2Y) >= .2) {
-            if (gamepad2.dpad_up && stick2Y > 0) {
+            if (gamepad2.a && stick2Y > 0) {
                 forkLift.liftOverride(stick2Y);
             } else {
                 forkLift.lift(stick2Y);
