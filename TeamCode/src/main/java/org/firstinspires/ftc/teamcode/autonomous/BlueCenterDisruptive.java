@@ -31,7 +31,7 @@ public class BlueCenterDisruptive extends LinearOpMode
         waitForStart();
         oldDrive.left(.1,.6);
         sleep(500);
-        driveTrain.turn(-225,2,.7);
+        driveTrain.turn(-230,2,.7);
         telemetry.addData("done"," done");
         telemetry.update();
 
