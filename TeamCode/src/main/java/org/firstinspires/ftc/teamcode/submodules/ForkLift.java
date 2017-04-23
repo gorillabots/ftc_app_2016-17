@@ -27,7 +27,7 @@ public class ForkLift {
         this.telemetry = telemetry;
         lift = hardwareMap.dcMotor.get("raise");
         magnetSense = hardwareMap.analogInput.get("stop");
-        liftMaxAdder = 12000;
+        liftMaxAdder = 12863; //13000 - 137
         //19147
         liftZero = -1000;
     }
