@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -8,7 +9,7 @@ import org.firstinspires.ftc.teamcode.submodules.AutonomousDriveTrain;
 import org.firstinspires.ftc.teamcode.submodules.BallControl;
 
 //Created by Jarred on 12/10/2016.
-
+@Disabled
 @Autonomous(name="Center Goal Auto", group="Final")
 public class CenterGoalAuto extends LinearOpMode
 {
@@ -25,12 +26,12 @@ public class CenterGoalAuto extends LinearOpMode
 
         waitForStart();
 
-        driveTrain.right(1.3, .5);
+        driveTrain.right(1.52, .5);
 
         timer1.reset();
         timer1.startTime();
 
-        while(timer1.milliseconds() < 15000)
+        while(timer1.milliseconds() < 5000)
         {
             shooter.newRunFlywheel(true);
             shooter.newRunElevator(true);
@@ -39,6 +40,6 @@ public class CenterGoalAuto extends LinearOpMode
         shooter.newRunFlywheel(false);
         shooter.newStopElevator();
 
-        driveTrain.right(.704, .5);
+        driveTrain.right(.6, .5);
     }
 }

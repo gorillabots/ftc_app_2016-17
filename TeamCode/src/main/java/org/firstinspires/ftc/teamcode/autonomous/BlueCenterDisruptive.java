@@ -52,7 +52,7 @@ public class BlueCenterDisruptive extends LinearOpMode
         shooter.newStopElevator();
 
         driveTrain.turn(45,2,.7);
-        driveTrain.forwards(.08,.4);
+        driveTrain.forwards(.2,.4);
         driveTrain.right(.9,.6);
         driveTrain.forwards(.87,.8);
         driveTrain.left(.9,.8);
