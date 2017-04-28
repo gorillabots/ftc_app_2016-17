@@ -84,7 +84,7 @@ public class BallControl
     {
         if(on)
         {
-            fly.setPower(-1);
+            fly.setPower(-.7); //Was -1 pre-worlds
         }
         else
         {
