@@ -84,13 +84,24 @@ public class BallControl
     {
         if(on)
         {
-            fly.setPower(-.7); //Was -1 pre-worlds
+            fly.setPower(-1); //Left as-is
         }
         else
         {
             fly.setPower(0);
         }
+    }
 
+    public void newRunFlywheelTeleop(boolean on) //Auto: -1, teleop: -.7
+    {
+        if(on)
+        {
+            fly.setPower(-.7); //Number trial-and-errored on practice fields
+        }
+        else
+        {
+
+        }
     }
 
     public void newRunFlywheelopp(boolean on)

@@ -138,7 +138,7 @@ public class BetaTele extends OpMode
         if(button && !buttonLast)
         {
             flyActive = !flyActive;
-            ballControl.newRunFlywheel(flyActive);
+            ballControl.newRunFlywheelTeleop(flyActive);
         }
 
         buttonLast = button;
