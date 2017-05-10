@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.I2cAddr;
 /**
  * Created by mikko on 4/17/17.
  */
-
+@Disabled
 @Autonomous(name="ColorTest", group="Test")
 public class ColorTest extends LinearOpMode
 {
