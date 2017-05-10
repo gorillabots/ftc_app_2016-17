@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.submodules.AutonomousDriveTrain;
 import org.firstinspires.ftc.teamcode.submodules.AutonomousDriveTrainNewGyro;
 
 //Created by Mikko on 4/12/2017
-
+@Disabled
 @Autonomous(name="NewAutoDriveTrainTest", group="test")
 public class NewAutoDriveTrainTest extends LinearOpMode
 {
