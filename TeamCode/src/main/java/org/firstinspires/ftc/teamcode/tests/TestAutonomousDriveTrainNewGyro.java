@@ -21,6 +21,7 @@ import java.util.TreeMap;
  *
  * @see <a href="http://softwaretestingfundamentals.com/unit-testing/">Brief intro to Unit Testing</a>
  */
+@Disabled
 @TeleOp(name = "Test New Autonomous Drivetrain", group = "Test")
 public class TestAutonomousDriveTrainNewGyro extends LinearOpMode {
     /**
