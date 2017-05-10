@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.submodules.BallControl;
 import org.firstinspires.ftc.teamcode.TeamColors;
 
 //Created by Mikko on ???
-
+@Disabled
 @Autonomous(name="Red Beacons Shoot", group="Beta")
 public class RedBeaconsShoot extends LinearOpMode
 {
