@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.submodules.BallControl;
 
 //Created by ??? on 1/15/2017
 
-
+@Disabled
 @Autonomous (name="Blue Beacons Shoot Utica", group="Backup")
 public class BlueBeaconsShootUtica extends LinearOpMode
 {
