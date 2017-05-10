@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.submodules.LedController;
 /**
  * Created by emper on 3/7/2017.
  */
-
+@Disabled
 @Autonomous(name="LedTestOp", group="Comp")
 public class LedTestOp extends LinearOpMode {
     LedController led;
