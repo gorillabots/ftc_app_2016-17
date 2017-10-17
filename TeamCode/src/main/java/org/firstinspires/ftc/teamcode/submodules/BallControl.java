@@ -80,15 +80,35 @@ public class BallControl
         }
     }
 
-    /**
-     * if on is true, run wheels; false stop
-     * @param on
-     */
     public void newRunFlywheel(boolean on)
     {
         if(on)
         {
-            fly.setPower(-1);
+            fly.setPower(-1); //Left as-is
+        }
+        else
+        {
+            fly.setPower(0);
+        }
+    }
+
+    public void newRunFlywheelTeleop(boolean on) //Auto: -1, teleop: -.7
+    {
+        if(on)
+        {
+            fly.setPower(-.7); //Number trial-and-errored on practice fields
+        }
+        else
+        {
+
+        }
+    }
+
+    public void newRunFlywheelopp(boolean on)
+    {
+        if(on)
+        {
+            fly.setPower(1);
         }
         else
         {
@@ -96,11 +116,6 @@ public class BallControl
         }
 
     }
-
-    /**
-     * if direction is false, raise elevator; true lower
-     * @param direction
-     */
     public void newRunElevator(boolean direction)
     {
         if(direction)
@@ -136,7 +151,12 @@ public class BallControl
         vac.setPower(0);
     }
 
+public void addTelemetry(){
+    telemetry.addData("FlyWheelPower",fly.getPower());
+    telemetry.addData("ElevatorPower", elevator.getPower());
+    telemetry.addData("CollectorPower", vac.getPower());
 
+}
 
     }
 

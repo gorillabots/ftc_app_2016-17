@@ -107,7 +107,7 @@ public class CompTele extends OpMode {
 
 
         if (gamepad2.right_bumper == true) {
-            fly.setPower(-1);
+            fly.setPower(-.7); //Was -1 pre-worlds
 
         } else {
             fly.setPower(0);

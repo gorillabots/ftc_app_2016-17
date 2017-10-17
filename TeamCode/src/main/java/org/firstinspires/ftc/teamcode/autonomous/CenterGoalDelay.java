@@ -27,11 +27,11 @@ public class CenterGoalDelay extends LinearOpMode
 
         float mark2 = (float) .9;
         sleep(10000);
-        driveTrain.right(.4295, .5);
+        driveTrain.right(1.1987, .5);
         timer1.reset();
         timer1.startTime();
 
-        while(timer1.milliseconds() < 15000)
+        while(timer1.milliseconds() < 5000)
         {
             shooter.runFlywheel(true);
             shooter.runElevator(false, mark2 );
@@ -40,6 +40,6 @@ public class CenterGoalDelay extends LinearOpMode
         shooter.runFlywheel(false);
         shooter.runElevator(true, mark2);
 
-        driveTrain.right(.704, .5);
+        driveTrain.right(.6, .5);
     }
 }

@@ -5,29 +5,39 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.submodules.AutonomousDriveTrain;
+import org.firstinspires.ftc.teamcode.submodules.AutonomousDriveTrainNewGyro;
 import org.firstinspires.ftc.teamcode.submodules.BallControl;
+import org.firstinspires.ftc.teamcode.submodules.Drivetrain;
 
-/**
- * Created by mikko on 1/29/17.
- */
-
+//Created by Mikko on 1/29/17
+//turn to +135'
 @Autonomous(name="Blue Center Disruptive", group="Final")
 public class BlueCenterDisruptive extends LinearOpMode
 {
-    AutonomousDriveTrain driveTrain;
+    AutonomousDriveTrainNewGyro driveTrain;
     BallControl shooter;
+    AutonomousDriveTrain oldDrive;
 
     ElapsedTime timer1 = new ElapsedTime();
 
     public void runOpMode()
     {
-        driveTrain = new AutonomousDriveTrain();
-        driveTrain.init(this);
+        oldDrive = new AutonomousDriveTrain();
+        driveTrain = new AutonomousDriveTrainNewGyro();
+        oldDrive.init(this);
+        driveTrain.init(this, 0);
         shooter = new BallControl(hardwareMap, telemetry);
 
         waitForStart();
+        oldDrive.left(.1,.6);
+        sleep(500);
+        driveTrain.turn(-230,2,.7);
+        telemetry.addData("done"," done");
+        telemetry.update();
 
-        driveTrain.right(1.2, .5);
+        driveTrain.turn(90,2,.7);
+        // driveTrain.updateOffset(135);
+        oldDrive.right(.81, .8);
 
         timer1.reset();
         timer1.startTime();
@@ -41,10 +51,17 @@ public class BlueCenterDisruptive extends LinearOpMode
         shooter.newRunFlywheel(false);
         shooter.newStopElevator();
 
-        sleep(3000);
-
-        driveTrain.right(.704, .5);
-        driveTrain.frontRight(1, .5);
-        driveTrain.forwards(.5,.5);
+        driveTrain.turn(45,2,.7);
+        driveTrain.forwards(.2,.4);
+        driveTrain.right(.9,.6);
+        driveTrain.forwards(.87,.8);
+        driveTrain.left(.9,.8);
     }
+
+    public void Stop(){
+        driveTrain.stop();
+    }
+
+
 }
+
